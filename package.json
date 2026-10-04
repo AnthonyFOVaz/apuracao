@@ -1,0 +1,13 @@
+{
+  "name": "apuracao-luta",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Apuração do 1º turno para presidente em 2026 como luta de boxe, com dados ao vivo do TSE",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
