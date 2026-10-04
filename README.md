@@ -3,7 +3,7 @@
 A apuração de presidente de 2026 mostrada como luta de boxe em pixel art, com os dados oficiais do TSE ao vivo.
 Os dois mais votados sobem no ringue; quem tem mais votos válidos bate mais e empurra o rival para o corner. Passou de 50%, é nocaute.
 
-No ar: https://apuracao-204-216-184-199.sslip.io
+No ar: https://apuracaox1doscria.duckdns.org (o endereço antigo, https://apuracao-204-216-184-199.sslip.io, continua funcionando).
 
 ## Dados (TSE)
 
@@ -33,6 +33,11 @@ O servidor Oracle (`/home/ubuntu/projects/apuracao`, serviço systemd `apuracao`
 é um clone deste repositório. O `apuracao-atualizar.timer` roda `scripts/atualizar.sh` a cada minuto:
 puxa o `main`, valida o `server.js` e reinicia o serviço só quando o back muda. Ou seja, **push no `main` = deploy** em até 1 minuto.
 Forçar agora: `sudo systemctl start apuracao-atualizar`. Logs: `journalctl -u apuracao-atualizar`.
+
+Domínio: o DuckDNS `apuracaox1doscria.duckdns.org` aponta para o IP do servidor. A cada execução, o `atualizar.sh` chama
+`scripts/caddy.sh`, que acrescenta ao `/etc/caddy/Caddyfile` um bloco com esse domínio (mesmo `reverse_proxy` do site do sslip.io),
+valida com `caddy validate` e recarrega o Caddy; o certificado sai sozinho pelo Let's Encrypt. Se o domínio já está no Caddyfile,
+não faz nada. Se algo falhar, o Caddyfile anterior é mantido (cópia em `Caddyfile.antes-duckdns`) e o motivo fica em `data/caddy-falhou`.
 
 ## Rodar local
 
