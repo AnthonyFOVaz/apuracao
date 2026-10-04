@@ -44,11 +44,12 @@ O servidor Oracle (`/home/ubuntu/projects/apuracao`, serviço systemd `apuracao`
 puxa o `main`, valida o `server.js` e reinicia o serviço só quando o back muda. Ou seja, **push no `main` = deploy** em até 1 minuto.
 Forçar agora: `sudo systemctl start apuracao-atualizar`. Logs: `journalctl -u apuracao-atualizar`.
 
-Domínio: o DuckDNS `apuracaox1doscria.duckdns.org` aponta para o IP do servidor. O Caddy roda no container `edge-caddy`.
-A cada execução, o `atualizar.sh` chama `scripts/caddy.sh`: se o domínio ainda não responde, o script usa a API de
-administração do Caddy (de dentro do container) para pôr o domínio no mesmo route do site do sslip.io; o certificado sai
-sozinho pelo Let's Encrypt. Não mexe em arquivo; se o Caddy reiniciar, o domínio volta no minuto seguinte.
-Falhas ficam em `data/caddy-falhou` e aparecem em `/api/versao`.
+Domínio: o DuckDNS `apuracaox1doscria.duckdns.org` aponta para o IP do servidor. O Caddy roda no container `edge-caddy`
+(config em `/etc/caddy` dentro dele, com a API de administração desligada). A cada execução, o `atualizar.sh` chama
+`scripts/caddy.sh`: se o domínio ainda não responde, o script põe o domínio na mesma linha do site do sslip.io (mesmo
+bloco, mesma configuração), valida com `caddy validate` dentro do container e reinicia o container (1 a 2 s fora do ar),
+conferindo que o sslip.io voltou; se algo falhar, desfaz. O certificado sai sozinho pelo Let's Encrypt.
+Com o domínio já respondendo (ou já na config), não faz nada. Falhas ficam em `data/caddy-falhou` e aparecem em `/api/versao`.
 
 ## Rodar local
 
