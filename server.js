@@ -67,6 +67,8 @@ async function baixar(abr) {
   if (r.status === 304 && c) return c.dados;
   if (!r.ok) throw new Error(`${abr}: HTTP ${r.status}`);
   const dados = ler(await r.json());
+  // um nó do CDN pode devolver uma versão anterior à que já temos
+  if (c && horaTSE(dados.dt, dados.ht) < horaTSE(c.dados.dt, c.dados.ht)) return c.dados;
   cache.set(abr, { etag: r.headers.get('etag'), dados });
   return dados;
 }
@@ -95,7 +97,14 @@ let coleta = { ultima: null, erro: null, falhas: [] };
 function carregar() {
   try {
     const h = JSON.parse(fs.readFileSync(HIST_FILE, 'utf8'));
-    return Array.isArray(h) ? h : [];
+    if (!Array.isArray(h)) return [];
+    // um ponto por atualização do placar nacional; o último de cada sequência traz as regiões mais novas
+    const out = [];
+    for (const p of h) {
+      const u = out[out.length - 1];
+      if (u && !u.inicio && !p.inicio && u.st === p.st && u.vv === p.vv) { const t = u.t; Object.assign(u, p, { t }); } else out.push(p);
+    }
+    return out;
   } catch { return []; }
 }
 
@@ -168,9 +177,13 @@ async function ciclo() {
   const p = ponto(atual);
   if (!hist.length) hist.push({ t: INICIO, ht: '17:00:00', st: 0, ts: p.ts, pst: 0, vv: 0, def: 0, fim: 0, v: {}, r: {}, inicio: 1 });
   const ult = hist[hist.length - 1];
-  if (assinatura(ult) !== assinatura(p)) {
-    if (p.t <= ult.t) p.t = ult.t + 1000; // UF atualizada depois do arquivo nacional
+  if (ult.inicio || p.st !== ult.st || p.vv !== ult.vv) {
+    if (p.t <= ult.t) p.t = ult.t + 1000;
     hist.push(p);
+    salvar();
+  } else if (assinatura(ult) !== assinatura(p)) {
+    // só as UFs mudaram (cada arquivo sai num horário): atualiza o ponto atual no lugar
+    Object.assign(ult, p, { t: ult.t });
     salvar();
   }
 }
@@ -207,7 +220,8 @@ http.createServer((req, res) => {
       inicio: INICIO,
       regioes: REGIOES.map((r) => ({ id: r.id, nome: r.nome })),
       atual,
-      hist: hist.filter((p) => p.t > desde),
+      // o último ponto vai sempre: ele pode ter sido atualizado no lugar (regiões)
+      hist: hist.filter((p, i) => p.t > desde || i === hist.length - 1),
       coleta: { ultima: coleta.ultima, erro: coleta.erro, falhas: coleta.falhas.length },
     });
   }
