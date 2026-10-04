@@ -1,6 +1,6 @@
 'use strict';
-// Apuração Luta: coleta os resultados de presidente (1º turno de 2026) direto do TSE,
-// agrega por região, guarda o histórico em data/ e serve a página + /api/estado.
+// Apuração Luta: coleta os resultados de presidente de 2026 (1º e 2º turno) direto do TSE,
+// guarda o histórico por Brasil, região e UF em data/ e serve a página + /api/estado.
 
 const http = require('http');
 const fs = require('fs');
@@ -8,32 +8,39 @@ const path = require('path');
 
 const PORT = Number(process.env.PORT || 3100);
 const HOST = process.env.HOST || '127.0.0.1';
-const BASE = process.env.TSE_BASE || 'https://resultados.tse.jus.br/oficial/ele2026/6257/dados';
-const ARQ = (abr) => `${BASE}/${abr}/${abr}-c0001-e006257-u.json`;
+const BASE = process.env.TSE_BASE || 'https://resultados.tse.jus.br/oficial/ele2026';
 const INTERVALO = Number(process.env.INTERVALO_MS || 20000);
-const INICIO = Date.parse('2026-10-04T17:00:00-03:00'); // fechamento das urnas, horário de Brasília
+const INTERVALO_LENTO = 5 * 60 * 1000; // 2º turno ainda sem arquivos, ou totalização encerrada
 const DATA = path.join(__dirname, 'data');
-const HIST_FILE = path.join(DATA, 'historico.json');
 const PUBLIC = path.join(__dirname, 'public');
 
-const REGIOES = [
-  { id: 'SE', nome: 'Sudeste', ufs: ['es', 'mg', 'rj', 'sp'] },
-  { id: 'S', nome: 'Sul', ufs: ['pr', 'rs', 'sc'] },
-  { id: 'CO', nome: 'Centro-Oeste', ufs: ['df', 'go', 'ms', 'mt'] },
-  { id: 'NE', nome: 'Nordeste', ufs: ['al', 'ba', 'ce', 'ma', 'pb', 'pe', 'pi', 'rn', 'se'] },
-  { id: 'N', nome: 'Norte', ufs: ['ac', 'am', 'ap', 'pa', 'ro', 'rr', 'to'] },
-  { id: 'ZZ', nome: 'Exterior', ufs: ['zz'] },
+const TURNOS = [
+  { turno: 1, eleicao: '6257', inicio: Date.parse('2026-10-04T17:00:00-03:00') },
+  { turno: 2, eleicao: '6258', inicio: Date.parse('2026-10-25T17:00:00-03:00') },
 ];
-const ABRS = ['br', ...REGIOES.flatMap((r) => r.ufs)];
+const REGIOES = [
+  { id: 'r:SE', nome: 'Sudeste', ufs: ['es', 'mg', 'rj', 'sp'] },
+  { id: 'r:S', nome: 'Sul', ufs: ['pr', 'rs', 'sc'] },
+  { id: 'r:CO', nome: 'Centro-Oeste', ufs: ['df', 'go', 'ms', 'mt'] },
+  { id: 'r:NE', nome: 'Nordeste', ufs: ['al', 'ba', 'ce', 'ma', 'pb', 'pe', 'pi', 'rn', 'se'] },
+  { id: 'r:N', nome: 'Norte', ufs: ['ac', 'am', 'ap', 'pa', 'ro', 'rr', 'to'] },
+];
+const UFS = [...REGIOES.flatMap((r) => r.ufs), 'zz'];
+const ABRS = ['br', ...UFS];
 
-// ---------- coleta ----------
-
-const cache = new Map(); // abr -> { etag, dados }
+// ---------- leitura dos arquivos do TSE ----------
 
 function num(s) {
   if (s === undefined || s === null || s === '') return 0;
   const v = Number(String(s).replace(/\./g, '').replace(',', '.'));
   return Number.isFinite(v) ? v : 0;
+}
+
+function horaTSE(d, h) {
+  const m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(d || '');
+  if (!m || !/^\d{2}:\d{2}:\d{2}$/.test(h || '')) return 0;
+  const t = Date.parse(`${m[3]}-${m[2]}-${m[1]}T${h}-03:00`);
+  return Number.isFinite(t) ? t : 0;
 }
 
 function ler(j) {
@@ -54,152 +61,166 @@ function ler(j) {
     // md: "N" indefinido, "E" matematicamente eleito, "S" matematicamente 2º turno (como no app do TSE)
     dg: j.dg, hg: j.hg, dt: j.dt, ht: j.ht, md: String(j.md || 'N').toUpperCase(), tf: String(j.tf || 'N').toUpperCase(),
     ts: num(s.ts), st: num(s.st), pst: num(s.pstn),
-    eleitores: num(e.te), comparecimento: num(e.c), abstencao: num(e.a),
+    comparecimento: num(e.c), abstencao: num(e.a),
     vv: num(v.vv), brancos: num(v.vb), nulos: num(v.tvn), cands,
   };
 }
 
-async function baixar(abr) {
-  const c = cache.get(abr);
-  const headers = { 'User-Agent': 'apuracao-luta/1.0 (+https://apuracao-204-216-184-199.sslip.io)' };
+// entrada compacta de uma abrangência: [seções totalizadas, seções, válidos, comparecimento, abstenção, brancos, nulos, {número: votos}]
+function entrada(u) {
+  const votos = {};
+  for (const c of u.cands) if (c.votos) votos[c.n] = c.votos;
+  return [u.st, u.ts, u.vv, u.comparecimento, u.abstencao, u.brancos, u.nulos, votos];
+}
+function somar(lista) {
+  const r = [0, 0, 0, 0, 0, 0, 0, {}];
+  for (const x of lista) {
+    for (let i = 0; i < 7; i++) r[i] += x[i] || 0;
+    for (const n in x[7]) r[7][n] = (r[7][n] || 0) + x[7][n];
+  }
+  return r;
+}
+
+// ---------- estado por turno ----------
+
+const estados = TURNOS.map((T) => ({
+  ...T,
+  arquivo: path.join(DATA, `historico-${T.eleicao}.json`),
+  cache: new Map(),
+  hist: [],
+  atual: null,
+  ativo: T.turno === 1,
+  coleta: { ultima: null, erro: null, falhas: 0 },
+}));
+
+function url(T, abr) { return `${BASE}/${T.eleicao}/dados/${abr}/${abr}-c0001-e00${T.eleicao}-u.json`; }
+
+async function baixar(T, abr) {
+  const c = T.cache.get(abr);
+  const headers = { 'User-Agent': 'apuracao-luta/2.0 (+https://apuracao-204-216-184-199.sslip.io)' };
   if (c && c.etag) headers['If-None-Match'] = c.etag;
-  const r = await fetch(ARQ(abr), { headers, signal: AbortSignal.timeout(15000) });
+  const r = await fetch(url(T, abr), { headers, signal: AbortSignal.timeout(15000) });
   if (r.status === 304 && c) return c.dados;
-  if (!r.ok) throw new Error(`${abr}: HTTP ${r.status}`);
+  if (!r.ok) { const e = new Error(`${abr}: HTTP ${r.status}`); e.status = r.status; throw e; }
   const dados = ler(await r.json());
   // um nó do CDN pode devolver uma versão anterior à que já temos
   if (c && horaTSE(dados.dt, dados.ht) < horaTSE(c.dados.dt, c.dados.ht)) return c.dados;
-  cache.set(abr, { etag: r.headers.get('etag'), dados });
+  T.cache.set(abr, { etag: r.headers.get('etag'), dados });
   return dados;
 }
 
 async function emLotes(itens, n, fn) {
   let i = 0;
-  const trab = Array.from({ length: n }, async () => {
-    while (i < itens.length) { const x = itens[i++]; await fn(x); }
-  });
-  await Promise.all(trab);
+  await Promise.all(Array.from({ length: n }, async () => { while (i < itens.length) await fn(itens[i++]); }));
 }
 
-function horaTSE(d, h) {
-  const m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(d || '');
-  if (!m || !/^\d{2}:\d{2}:\d{2}$/.test(h || '')) return Date.now();
-  const t = Date.parse(`${m[3]}-${m[2]}-${m[1]}T${h}-03:00`);
-  return Number.isFinite(t) ? t : Date.now();
-}
-
-// ---------- estado ----------
-
-let hist = carregar();
-let atual = null;
-let coleta = { ultima: null, erro: null, falhas: [] };
-
-function carregar() {
-  try {
-    const h = JSON.parse(fs.readFileSync(HIST_FILE, 'utf8'));
-    if (!Array.isArray(h)) return [];
-    // um ponto por atualização do placar nacional; o último de cada sequência traz as regiões mais novas
-    const out = [];
-    for (const p of h) {
-      const u = out[out.length - 1];
-      if (u && !u.inicio && !p.inicio && u.st === p.st && u.vv === p.vv) { const t = u.t; Object.assign(u, p, { t }); } else out.push(p);
+// histórico da primeira versão (só Brasil e regiões, votos em "v" e regiões em "r")
+function converterAntigo(h) {
+  return h.map((p) => {
+    if (p.d) return p;
+    const d = {};
+    if (!p.inicio) d.br = [p.st, p.ts, p.vv, p.c || 0, p.ab || 0, p.b || 0, p.nu || 0, p.v || {}];
+    for (const id in p.r || {}) {
+      const [st, ts, vv, votos] = p.r[id];
+      if (id === 'ZZ') d.zz = [st, ts, vv, 0, 0, 0, 0, votos];
+      else d['r:' + id] = [st, ts, vv, 0, 0, 0, 0, votos];
     }
-    return out;
-  } catch { return []; }
+    return { t: p.t, ht: p.ht, def: p.def || 0, fim: p.fim || 0, ...(p.inicio ? { inicio: 1 } : {}), d };
+  });
 }
 
-function salvar() {
+function carregar(T) {
+  let h = null;
+  try { h = JSON.parse(fs.readFileSync(T.arquivo, 'utf8')); } catch { /* ainda não existe */ }
+  if (!h && T.turno === 1) {
+    try { h = converterAntigo(JSON.parse(fs.readFileSync(path.join(DATA, 'historico.json'), 'utf8'))); } catch { /* sem histórico antigo */ }
+  }
+  T.hist = Array.isArray(h) ? h : [];
+  if (T.hist.length) salvar(T);
+}
+
+function salvar(T) {
   fs.mkdirSync(DATA, { recursive: true });
-  const tmp = HIST_FILE + '.tmp';
-  fs.writeFileSync(tmp, JSON.stringify(hist));
-  fs.renameSync(tmp, HIST_FILE);
+  const tmp = T.arquivo + '.tmp';
+  fs.writeFileSync(tmp, JSON.stringify(T.hist));
+  fs.renameSync(tmp, T.arquivo);
 }
 
-function votosDe(cands) {
-  const o = {};
-  for (const c of cands) if (c.votos) o[c.n] = c.votos;
-  return o;
-}
-
-function montar(res) {
-  const br = res.br;
-  const regioes = REGIOES.map((R) => {
-    let ts = 0, st = 0, vv = 0, faltam = 0;
-    const votos = {};
-    for (const uf of R.ufs) {
-      const u = res[uf];
-      if (!u) { faltam++; continue; }
-      ts += u.ts; st += u.st; vv += u.vv;
-      for (const c of u.cands) if (c.votos) votos[c.n] = (votos[c.n] || 0) + c.votos;
-    }
-    return { id: R.id, nome: R.nome, ts, st, pst: ts ? (st / ts) * 100 : 0, vv, votos, faltam };
-  });
+function ponto(T, res) {
+  const br = res.br, d = { br: entrada(br) };
+  for (const uf of UFS) if (res[uf]) d[uf] = entrada(res[uf]);
+  for (const R of REGIOES) {
+    const partes = R.ufs.map((uf) => d[uf]).filter(Boolean);
+    if (partes.length === R.ufs.length) d[R.id] = somar(partes);
+  }
   return {
-    t: horaTSE(br.dt, br.ht),
-    dg: br.dg, hg: br.hg, dt: br.dt, ht: br.ht,
-    definido: br.md === 'E' || br.md === 'S' ? br.md : '', finalizado: br.tf === 'S',
-    ts: br.ts, st: br.st, pst: br.pst,
-    eleitores: br.eleitores, comparecimento: br.comparecimento, abstencao: br.abstencao,
-    vv: br.vv, brancos: br.brancos, nulos: br.nulos,
-    cands: br.cands.slice().sort((a, b) => b.votos - a.votos),
-    regioes,
+    t: horaTSE(br.dt, br.ht) || Date.now(), ht: br.ht,
+    def: br.md === 'E' || br.md === 'S' ? br.md : 0, fim: br.tf === 'S' ? 1 : 0, d,
   };
 }
 
-function ponto(a) {
-  const r = {};
-  for (const g of a.regioes) r[g.id] = [g.st, g.ts, g.vv, g.votos];
-  return {
-    t: a.t, ht: a.ht, st: a.st, ts: a.ts, pst: a.pst, vv: a.vv,
-    c: a.comparecimento, ab: a.abstencao, b: a.brancos, nu: a.nulos,
-    def: a.definido || 0, fim: a.finalizado ? 1 : 0, v: votosDe(a.cands), r,
-  };
-}
-
-function assinatura(p) {
-  return JSON.stringify([p.st, p.vv, p.def, p.fim, Object.values(p.r).map((x) => [x[0], x[2]])]);
-}
-
-async function ciclo() {
-  const res = {}, falhas = [];
+async function ciclo(T) {
+  if (!T.ativo) {
+    try { await baixar(T, 'br'); T.ativo = true; console.log(`turno ${T.turno}: arquivos do TSE disponíveis`); } catch { return; }
+  }
+  const res = {};
+  let falhas = 0;
   await emLotes(ABRS, 6, async (abr) => {
-    try { res[abr] = await baixar(abr); } catch (e) {
-      falhas.push(abr);
-      const c = cache.get(abr);
+    try { res[abr] = await baixar(T, abr); } catch {
+      falhas++;
+      const c = T.cache.get(abr);
       if (c) res[abr] = c.dados;
     }
   });
-  coleta.ultima = Date.now();
-  coleta.falhas = falhas;
-  if (!res.br) { coleta.erro = 'TSE indisponível no momento'; return; }
-  coleta.erro = null;
-  atual = montar(res);
-  const p = ponto(atual);
-  if (!hist.length) hist.push({ t: INICIO, ht: '17:00:00', st: 0, ts: p.ts, pst: 0, vv: 0, def: 0, fim: 0, v: {}, r: {}, inicio: 1 });
-  const ult = hist[hist.length - 1];
-  if (ult.inicio || p.st !== ult.st || p.vv !== ult.vv) {
-    if (p.t <= ult.t) p.t = ult.t + 1000;
-    hist.push(p);
-    salvar();
-  } else if (assinatura(ult) !== assinatura(p)) {
+  T.coleta.ultima = Date.now();
+  T.coleta.falhas = falhas;
+  if (!res.br) { T.coleta.erro = 'TSE indisponível no momento'; return; }
+  T.coleta.erro = null;
+  const br = res.br;
+  T.atual = {
+    t: horaTSE(br.dt, br.ht), dg: br.dg, hg: br.hg, dt: br.dt, ht: br.ht,
+    definido: br.md === 'E' || br.md === 'S' ? br.md : '', finalizado: br.tf === 'S',
+    ts: br.ts, st: br.st, pst: br.pst, vv: br.vv,
+    cands: br.cands.slice().sort((a, b) => b.votos - a.votos),
+  };
+  const p = ponto(T, res);
+  const ult = T.hist[T.hist.length - 1];
+  if (!ult) T.hist.push({ t: T.inicio, ht: '17:00:00', def: 0, fim: 0, inicio: 1, d: {} });
+  const u = T.hist[T.hist.length - 1];
+  const ub = u.d.br;
+  if (u.inicio || !ub || ub[0] !== p.d.br[0] || ub[2] !== p.d.br[2]) {
+    if (p.t <= u.t) p.t = u.t + 1000;
+    T.hist.push(p);
+    salvar(T);
+  } else if (JSON.stringify([u.def, u.fim, u.d]) !== JSON.stringify([p.def, p.fim, p.d])) {
     // só as UFs mudaram (cada arquivo sai num horário): atualiza o ponto atual no lugar
-    Object.assign(ult, p, { t: ult.t });
-    salvar();
+    u.def = p.def; u.fim = p.fim; u.d = p.d;
+    salvar(T);
   }
 }
 
-async function laco() {
-  try { await ciclo(); } catch (e) { coleta.erro = String(e.message || e); console.error('coleta:', coleta.erro); }
-  if (coleta.falhas.length) console.error('falhas:', coleta.falhas.join(','));
-  setTimeout(laco, INTERVALO);
+async function laco(T) {
+  try { await ciclo(T); } catch (e) { T.coleta.erro = String(e.message || e); console.error(`turno ${T.turno}:`, T.coleta.erro); }
+  if (T.coleta.falhas) console.error(`turno ${T.turno}: ${T.coleta.falhas} arquivo(s) falharam`);
+  const lento = !T.ativo || (T.atual && T.atual.finalizado);
+  setTimeout(() => laco(T), lento ? INTERVALO_LENTO : INTERVALO);
 }
 
 // ---------- HTTP ----------
 
 function json(res, code, obj) {
-  const corpo = JSON.stringify(obj);
   res.writeHead(code, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' });
-  res.end(corpo);
+  res.end(JSON.stringify(obj));
+}
+
+const disponivel = (T) => !!(T.ativo && T.atual && Date.now() >= T.inicio);
+
+// formato da primeira versão da página (sem ?v=2), mantido enquanto houver aba antiga aberta
+const LEGADO = [['SE', 'r:SE', 'Sudeste'], ['S', 'r:S', 'Sul'], ['CO', 'r:CO', 'Centro-Oeste'], ['NE', 'r:NE', 'Nordeste'], ['N', 'r:N', 'Norte'], ['ZZ', 'zz', 'Exterior']];
+function legado(p) {
+  const b = p.d.br || [0, 0, 0, 0, 0, 0, 0, {}], r = {};
+  for (const [id, k] of LEGADO) { const x = p.d[k]; if (x) r[id] = [x[0], x[1], x[2], x[7]]; }
+  return { t: p.t, ht: p.ht, st: b[0], ts: b[1], pst: b[1] ? (b[0] / b[1]) * 100 : 0, vv: b[2], c: b[3], ab: b[4], b: b[5], nu: b[6], def: p.def, fim: p.fim, v: b[7], r, ...(p.inicio ? { inicio: 1 } : {}) };
 }
 
 const ESTATICOS = {
@@ -213,16 +234,31 @@ http.createServer((req, res) => {
   if (req.method !== 'GET' && req.method !== 'HEAD') { res.writeHead(405); return res.end(); }
   if (u.pathname === '/health') { res.writeHead(200, { 'Content-Type': 'text/plain' }); return res.end('ok\n'); }
   if (u.pathname === '/api/estado') {
+    const T = estados.find((x) => String(x.turno) === (u.searchParams.get('turno') || '1')) || estados[0];
     const desde = Number(u.searchParams.get('desde')) || 0;
-    if (!atual) return json(res, 503, { erro: coleta.erro || 'coletando os primeiros dados do TSE' });
+    if (u.searchParams.get('v') !== '2') {
+      if (!T.atual) return json(res, 503, { erro: T.coleta.erro || 'coletando os primeiros dados do TSE' });
+      return json(res, 200, {
+        inicio: T.inicio, regioes: LEGADO.map(([id, , nome]) => ({ id, nome })), atual: T.atual,
+        hist: T.hist.filter((p, i) => p.t > desde || i === T.hist.length - 1).map(legado),
+      });
+    }
+    const base = {
+      turno: T.turno, eleicao: T.eleicao, inicio: T.inicio,
+      turnos: estados.map((x) => ({ turno: x.turno, disponivel: disponivel(x), inicio: x.inicio })),
+      regioes: REGIOES.map((r) => ({ id: r.id, nome: r.nome, ufs: r.ufs })),
+      fonte: `https://resultados.tse.jus.br/oficial/app/index.html#/eleicao/${T.eleicao}/uf/br/cargo/1/vis/nominal/resultados`,
+    };
+    if (!disponivel(T)) {
+      if (T.turno === 1 && !T.atual) return json(res, 503, { ...base, erro: T.coleta.erro || 'coletando os primeiros dados do TSE' });
+      return json(res, 200, { ...base, atual: null, hist: [] });
+    }
     return json(res, 200, {
-      fonte: 'https://resultados.tse.jus.br/oficial/app/index.html#/eleicao/6257/uf/br/cargo/1/vis/nominal/resultados',
-      inicio: INICIO,
-      regioes: REGIOES.map((r) => ({ id: r.id, nome: r.nome })),
-      atual,
-      // o último ponto vai sempre: ele pode ter sido atualizado no lugar (regiões)
-      hist: hist.filter((p, i) => p.t > desde || i === hist.length - 1),
-      coleta: { ultima: coleta.ultima, erro: coleta.erro, falhas: coleta.falhas.length },
+      ...base,
+      atual: T.atual,
+      // o último ponto vai sempre: ele pode ter sido atualizado no lugar (UFs)
+      hist: T.hist.filter((p, i) => p.t > desde || i === T.hist.length - 1),
+      coleta: { ultima: T.coleta.ultima, erro: T.coleta.erro, falhas: T.coleta.falhas },
     });
   }
   const est = ESTATICOS[u.pathname];
@@ -234,4 +270,4 @@ http.createServer((req, res) => {
   });
 }).listen(PORT, HOST, () => console.log(`apuracao ouvindo em ${HOST}:${PORT}`));
 
-laco();
+for (const T of estados) { carregar(T); laco(T); }
