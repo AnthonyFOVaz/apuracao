@@ -21,7 +21,8 @@ No ar: https://apuracaox1doscria.duckdns.org (o endereço antigo, https://apurac
 - Histórico: no máximo um ponto por minuto de dados; entre um e outro, o último ponto acompanha os números.
 - Cada ponto guarda Brasil, 5 regiões e 28 UFs: `[seções totalizadas, seções, válidos, comparecimento, abstenção, brancos, nulos, {número: votos}]`.
 - Histórico em `data/historico-<eleição>.json`. O 2º turno é consultado a cada 5 min até o TSE publicar os arquivos.
-- Público online: cada aba visível manda um id aleatório (`&id=`) nas consultas; `online` = ids vistos nos últimos 40 s.
+- Público online: cada navegador guarda um id aleatório (F5 e outras abas não contam de novo) e o manda (`&id=`) nas
+  consultas com a página visível; `online` = ids vistos nos últimos 40 s.
 - API: `GET /api/estado?v=2&turno=1|2&desde=<ms>&id=<aba>` (formato novo, com `online`), `GET /api/estado` (formato da página v1),
   `GET /api/versao` (commit em uso e falha do `caddy.sh`, se houver), `GET /health`.
 

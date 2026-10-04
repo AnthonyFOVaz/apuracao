@@ -1840,8 +1840,13 @@ const luta = new Luta($('cv'));
 if (salvo.scope && ALL[salvo.scope]) luta.scope = salvo.scope;
 
 // ---------- coleta ----------
-// id aleatório desta aba: o servidor conta quantas abas visíveis consultaram nos últimos 40 s
-const ID = Array.from(crypto.getRandomValues(new Uint8Array(12)), (x) => 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'[x % 62]).join('');
+// id aleatório deste navegador, guardado para o F5 e as outras abas não contarem como gente nova:
+// o servidor conta quantos ids consultaram com a página visível nos últimos 40 s
+let ID = ler('apuracao-id');
+if (typeof ID !== 'string' || !/^[A-Za-z0-9]{8,32}$/.test(ID)) {
+  ID = Array.from(crypto.getRandomValues(new Uint8Array(12)), (x) => 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'[x % 62]).join('');
+  gravar('apuracao-id', ID);
+}
 const pedido = new URLSearchParams(location.search), TURNO_URL = Number(pedido.get('turno'));
 if (TURNO_URL === 1 || TURNO_URL === 2) { S.turno = TURNO_URL; S.escolheu = true; }
 let timer = null, geracao = 0;
