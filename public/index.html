@@ -188,6 +188,39 @@ footer{font-size:12px;color:var(--mut);line-height:1.6;border-top:1px solid var(
   .reg{grid-template-columns:84px minmax(0,1fr) 58px;gap:10px}
 }
 
+/* previsão */
+.pv-top{display:grid;gap:4px;margin:12px 0 8px}
+.pv-k{font-family:'Silkscreen',monospace;font-size:10px;color:var(--mut)}
+#pvTit{font-weight:800;font-stretch:115%;font-size:24px;line-height:1.05;text-wrap:balance}
+#pvPct{font-size:13px;color:var(--mut)}
+.pvc{display:grid;grid-template-columns:minmax(0,1fr) 84px 42px;gap:10px;align-items:center;padding:5px 0;font-size:13px}
+.pvc span:first-child{min-width:0}
+.pvc-b{height:8px;background:var(--line)}
+.pvc-b i{display:block;height:100%}
+.pvc b{text-align:right;font-variant-numeric:tabular-nums;font-weight:700}
+.pv-proj,.pv-r2{font-size:13px;line-height:1.5;color:var(--mut);margin:10px 0 0;text-wrap:pretty;font-variant-numeric:tabular-nums}
+.pv-proj b,.pv-r2 b{color:var(--fg);font-weight:600}
+.pv-r2{border-left:3px solid var(--gold);padding:6px 10px;background:var(--bg)}
+.pv-h{font-family:'Silkscreen',monospace;font-size:11px;color:var(--mut);margin:16px 0 6px}
+#pvSvg{display:block;width:100%;height:auto}
+#pvSvg .ax{fill:var(--mut);font-size:9px;font-family:Archivo,system-ui,sans-serif}
+#pvSvg .gr{stroke:var(--line);stroke-width:1}
+.pv-leg{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12px;color:var(--mut);margin-top:4px}
+.pv-leg span{display:flex;align-items:center;gap:6px}
+.pv-leg i{width:14px;height:3px}
+.pv-leg .tr i{background:repeating-linear-gradient(90deg,var(--mut) 0 4px,transparent 4px 7px)}
+.pvr{width:calc(100% + 16px);margin:0 -8px;display:grid;grid-template-columns:minmax(0,1fr) auto auto auto;grid-template-areas:"n c p m" "s s f f" "b b b b";gap:5px 8px;align-items:center;padding:10px 8px;border:0;border-top:1px solid var(--line);background:transparent;color:var(--fg);font-family:inherit;text-align:left;cursor:pointer;touch-action:manipulation}
+.pvr.sel{background:#221E1B}
+.pvr .n{grid-area:n;font-size:14px;font-weight:600;min-width:0}
+.pvr .c{grid-area:c;min-width:22px;height:20px;padding:0 3px;display:grid;place-items:center;font-family:'Silkscreen',monospace;font-size:11px;font-weight:700;color:var(--bg)}
+.pvr .p{grid-area:p;font-weight:700;font-variant-numeric:tabular-nums}
+.pvr .m{grid-area:m;font-size:12px;color:var(--mut);font-variant-numeric:tabular-nums;min-width:34px;text-align:right}
+.pvr .s{grid-area:s;font-size:12px;color:var(--mut);font-variant-numeric:tabular-nums}
+.pvr .f{grid-area:f;font-size:12px;text-align:right;font-variant-numeric:tabular-nums}
+.pvr .b{grid-area:b;position:relative;height:6px;background:var(--line)}
+.pvr .b i{position:absolute;left:0;top:0;bottom:0}
+.pvr .b u{position:absolute;left:50%;top:-2px;bottom:-2px;width:2px;margin-left:-1px;background:var(--gold)}
+
 /* ---------- celular ---------- */
 #mob{min-height:100vh;padding-bottom:28px}
 .mtopo{position:relative;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
@@ -253,8 +286,9 @@ footer{font-size:12px;color:var(--mut);line-height:1.6;border-top:1px solid var(
 .mob #ctrlopts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
 .mob #ctrlopts button{font-size:11px;padding:0 4px}
 .mjogar p{margin:0;font-size:12px;line-height:1.5;color:var(--mut);text-wrap:pretty}
-.mabas{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin-top:4px}
-.mabas button{font-size:11px;min-height:44px;padding:0 2px}
+.mabas{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));margin-top:4px}
+.mabas button{font-size:10px;min-height:44px;padding:0 2px}
+.mob .pvr{width:100%;margin:0;padding:10px 4px}
 .maba{display:grid;gap:12px}
 .mmodos{display:flex;justify-content:flex-end}
 .mob #modos button{font-size:10px}
@@ -365,6 +399,7 @@ footer{font-size:12px;color:var(--mut);line-height:1.6;border-top:1px solid var(
     </section>
 
     <section class="paineis">
+      <div class="painel cheio2" data-slot="previsao"></div>
       <div class="painel cheio2">
         <div class="ph"><h2>ESTADOS</h2><div data-slot="modos"></div></div>
         <div data-slot="mapa"></div>
@@ -445,9 +480,10 @@ footer{font-size:12px;color:var(--mut);line-height:1.6;border-top:1px solid var(
       <p id="ajudaM" hidden>Os botões ficam embaixo do ringue. Segure DEFESA para bloquear. Seus golpes não mudam a apuração.</p>
     </div>
     <div class="seg mabas" id="abas">
-      <button type="button" data-aba="estados" class="on">ESTADOS</button><button type="button" data-aba="lances">LANCES</button><button type="button" data-aba="regioes">REGIÕES</button><button type="button" data-aba="luta">LUTA</button>
+      <button type="button" data-aba="previsao" class="on">PREVISÃO</button><button type="button" data-aba="estados">ESTADOS</button><button type="button" data-aba="lances">LANCES</button><button type="button" data-aba="regioes">REGIÕES</button><button type="button" data-aba="luta">LUTA</button>
     </div>
-    <div class="maba" data-painel="estados"><div class="mmodos" data-slot="modos"></div><div data-slot="mapa"></div></div>
+    <div class="maba" data-painel="previsao"><div data-slot="previsao"></div></div>
+    <div class="maba" data-painel="estados" hidden><div class="mmodos" data-slot="modos"></div><div data-slot="mapa"></div></div>
     <div class="maba" data-painel="lances" hidden><div data-slot="feed"></div></div>
     <div class="maba" data-painel="regioes" hidden><div data-slot="regioes"></div></div>
     <div class="maba" data-painel="luta" hidden><div><div data-slot="stats"></div><p class="nota">Os golpes são encenação. Quem lidera a apuração ataca mais; quem está atrás defende mais.</p></div></div>
@@ -484,6 +520,19 @@ footer{font-size:12px;color:var(--mut);line-height:1.6;border-top:1px solid var(
   <div id="regioes" data-peca="regioes"></div>
   <div id="feed" data-peca="feed"></div>
   <div id="stats" data-peca="stats"></div>
+  <div id="previsao" data-peca="previsao">
+    <h2 id="pvT">PREVISÃO · BRASIL</h2>
+    <div class="pv-top"><span class="pv-k" id="pvK">MAIS PROVÁVEL</span><b id="pvTit">—</b><span id="pvPct"></span></div>
+    <div id="pvChances"></div>
+    <p class="pv-proj" id="pvProj"></p>
+    <p class="pv-r2" id="pvR2" hidden></p>
+    <div class="pv-h">AO LONGO DA APURAÇÃO</div>
+    <svg id="pvSvg" viewBox="0 0 320 172" role="img" aria-label="Porcentagem dos dois primeiros ao longo da apuração, com a projeção até o fim"></svg>
+    <div class="pv-leg" id="pvLeg"></div>
+    <div class="pv-h">PROJEÇÃO POR REGIÃO · % APURADO · VOTOS QUE FALTAM</div>
+    <div id="pvTab"></div>
+    <p class="nota">Projeção matemática feita com os números do TSE: não é pesquisa nem resultado oficial. Em cada estado, os votos que faltam (estimados pelas seções que faltam) se dividem como os das últimas urnas apuradas nele, com todos os candidatos na conta. As chances vêm de 1.200 simulações com variação nacional e por estado. Para o 2º turno, sem dado sobre para onde vão os eleitores dos outros candidatos, toda divisão desses votos é tratada como igualmente provável.</p>
+  </div>
 </div>
 
 <script>
@@ -1317,9 +1366,132 @@ class Luta {
   }
 }
 
+// ---------- previsão ----------
+// Projeção do resultado final, refeita a cada ponto da apuração. Cada estado termina com os votos que faltam
+// (estimados pelas seções que faltam) divididos como os das últimas urnas apuradas nele (os últimos 10 pontos de seções;
+// no teste com a noite do 1º turno, isso deixou a projeção bem mais estável que usar só o acumulado). Os cinco mais
+// votados entram um a um e os demais juntos. As chances vêm de simulações com erro nacional e por estado na divisão de
+// cada candidato e no comparecimento do que falta.
+const PREV = { sims: 1200, simsReg: 500, janela: 0.1, nac: 0.045, uf: 0.08, comp: 0.05 };
+const UF_IDS = UFD.map((u) => u[0]);
+function normais(seed) { // gerador determinístico: os mesmos dados dão sempre as mesmas chances
+  let s = seed >>> 0, sobra = null;
+  const u = () => { s = (s + 0x6D2B79F5) >>> 0; let t = Math.imul(s ^ (s >>> 15), 1 | s); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+  return () => {
+    if (sobra !== null) { const z = sobra; sobra = null; return z; }
+    const r = Math.sqrt(-2 * Math.log(u() || 1e-12)), a = 2 * Math.PI * u();
+    sobra = r * Math.sin(a);
+    return r * Math.cos(a);
+  };
+}
+const quantil = (arr, q) => { const c = Float64Array.from(arr).sort(); return c[Math.min(c.length - 1, Math.floor(q * c.length))]; };
+
+const Prev = {
+  ck: '', G: [], un: new Map(), res: new Map(),
+  preparar(L, i) {
+    const ck = S.ver + '|' + L.key + '|' + i + '|' + S.turno;
+    if (ck === this.ck) return ck;
+    this.ck = ck; this.un.clear(); this.res.clear();
+    const v = L.area(i, 'br').votos;
+    this.G = Object.keys(v).sort((a, b) => v[b] - v[a]).slice(0, 5);
+    for (const n of [L.nA, L.nB]) if (!this.G.includes(n)) this.G.push(n);
+    return ck;
+  },
+  // numa UF (ou região, nos pontos antigos): votos por grupo, votos que faltam e como devem se dividir
+  unidade(L, i, id) {
+    if (this.un.has(id)) return this.un.get(id);
+    const G = this.G, a = L.area(i, id);
+    const grupo = (votos, vv) => { const x = G.map((n) => votos[n] || 0); x.push(Math.max(0, vv - x.reduce((s2, y) => s2 + y, 0))); return x; };
+    let r = null;
+    if (!a.sem && a.ts) {
+      const br = L.area(i, 'br'), v = grupo(a.votos, a.vv), f = Math.min(1, a.st / a.ts);
+      let p, R;
+      if (a.vv > 0) {
+        p = v.map((x) => x / a.vv);
+        if (f < 1) {
+          for (let j = i - 1; j >= 0; j--) { // o ritmo das últimas urnas apuradas nesta área
+            const b = L.area(j, id);
+            if (b.sem) break;
+            if (b.st <= a.st - PREV.janela * a.ts) {
+              const dV = a.vv - b.vv;
+              if (dV > 0) { const vb = grupo(b.votos, b.vv); p = v.map((x, g) => Math.max(0, x - vb[g]) / dV); }
+              break;
+            }
+          }
+        }
+        R = f > 0 ? a.vv * (1 / f - 1) : 0;
+      } else { // apuração ainda não começou aqui: tamanho pelo número de seções, divisão como a do Brasil
+        p = grupo(br.votos, br.vv).map((x) => (br.vv ? x / br.vv : 1 / (G.length + 1)));
+        R = br.st ? (a.ts * br.vv) / br.st : 0;
+      }
+      const sp = p.reduce((s2, y) => s2 + y, 0) || 1;
+      r = { V: a.vv, v, R, p: p.map((x) => x / sp) };
+    }
+    this.un.set(id, r);
+    return r;
+  },
+  unidades(L, i, sc) {
+    const ufs = sc === 'br' ? UF_IDS : ALL[sc].tipo === 'reg' ? ALL[sc].ufs : [sc];
+    let us = ufs.map((u) => this.unidade(L, i, u));
+    if (us.every(Boolean)) return us;
+    if (ALL[sc].tipo === 'uf') return null;
+    us = (sc === 'br' ? [...REGIOES.map((g) => g.id), 'zz'] : [sc]).map((u) => this.unidade(L, i, u)); // só regiões
+    return us.every(Boolean) ? us : null;
+  },
+  simular(L, i, sc, n) {
+    const ck = sc + '|' + n;
+    if (this.res.has(ck)) return this.res.get(ck);
+    const us = this.unidades(L, i, sc), G = this.G, real = G.length, k = real + 1;
+    let out = null;
+    if (us) {
+      let T = 0, R = 0;
+      const F = new Float64Array(k);
+      for (const x of us) { for (let g = 0; g < k; g++) F[g] += x.v[g] + x.R * x.p[g]; T += x.V + x.R; R += x.R; }
+      const z = normais(0x5eed1), am = G.map(() => new Float64Array(n)), lider = new Float64Array(real), ko = new Float64Array(real), venc = new Float64Array(real);
+      const eta = new Float64Array(k), fs = new Float64Array(k), q = new Float64Array(k), br1 = sc === 'br' && S.turno === 1;
+      let r2 = 0;
+      for (let s2 = 0; s2 < n; s2++) {
+        for (let g = 0; g < k; g++) { eta[g] = z() * PREV.nac; fs[g] = 0; }
+        let tot = 0;
+        for (const x of us) {
+          const r = x.R > 0 ? Math.max(0, x.R * (1 + z() * PREV.comp)) : 0;
+          let sq = 0;
+          if (r > 0) for (let g = 0; g < k; g++) { q[g] = x.p[g] * Math.exp(eta[g] + z() * PREV.uf); sq += q[g]; }
+          for (let g = 0; g < k; g++) fs[g] += x.v[g] + (r > 0 && sq > 0 ? (r * q[g]) / sq : 0);
+          tot += x.V + r;
+        }
+        let a = -1, b = -1;
+        for (let g = 0; g < real; g++) {
+          const sh = tot ? (fs[g] / tot) * 100 : 0;
+          am[g][s2] = sh;
+          if (a < 0 || sh > am[a][s2]) { b = a; a = g; } else if (b < 0 || sh > am[b][s2]) b = g;
+        }
+        lider[a]++;
+        if (!br1 || am[a][s2] > 50) { if (br1) ko[a]++; venc[a]++; }
+        else { // 2º turno: os eleitores dos outros candidatos decidem; toda divisão deles é igualmente provável
+          r2++;
+          const pa = am[a][s2], pb = b >= 0 ? am[b][s2] : 0, O = 100 - pa - pb;
+          const precisaA = O > 0 ? Math.min(1, Math.max(0, (pb - pa + O) / (2 * O))) : 0;
+          venc[a] += 1 - precisaA;
+          if (b >= 0) venc[b] += precisaA;
+        }
+      }
+      out = {
+        G, real, R, T, media: Array.from(F, (f) => (T ? (f / T) * 100 : 0)),
+        faixa: G.map((_, g) => [quantil(am[g], 0.05), quantil(am[g], 0.95)]),
+        lider: Array.from(lider, (x) => x / n), ko: Array.from(ko, (x) => x / n), venc: Array.from(venc, (x) => x / n), r2: r2 / n,
+      };
+    }
+    this.res.set(ck, out);
+    return out;
+  },
+};
+const fmtP = (p, exato) => (exato ? Math.round(p * 100) + '%' : p >= 0.995 ? '>99%' : p <= 0.005 ? '<1%' : Math.round(p * 100) + '%');
+const curto = (v) => (v >= 1e6 ? (v / 1e6).toLocaleString('pt-BR', { maximumFractionDigits: 1 }) + ' mi' : v >= 1000 ? Math.round(v / 1000) + ' mil' : String(Math.round(v)));
+
 // ---------- interface ----------
 const UI = {
-  mob: null, aba: 'estados', mapa: 'lead', arrastando: false, tiles: {}, regs: {},
+  mob: null, aba: 'previsao', mapa: 'lead', pvck: '', pvRows: {}, arrastando: false, tiles: {}, regs: {},
   // só mexe no DOM quando o valor muda (cada nó guarda o último valor em _c)
   t(el, v) { if (el._t !== v) { el._t = v; el.textContent = v; } },
   h(el, v) { if (el._h !== v) { el._h = v; el.innerHTML = v; } },
@@ -1360,8 +1532,118 @@ const UI = {
         .map(([l, k]) => `<div class="st"><b id="st${k}A">0</b><span>${l}</span><b id="st${k}B">0</b></div>`).join('');
     const salvo = ler('apuracao-luta-v2') || {};
     if (salvo.mapa === 'count') this.mapa = 'count';
-    if (['estados', 'lances', 'regioes', 'luta'].includes(salvo.aba)) this.aba = salvo.aba;
+    if (['previsao', 'estados', 'lances', 'regioes', 'luta'].includes(salvo.aba)) this.aba = salvo.aba;
+    // linhas da projeção por região
+    for (const id of [...REGIOES.map((g) => g.id), 'zz']) {
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'pvr'; b.dataset.sc = id;
+      b.innerHTML = `<span class="n">${esc(ALL[id].nome)}</span><span class="c">—</span><span class="p">—</span><span class="m"></span><span class="s"></span><span class="f"></span><span class="b"><i></i><u></u></span>`;
+      $('pvTab').appendChild(b);
+      this.pvRows[id] = { b, c: b.querySelector('.c'), p: b.querySelector('.p'), m: b.querySelector('.m'), s: b.querySelector('.s'), f: b.querySelector('.f'), i: b.querySelector('.b i') };
+    }
     return salvo;
+  },
+  // painel de previsão (só refaz as contas quando o ponto, os dados ou a área mudam)
+  previsao(L, i) {
+    if (this.mob && this.aba !== 'previsao') return;
+    const ck = Prev.preparar(L, i) + '|' + L.scope + '|' + (this.mob ? 1 : 0);
+    if (ck === this.pvck) return;
+    this.pvck = ck;
+    const sc = L.scope, A = ALL[sc], T2 = S.turno === 2, br1 = sc === 'br' && !T2;
+    const nm = (n) => L.nome(n), cor = (n) => (n === L.nA ? L.cor.A : n === L.nB ? L.cor.B : '#8A8178');
+    const r = S.hist.length ? Prev.simular(L, i, sc, PREV.sims) : null, oficial = sc === 'br' ? L.desfecho(i) : null;
+    this.t($('pvT'), 'PREVISÃO · ' + A.nome.toUpperCase());
+    let linhas = [], exato = !!oficial || !!(r && r.R < 1), chave = 'MAIS PROVÁVEL';
+    if (oficial) {
+      chave = 'RESULTADO OFICIAL (TSE)';
+      linhas = [[oficial.tipo === 'r2' ? '2º turno' : `${nm(oficial.n)} ${T2 ? 'eleito presidente' : 'vence no 1º turno'}`, 1, oficial.tipo === 'r2' ? '#F5C842' : cor(oficial.n)]];
+    } else if (r && br1) {
+      linhas = r.G.map((n, g) => [`${nm(n)} vence no 1º turno`, r.ko[g], cor(n), n]).filter((x) => x[1] > 0 || x[3] === L.nA || x[3] === L.nB);
+      linhas.push(['2º turno', r.r2, '#F5C842']);
+    } else if (r) {
+      linhas = r.G.map((n, g) => [T2 && sc === 'br' ? `${nm(n)} eleito presidente` : `${nm(n)} vence ${A.em}`, r.venc[g], cor(n), n]).filter((x) => x[1] > 0 || x[3] === L.nA || x[3] === L.nB);
+    }
+    linhas.sort((x, y) => y[1] - x[1]);
+    this.t($('pvK'), r || oficial ? chave : 'PREVISÃO');
+    this.t($('pvTit'), linhas.length ? linhas[0][0] : S.hist.length ? 'Sem dados suficientes nesta área e neste horário' : 'Aguardando os primeiros números');
+    this.t($('pvPct'), linhas.length ? (oficial ? 'definido pelo TSE' : 'chance de ' + fmtP(linhas[0][1], exato)) : '');
+    this.h($('pvChances'), linhas.map(([l, p2, c]) => `<div class="pvc"><span>${esc(l)}</span><span class="pvc-b"><i style="width:${(p2 * 100).toFixed(1)}%;background:${c}"></i></span><b>${fmtP(p2, exato)}</b></div>`).join(''));
+
+    // projeção dos números finais e a conta do 2º turno
+    let proj = '', r2 = '';
+    if (r) {
+      const ord = r.G.map((n, g) => [n, g]).sort((x, y) => r.media[y[1]] - r.media[x[1]]), [a, ga] = ord[0], [b, gb] = ord[1] || [];
+      const fx = (g) => (r.R < 1 ? '' : ` (${pc1(r.faixa[g][0])} a ${pc1(r.faixa[g][1])})`);
+      const outros = Math.max(0, 100 - r.media[ga] - (gb != null ? r.media[gb] : 0));
+      proj = r.R < 1 ? 'Apuração encerrada nesta área: ' : `Fim da apuração (projeção, faltam ~${curto(r.R)} de votos): `;
+      proj += `<b>${esc(nm(a))} ${pc1(r.media[ga])}</b>${fx(ga)}` + (b ? ` · <b>${esc(nm(b))} ${pc1(r.media[gb])}</b>${fx(gb)}` : '') + (outros > 0.05 ? ` · outros candidatos ${pc1(outros)}` : '');
+      if (br1 && b && (r.r2 > 0.01 || (oficial && oficial.tipo === 'r2'))) {
+        const O = outros, va = r.media[ga], vb = r.media[gb], precisaB = (va - vb + O) / (2 * O), votosO = (O / 100) * (r.T || 0);
+        const txt = (n, x) => (x > 1 ? `${esc(nm(n))} não alcança só com esses votos` : `${esc(nm(n))} precisa de <b>${Math.max(0, Math.round(x * 100))}%</b> deles`);
+        const vence = r.G.map((n, g) => [n, r.venc[g]]).filter((x) => x[1] >= 0.005).sort((x, y) => y[1] - x[1]);
+        r2 = `No 2º turno, decidem os <b>${pc1(O)}</b> que votaram em outros candidatos (~${curto(votosO)} de votos): ${txt(b, precisaB)}; ${txt(a, 1 - precisaB)}. `
+          + `Chance de vencer a eleição, com esses votos divididos ao acaso: ${vence.map(([n, x]) => `<b>${esc(nm(n))} ${fmtP(x, false)}</b>`).join(' · ')}.`;
+      }
+    }
+    this.h($('pvProj'), proj);
+    this.h($('pvR2'), r2);
+    this.vis($('pvR2'), !!r2);
+    this.h($('pvSvg'), this.grafico(L, i, r));
+    this.h($('pvLeg'), `<span><i style="background:${L.cor.A}"></i>${esc(nm(L.nA))}</span><span><i style="background:${L.cor.B}"></i>${esc(nm(L.nB))}</span><span class="tr"><i></i>projeção</span>`);
+
+    // projeção por região (e exterior)
+    for (const id of [...REGIOES.map((g) => g.id), 'zz']) {
+      const a = L.area(i, id), x = this.pvRows[id], rr = a.has ? Prev.simular(L, i, id, PREV.simsReg) : null;
+      this.on(x.b, 'sel', sc === id);
+      if (!a.has) { this.t(x.c, '—'); this.t(x.p, '—'); this.t(x.m, ''); this.t(x.s, 'apuração não começou'); this.t(x.f, ''); this.s(x.i, 'width', '0'); continue; }
+      const ord = Object.keys(a.votos).sort((u, w) => a.votos[w] - a.votos[u]), l = ord[0], seg = ord[1];
+      const pl = (a.votos[l] / a.vv) * 100, ps = seg ? (a.votos[seg] / a.vv) * 100 : 0;
+      this.t(x.c, l); this.s(x.c, 'background', cor(l));
+      this.t(x.p, pc1(pl)); this.t(x.m, '+' + (pl - ps).toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }));
+      this.t(x.s, pc1(a.pst) + (rr && rr.R >= 1 ? ` · faltam ~${curto(rr.R)}` : ' apurado'));
+      let fim = pl, fimTxt = '';
+      if (rr) {
+        const gs = rr.G.map((n, g) => [n, g]).sort((u, w) => rr.media[w[1]] - rr.media[u[1]]), [n1, g1] = gs[0], gl = rr.G.indexOf(l);
+        fim = rr.media[g1];
+        fimTxt = rr.R < 1 ? 'final' : n1 === l ? `fim ≈ ${pc1(fim)} · ${fmtP(gl >= 0 ? rr.lider[gl] : 1, false)}` : `fim: ${nm(n1)} ${pc1(fim)} (virada) · ${fmtP(rr.lider[g1], false)}`;
+        this.s(x.i, 'background', cor(n1));
+      } else this.s(x.i, 'background', cor(l));
+      this.t(x.f, fimTxt);
+      this.s(x.i, 'width', Math.min(100, fim) + '%');
+    }
+  },
+  // gráfico: os dois do ringue ao longo das seções apuradas, com a projeção tracejada até 100%
+  grafico(L, i, r) {
+    const sc = L.scope, pts = [];
+    for (let j = 0; j <= i && j < S.hist.length; j++) { const a = L.area(j, sc); if (a.has) pts.push([a.pst, a.ap, a.bp]); }
+    if (!pts.length) return '<text class="ax" x="160" y="86" text-anchor="middle">Aguardando os primeiros números</text>';
+    const cur = pts[pts.length - 1], gA = r ? r.G.indexOf(L.nA) : -1, gB = r ? r.G.indexOf(L.nB) : -1;
+    const fim = { A: gA >= 0 ? r.media[gA] : cur[1], B: gB >= 0 ? r.media[gB] : cur[2] };
+    const fx = { A: gA >= 0 ? r.faixa[gA] : [fim.A, fim.A], B: gB >= 0 ? r.faixa[gB] : [fim.B, fim.B] };
+    const vals = pts.flatMap((p2) => [p2[1], p2[2]]).concat(fx.A, fx.B);
+    let lo = Math.floor(Math.min(...vals) - 1), hi = Math.ceil(Math.max(...vals) + 1);
+    if (hi < 50 && 50 - hi <= 5) hi = 51;
+    if (lo > 50 && lo - 50 <= 5) lo = 49;
+    if (hi - lo < 6) { const m = (hi + lo) / 2; lo = Math.floor(m - 3); hi = Math.ceil(m + 3); }
+    lo = Math.max(0, lo); hi = Math.min(100, hi);
+    const X0 = 34, X1 = 300, Y0 = 10, Y1 = 140, X = (v) => X0 + ((X1 - X0) * v) / 100, Y = (v) => Y1 - ((Y1 - Y0) * (v - lo)) / (hi - lo);
+    const passo = hi - lo <= 12 ? 2 : hi - lo <= 30 ? 5 : 10;
+    let svg = '';
+    for (let v = Math.ceil(lo / passo) * passo; v <= hi; v += passo) svg += `<line class="gr" x1="${X0}" x2="${X1}" y1="${Y(v).toFixed(1)}" y2="${Y(v).toFixed(1)}"/><text class="ax" x="${X0 - 5}" y="${(Y(v) + 3).toFixed(1)}" text-anchor="end">${v}%</text>`;
+    if (lo < 50 && hi > 50) svg += `<line x1="${X0}" x2="${X1}" y1="${Y(50).toFixed(1)}" y2="${Y(50).toFixed(1)}" stroke="#F5C842" stroke-width="1.2" stroke-dasharray="3 3"/>`;
+    svg += `<text class="ax" x="${X0}" y="158">0% das seções</text><text class="ax" x="${X(50)}" y="158" text-anchor="middle">50%</text><text class="ax" x="${X1}" y="158" text-anchor="end">100%</text>`;
+    const passoPts = Math.max(1, Math.ceil(pts.length / 160));
+    for (const [k, idx, c] of [['A', 1, L.cor.A], ['B', 2, L.cor.B]]) {
+      const linha = pts.filter((_, j) => j % passoPts === 0 || j === pts.length - 1).map((p2) => `${X(p2[0]).toFixed(1)},${Y(p2[idx]).toFixed(1)}`).join(' ');
+      svg += `<polyline points="${linha}" fill="none" stroke="${c}" stroke-width="2" stroke-linejoin="round"/>`;
+      if (cur[0] < 99.95 && r) {
+        svg += `<line x1="${X(cur[0]).toFixed(1)}" y1="${Y(cur[idx]).toFixed(1)}" x2="${X(100)}" y2="${Y(fim[k]).toFixed(1)}" stroke="${c}" stroke-width="1.6" stroke-dasharray="4 3"/>`;
+        svg += `<rect x="${X(100) - 3}" y="${Y(fx[k][1]).toFixed(1)}" width="6" height="${Math.max(1, Y(fx[k][0]) - Y(fx[k][1])).toFixed(1)}" fill="${c}" opacity=".35"/>`;
+        svg += `<circle cx="${X(100)}" cy="${Y(fim[k]).toFixed(1)}" r="3" fill="#161412" stroke="${c}" stroke-width="1.6"/>`;
+      }
+      svg += `<circle cx="${X(cur[0]).toFixed(1)}" cy="${Y(cur[idx]).toFixed(1)}" r="3.4" fill="${c}"/>`;
+    }
+    return svg;
   },
   guardar() { gravar('apuracao-luta-v2', { scope: luta.scope, mapa: this.mapa, aba: this.aba }); },
 
@@ -1543,6 +1825,8 @@ const UI = {
     // estatísticas
     for (const k of ['g', 'd', 'e', 's', 'c']) { this.t($('st' + k + 'A'), String(E.f.A.st[k])); this.t($('st' + k + 'B'), String(E.f.B.st[k])); }
 
+    this.previsao(L, E.idx);
+
     // abas do celular
     for (const b of $('abas').children) this.on(b, 'on', b.dataset.aba === this.aba);
     for (const d of document.querySelectorAll('[data-painel]')) this.vis(d, d.dataset.painel === this.aba);
@@ -1616,7 +1900,7 @@ for (const id of ['bR2', 'mR2']) clique(id, () => trocarTurno(2));
 clique('verBR', () => luta.setScope('br'));
 clique('turnos', (e) => { const b = e.target.closest('[data-turno]'); if (b && !b.disabled) trocarTurno(Number(b.dataset.turno)); });
 $('escolha').addEventListener('change', (e) => { luta.setScope(e.target.value); e.target.blur(); });
-for (const id of ['grade', 'regioes']) clique(id, (e) => { const b = e.target.closest('[data-sc]'); if (b) luta.setScope(b.dataset.sc); });
+for (const id of ['grade', 'regioes', 'pvTab']) clique(id, (e) => { const b = e.target.closest('[data-sc]'); if (b) luta.setScope(b.dataset.sc); });
 clique('apertada', (e) => luta.setScope(e.currentTarget.dataset.sc));
 clique('modos', (e) => { const b = e.target.closest('[data-modo]'); if (b) { UI.mapa = b.dataset.modo; UI.guardar(); luta.push(true); } });
 clique('abas', (e) => { const b = e.target.closest('[data-aba]'); if (b) { UI.aba = b.dataset.aba; UI.guardar(); luta.push(true); } });

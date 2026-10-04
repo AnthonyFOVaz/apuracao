@@ -36,6 +36,16 @@ Port de `design/Apuracao Luta v2.dc.html` para HTML/JS puro, ligado a `/api/esta
 - Público online no topo. Layout de celular (largura < 720 px ou altura < 500 px): placar e ringue fixos no topo,
   botões embaixo do ringue e abas Estados / Lances / Regiões / Luta.
 - Abre no 2º turno quando ele estiver disponível; `?turno=1` força o 1º.
+- **Previsão** (primeiro painel; no celular, aba PREVISÃO), refeita a cada ponto, também no replay e para cada área:
+  - em cada UF, os votos que faltam (estimados pelas seções que faltam) se dividem como os das últimas urnas apuradas
+    nela (últimos 10 pontos de seções). Testado com a noite do 1º turno: mais estável que usar só o acumulado;
+  - todos os candidatos entram (os 5 mais votados um a um, os demais juntos); 1.200 simulações com erro nacional (4,5%)
+    e por UF (8%) na divisão de cada candidato e 5% no comparecimento do que falta. Daí saem a chance de vitória no
+    1º turno de cada um, a de 2º turno e a faixa de 90% do resultado final; o resultado oficial do TSE prevalece;
+  - 2º turno: os votos dos outros candidatos decidem. A página mostra quanto deles cada um precisa e a chance de vencer
+    supondo qualquer divisão desses votos igualmente provável (não há dado sobre para onde vão);
+  - gráfico "ao longo da apuração" com a projeção tracejada e tabela por região (líder, % apurado, votos que faltam,
+    projeção e chance de o líder terminar na frente).
 
 ## Segurança
 
@@ -78,6 +88,7 @@ PORT=3100 node server.js
 
 - 04/10/2026: coletor do TSE, API e página v1 publicados; histórico deduplicado por atualização nacional.
 - 04/10/2026: back v2 com histórico por UF/região, suporte ao 2º turno e API `?v=2`; atualização automática pelo GitHub.
+- 04/10/2026: painel de previsão (projeção por UF, chances por simulação, conta do 2º turno).
 - 04/10/2026: cabeçalhos de segurança (CSP, HSTS, anti-iframe), limite por IP e cache do histórico na API.
 - 04/10/2026: placar nacional pela soma dos estados (o arquivo nacional do TSE atrasava minutos); público online;
   front v2 (estados, 2º turno, modo jogável, layout de celular); domínio apuracaox1doscria.duckdns.org.
