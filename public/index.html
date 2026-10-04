@@ -1,0 +1,841 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Apuração 2026 · Modo Luta</title>
+<meta name="description" content="A apuração do 1º turno para presidente virou luta de boxe. Dados oficiais do TSE, ao vivo.">
+<meta name="theme-color" content="#0F0E0D">
+<meta property="og:title" content="Apuração 2026 · Modo Luta">
+<meta property="og:description" content="A apuração do 1º turno para presidente virou luta de boxe. Dados oficiais do TSE, ao vivo.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0F0E0D;--ring:#0B0A09;--card:#161412;--line:#2A2622;--line2:#3A342E;--fg:#F2EDE4;--mut:#A39B90;--gold:#F5C842;--cA:#E5383B;--cB:#3B7BF0}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--fg)}
+body{min-height:100vh;font-family:'Archivo',system-ui,sans-serif;-webkit-text-size-adjust:100%}
+a{color:var(--gold)}
+a:hover{color:var(--fg)}
+.px{font-family:'Silkscreen',monospace}
+.top{max-width:1180px;margin:0 auto;padding:18px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px 16px;flex-wrap:wrap;border-bottom:1px solid var(--line)}
+.marca{display:flex;align-items:center;gap:10px}
+.marca i{width:14px;height:14px;background:var(--gold)}
+.marca b{font-weight:800;font-stretch:115%;font-size:18px;letter-spacing:-.01em}
+.chip{font-family:'Silkscreen',monospace;font-size:11px;color:var(--bg);background:var(--gold);padding:3px 6px}
+.topdir{display:flex;gap:14px;align-items:center;font-size:13px;color:var(--mut)}
+.modo{font-family:'Silkscreen',monospace;font-size:11px;color:var(--fg);border:1px solid var(--line2);padding:3px 6px;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.modo .dot{width:7px;height:7px;background:#E5383B;animation:pisca 1.2s steps(2,start) infinite}
+@keyframes pisca{to{visibility:hidden}}
+main{max-width:1180px;margin:0 auto;padding:22px 20px 56px;display:grid;gap:22px}
+.lede{margin:0;max-width:620px;font-size:15px;line-height:1.5;color:var(--mut);text-wrap:pretty}
+.placar{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:16px;align-items:end}
+.lado{display:grid;gap:10px;min-width:0}
+.lado.b{justify-items:end;text-align:right}
+.id{display:flex;align-items:center;gap:12px;min-width:0}
+.lado.b .id{flex-direction:row-reverse}
+.id>div:last-child{min-width:0}
+.num{flex:none;width:clamp(44px,6vw,64px);aspect-ratio:1;display:grid;place-items:center;font-family:'Silkscreen',monospace;font-weight:700;font-size:clamp(18px,2.6vw,28px);color:var(--bg)}
+.a .num{background:var(--cA)}
+.b .num{background:var(--cB)}
+.tag{font-family:'Silkscreen',monospace;font-size:11px;letter-spacing:.06em}
+.a .tag{color:var(--cA)}
+.b .tag{color:var(--cB)}
+.nome{font-weight:800;font-stretch:125%;font-size:clamp(22px,3.6vw,40px);line-height:1;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cheio{font-size:12px;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pct{font-weight:800;font-stretch:112%;font-size:clamp(28px,6vw,68px);line-height:.95;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.votos{font-size:13px;color:var(--mut);font-variant-numeric:tabular-nums}
+.centro{display:grid;justify-items:center;gap:6px;padding-bottom:4px;text-align:center}
+.round{font-family:'Silkscreen',monospace;font-size:12px;color:var(--bg);background:var(--gold);padding:3px 8px;white-space:nowrap}
+.urnas{font-weight:800;font-size:clamp(22px,4vw,46px);line-height:1;font-variant-numeric:tabular-nums}
+.leg{font-size:12px;color:var(--mut)}
+.relogio{font-family:'Silkscreen',monospace;font-size:11px;color:var(--mut);white-space:nowrap}
+.cabo{display:grid;gap:10px}
+.trilho{position:relative;padding:5px 0}
+.fundo{height:24px;background:var(--line);display:flex;justify-content:space-between;overflow:hidden}
+.fundo div{transition:width .35s}
+#barA{background:var(--cA)}
+#barB{background:var(--cB)}
+.grade{position:absolute;left:0;right:0;top:5px;height:24px;background-image:repeating-linear-gradient(90deg,transparent 0,transparent calc(2% - 2px),var(--bg) calc(2% - 2px),var(--bg) 2%);pointer-events:none}
+.meio{position:absolute;left:50%;top:0;bottom:0;width:4px;margin-left:-2px;background:var(--gold)}
+.linha{display:flex;justify-content:space-between;align-items:center;gap:8px 16px;flex-wrap:wrap;font-size:12px;color:var(--mut)}
+.outros{display:flex;flex-wrap:wrap;gap:6px 20px;font-size:13px;color:var(--mut)}
+.outros>span{display:flex;gap:6px}
+.outros .c,.outros .v{color:var(--fg)}
+.outros .v{font-variant-numeric:tabular-nums}
+.extras{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:12px;color:var(--mut);font-variant-numeric:tabular-nums}
+.extras b{font-weight:600;color:var(--fg)}
+.ringue{border:1px solid var(--line);background:var(--ring);line-height:0}
+.ringue canvas{display:block;width:100%;aspect-ratio:320/150}
+.ctrl{display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px}
+.btns{display:flex;gap:8px}
+.btn{font-family:'Silkscreen',monospace;font-weight:700;font-size:14px;padding:0 18px;min-height:46px;color:var(--bg);border:0;border-radius:4px;box-shadow:inset 0 -4px 0 rgba(0,0,0,.28);cursor:pointer}
+.btn:active{transform:translateY(2px);box-shadow:inset 0 -2px 0 rgba(0,0,0,.28)}
+.btn:disabled{opacity:.45;cursor:default;transform:none}
+.verde{background:#2FA65A;min-width:132px}
+.laranja{background:#E8833A}
+.laranja.on{background:var(--line2);color:var(--fg);box-shadow:none;cursor:default;transform:none}
+.tempo{flex:1 1 260px;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;font-family:'Silkscreen',monospace;font-size:11px;color:var(--mut)}
+.tempo input{width:100%;margin:0;accent-color:var(--gold);cursor:pointer}
+.tempo input:disabled{cursor:default}
+.vel{display:flex;border:1px solid var(--line2);border-radius:4px;overflow:hidden}
+.vel button{font-family:'Silkscreen',monospace;font-size:13px;min-width:48px;min-height:44px;border:0;background:transparent;color:var(--mut);cursor:pointer}
+.vel button.on{background:var(--fg);color:var(--bg)}
+.paineis{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:20px;align-items:start}
+.painel{background:var(--card);border:1px solid var(--line);padding:18px 20px 8px}
+.painel h2{margin:0 0 8px;font-family:'Silkscreen',monospace;font-weight:400;font-size:13px;letter-spacing:.06em}
+.ph{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:8px}
+.ph h2{margin:0}
+.reg{display:grid;grid-template-columns:100px minmax(0,1fr) 64px;gap:12px;align-items:center;padding:11px 0;border-top:1px solid var(--line)}
+.reg .n{font-size:14px}
+.reg .b{display:grid;gap:5px;min-width:0}
+.reg .bar{display:flex;justify-content:space-between;height:10px;background:var(--line)}
+.reg .bar div:first-child{background:var(--cA)}
+.reg .bar div:last-child{background:var(--cB)}
+.reg .l{display:flex;justify-content:space-between;gap:8px;font-size:12px;color:var(--mut);font-variant-numeric:tabular-nums}
+.reg .p{text-align:right;font-size:14px;font-variant-numeric:tabular-nums}
+.feed{max-height:330px;overflow:auto}
+.ev{display:grid;grid-template-columns:44px minmax(0,1fr);gap:12px;padding:11px 0;border-top:1px solid var(--line)}
+.ev .h{font-family:'Silkscreen',monospace;font-size:11px;color:var(--mut);padding-top:2px}
+.ev .c{display:grid;gap:6px;justify-items:start}
+.ev .t{font-family:'Silkscreen',monospace;font-size:10px;background:var(--gold);color:var(--bg);padding:2px 6px}
+.ev .x{font-size:14px;line-height:1.45;text-wrap:pretty}
+.vazio{padding:11px 0;border-top:1px solid var(--line);font-size:14px;color:var(--mut)}
+footer{font-size:12px;color:var(--mut);line-height:1.5;border-top:1px solid var(--line);padding-top:16px;display:flex;flex-wrap:wrap;gap:8px 20px;justify-content:space-between}
+@media (max-width:640px){
+  .placar{grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-areas:"c c" "a b";gap:14px 12px}
+  .lado.a{grid-area:a}
+  .lado.b{grid-area:b}
+  .centro{grid-area:c;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px 10px;padding:0}
+  .num{width:36px;font-size:16px}
+  .id{gap:8px}
+  .nome{font-size:clamp(18px,6vw,26px)}
+  .reg{grid-template-columns:84px minmax(0,1fr) 58px;gap:10px}
+}
+@media (prefers-reduced-motion:reduce){.fundo div{transition:none}.modo .dot{animation:none}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="marca"><i></i><b>Apuração 2026</b><span class="chip">MODO LUTA</span></div>
+  <div class="topdir"><span>Presidente · 1º turno</span><span class="modo" id="modo">CONECTANDO</span></div>
+</header>
+
+<main>
+  <p class="lede">A apuração do 1º turno virou luta. Quem tem mais votos válidos bate mais e empurra o rival para o corner. Passou de 50%, é nocaute. O placar usa os números oficiais do TSE e se atualiza sozinho.</p>
+
+  <section class="placar" aria-label="Placar">
+    <div class="lado a">
+      <div class="id">
+        <div class="num" id="numA">13</div>
+        <div><div class="tag" id="tagA">P1</div><div class="nome" id="nomeA">LULA</div><div class="cheio" id="cheioA">&nbsp;</div></div>
+      </div>
+      <div class="pct" id="pctA">0,00%</div>
+      <div class="votos" id="votosA">0 votos</div>
+    </div>
+    <div class="centro">
+      <div class="round" id="round">ROUND 1</div>
+      <div class="urnas" id="urnas">0,00%</div>
+      <div class="leg">urnas apuradas</div>
+      <div class="relogio" id="relogio">CONECTANDO</div>
+    </div>
+    <div class="lado b">
+      <div class="id">
+        <div class="num" id="numB">22</div>
+        <div><div class="tag" id="tagB">P2</div><div class="nome" id="nomeB">FLÁVIO</div><div class="cheio" id="cheioB">&nbsp;</div></div>
+      </div>
+      <div class="pct" id="pctB">0,00%</div>
+      <div class="votos" id="votosB">0 votos</div>
+    </div>
+  </section>
+
+  <section class="cabo">
+    <div class="trilho">
+      <div class="fundo"><div id="barA" style="width:0"></div><div id="barB" style="width:0"></div></div>
+      <div class="grade"></div>
+      <div class="meio"></div>
+    </div>
+    <div class="linha"><span>Votos válidos apurados</span><span class="px" style="color:var(--gold)">50% + 1 = NOCAUTE</span></div>
+    <div class="outros" id="outros"></div>
+    <div class="extras" id="extras"></div>
+  </section>
+
+  <section class="ringue">
+    <canvas id="cv" role="img" aria-label="Ringue em pixel art: os dois candidatos mais votados lutam conforme a apuração avança"></canvas>
+  </section>
+
+  <section class="ctrl">
+    <div class="btns">
+      <button type="button" class="btn verde" id="bPlay">REPLAY</button>
+      <button type="button" class="btn laranja on" id="bVivo">AO VIVO</button>
+    </div>
+    <div class="tempo">
+      <span id="tIni">17:00</span>
+      <input type="range" id="scrub" min="0" max="1000" step="1" value="1000" aria-label="Linha do tempo da apuração">
+      <span id="tFim">--:--</span>
+    </div>
+    <div class="vel" id="vel" aria-label="Velocidade do replay">
+      <button type="button" data-v="1" class="on">1×</button><button type="button" data-v="2">2×</button><button type="button" data-v="4">4×</button>
+    </div>
+  </section>
+
+  <section class="paineis">
+    <div class="painel">
+      <div class="ph"><h2>POR REGIÃO</h2><span class="leg">apurado</span></div>
+      <div id="regioes"></div>
+    </div>
+    <div class="painel">
+      <h2>LANCE A LANCE</h2>
+      <div class="feed" id="feed"></div>
+    </div>
+  </section>
+
+  <footer>
+    <span>Dados oficiais do TSE, coletados a cada 20 segundos. Podem chegar até um minuto depois do site do TSE.</span>
+    <span>Resultados oficiais: <a href="https://resultados.tse.jus.br/oficial/app/index.html#/eleicao/6257/uf/br/cargo/1/vis/nominal/resultados" target="_blank" rel="noopener">TSE</a></span>
+  </footer>
+</main>
+
+<script>
+(() => {
+'use strict';
+
+// ---------- utilidades ----------
+const $ = (id) => document.getElementById(id);
+const fHM = new Intl.DateTimeFormat('pt-BR', { timeZone: 'America/Sao_Paulo', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' });
+const hm = (t) => (t ? fHM.format(new Date(t)) : '--:--');
+const pc = (v) => v.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '%';
+const pc1 = (v) => v.toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + '%';
+const num = (v) => Math.round(v).toLocaleString('pt-BR');
+const short = (v) => v >= 1e6 ? (v / 1e6).toLocaleString('pt-BR', { maximumFractionDigits: 1 }) + ' MI' : v >= 1000 ? Math.round(v / 1000) + ' MIL' : String(Math.round(v));
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const PARTICULAS = new Set(['da', 'de', 'do', 'das', 'dos', 'e']);
+const titulo = (s) => String(s || '').toLocaleLowerCase('pt-BR').split(/\s+/).filter(Boolean)
+  .map((w, i) => (i && PARTICULAS.has(w) ? w : w.charAt(0).toLocaleUpperCase('pt-BR') + w.slice(1))).join(' ');
+const partido = (s) => (s && s.length > 4 ? titulo(s) : s || '');
+function shade(hex, k) { // k < 0 escurece, k > 0 clareia
+  const n = parseInt(hex.slice(1), 16), f = (c) => Math.round(k < 0 ? c * (1 + k) : c + (255 - c) * k);
+  return '#' + [n >> 16, (n >> 8) & 255, n & 255].map((c) => f(c).toString(16).padStart(2, '0')).join('');
+}
+const topo = (votos) => { let n = null, v = -1; for (const k in votos) if (votos[k] > v) { v = votos[k]; n = k; } return { n, v }; };
+
+// ---------- candidatos ----------
+const APELIDO = { 13: 'Lula', 22: 'Flávio', 55: 'Caiado', 70: 'Cury', 14: 'Renan', 30: 'Zema', 80: 'Samara', 27: 'Clariana', 16: 'Hertz', 21: 'Edmilson', 35: 'Grassi', 29: 'Rui Costa Pimenta' };
+const COMPLETO = { 13: 'Luiz Inácio Lula da Silva', 22: 'Flávio Bolsonaro', 55: 'Ronaldo Caiado', 70: 'Augusto Cury', 14: 'Renan Santos', 30: 'Romeu Zema' };
+const COR = { 13: '#E5383B', 22: '#3B7BF0' };
+const PAL = {
+  13: { skin: '#C68A64', skinD: '#9A6748', hair: '#CFCAC2', brow: '#A9A39A', beard: true, shirt: '#E5383B', shirtD: '#A82226', shorts: '#6E1216', glove: '#EFE9DD', gloveD: '#B8AFA0', shoe: '#1A1714' },
+  22: { skin: '#E2B18E', skinD: '#B58563', hair: '#2A1E17', brow: '#2A1E17', beard: false, shirt: '#3B7BF0', shirtD: '#2552B0', shorts: '#14306E', glove: '#F5C842', gloveD: '#B8921F', shoe: '#1A1714' },
+};
+const TORCIDA = { 13: ['#6A2426', '#5A1E20', '#7A2C2C', '#4E2A26'], 22: ['#22386A', '#1C2E58', '#2A4278', '#283048'] };
+const MARCOS = [10, 25, 50, 75, 90, 99];
+const REPLAY_S = 60;      // duração do replay completo em 1×
+const POLL_MS = 15000;
+const REDUZ = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// ---------- estado vindo do servidor ----------
+const S = { hist: [], atual: null, regioes: [], inicio: Date.parse('2026-10-04T17:00:00-03:00'), cand: {}, erro: null };
+const ZERO = { t: 0, ht: '', st: 0, ts: 0, pst: 0, vv: 0, v: {}, r: {} };
+
+// ---------- motor da luta ----------
+class Luta {
+  constructor(cv) {
+    this.cv = cv; this.W = 320; this.H = 150; this.FLOOR = 132;
+    this.ev = null; this._vc = null; this.iniciado = false; this.pendFinal = false;
+    const E = this.E = { mode: 'live', tau: 0, idx: 0, playing: false, speed: 1, ended: false, center: 160, banners: [], parts: [], floats: [], flashes: [], shake: 0, cheer: { A: 0, B: 0 }, nextAtk: 1, T: 0 };
+    E.f = { A: this.mkF('A'), B: this.mkF('B') };
+    this.bufC = document.createElement('canvas'); this.bufC.width = this.W; this.bufC.height = this.H; this.buf = this.bufC.getContext('2d');
+    this.buildBG();
+    this.setLutadores(['13', '22']);
+    this.cur = this.view(0);
+    this.last = performance.now();
+    const loop = (now) => { requestAnimationFrame(loop); this.frame(now); };
+    requestAnimationFrame(loop);
+  }
+
+  nome(n) { return APELIDO[n] || titulo((S.cand[n] || {}).nome || n); }
+  cheio(n) { return COMPLETO[n] || titulo((S.cand[n] || {}).completo || ''); }
+  rotulo(n) { return COMPLETO[n] || titulo((S.cand[n] || {}).nome || n); }
+  nk(k) { return this.nome(k === 'A' ? this.nA : this.nB); }
+
+  setLutadores([a, b]) {
+    this.nA = a; this.nB = b; this.key = a + '|' + b;
+    this.cor = { A: COR[a] || '#2FA65A', B: COR[b] || '#E8833A' };
+    const gen = (c) => ({ skin: '#D9A47F', skinD: '#AD7B5A', hair: '#3A2A20', brow: '#3A2A20', beard: false, shirt: c, shirtD: shade(c, -0.3), shorts: shade(c, -0.6), glove: '#EFE9DD', gloveD: '#B8AFA0', shoe: '#1A1714' });
+    this.P = { A: PAL[a] || gen(this.cor.A), B: PAL[b] || gen(this.cor.B) };
+    const tor = (c) => [shade(c, -0.55), shade(c, -0.62), shade(c, -0.48), shade(c, -0.68)];
+    this.TOR = { A: TORCIDA[a] || tor(this.cor.A), B: TORCIDA[b] || tor(this.cor.B) };
+    this.ev = null; this._vc = null;
+    this.buildRopes(); this.buildCrowd();
+    UI.lutadores(this);
+  }
+
+  // os dois mais votados sobem no ringue; o de número menor fica à esquerda
+  escolher() {
+    const cs = (S.atual && S.atual.cands) || [];
+    let top = cs.filter((c) => c.votos > 0).slice(0, 2).map((c) => c.n);
+    if (top.length < 2) top = ['13', '22'];
+    top.sort((x, y) => Number(x) - Number(y));
+    if (top[0] !== this.nA || top[1] !== this.nB) { this.setLutadores(top); this.resetPoses(); }
+  }
+
+  view(i) {
+    const c = this._vc;
+    if (c && c.i === i && c.p === S.hist[i] && c.key === this.key) return c.v;
+    const p = S.hist[i] || ZERO, vv = p.vv || 0, A = p.v[this.nA] || 0, B = p.v[this.nB] || 0;
+    const regs = S.regioes.map((g) => {
+      const x = p.r && p.r[g.id];
+      if (!x) return { g, st: 0, ts: 0, pst: 0, vv: 0, A: 0, B: 0, ap: 0, bp: 0, votos: {} };
+      const [st, ts, rvv, votos] = x, a = votos[this.nA] || 0, b = votos[this.nB] || 0;
+      return { g, st, ts, pst: ts ? (st / ts) * 100 : 0, vv: rvv, A: a, B: b, ap: rvv ? (a / rvv) * 100 : 0, bp: rvv ? (b / rvv) * 100 : 0, votos };
+    });
+    const outros = Object.keys(p.v).filter((n) => n !== this.nA && n !== this.nB)
+      .map((n) => ({ n, votos: p.v[n], pct: vv ? (p.v[n] / vv) * 100 : 0 })).sort((x, y) => y.votos - x.votos);
+    const v = { i, p, t: p.t, has: vv > 0, vv, A, B, ap: vv ? (A / vv) * 100 : 0, bp: vv ? (B / vv) * 100 : 0, urnas: p.pst || 0, regs, outros };
+    this._vc = { i, p: S.hist[i], key: this.key, v };
+    return v;
+  }
+
+  faixa() {
+    const h = S.hist;
+    if (!h.length) return [0, 1];
+    const t1 = h[h.length - 1].t, i = h.findIndex((p) => p.vv > 0);
+    const t0 = i > 0 ? h[i].t - 1 : h[0].t;
+    return [Math.min(t0, t1), t1];
+  }
+  idxAt(tau) {
+    const h = S.hist; let lo = 0, hi = h.length - 1, r = 0;
+    while (lo <= hi) { const m = (lo + hi) >> 1; if (h[m].t <= tau) { r = m; lo = m + 1; } else hi = m - 1; }
+    return r;
+  }
+  temReplay() { return S.hist.some((p) => p.vv > 0); }
+
+  // resultado oficial: md "E" = matematicamente eleito, "S" = 2º turno; tf = totalização finalizada
+  resultado() {
+    const a = S.atual;
+    if (!a || !(a.definido || a.finalizado) || !(a.cands || []).length) return null;
+    const cs = a.cands, vv = a.vv || 0, pct = (c) => (vv ? (c.votos / vv) * 100 : 0);
+    const el = cs.find((c) => c.eleito);
+    if (a.definido === 'E' || el) { const w = el || cs[0]; return { tipo: 'ko', n: w.n, pct: pct(w) }; }
+    if (a.definido === 'S') {
+      const r2 = cs.filter((c) => /2º|2o|segundo/i.test(c.situacao));
+      return { tipo: 'r2', ns: (r2.length >= 2 ? r2 : cs).slice(0, 2).map((c) => c.n) };
+    }
+    return pct(cs[0]) > 50 ? { tipo: 'ko', n: cs[0].n, pct: pct(cs[0]) } : { tipo: 'r2', ns: cs.slice(0, 2).map((c) => c.n) };
+  }
+  finalEm(i) { const p = S.hist[i]; return !!(p && (p.def || p.fim) && this.resultado()); }
+
+  melhorRegiao(s, prev, k) {
+    let best = null, bv = 0;
+    s.regs.forEach((r, j) => {
+      let d = k === 'A' ? r.A - r.B : r.B - r.A;
+      if (prev && prev.regs[j]) { const q = prev.regs[j]; d -= k === 'A' ? q.A - q.B : q.B - q.A; }
+      if (d > bv) { bv = d; best = r.g.nome; }
+    });
+    return best;
+  }
+
+  eventos() {
+    if (this.ev) return this.ev;
+    const h = S.hist, ev = [], nm = (k) => this.nk(k);
+    ev.push({ t: S.inicio, tag: '', txt: 'Urnas fechadas. Começa a apuração do 1º turno para presidente.' });
+    let lead = null, prev = null, mi = 0, fin = false;
+    const done = {};
+    for (let i = 0; i < h.length; i++) {
+      const s = this.view(i);
+      if (!s.has) { prev = s; continue; }
+      const m = s.ap - s.bp;
+      if (lead === null) {
+        lead = m >= 0 ? 'A' : 'B';
+        const best = this.melhorRegiao(s, null, lead), lp = lead === 'A' ? s.ap : s.bp;
+        ev.push({ t: s.t, tag: '', txt: s.urnas < 2
+          ? `${nm(lead)} sai na frente${best ? ' com a força do ' + best : ''}.`
+          : `${nm(lead)} lidera${best ? ' puxado pelo ' + best : ''}: ${pc1(lp)} dos válidos com ${pc1(s.urnas)} das urnas apuradas.` });
+      } else if (Math.abs(m) > 0.1 && (m > 0 ? 'A' : 'B') !== lead) {
+        const nl = m > 0 ? 'A' : 'B', best = this.melhorRegiao(s, prev, nl);
+        ev.push({ t: s.t, tag: 'VIRADA', virada: nl, txt: `${nm(nl)} passa ${nm(lead)}${best ? ' com os votos do ' + best : ''}.` });
+        lead = nl;
+      }
+      let marco = 0;
+      while (mi < MARCOS.length && s.urnas >= MARCOS[mi]) marco = MARCOS[mi++];
+      if (marco) ev.push({ t: s.t, tag: '', txt: `${marco}% das urnas apuradas: ${nm('A')} ${pc1(s.ap)} × ${pc1(s.bp)} ${nm('B')}.` });
+      for (const r of s.regs) {
+        if (r.ts > 0 && r.st >= r.ts && !done[r.g.id]) {
+          done[r.g.id] = 1;
+          const w = topo(r.votos);
+          if (w.n) ev.push({ t: s.t, tag: '', txt: `${r.g.nome} 100% apurado. ${this.nome(w.n)} vence na região com ${pc1(r.vv ? (w.v / r.vv) * 100 : 0)}.` });
+        }
+      }
+      if (!fin && (s.p.def || s.p.fim)) {
+        const r = this.resultado();
+        if (r) {
+          fin = true;
+          const ns = r.tipo === 'r2' ? r.ns.slice().sort((x, y) => x - y) : null;
+          ev.push(r.tipo === 'ko'
+            ? { t: s.t, tag: 'NOCAUTE', txt: `${this.nome(r.n)} chega a ${pc1(r.pct)} dos votos válidos e vence no 1º turno.` }
+            : { t: s.t, tag: 'FIM DO ROUND 1', txt: `Ninguém passa de 50%. ${this.nome(ns[0])} e ${this.nome(ns[1])} voltam ao ringue no 2º turno, em 25 de outubro.` });
+        }
+      }
+      prev = s;
+    }
+    return (this.ev = ev);
+  }
+
+  mkF(k) { return { k, facing: k === 'A' ? 1 : -1, x: 160 + (k === 'A' ? -18 : 18), kx: 0, pose: 'idle', pt: 0, hit: false, fall: 0, flash: 0, phase: k === 'A' ? 0 : 1.7, lastV: 0, big: false }; }
+  resetPoses() {
+    const E = this.E, v = this.view(E.idx);
+    E.ended = false; E.floats = []; E.cheer.A = 0; E.cheer.B = 0;
+    E.banners = E.banners.filter((b) => b.intro);
+    for (const k of ['A', 'B']) { const f = E.f[k]; f.pose = 'idle'; f.pt = 0; f.fall = 0; f.kx = 0; f.hit = false; f.lastV = k === 'A' ? v.A : v.B; }
+  }
+  intro() {
+    this.E.banners = [{ text: 'ROUND 1', sub: 'PRESIDENTE · 1º TURNO', dur: 1.3, age: 0, intro: true }, { text: 'LUTEM!', sub: '', dur: 0.75, age: 0, intro: true }];
+  }
+
+  // chamado a cada resposta do servidor
+  dados(cresceu) {
+    this.escolher();
+    this.ev = null;
+    UI.lutadores(this);
+    const E = this.E, ult = Math.max(0, S.hist.length - 1);
+    if (!this.iniciado) {
+      if (!S.hist.length) return;
+      this.iniciado = true; E.idx = ult; this.resetPoses(); this.intro(); this.pendFinal = true;
+      return this.push(true);
+    }
+    if (E.mode === 'live') {
+      if (cresceu && ult !== E.idx) this.avanca(E.idx, ult);
+      else E.idx = ult;
+      const intro = E.banners[0] && E.banners[0].intro;
+      if (!E.ended && !intro && this.finalEm(E.idx)) this.finish(false);
+    }
+    this.push(true);
+  }
+
+  avanca(from, to) {
+    const E = this.E, a = this.view(from), b = this.view(to);
+    E.idx = to;
+    if (to < from) return;
+    let vir = null;
+    for (const e of this.eventos()) if (e.virada && e.t > a.t && e.t <= b.t) vir = e.virada;
+    if (vir && !E.ended) this.virada(vir);
+    else if (b.has && !E.ended) {
+      const k = b.A - a.A >= b.B - a.B ? 'A' : 'B', f = E.f[k];
+      if (f.pose === 'idle') { f.pose = Math.random() < 0.5 ? 'jab' : 'cross'; f.pt = 0; f.hit = false; }
+      E.nextAtk = 0.6;
+    }
+    if (!E.ended && this.finalEm(to)) this.finish(false);
+  }
+
+  finish(instant) {
+    const E = this.E, r = this.resultado();
+    if (!r) return;
+    E.ended = true;
+    if (r.tipo === 'ko') {
+      const w = r.n === this.nA ? 'A' : r.n === this.nB ? 'B' : null;
+      if (w) {
+        const o = w === 'A' ? 'B' : 'A';
+        E.f[o].pose = 'ko'; E.f[o].pt = instant ? 1 : 0; E.f[o].kx = E.f[w].facing * 14;
+        E.f[w].pose = 'win'; E.f[w].pt = 0; E.cheer[w] = 1e9;
+      }
+      E.banners = [{ text: 'K.O.!', sub: `${this.nome(r.n).toUpperCase()} ELEITO NO 1º TURNO`, dur: 0, age: instant ? 1 : 0 }];
+    } else {
+      E.f.A.pose = 'idle'; E.f.B.pose = 'idle';
+      E.banners = [{ text: 'ROUND 2', sub: '2º TURNO · 25 DE OUTUBRO', dur: 0, age: instant ? 1 : 0 }];
+    }
+    this.push(true);
+  }
+
+  play() {
+    const E = this.E;
+    if (!this.temReplay()) return;
+    const [t0, t1] = this.faixa();
+    if (E.mode === 'live' || E.tau >= t1) { E.mode = 'replay'; E.tau = t0; E.idx = this.idxAt(t0); E.banners = []; this.resetPoses(); this.intro(); }
+    E.playing = true;
+    this.push(true);
+  }
+  toggle() { const E = this.E; if (E.mode === 'replay' && E.playing) { E.playing = false; this.push(true); } else this.play(); }
+  aoVivo(suave) {
+    const E = this.E, ult = Math.max(0, S.hist.length - 1);
+    E.mode = 'live'; E.playing = false;
+    if (suave) { if (ult !== E.idx) this.avanca(E.idx, ult); }
+    else { E.idx = ult; E.banners = []; this.resetPoses(); if (this.finalEm(ult)) this.finish(true); }
+    this.push(true);
+  }
+  seek(frac) {
+    const E = this.E;
+    if (!this.temReplay()) return;
+    if (frac >= 1) return this.aoVivo(false);
+    const [t0, t1] = this.faixa();
+    E.mode = 'replay'; E.playing = false; E.tau = t0 + (t1 - t0) * frac; E.idx = this.idxAt(E.tau);
+    E.banners = []; this.resetPoses();
+    if (this.finalEm(E.idx)) this.finish(true);
+    this.push(true);
+  }
+  setSpeed(v) { this.E.speed = v; this.push(true); }
+
+  push(force) {
+    const now = performance.now();
+    if (!force && now - (this.lastPush || 0) < 100) return;
+    this.lastPush = now;
+    UI.render(this);
+  }
+
+  frame(now) {
+    const E = this.E, dt = Math.min(0.05, Math.max(0, (now - this.last) / 1000));
+    this.last = now; E.T += dt;
+    const intro = !!(E.banners[0] && E.banners[0].intro);
+    if (E.mode === 'replay' && E.playing && !intro) {
+      const [t0, t1] = this.faixa();
+      E.tau = Math.min(t1, E.tau + (dt * E.speed * Math.max(1, t1 - t0)) / REPLAY_S);
+      const ni = this.idxAt(E.tau);
+      if (ni !== E.idx) this.avanca(E.idx, ni);
+      if (E.tau >= t1) this.aoVivo(true); else this.push(false);
+    }
+    if (!intro && this.pendFinal) {
+      this.pendFinal = false;
+      if (E.mode === 'live' && !E.ended && this.finalEm(E.idx)) this.finish(false);
+    }
+    this.cur = this.view(E.idx);
+    this.update(dt); this.draw();
+  }
+
+  virada(k) {
+    const E = this.E, a = E.f[k];
+    E.banners = E.banners.filter((b) => b.intro);
+    E.banners.push({ text: 'VIRADA!', sub: `${this.nk(k).toUpperCase()} ASSUME A LIDERANÇA`, dur: 1.5, age: 0 });
+    a.pose = 'upper'; a.pt = 0; a.hit = false; E.nextAtk = 0.9;
+  }
+
+  isAtk(f) { return f.pose === 'jab' || f.pose === 'cross' || f.pose === 'upper'; }
+  update(dt) {
+    const E = this.E, s = this.cur, m = s.has ? s.ap - s.bp : 0;
+    const target = 160 + Math.max(-60, Math.min(60, m * 5));
+    E.center += (target - E.center) * Math.min(1, dt * 2.5);
+    E.cheer.A = Math.max(0, E.cheer.A - dt); E.cheer.B = Math.max(0, E.cheer.B - dt);
+    E.shake = Math.max(0, E.shake - dt);
+    const intro = E.banners[0] && E.banners[0].intro;
+    if (!E.ended && !intro && s.has && (E.mode === 'live' || E.playing)) {
+      E.nextAtk -= dt;
+      if (E.nextAtk <= 0) {
+        const lead = m >= 0 ? 'A' : 'B', pLead = 0.55 + Math.min(Math.abs(m), 12) * 0.03;
+        const ak = Math.random() < pLead ? lead : lead === 'A' ? 'B' : 'A', a = E.f[ak];
+        if (a.pose === 'idle') { a.pose = Math.random() < 0.5 ? 'jab' : 'cross'; a.pt = 0; a.hit = false; }
+        E.nextAtk = E.mode === 'live' ? 0.7 + Math.random() * 1.1 : (0.45 + Math.random() * 0.7) / Math.sqrt(E.speed);
+      }
+    }
+    this.updF(E.f.A, E.f.B, dt); this.updF(E.f.B, E.f.A, dt);
+    E.parts.forEach((p) => { p.x += p.vx * dt; p.y += p.vy * dt; p.vy += 260 * dt; p.life -= dt; });
+    E.parts = E.parts.filter((p) => p.life > 0);
+    E.floats.forEach((f) => (f.age += dt)); E.floats = E.floats.filter((f) => f.age < 0.9);
+    E.flashes.forEach((f) => (f.life -= dt)); E.flashes = E.flashes.filter((f) => f.life > 0);
+    if (Math.random() < dt * 4 && this.crowd) { const c = this.crowd[Math.floor(Math.random() * this.crowd.length)]; E.flashes.push({ x: c.x, y: c.y - 6, life: 0.07 }); }
+    const b0 = E.banners[0];
+    if (b0) { b0.age += dt; if (b0.dur && b0.age >= b0.dur) E.banners.shift(); }
+  }
+  updF(f, o, dt) {
+    f.pt += dt; f.flash = Math.max(0, f.flash - dt);
+    const atk = this.isAtk(f);
+    if (atk) {
+      const big = f.pose === 'upper', hitAt = big ? 0.13 : 0.08, end = big ? 0.4 : 0.22;
+      if (!f.hit && f.pt >= hitAt) { f.hit = true; this.land(f, o, big); }
+      if (f.pt >= end) { f.pose = 'idle'; f.pt = 0; }
+    } else if (f.pose === 'hit' && f.pt >= (f.big ? 0.45 : 0.28)) { f.pose = 'idle'; f.pt = 0; }
+    if (f.pose === 'ko') f.fall = Math.min(1, Math.pow(f.pt / 0.45, 2)); else { f.fall = 0; f.kx *= Math.exp(-dt * 5); }
+    const tx = this.E.center + (f.k === 'A' ? -18 : 18) + (atk ? 3 * f.facing : 0);
+    f.x += (tx - f.x) * Math.min(1, dt * 18);
+  }
+  land(a, d, big) {
+    const E = this.E;
+    if (d.pose === 'ko') return;
+    d.pose = 'hit'; d.pt = 0; d.flash = 0.07; d.big = big; d.kx += a.facing * (big ? 9 : 4);
+    const J = this.joints(a, E.T), g = a.pose === 'jab' ? J.gF : J.gB;
+    const gx = a.x + (g[0] + 3) * a.facing, gy = this.FLOOR + g[1];
+    for (let i = 0; i < (big ? 16 : 9); i++) E.parts.push({ x: gx, y: gy, vx: a.facing * (20 + Math.random() * 70) + (Math.random() - 0.5) * 60, vy: -30 - Math.random() * 90, life: 0.2 + Math.random() * 0.2, col: Math.random() < 0.5 ? '#FFFFFF' : '#F5C842', sz: Math.random() < 0.3 ? 2 : 1 });
+    E.parts.push({ x: gx, y: gy, vx: 0, vy: 0, life: 0.09, star: big ? 7 : 5 });
+    E.shake = REDUZ ? 0 : big ? 0.2 : 0.08;
+    E.cheer[a.k] = Math.max(E.cheer[a.k], big ? 1.6 : 0.7);
+    const v = a.k === 'A' ? this.cur.A : this.cur.B, dv = v - a.lastV;
+    a.lastV = v;
+    if (dv > 500) E.floats.push({ x: gx, y: gy - 8, txt: '+' + short(dv), col: this.cor[a.k], age: 0 });
+  }
+
+  joints(f, T) {
+    const b = f.pose === 'idle' ? Math.round(Math.sin(T * 6 + f.phase) * 1.2) : 0;
+    const J = { hip: [0, -28 + b], sh: [2, -46 + b], hd: [4, -55 + b], kB: [-7, -14], fB: [-11, 0], kF: [8, -14], fF: [10, 0], eF: [11, -39 + b], gF: [15, -47 + b], eB: [6, -38 + b], gB: [9, -46 + b] };
+    switch (f.pose) {
+      case 'jab': Object.assign(J, { sh: [4, -46], hd: [6, -55], eF: [15, -46], gF: [25, -48] }); break;
+      case 'cross': Object.assign(J, { hip: [1, -28], sh: [5, -46], hd: [7, -54], eB: [14, -45], gB: [25, -48], eF: [9, -40], gF: [12, -48] }); break;
+      case 'upper': Object.assign(J, { hip: [1, -26], sh: [4, -46], hd: [5, -56], eB: [15, -50], gB: [20, -61], eF: [9, -40], gF: [12, -48] }); break;
+      case 'hit': case 'ko': Object.assign(J, { hip: [-2, -28], sh: [-4, -46], hd: [-6, -54], eF: [3, -41], gF: [6, -51], eB: [-2, -40], gB: [1, -52], kF: [6, -14] }); break;
+      case 'win': {
+        const j = Math.round(Math.abs(Math.sin(T * 5)) * 4);
+        for (const k in J) J[k] = [J[k][0], J[k][1] - j];
+        Object.assign(J, { eF: [8, -58 - j], gF: [10, -68 - j], eB: [-2, -58 - j], gB: [-3, -68 - j] });
+        break;
+      }
+    }
+    return J;
+  }
+
+  buildBG() {
+    const W = this.W, H = this.H;
+    const c = document.createElement('canvas'); c.width = W; c.height = H;
+    const g = c.getContext('2d');
+    const R = (x, y, w, h, col) => { g.fillStyle = col; g.fillRect(x, y, w, h); };
+    const bands = ['#0D0B0A', '#110E0C', '#15110E', '#1A1511', '#201913', '#271E16', '#2F2419'];
+    bands.forEach((col, i) => {
+      R(0, i * 13, W, 13, col);
+      if (i > 0) { g.fillStyle = bands[i - 1]; for (let x = i % 2; x < W; x += 2) g.fillRect(x, i * 13, 1, 1); for (let x = (i + 1) % 2; x < W; x += 4) g.fillRect(x, i * 13 + 1, 1, 1); }
+    });
+    let seed = 7; const rnd = () => { seed = (seed * 16807) % 2147483647; return seed / 2147483647; };
+    for (let i = 0; i < 44; i++) R(Math.floor(rnd() * W), Math.floor(rnd() * 50), 1, 1, rnd() < 0.3 ? '#8A7F70' : '#4A4239');
+    for (let y = -6; y <= 6; y++) { const hw = Math.floor(Math.sqrt(36 - y * y)); R(266 - hw, 22 + y, hw * 2 + 1, 1, '#D8CDB8'); }
+    R(264, 20, 2, 2, '#BFB39C'); R(268, 24, 2, 1, '#BFB39C'); R(263, 25, 1, 1, '#BFB39C');
+    const cg = '#3B3029', cgL = '#4C3E33';
+    R(80, 82, 160, 4, cg); R(80, 82, 160, 1, cgL);
+    R(151, 32, 7, 50, cg); R(162, 32, 7, 50, cg); R(158, 44, 4, 3, cg); R(151, 32, 7, 1, cgL); R(162, 32, 7, 1, cgL);
+    for (let y = 35; y < 80; y += 3) for (const x of [152, 154, 156, 163, 165, 167]) if (rnd() < 0.35) R(x, y, 1, 1, '#8A6A3E');
+    for (let i = 0; i < 10; i++) { const hw = Math.round(4 + i * 1.5); R(118 - hw, 81 - i, hw * 2, 1, cg); }
+    R(100, 72, 36, 1, cgL);
+    for (let y = 0; y < 9; y++) { const hw = Math.round(Math.sqrt(81 - y * y)); R(202 - hw, 81 - y, hw * 2, 1, cg); }
+    R(0, 86, W, 24, '#120F0E');
+    R(0, 110, W, 30, '#221E1B'); R(36, 112, 248, 26, '#26211D');
+    for (let a = 0; a < 360; a += 2) R(Math.round(160 + Math.cos((a * Math.PI) / 180) * 46), Math.round(125 + Math.sin((a * Math.PI) / 180) * 8), 1, 1, '#342D27');
+    R(0, 140, W, 1, '#4A4038'); R(0, 141, W, 9, '#151210');
+    this.bg = c;
+  }
+  buildRopes() {
+    const r = document.createElement('canvas'); r.width = this.W; r.height = this.H;
+    const q = r.getContext('2d');
+    const Q = (x, y, w, h, col) => { q.fillStyle = col; q.fillRect(x, y, w, h); };
+    [[94, '#2FA65A', '#1E6E3B'], [101, '#F5C842', '#B08F26'], [108, '#3B7BF0', '#2552A8']].forEach(([y, c1, c2]) => { Q(10, y, 300, 1, c1); Q(10, y + 1, 300, 1, c2); });
+    Q(6, 88, 5, 54, '#9A9086'); Q(6, 88, 1, 54, '#C9C0B4'); Q(309, 88, 5, 54, '#9A9086'); Q(313, 88, 1, 54, '#6A625A');
+    Q(5, 92, 7, 18, shade(this.cor.A, -0.15)); Q(5, 92, 7, 1, shade(this.cor.A, 0.2));
+    Q(308, 92, 7, 18, shade(this.cor.B, -0.15)); Q(308, 92, 7, 1, shade(this.cor.B, 0.2));
+    this.ropes = r;
+  }
+  buildCrowd() {
+    const cr = [], NB = ['#3A342E', '#4A4038'], HD = ['#7A5A44', '#6A4C3A', '#8A6A50', '#5A4030', '#4A3A30'];
+    let seed = 3; const rnd = () => { seed = (seed * 16807) % 2147483647; return seed / 2147483647; };
+    [92, 97, 102].forEach((y, row) => {
+      for (let x = 14 + row * 1.7; x < 306; x += 3.6 + rnd() * 1.2) {
+        const pl = x < 160 ? 0.82 : 0.18, u = rnd(), k = u < pl ? 'A' : 'B';
+        const body = rnd() < 0.12 ? NB[Math.floor(rnd() * NB.length)] : this.TOR[k][Math.floor(rnd() * 4)];
+        cr.push({ x: Math.round(x), y, k, body, head: HD[Math.floor(rnd() * HD.length)], ph: rnd() * 6.28 });
+      }
+    });
+    this.crowd = cr;
+  }
+
+  drawCrowd(b) {
+    const E = this.E, T = E.T;
+    for (const p of this.crowd) {
+      const ch = E.cheer[p.k] > 0;
+      const bob = ch ? -Math.round(Math.abs(Math.sin(T * 16 + p.ph)) * 2) : Math.sin(T * 1.7 + p.ph * 3) > 0.96 ? -1 : 0;
+      const y = p.y + bob;
+      b.fillStyle = p.body; b.fillRect(p.x - 2, y - 4, 4, 5);
+      b.fillStyle = p.head; b.fillRect(p.x - 1, y - 7, 3, 3);
+      if (ch) { b.fillRect(p.x - 3, y - 9, 1, 4); b.fillRect(p.x + 2, y - 9, 1, 4); }
+    }
+    for (const f of E.flashes) { b.fillStyle = '#FFFFFF'; b.fillRect(f.x - 1, f.y, 3, 1); b.fillRect(f.x, f.y - 1, 1, 3); }
+  }
+
+  drawF(b, f) {
+    const E = this.E, P = this.P[f.k], s = f.facing, X = Math.round(f.x + f.kx), Y = this.FLOOR;
+    const J = this.joints(f, E.T);
+    const th = (f.fall * Math.PI) / 2, cs = Math.cos(th), sn = Math.sin(th);
+    const C = (col) => (f.flash > 0 ? '#FFFFFF' : col);
+    const tr = (p) => [X + (p[0] * cs + p[1] * sn) * s, Y + (-p[0] * sn + p[1] * cs)];
+    const ln = (p1, p2, w, col) => {
+      const a = tr(p1), c = tr(p2), n = Math.max(1, Math.ceil(Math.max(Math.abs(c[0] - a[0]), Math.abs(c[1] - a[1])))), o = Math.floor(w / 2);
+      b.fillStyle = C(col);
+      for (let i = 0; i <= n; i++) b.fillRect(Math.round(a[0] + ((c[0] - a[0]) * i) / n) - o, Math.round(a[1] + ((c[1] - a[1]) * i) / n) - o, w, w);
+    };
+    const rc = (x0, y0, w, h, col) => {
+      b.fillStyle = C(col);
+      if (th === 0) { b.fillRect(s > 0 ? X + x0 : X - x0 - w + 1, Y + y0, w, h); return; }
+      for (let i = 0; i < w; i++) for (let j = 0; j < h; j++) { const q = tr([x0 + i, y0 + j]); b.fillRect(Math.round(q[0]), Math.round(q[1]), 2, 2); }
+    };
+    const ad = (p, dx, dy) => [p[0] + dx, p[1] + dy];
+    const sw = 26 + f.fall * 34;
+    b.fillStyle = 'rgba(0,0,0,.45)'; b.fillRect(Math.round(X - sw / 2 - s * f.fall * 26), Y, Math.round(sw), 2);
+    ln(ad(J.hip, -2, 0), J.kB, 5, P.skinD); ln(J.kB, J.fB, 5, P.skinD); rc(J.fB[0] - 3, J.fB[1] - 3, 7, 3, P.shoe);
+    const shB = ad(J.sh, -2, 2), shF = ad(J.sh, 2, 2);
+    ln(shB, J.eB, 3, P.skinD); ln(J.eB, J.gB, 3, P.skinD); rc(J.gB[0] - 2, J.gB[1] - 2, 5, 5, P.gloveD);
+    ln(ad(J.hip, 2, 0), J.kF, 5, P.skin); ln(J.kF, J.fF, 5, P.skin); rc(J.fF[0] - 3, J.fF[1] - 3, 7, 3, P.shoe);
+    ln(J.hip, J.sh, 9, P.shirt); ln(ad(J.hip, -3, 0), ad(J.sh, -3, 0), 2, P.shirtD);
+    ln(ad(J.hip, 0, -1), ad(J.hip, 0, 4), 11, P.shorts); ln(ad(J.hip, -5, -2), ad(J.hip, 5, -2), 1, P.glove);
+    const h = J.hd;
+    rc(h[0] - 2, h[1] + 4, 4, 3, P.skinD);
+    rc(h[0] - 5, h[1] - 6, 11, 12, P.skin);
+    rc(h[0] + 6, h[1] - 1, 1, 2, P.skin);
+    rc(h[0] - 5, h[1] - 6, 11, 3, P.hair); rc(h[0] - 5, h[1] - 3, 3, 5, P.hair);
+    if (P.beard) { rc(h[0] - 2, h[1] + 1, 8, 5, P.hair); rc(h[0] + 2, h[1] + 2, 3, 1, P.skinD); }
+    rc(h[0] + 2, h[1] - 3, 3, 1, P.brow); rc(h[0] + 3, h[1] - 2, 1, 1, '#14110F');
+    rc(h[0] - 1, h[1] - 1, 2, 2, P.skinD);
+    ln(shF, J.eF, 3, P.skin); ln(J.eF, J.gF, 3, P.skin); rc(J.gF[0] - 2, J.gF[1] - 3, 6, 6, P.glove); rc(J.gF[0] - 2, J.gF[1] - 3, 6, 1, '#FFFFFF');
+  }
+
+  draw() {
+    const c = this.cv;
+    if (!c || !this.bg) return;
+    const E = this.E, W = this.W, H = this.H, b = this.buf;
+    const dpr = Math.min(2, window.devicePixelRatio || 1), cw = Math.max(1, Math.round(c.clientWidth * dpr)), ch = Math.max(1, Math.round((cw * H) / W));
+    if (c.width !== cw || c.height !== ch) { c.width = cw; c.height = ch; }
+    b.drawImage(this.bg, 0, 0); this.drawCrowd(b); b.drawImage(this.ropes, 0, 0);
+    ['A', 'B'].sort((x, y) => (this.isAtk(E.f[x]) ? 1 : 0) - (this.isAtk(E.f[y]) ? 1 : 0)).forEach((k) => this.drawF(b, E.f[k]));
+    for (const p of E.parts) {
+      if (p.star) { const r = p.star, x = Math.round(p.x), y = Math.round(p.y); b.fillStyle = '#F5C842'; b.fillRect(x - r, y, r * 2 + 1, 1); b.fillRect(x, y - r, 1, r * 2 + 1); b.fillStyle = '#FFFFFF'; b.fillRect(x - 2, y - 2, 5, 5); }
+      else { b.fillStyle = p.col; b.fillRect(Math.round(p.x), Math.round(p.y), p.sz, p.sz); }
+    }
+    const ctx = c.getContext('2d'), sc = cw / W;
+    ctx.imageSmoothingEnabled = false;
+    const ox = E.shake > 0 ? Math.round(Math.random() * 2 - 1) * 1.5 * sc : 0, oy = E.shake > 0 ? Math.round(Math.random() * 2 - 1) * sc : 0;
+    ctx.fillStyle = '#0B0A09'; ctx.fillRect(0, 0, cw, ch);
+    ctx.drawImage(this.bufC, ox, oy, cw, ch);
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.lineJoin = 'round';
+    for (const f of E.floats) {
+      ctx.globalAlpha = Math.max(0, 1 - Math.max(0, (f.age - 0.5) / 0.4));
+      ctx.font = `700 ${Math.round(7 * sc)}px Silkscreen, monospace`; ctx.lineWidth = Math.max(3, 1.8 * sc); ctx.strokeStyle = '#0F0E0D';
+      const y = (f.y - f.age * 16) * sc; ctx.strokeText(f.txt, f.x * sc, y); ctx.fillStyle = f.col; ctx.fillText(f.txt, f.x * sc, y);
+    }
+    const b0 = E.banners[0];
+    if (b0) {
+      const k = b0.age < 0.16 ? 1.7 - 0.7 * (b0.age / 0.16) : 1;
+      ctx.globalAlpha = b0.dur && b0.age > b0.dur - 0.25 ? Math.max(0, (b0.dur - b0.age) / 0.25) : 1;
+      const y = ch * 0.3;
+      ctx.fillStyle = 'rgba(11,10,9,.6)'; ctx.fillRect(0, y - 22 * sc, cw, (b0.sub ? 44 : 34) * sc);
+      ctx.font = `700 ${Math.round(26 * sc * k)}px Silkscreen, monospace`;
+      ctx.lineWidth = 3.2 * sc; ctx.strokeStyle = '#0F0E0D';
+      ctx.fillStyle = '#B02428'; ctx.fillText(b0.text, cw / 2 + 1.5 * sc, y - 5 * sc + 1.5 * sc);
+      ctx.strokeText(b0.text, cw / 2, y - 5 * sc); ctx.fillStyle = '#F5C842'; ctx.fillText(b0.text, cw / 2, y - 5 * sc);
+      if (b0.sub) { ctx.font = `700 ${Math.round(6.5 * sc)}px Silkscreen, monospace`; ctx.fillStyle = '#F2EDE4'; ctx.fillText(b0.sub, cw / 2, y + 13 * sc); }
+    }
+    ctx.globalAlpha = 1;
+  }
+}
+
+// ---------- interface ----------
+const UI = {
+  cache: {},
+  arrastando: false,
+  set(id, html) { if (this.cache[id] !== html) { this.cache[id] = html; $(id).innerHTML = html; } },
+  txt(id, t) { if (this.cache[id] !== t) { this.cache[id] = t; $(id).textContent = t; } },
+
+  lutadores(L) {
+    const st = document.documentElement.style;
+    st.setProperty('--cA', L.cor.A); st.setProperty('--cB', L.cor.B);
+    for (const [k, n, p] of [['A', L.nA, 'P1'], ['B', L.nB, 'P2']]) {
+      const c = S.cand[n] || {};
+      this.txt('num' + k, n);
+      this.txt('tag' + k, p + (c.partido ? ' · ' + partido(c.partido) : ''));
+      this.txt('nome' + k, L.nome(n).toUpperCase());
+      this.txt('cheio' + k, L.cheio(n) || ' ');
+    }
+  },
+
+  render(L) {
+    const E = L.E, v = L.view(E.idx), p = v.p, r = L.resultado(), live = E.mode === 'live';
+    this.txt('pctA', v.has ? pc(v.ap) : '0,00%');
+    this.txt('pctB', v.has ? pc(v.bp) : '0,00%');
+    this.txt('votosA', num(v.A) + ' votos');
+    this.txt('votosB', num(v.B) + ' votos');
+    $('barA').style.width = (v.has ? v.ap : 0) + '%';
+    $('barB').style.width = (v.has ? v.bp : 0) + '%';
+    this.txt('round', E.ended && r ? (r.tipo === 'ko' ? 'K.O.' : 'FIM DO ROUND 1') : 'ROUND 1');
+    this.txt('urnas', pc(v.urnas));
+    this.txt('relogio', !S.hist.length ? (S.erro ? 'SEM CONEXÃO' : 'CONECTANDO') : p.inicio ? 'URNAS FECHADAS 17:00' : 'ATUALIZADO ' + p.ht);
+
+    const fim = !!(S.atual && S.atual.finalizado);
+    const modo = !S.hist.length ? (S.erro ? 'SEM CONEXÃO' : 'CONECTANDO')
+      : live ? (S.erro ? 'RECONECTANDO' : fim ? 'TOTALIZADO' : 'AO VIVO') : 'REPLAY ' + hm(v.t);
+    this.set('modo', (live && S.hist.length && !S.erro && !fim ? '<span class="dot"></span>' : '') + esc(modo));
+
+    const bP = $('bPlay'), tem = L.temReplay();
+    this.txt('bPlay', live ? 'REPLAY' : E.playing ? 'PAUSAR' : 'ASSISTIR');
+    bP.disabled = !tem;
+    $('bVivo').classList.toggle('on', live);
+    const [t0, t1] = L.faixa(), sc = $('scrub');
+    sc.disabled = !tem;
+    this.txt('tIni', tem ? hm(t0) : '17:00');
+    this.txt('tFim', S.hist.length ? hm(t1) : '--:--');
+    if (!this.arrastando) sc.value = String(live ? 1000 : Math.round(((E.tau - t0) / Math.max(1, t1 - t0)) * 1000));
+    for (const b of $('vel').children) b.classList.toggle('on', Number(b.dataset.v) === E.speed);
+
+    // outros candidatos
+    let outros = v.outros;
+    if (!outros.length && S.atual) outros = S.atual.cands.filter((c) => c.n !== L.nA && c.n !== L.nB).map((c) => ({ n: c.n, votos: 0, pct: 0 }));
+    const itens = outros.slice(0, 4).map((o) => { const c = S.cand[o.n] || {}; return [L.rotulo(o.n), c.partido ? `(${partido(c.partido)})` : '', o.pct]; });
+    const resto = outros.slice(4);
+    if (resto.length) itens.push(['Outros ' + resto.length, '', resto.reduce((s, o) => s + o.pct, 0)]);
+    this.set('outros', itens.map(([n, pt, x]) => `<span><span class="c">${esc(n)}</span>${pt ? `<span>${esc(pt)}</span>` : ''}<span class="v">${v.has ? pc(x) : '0,00%'}</span></span>`).join(''));
+
+    // comparecimento, brancos e nulos do mesmo boletim
+    const ex = [];
+    if (p.c) {
+      const apto = p.c + (p.ab || 0);
+      ex.push(['Comparecimento', apto ? pc((p.c / apto) * 100) : '—'], ['Abstenção', apto ? pc(((p.ab || 0) / apto) * 100) : '—'], ['Brancos', pc(((p.b || 0) / p.c) * 100)], ['Nulos', pc(((p.nu || 0) / p.c) * 100)]);
+    }
+    this.set('extras', ex.map(([k, x]) => `<span>${k} <b>${x}</b></span>`).join(''));
+
+    // regiões
+    const nA = esc(L.nome(L.nA)), nB = esc(L.nome(L.nB));
+    this.set('regioes', v.regs.map((g) => {
+      const ok = g.vv > 0;
+      return `<div class="reg"><div class="n">${esc(g.g.nome)}</div><div class="b"><div class="bar"><div style="width:${ok ? g.ap : 0}%"></div><div style="width:${ok ? g.bp : 0}%"></div></div>`
+        + `<div class="l"><span>${ok ? nA + ' ' + pc1(g.ap) : '—'}</span><span>${ok ? pc1(g.bp) + ' ' + nB : '—'}</span></div></div><div class="p">${pc(g.pst)}</div></div>`;
+    }).join('') || '<div class="vazio">Aguardando o primeiro boletim do TSE.</div>');
+
+    // lance a lance
+    const evs = S.hist.length ? L.eventos().filter((e) => e.t <= v.t).reverse() : [];
+    this.set('feed', evs.map((e) => `<div class="ev"><div class="h">${hm(e.t)}</div><div class="c">${e.tag ? `<span class="t">${esc(e.tag)}</span>` : ''}<div class="x">${esc(e.txt)}</div></div></div>`).join('')
+      || '<div class="vazio">Aguardando o primeiro boletim do TSE.</div>');
+  },
+};
+
+const luta = new Luta($('cv'));
+
+// ---------- coleta ----------
+let timer = null;
+async function buscar() {
+  clearTimeout(timer);
+  const h = S.hist;
+  try {
+    const r = await fetch('api/estado?desde=' + (h.length ? h[h.length - 1].t : 0), { cache: 'no-store' });
+    const d = await r.json().catch(() => ({}));
+    if (!r.ok || !d.atual) throw new Error(d.erro || 'HTTP ' + r.status);
+    S.atual = d.atual; S.regioes = d.regioes || []; if (d.inicio) S.inicio = d.inicio;
+    S.cand = {}; for (const c of d.atual.cands) S.cand[c.n] = c;
+    let cresceu = false;
+    for (const p of d.hist || []) {
+      const u = S.hist[S.hist.length - 1];
+      if (!u || p.t > u.t) { S.hist.push(p); cresceu = true; }
+      else if (p.t === u.t) S.hist[S.hist.length - 1] = p;
+    }
+    S.erro = null;
+    luta.dados(cresceu);
+  } catch (e) {
+    S.erro = String((e && e.message) || e);
+    luta.push(true);
+  }
+  timer = setTimeout(buscar, document.hidden ? 60000 : POLL_MS);
+}
+document.addEventListener('visibilitychange', () => { if (!document.hidden) buscar(); });
+
+// ---------- controles ----------
+$('bPlay').addEventListener('click', () => luta.toggle());
+$('bVivo').addEventListener('click', () => { if (luta.E.mode !== 'live') luta.aoVivo(false); });
+const scrub = $('scrub');
+scrub.addEventListener('input', () => { UI.arrastando = true; luta.seek(Number(scrub.value) / 1000); });
+scrub.addEventListener('change', () => { UI.arrastando = false; luta.seek(Number(scrub.value) / 1000); });
+for (const b of $('vel').children) b.addEventListener('click', () => luta.setSpeed(Number(b.dataset.v)));
+
+luta.push(true);
+buscar();
+})();
+</script>
+</body>
+</html>
