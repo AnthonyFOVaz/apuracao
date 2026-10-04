@@ -27,11 +27,15 @@ No ar: https://apuracaox1doscria.duckdns.org (o endereço antigo, https://apurac
 
 ## Front (`public/index.html`)
 
-Versão atual: port da v1 do design (`design/Apuracao Luta.dc.html`) para HTML/JS puro, ligada ao formato v1 da API.
-Modo ao vivo (consulta a cada 15 s) e replay do histórico, com virada, marcos de apuração, regiões e resultado oficial.
+Port de `design/Apuracao Luta v2.dc.html` para HTML/JS puro, ligado a `/api/estado?v=2` (consulta a cada 10 s).
 
-**Pendente:** portar `design/Apuracao Luta v2.dc.html` (escolha de Brasil/região/UF, 1º/2º turno, mapa de estados,
-modo jogável, especial, estatísticas, som). O back já entrega tudo o que a v2 precisa em `/api/estado?v=2`.
+- Brasil, região, UF ou exterior (seletor, mapa de quadradinhos, regiões clicáveis, "disputa mais apertada"); 1º/2º turno.
+- Ao vivo e replay do histórico (1×, 2×, 4×, 8×), com marcas de virada na linha do tempo; lance a lance por área.
+- Fim de luta: Brasil pelo resultado oficial do TSE (`md`/`tf`); estado ou região quando chega a 100% das seções.
+- Modo jogável (teclado ou botões; especial carregado pelos votos e por golpes certos), estatísticas, som e vibração.
+- Público online no topo. Layout de celular (largura < 720 px ou altura < 500 px): placar e ringue fixos no topo,
+  botões embaixo do ringue e abas Estados / Lances / Regiões / Luta.
+- Abre no 2º turno quando ele estiver disponível; `?turno=1` força o 1º.
 
 ## Deploy
 
@@ -40,10 +44,11 @@ O servidor Oracle (`/home/ubuntu/projects/apuracao`, serviço systemd `apuracao`
 puxa o `main`, valida o `server.js` e reinicia o serviço só quando o back muda. Ou seja, **push no `main` = deploy** em até 1 minuto.
 Forçar agora: `sudo systemctl start apuracao-atualizar`. Logs: `journalctl -u apuracao-atualizar`.
 
-Domínio: o DuckDNS `apuracaox1doscria.duckdns.org` aponta para o IP do servidor. A cada execução, o `atualizar.sh` chama
-`scripts/caddy.sh`, que acrescenta ao `/etc/caddy/Caddyfile` um bloco com esse domínio (mesmo `reverse_proxy` do site do sslip.io),
-valida com `caddy validate` e recarrega o Caddy; o certificado sai sozinho pelo Let's Encrypt. Se o domínio já está no Caddyfile,
-não faz nada. Se algo falhar, o Caddyfile anterior é mantido (cópia em `Caddyfile.antes-duckdns`) e o motivo fica em `data/caddy-falhou`.
+Domínio: o DuckDNS `apuracaox1doscria.duckdns.org` aponta para o IP do servidor. O Caddy roda no container `edge-caddy`.
+A cada execução, o `atualizar.sh` chama `scripts/caddy.sh`: se o domínio ainda não responde, o script usa a API de
+administração do Caddy (de dentro do container) para pôr o domínio no mesmo route do site do sslip.io; o certificado sai
+sozinho pelo Let's Encrypt. Não mexe em arquivo; se o Caddy reiniciar, o domínio volta no minuto seguinte.
+Falhas ficam em `data/caddy-falhou` e aparecem em `/api/versao`.
 
 ## Rodar local
 
@@ -55,3 +60,5 @@ PORT=3100 node server.js
 
 - 04/10/2026: coletor do TSE, API e página v1 publicados; histórico deduplicado por atualização nacional.
 - 04/10/2026: back v2 com histórico por UF/região, suporte ao 2º turno e API `?v=2`; atualização automática pelo GitHub.
+- 04/10/2026: placar nacional pela soma dos estados (o arquivo nacional do TSE atrasava minutos); público online;
+  front v2 (estados, 2º turno, modo jogável, layout de celular); domínio apuracaox1doscria.duckdns.org.
