@@ -72,11 +72,29 @@ else
   como="num bloco novo em $F (upstream $up)"
 fi
 grep -qF "$DOMINIO" <<< "$novo" || falhou "não consegui pôr $DOMINIO $como; nada mudou"
+# o arquivo vem de um bind mount (só leitura no container): grava a origem dele no host, no lugar (mesmo inode)
+hospedeiro() {
+  local melhor="" origem="" src dst
+  while read -r src dst; do
+    [ -n "$dst" ] || continue
+    if [ "$1" = "$dst" ] || [ "${1#"$dst"/}" != "$1" ]; then
+      if [ ${#dst} -gt ${#melhor} ]; then melhor=$dst; origem=$src; fi
+    fi
+  done < <(sudo -n docker inspect -f '{{range .Mounts}}{{.Source}} {{.Destination}}{{"\n"}}{{end}}' "$CID" 2>/dev/null || true)
+  if [ -n "$melhor" ]; then echo "$origem${1#"$melhor"}"; fi
+}
+HF=$(hospedeiro "$F")
+if [ -n "$HF" ]; then
+  sudo -n test -f "$HF" || falhou "$F vem de $HF no host, mas esse arquivo não existe"
+  grava() { if [ -w "$HF" ]; then cat > "$HF"; else sudo -n tee "$HF" >/dev/null; fi; }
+  como="$como (no host: $HF)"
+else
+  grava() { dx tee "$F" >/dev/null; }
+fi
 copia=$(mktemp); trap 'rm -f "$copia"' EXIT
 dx cat "$F" > "$copia"
-# grava no lugar (mesmo inode), para o bind mount do host enxergar e guardar a mudança
-printf '%s\n' "$novo" | dx tee "$F" >/dev/null || falhou "não deu para gravar $F no container (montado só para leitura?)"
-desfaz() { dx tee "$F" >/dev/null < "$copia"; }
+printf '%s\n' "$novo" | grava || falhou "não deu para gravar ${HF:-$F}"
+desfaz() { grava < "$copia"; }
 if ! saida=$(dx caddy validate --config "$CP" --adapter caddyfile 2>&1); then
   desfaz; falhou "caddy validate recusou a config com $DOMINIO $como (desfeito): $(echo "$saida" | curto)"
 fi

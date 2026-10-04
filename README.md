@@ -45,7 +45,8 @@ puxa o `main`, valida o `server.js` e reinicia o serviço só quando o back muda
 Forçar agora: `sudo systemctl start apuracao-atualizar`. Logs: `journalctl -u apuracao-atualizar`.
 
 Domínio: o DuckDNS `apuracaox1doscria.duckdns.org` aponta para o IP do servidor. O Caddy roda no container `edge-caddy`
-(config em `/etc/caddy` dentro dele, com a API de administração desligada). A cada execução, o `atualizar.sh` chama
+(config em `/etc/caddy`, montada só para leitura; o site está em `sites/apuracao.caddy`; API de administração desligada).
+A cada execução, o `atualizar.sh` chama
 `scripts/caddy.sh`: se o domínio ainda não responde, o script põe o domínio na mesma linha do site do sslip.io (mesmo
 bloco, mesma configuração), valida com `caddy validate` dentro do container e reinicia o container (1 a 2 s fora do ar),
 conferindo que o sslip.io voltou; se algo falhar, desfaz. O certificado sai sozinho pelo Let's Encrypt.
