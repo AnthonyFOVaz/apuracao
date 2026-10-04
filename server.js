@@ -3,6 +3,7 @@
 // guarda o histórico por Brasil, região e UF em data/ e serve a página + /api/estado.
 
 const http = require('http');
+const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
 
@@ -150,7 +151,9 @@ function carregar(T) {
 function salvar(T) {
   fs.mkdirSync(DATA, { recursive: true });
   const tmp = T.arquivo + '.tmp';
-  fs.writeFileSync(tmp, JSON.stringify(T.hist));
+  T.histJSON = JSON.stringify(T.hist); // reaproveitado pela API quando a página carrega do zero
+  T.legadoJSON = null;
+  fs.writeFileSync(tmp, T.histJSON);
   fs.renameSync(tmp, T.arquivo);
 }
 
@@ -250,10 +253,51 @@ function online() {
 
 // ---------- HTTP ----------
 
-function json(res, code, obj) {
-  res.writeHead(code, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' });
-  res.end(JSON.stringify(obj));
+// ---------- segurança ----------
+// Cabeçalhos em todas as respostas. A página só carrega o próprio script (pelo hash, calculado na hora em que ela é
+// servida), o CSS dela e as fontes do Google; não pode ser posta num iframe nem chamar outros endereços.
+const SEGURANCA = {
+  'X-Content-Type-Options': 'nosniff',
+  'X-Frame-Options': 'DENY',
+  'Referrer-Policy': 'strict-origin-when-cross-origin',
+  'Permissions-Policy': 'camera=(), microphone=(), geolocation=(), payment=(), usb=(), browsing-topics=()',
+  'Cross-Origin-Opener-Policy': 'same-origin',
+  'Cross-Origin-Resource-Policy': 'same-origin',
+  'Strict-Transport-Security': 'max-age=31536000',
+};
+const CSP_RESTO = "default-src 'none'; frame-ancestors 'none'; base-uri 'none'; form-action 'none'";
+function cspPagina(html) {
+  const hashes = [];
+  for (const m of html.toString('utf8').matchAll(/<script>([\s\S]*?)<\/script>/g)) {
+    hashes.push(`'sha256-${crypto.createHash('sha256').update(m[1], 'utf8').digest('base64')}'`);
+  }
+  return [`default-src 'none'`, `script-src ${hashes.join(' ') || "'none'"}`, `style-src 'self' 'unsafe-inline' https://fonts.googleapis.com`,
+    `font-src https://fonts.gstatic.com`, `img-src 'self' data:`, `connect-src 'self'`, `base-uri 'none'`, `form-action 'none'`, `frame-ancestors 'none'`].join('; ');
 }
+function cabecalhos(extra) { return { ...SEGURANCA, 'Content-Security-Policy': CSP_RESTO, ...extra }; }
+
+// Limite por IP (janela de 1 min): consultas em geral e cargas do histórico completo, que são as pesadas.
+// É folgado de propósito: muita gente de operadora de celular sai pelo mesmo IP.
+const LIMITE = { janela: 60 * 1000, geral: 600, cheio: 120 };
+const acessos = new Map(); // ip -> { ini, n, cheio }
+function ipDe(req) { return String(req.headers['x-forwarded-for'] || req.socket.remoteAddress || '').split(',')[0].trim(); }
+function permitido(ip, cheio) {
+  const agora = Date.now();
+  let a = acessos.get(ip);
+  if (!a || agora - a.ini >= LIMITE.janela) { a = { ini: agora, n: 0, cheio: 0 }; acessos.set(ip, a); }
+  a.n++;
+  if (cheio) a.cheio++;
+  // estourar as cargas completas não corta a atualização de quem já está com a página aberta
+  return a.n <= LIMITE.geral && (!cheio || a.cheio <= LIMITE.cheio);
+}
+setInterval(() => { const lim = Date.now() - LIMITE.janela; for (const [ip, a] of acessos) if (a.ini < lim) acessos.delete(ip); }, LIMITE.janela).unref();
+
+function json(res, code, obj, extra) {
+  res.writeHead(code, cabecalhos({ 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', ...extra }));
+  res.end(typeof obj === 'string' ? obj : JSON.stringify(obj));
+}
+// resposta com o histórico já serializado no fim (sem refazer o JSON de todos os pontos a cada página aberta)
+const comHist = (obj, histJSON) => JSON.stringify(obj).slice(0, -1) + ',"hist":' + histJSON + '}';
 
 const disponivel = (T) => !!(T.ativo && T.atual && Date.now() >= T.inicio);
 
@@ -278,9 +322,8 @@ function commit() {
   } catch { return null; }
 }
 function versao() {
-  let caddy = null;
-  try { caddy = fs.readFileSync(path.join(DATA, 'caddy-falhou'), 'utf8').trim(); } catch { /* sem falha registrada */ }
-  return { commit: commit(), noAr: NO_AR, caddy };
+  // o detalhe de uma falha do caddy.sh fica só em data/caddy-falhou e no journal, não na resposta pública
+  return { commit: commit(), noAr: NO_AR, caddy: fs.existsSync(path.join(DATA, 'caddy-falhou')) ? 'falhou' : 'ok' };
 }
 
 const ESTATICOS = {
@@ -289,21 +332,24 @@ const ESTATICOS = {
   '/favicon.svg': ['favicon.svg', 'image/svg+xml'],
 };
 
-http.createServer((req, res) => {
+function atender(req, res) {
+  if (req.method !== 'GET' && req.method !== 'HEAD') { res.writeHead(405, cabecalhos({ Allow: 'GET, HEAD' })); return res.end(); }
+  if (req.url.length > 2048) { res.writeHead(414, cabecalhos()); return res.end(); }
   const u = new URL(req.url, 'http://x');
-  if (req.method !== 'GET' && req.method !== 'HEAD') { res.writeHead(405); return res.end(); }
-  if (u.pathname === '/health') { res.writeHead(200, { 'Content-Type': 'text/plain' }); return res.end('ok\n'); }
+  if (u.pathname === '/health') { res.writeHead(200, cabecalhos({ 'Content-Type': 'text/plain' })); return res.end('ok\n'); }
+  const api = u.pathname.startsWith('/api/'), desde = Number(u.searchParams.get('desde')) || 0;
+  if (!permitido(ipDe(req), u.pathname === '/api/estado' && !desde)) {
+    return json(res, 429, { erro: 'muitas consultas; tente de novo em instantes' }, { 'Retry-After': '30' });
+  }
   if (u.pathname === '/api/versao') return json(res, 200, versao());
   if (u.pathname === '/api/estado') {
     const T = estados.find((x) => String(x.turno) === (u.searchParams.get('turno') || '1')) || estados[0];
-    const desde = Number(u.searchParams.get('desde')) || 0;
     visto(req, u.searchParams.get('id'));
     if (u.searchParams.get('v') !== '2') {
       if (!T.atual) return json(res, 503, { erro: T.coleta.erro || 'coletando os primeiros dados do TSE' });
-      return json(res, 200, {
-        inicio: T.inicio, regioes: LEGADO.map(([id, , nome]) => ({ id, nome })), atual: T.atual,
-        hist: T.hist.filter((p, i) => p.t > desde || i === T.hist.length - 1).map(legado),
-      });
+      const cab = { inicio: T.inicio, regioes: LEGADO.map(([id, , nome]) => ({ id, nome })), atual: T.atual };
+      if (!desde) return json(res, 200, comHist(cab, T.legadoJSON || (T.legadoJSON = JSON.stringify(T.hist.map(legado)))));
+      return json(res, 200, { ...cab, hist: T.hist.filter((p, i) => p.t > desde || i === T.hist.length - 1).map(legado) });
     }
     const base = {
       turno: T.turno, eleicao: T.eleicao, inicio: T.inicio,
@@ -316,21 +362,31 @@ http.createServer((req, res) => {
       if (T.turno === 1 && !T.atual) return json(res, 503, { ...base, erro: T.coleta.erro || 'coletando os primeiros dados do TSE' });
       return json(res, 200, { ...base, atual: null, hist: [] });
     }
-    return json(res, 200, {
-      ...base,
-      atual: T.atual,
-      // o último ponto vai sempre: ele pode ter sido atualizado no lugar (UFs)
-      hist: T.hist.filter((p, i) => p.t > desde || i === T.hist.length - 1),
-      coleta: { ultima: T.coleta.ultima, erro: T.coleta.erro, falhas: T.coleta.falhas },
-    });
+    const cab = { ...base, atual: T.atual, coleta: { ultima: T.coleta.ultima, erro: T.coleta.erro, falhas: T.coleta.falhas } };
+    if (!desde) return json(res, 200, comHist(cab, T.histJSON || (T.histJSON = JSON.stringify(T.hist))));
+    // o último ponto vai sempre: ele pode ter sido atualizado no lugar
+    return json(res, 200, { ...cab, hist: T.hist.filter((p, i) => p.t > desde || i === T.hist.length - 1) });
   }
-  const est = ESTATICOS[u.pathname];
-  if (!est) { res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' }); return res.end('não encontrado\n'); }
+  const est = !api && ESTATICOS[u.pathname];
+  if (!est) { res.writeHead(404, cabecalhos({ 'Content-Type': 'text/plain; charset=utf-8' })); return res.end('não encontrado\n'); }
   fs.readFile(path.join(PUBLIC, est[0]), (err, buf) => {
-    if (err) { res.writeHead(500); return res.end(); }
-    res.writeHead(200, { 'Content-Type': est[1], 'Cache-Control': 'no-cache', 'X-Content-Type-Options': 'nosniff' });
+    if (err) { res.writeHead(500, cabecalhos()); return res.end(); }
+    const extra = { 'Content-Type': est[1], 'Cache-Control': 'no-cache' };
+    if (est[0] === 'index.html') extra['Content-Security-Policy'] = cspPagina(buf);
+    res.writeHead(200, cabecalhos(extra));
     res.end(req.method === 'HEAD' ? undefined : buf);
   });
-}).listen(PORT, HOST, () => console.log(`apuracao ouvindo em ${HOST}:${PORT}`));
+}
+
+const servidor = http.createServer((req, res) => {
+  try { atender(req, res); } catch (e) {
+    console.error('erro ao atender', req.url, e);
+    if (!res.headersSent) res.writeHead(500, cabecalhos());
+    res.end();
+  }
+});
+servidor.headersTimeout = 20 * 1000;
+servidor.requestTimeout = 30 * 1000;
+servidor.listen(PORT, HOST, () => console.log(`apuracao ouvindo em ${HOST}:${PORT}`));
 
 for (const T of estados) { carregar(T); laco(T); }

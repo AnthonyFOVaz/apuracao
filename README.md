@@ -37,6 +37,22 @@ Port de `design/Apuracao Luta v2.dc.html` para HTML/JS puro, ligado a `/api/esta
   botões embaixo do ringue e abas Estados / Lances / Regiões / Luta.
 - Abre no 2º turno quando ele estiver disponível; `?turno=1` força o 1º.
 
+## Segurança
+
+- HTTPS pelo Caddy (HTTP redireciona) e `Strict-Transport-Security` de 1 ano.
+- Content-Security-Policy: a página só roda o próprio script (liberado pelo hash SHA-256, calculado pelo servidor a
+  cada vez que serve o `index.html`, então editar a página não quebra a política), o CSS dela e as fontes do Google;
+  só consulta o próprio servidor. As respostas da API e do favicon têm `default-src 'none'`.
+- Não pode ser aberta dentro de iframe (`frame-ancestors 'none'` e `X-Frame-Options: DENY`); `nosniff`,
+  `Referrer-Policy`, `Permissions-Policy` (câmera, microfone, localização etc. desligados), COOP e CORP.
+- Só GET/HEAD; arquivos estáticos por lista fixa (sem acesso a outros arquivos); URL acima de 2 KB recusada.
+- Limite por IP: 600 consultas/min e 120 cargas do histórico completo/min (resposta 429 com `Retry-After`; a página
+  espera e tenta de novo). O histórico completo sai de um JSON já pronto, refeito só quando os dados mudam.
+- Um erro ao atender uma requisição não derruba o servidor; tempo máximo para cabeçalhos e requisição.
+- `/api/versao` mostra só o commit e se o `caddy.sh` falhou (o detalhe fica em `data/caddy-falhou`).
+- O deploy executa o que estiver no `main` do GitHub com permissão de administrador no servidor: proteja a conta
+  do GitHub com verificação em duas etapas.
+
 ## Deploy
 
 O servidor Oracle (`/home/ubuntu/projects/apuracao`, serviço systemd `apuracao` na porta 3100, atrás do Caddy)
@@ -62,5 +78,6 @@ PORT=3100 node server.js
 
 - 04/10/2026: coletor do TSE, API e página v1 publicados; histórico deduplicado por atualização nacional.
 - 04/10/2026: back v2 com histórico por UF/região, suporte ao 2º turno e API `?v=2`; atualização automática pelo GitHub.
+- 04/10/2026: cabeçalhos de segurança (CSP, HSTS, anti-iframe), limite por IP e cache do histórico na API.
 - 04/10/2026: placar nacional pela soma dos estados (o arquivo nacional do TSE atrasava minutos); público online;
   front v2 (estados, 2º turno, modo jogável, layout de celular); domínio apuracaox1doscria.duckdns.org.

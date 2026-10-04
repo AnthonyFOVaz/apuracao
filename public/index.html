@@ -1563,6 +1563,7 @@ if (TURNO_URL === 1 || TURNO_URL === 2) { S.turno = TURNO_URL; S.escolheu = true
 let timer = null, geracao = 0;
 async function buscar() {
   clearTimeout(timer);
+  let espera = document.hidden ? 60000 : POLL_MS;
   const g = geracao, h = S.hist, desde = h.length >= 2 ? h[h.length - 2].t : 0;
   const antes = luta.E.mode === 'live' && h.length ? { ...luta.view(luta.E.idx), key: luta.key, sc: luta.scope } : null;
   try {
@@ -1571,7 +1572,8 @@ async function buscar() {
     if (g !== geracao) return;
     if (Array.isArray(d.turnos)) S.turnos = d.turnos;
     if (typeof d.online === 'number') S.online = d.online;
-    if (d.fonte) S.fonte = d.fonte;
+    if (typeof d.fonte === 'string' && d.fonte.startsWith('https://resultados.tse.jus.br/')) S.fonte = d.fonte;
+    if (r.status === 429) espera = Math.max(espera, (Number(r.headers.get('Retry-After')) || 30) * 1000); // limite do servidor
     if (!r.ok) throw new Error(d.erro || 'HTTP ' + r.status);
     if (!S.escolheu) {
       // depois que o 2º turno começa, a página abre nele
@@ -1593,7 +1595,7 @@ async function buscar() {
     S.erro = String((e && e.message) || e);
     luta.push(true);
   }
-  if (g === geracao) timer = setTimeout(buscar, document.hidden ? 60000 : POLL_MS);
+  if (g === geracao) timer = setTimeout(buscar, espera);
 }
 function trocarTurno(n) {
   if (n === S.turno) return;
