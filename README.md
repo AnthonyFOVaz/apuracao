@@ -13,11 +13,17 @@ No ar: https://apuracaox1doscria.duckdns.org (o endereço antigo, https://apurac
 
 ## Back (`server.js`, Node 20, sem dependências)
 
-- Baixa os 29 arquivos a cada 20 s com `If-None-Match` e ignora respostas mais antigas vindas do CDN.
-- Um ponto de histórico por atualização do placar nacional; quando só as UFs mudam, o último ponto é atualizado no lugar.
+- Baixa os 29 arquivos a cada 15 s com `If-None-Match` e ignora cópias antigas vindas do CDN (compara `dg/hg`, a hora de geração,
+  que é sempre de Brasília; `dt/ht` segue o fuso da última seção: Acre, Amazonas, Noronha, exterior).
+- **Placar nacional pela soma dos estados:** o arquivo `br` do TSE sai vários minutos depois dos estaduais. Quando os 28 arquivos
+  (27 UFs + exterior) somam mais seções totalizadas que o `br`, o Brasil vem dessa soma (`atual.origem = "estados"`).
+  O `md`/`tf` (resultado oficial) continuam vindo do `br`.
+- Histórico: no máximo um ponto por minuto de dados; entre um e outro, o último ponto acompanha os números.
 - Cada ponto guarda Brasil, 5 regiões e 28 UFs: `[seções totalizadas, seções, válidos, comparecimento, abstenção, brancos, nulos, {número: votos}]`.
 - Histórico em `data/historico-<eleição>.json`. O 2º turno é consultado a cada 5 min até o TSE publicar os arquivos.
-- API: `GET /api/estado?v=2&turno=1|2&desde=<ms>` (formato novo) e `GET /api/estado` (formato da página v1), `GET /health`.
+- Público online: cada aba visível manda um id aleatório (`&id=`) nas consultas; `online` = ids vistos nos últimos 40 s.
+- API: `GET /api/estado?v=2&turno=1|2&desde=<ms>&id=<aba>` (formato novo, com `online`), `GET /api/estado` (formato da página v1),
+  `GET /api/versao` (commit em uso e falha do `caddy.sh`, se houver), `GET /health`.
 
 ## Front (`public/index.html`)
 

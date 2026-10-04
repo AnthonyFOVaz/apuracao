@@ -9,8 +9,10 @@ const path = require('path');
 const PORT = Number(process.env.PORT || 3100);
 const HOST = process.env.HOST || '127.0.0.1';
 const BASE = process.env.TSE_BASE || 'https://resultados.tse.jus.br/oficial/ele2026';
-const INTERVALO = Number(process.env.INTERVALO_MS || 20000);
+const INTERVALO = Number(process.env.INTERVALO_MS || 15000);
 const INTERVALO_LENTO = 5 * 60 * 1000; // 2º turno ainda sem arquivos, ou totalização encerrada
+const PASSO = 60 * 1000; // no máximo um ponto de histórico por minuto de dados
+const NO_AR = Date.now();
 const DATA = path.join(__dirname, 'data');
 const PUBLIC = path.join(__dirname, 'public');
 
@@ -42,6 +44,12 @@ function horaTSE(d, h) {
   const t = Date.parse(`${m[3]}-${m[2]}-${m[1]}T${h}-03:00`);
   return Number.isFinite(t) ? t : 0;
 }
+// dg/hg (geração do arquivo) estão sempre no horário de Brasília; dt/ht seguem o fuso local da última seção
+// (Acre, Amazonas, Noronha, exterior), então não servem para comparar versões nem arquivos entre si.
+const gerado = (d) => horaTSE(d.dg, d.hg) || horaTSE(d.dt, d.ht);
+const brasilia = (t) => new Date(t - 3 * 3600 * 1000).toISOString(); // o Brasil não tem horário de verão desde 2019
+const hora = (t) => brasilia(t).slice(11, 19);
+const dia = (t) => brasilia(t).slice(0, 10).split('-').reverse().join('/');
 
 function ler(j) {
   const carg = (j.carg || [])[0] || {};
@@ -97,14 +105,14 @@ function url(T, abr) { return `${BASE}/${T.eleicao}/dados/${abr}/${abr}-c0001-e0
 
 async function baixar(T, abr) {
   const c = T.cache.get(abr);
-  const headers = { 'User-Agent': 'apuracao-luta/2.0 (+https://apuracao-204-216-184-199.sslip.io)' };
+  const headers = { 'User-Agent': 'apuracao-luta/2.1 (+https://apuracaox1doscria.duckdns.org)' };
   if (c && c.etag) headers['If-None-Match'] = c.etag;
   const r = await fetch(url(T, abr), { headers, signal: AbortSignal.timeout(15000) });
   if (r.status === 304 && c) return c.dados;
   if (!r.ok) { const e = new Error(`${abr}: HTTP ${r.status}`); e.status = r.status; throw e; }
   const dados = ler(await r.json());
   // um nó do CDN pode devolver uma versão anterior à que já temos
-  if (c && horaTSE(dados.dt, dados.ht) < horaTSE(c.dados.dt, c.dados.ht)) return c.dados;
+  if (c && gerado(dados) < gerado(c.dados)) return c.dados;
   T.cache.set(abr, { etag: r.headers.get('etag'), dados });
   return dados;
 }
@@ -146,17 +154,26 @@ function salvar(T) {
   fs.renameSync(tmp, T.arquivo);
 }
 
-function ponto(T, res) {
-  const br = res.br, d = { br: entrada(br) };
+// O arquivo nacional do TSE sai minutos depois dos estaduais. Quando os 28 arquivos estaduais (com o exterior)
+// já somam mais seções totalizadas que o nacional, o placar do Brasil vem dessa soma.
+function nacional(res) {
+  const br = res.br;
+  if (UFS.every((uf) => res[uf])) {
+    const s = somar(UFS.map((uf) => entrada(res[uf])));
+    if (s[0] > br.st) return { e: s, t: Math.max(...UFS.map((uf) => gerado(res[uf]))), estados: true };
+  }
+  return { e: entrada(br), t: gerado(br), estados: false };
+}
+
+function ponto(T, res, nac) {
+  const br = res.br, d = { br: nac.e };
   for (const uf of UFS) if (res[uf]) d[uf] = entrada(res[uf]);
   for (const R of REGIOES) {
     const partes = R.ufs.map((uf) => d[uf]).filter(Boolean);
     if (partes.length === R.ufs.length) d[R.id] = somar(partes);
   }
-  return {
-    t: horaTSE(br.dt, br.ht) || Date.now(), ht: br.ht,
-    def: br.md === 'E' || br.md === 'S' ? br.md : 0, fim: br.tf === 'S' ? 1 : 0, d,
-  };
+  const t = nac.t || Date.now();
+  return { t, ht: hora(t), def: br.md === 'E' || br.md === 'S' ? br.md : 0, fim: br.tf === 'S' ? 1 : 0, d };
 }
 
 async function ciclo(T) {
@@ -176,27 +193,26 @@ async function ciclo(T) {
   T.coleta.falhas = falhas;
   if (!res.br) { T.coleta.erro = 'TSE indisponível no momento'; return; }
   T.coleta.erro = null;
-  const br = res.br;
+  const br = res.br, nac = nacional(res), [st, ts, vv, , , , , votos] = nac.e;
   T.atual = {
-    t: horaTSE(br.dt, br.ht), dg: br.dg, hg: br.hg, dt: br.dt, ht: br.ht,
+    t: nac.t, dg: br.dg, hg: br.hg, dt: dia(nac.t), ht: hora(nac.t), origem: nac.estados ? 'estados' : 'br',
     definido: br.md === 'E' || br.md === 'S' ? br.md : '', finalizado: br.tf === 'S',
-    ts: br.ts, st: br.st, pst: br.pst, vv: br.vv,
-    cands: br.cands.slice().sort((a, b) => b.votos - a.votos),
+    ts, st, pst: nac.estados ? (ts ? (st / ts) * 100 : 0) : br.pst, vv,
+    cands: br.cands.map((c) => ({ ...c, votos: votos[c.n] || 0 })).sort((a, b) => b.votos - a.votos),
   };
-  const p = ponto(T, res);
-  const ult = T.hist[T.hist.length - 1];
-  if (!ult) T.hist.push({ t: T.inicio, ht: '17:00:00', def: 0, fim: 0, inicio: 1, d: {} });
+  const p = ponto(T, res, nac);
+  if (!T.hist.length) T.hist.push({ t: T.inicio, ht: '17:00:00', def: 0, fim: 0, inicio: 1, d: {} });
   const u = T.hist[T.hist.length - 1];
-  const ub = u.d.br;
-  if (u.inicio || !ub || ub[0] !== p.d.br[0] || ub[2] !== p.d.br[2]) {
+  if (JSON.stringify([u.def, u.fim, u.d]) === JSON.stringify([p.def, p.fim, p.d])) return;
+  // um ponto novo por minuto de dados; entre um e outro, o último ponto acompanha os dados (hora e números)
+  if (u.inicio || p.t - (T.ancora || u.t) >= PASSO) {
     if (p.t <= u.t) p.t = u.t + 1000;
     T.hist.push(p);
-    salvar(T);
-  } else if (JSON.stringify([u.def, u.fim, u.d]) !== JSON.stringify([p.def, p.fim, p.d])) {
-    // só as UFs mudaram (cada arquivo sai num horário): atualiza o ponto atual no lugar
-    u.def = p.def; u.fim = p.fim; u.d = p.d;
-    salvar(T);
+    T.ancora = p.t;
+  } else {
+    u.t = Math.max(u.t, p.t); u.ht = hora(u.t); u.def = p.def; u.fim = p.fim; u.d = p.d;
   }
+  salvar(T);
 }
 
 async function laco(T) {
@@ -204,6 +220,32 @@ async function laco(T) {
   if (T.coleta.falhas) console.error(`turno ${T.turno}: ${T.coleta.falhas} arquivo(s) falharam`);
   const lento = !T.ativo || (T.atual && T.atual.finalizado);
   setTimeout(() => laco(T), lento ? INTERVALO_LENTO : INTERVALO);
+}
+
+// ---------- público online ----------
+// Cada aba visível da página manda um id aleatório (?id=) nas consultas; conta quem apareceu nos últimos 40 s.
+// O Map fica em ordem de última visita, então a limpeza só olha o começo dele.
+const ONLINE_MS = 40 * 1000;
+const vistos = new Map(); // id -> { t, ip }
+const porIp = new Map(); // ip -> ids ativos (limita quem tenta inflar a contagem)
+function visto(req, id) {
+  if (!/^[A-Za-z0-9]{8,32}$/.test(id || '')) return;
+  const v = vistos.get(id);
+  if (v) { vistos.delete(id); v.t = Date.now(); vistos.set(id, v); return; }
+  const ip = String(req.headers['x-forwarded-for'] || req.socket.remoteAddress || '').split(',')[0].trim();
+  if ((porIp.get(ip) || 0) >= 30 || vistos.size >= 200000) return;
+  vistos.set(id, { t: Date.now(), ip });
+  porIp.set(ip, (porIp.get(ip) || 0) + 1);
+}
+function online() {
+  const lim = Date.now() - ONLINE_MS;
+  for (const [id, v] of vistos) {
+    if (v.t >= lim) break;
+    vistos.delete(id);
+    const n = (porIp.get(v.ip) || 1) - 1;
+    if (n > 0) porIp.set(v.ip, n); else porIp.delete(v.ip);
+  }
+  return vistos.size;
 }
 
 // ---------- HTTP ----------
@@ -223,6 +265,24 @@ function legado(p) {
   return { t: p.t, ht: p.ht, st: b[0], ts: b[1], pst: b[1] ? (b[0] / b[1]) * 100 : 0, vv: b[2], c: b[3], ab: b[4], b: b[5], nu: b[6], def: p.def, fim: p.fim, v: b[7], r, ...(p.inicio ? { inicio: 1 } : {}) };
 }
 
+// commit em uso (a pasta do servidor é um clone do repositório) e o resultado do scripts/caddy.sh, para conferir o deploy
+function commit() {
+  const git = (f) => fs.readFileSync(path.join(__dirname, '.git', f), 'utf8');
+  try {
+    const head = git('HEAD').trim();
+    if (!head.startsWith('ref: ')) return head;
+    const ref = head.slice(5);
+    try { return git(ref).trim(); } catch { /* ref compactada */ }
+    const l = git('packed-refs').split('\n').find((x) => x.endsWith(' ' + ref));
+    return l ? l.split(' ')[0] : null;
+  } catch { return null; }
+}
+function versao() {
+  let caddy = null;
+  try { caddy = fs.readFileSync(path.join(DATA, 'caddy-falhou'), 'utf8').trim(); } catch { /* sem falha registrada */ }
+  return { commit: commit(), noAr: NO_AR, caddy };
+}
+
 const ESTATICOS = {
   '/': ['index.html', 'text/html; charset=utf-8'],
   '/index.html': ['index.html', 'text/html; charset=utf-8'],
@@ -233,9 +293,11 @@ http.createServer((req, res) => {
   const u = new URL(req.url, 'http://x');
   if (req.method !== 'GET' && req.method !== 'HEAD') { res.writeHead(405); return res.end(); }
   if (u.pathname === '/health') { res.writeHead(200, { 'Content-Type': 'text/plain' }); return res.end('ok\n'); }
+  if (u.pathname === '/api/versao') return json(res, 200, versao());
   if (u.pathname === '/api/estado') {
     const T = estados.find((x) => String(x.turno) === (u.searchParams.get('turno') || '1')) || estados[0];
     const desde = Number(u.searchParams.get('desde')) || 0;
+    visto(req, u.searchParams.get('id'));
     if (u.searchParams.get('v') !== '2') {
       if (!T.atual) return json(res, 503, { erro: T.coleta.erro || 'coletando os primeiros dados do TSE' });
       return json(res, 200, {
@@ -246,6 +308,7 @@ http.createServer((req, res) => {
     const base = {
       turno: T.turno, eleicao: T.eleicao, inicio: T.inicio,
       turnos: estados.map((x) => ({ turno: x.turno, disponivel: disponivel(x), inicio: x.inicio })),
+      online: online(),
       regioes: REGIOES.map((r) => ({ id: r.id, nome: r.nome, ufs: r.ufs })),
       fonte: `https://resultados.tse.jus.br/oficial/app/index.html#/eleicao/${T.eleicao}/uf/br/cargo/1/vis/nominal/resultados`,
     };
