@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;background:#0F0E0D;color:#F2EDE4}
+a{color:#F5C842}
+a:hover{color:#F2EDE4}
+</style>
+</helmet>
+<div style="min-height:100vh;background:#0F0E0D;color:#F2EDE4;font-family:'Archivo',system-ui,sans-serif">
+  <header style="max-width:1180px;margin:0 auto;padding:18px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px 16px;flex-wrap:wrap;border-bottom:1px solid #2A2622">
+    <div style="display:flex;align-items:center;gap:10px">
+      <div style="width:14px;height:14px;background:#F5C842"></div>
+      <div style="font-weight:800;font-stretch:115%;font-size:18px;letter-spacing:-0.01em">Apuração 2026</div>
+      <div style="font-family:'Silkscreen',monospace;font-size:11px;color:#0F0E0D;background:#F5C842;padding:3px 6px">MODO LUTA</div>
+    </div>
+    <div style="display:flex;gap:14px;align-items:center;font-size:13px;color:#A39B90">
+      <span>Presidente · 1º turno</span>
+      <span style="font-family:'Silkscreen',monospace;font-size:11px;color:#F2EDE4;border:1px solid #3A342E;padding:3px 6px">SIMULAÇÃO</span>
+    </div>
+  </header>
+
+  <main style="max-width:1180px;margin:0 auto;padding:22px 20px 56px;display:grid;gap:22px">
+    <p style="margin:0;max-width:620px;font-size:15px;line-height:1.5;color:#A39B90;text-wrap:pretty">A apuração do 1º turno virou luta. Quem tem mais votos válidos bate mais e empurra o rival para o corner. Passou de 50%, é nocaute.</p>
+
+    <section data-screen-label="Placar" style="display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:16px;align-items:end">
+      <div style="display:grid;gap:10px;min-width:0">
+        <div style="display:flex;align-items:center;gap:12px;min-width:0">
+          <div style="flex:none;width:clamp(44px,6vw,64px);aspect-ratio:1;background:#E5383B;display:grid;place-items:center;font-family:'Silkscreen',monospace;font-weight:700;font-size:clamp(18px,2.6vw,28px);color:#0F0E0D">13</div>
+          <div style="min-width:0">
+            <div style="font-family:'Silkscreen',monospace;font-size:11px;letter-spacing:0.06em;color:#E5383B">P1 · PT</div>
+            <div style="font-weight:800;font-stretch:125%;font-size:clamp(22px,3.6vw,40px);line-height:1;letter-spacing:-0.01em">LULA</div>
+            <div style="font-size:12px;color:#A39B90;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Luiz Inácio Lula da Silva</div>
+          </div>
+        </div>
+        <div style="font-weight:800;font-stretch:112%;font-size:clamp(28px,6vw,68px);line-height:0.95;font-variant-numeric:tabular-nums;letter-spacing:-0.02em">{{ lPct }}</div>
+        <div style="font-size:13px;color:#A39B90;font-variant-numeric:tabular-nums">{{ lVotos }}</div>
+      </div>
+
+      <div style="display:grid;justify-items:center;gap:6px;padding-bottom:4px;text-align:center">
+        <div style="font-family:'Silkscreen',monospace;font-size:12px;color:#0F0E0D;background:#F5C842;padding:3px 8px;white-space:nowrap">{{ round }}</div>
+        <div style="font-weight:800;font-size:clamp(22px,4vw,46px);line-height:1;font-variant-numeric:tabular-nums">{{ urnas }}</div>
+        <div style="font-size:12px;color:#A39B90">urnas apuradas</div>
+        <div style="font-family:'Silkscreen',monospace;font-size:11px;color:#A39B90;white-space:nowrap">{{ clock }}</div>
+      </div>
+
+      <div style="display:grid;gap:10px;min-width:0;justify-items:end;text-align:right">
+        <div style="display:flex;flex-direction:row-reverse;align-items:center;gap:12px;min-width:0">
+          <div style="flex:none;width:clamp(44px,6vw,64px);aspect-ratio:1;background:#3B7BF0;display:grid;place-items:center;font-family:'Silkscreen',monospace;font-weight:700;font-size:clamp(18px,2.6vw,28px);color:#0F0E0D">22</div>
+          <div style="min-width:0">
+            <div style="font-family:'Silkscreen',monospace;font-size:11px;letter-spacing:0.06em;color:#3B7BF0">P2 · PL</div>
+            <div style="font-weight:800;font-stretch:125%;font-size:clamp(22px,3.6vw,40px);line-height:1;letter-spacing:-0.01em">FLÁVIO</div>
+            <div style="font-size:12px;color:#A39B90;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Flávio Bolsonaro</div>
+          </div>
+        </div>
+        <div style="font-weight:800;font-stretch:112%;font-size:clamp(28px,6vw,68px);line-height:0.95;font-variant-numeric:tabular-nums;letter-spacing:-0.02em">{{ fPct }}</div>
+        <div style="font-size:13px;color:#A39B90;font-variant-numeric:tabular-nums">{{ fVotos }}</div>
+      </div>
+    </section>
+
+    <section style="display:grid;gap:10px">
+      <div style="position:relative;padding:5px 0">
+        <div style="height:24px;background:#2A2622;display:flex;justify-content:space-between;overflow:hidden">
+          <div style="width:{{ lw }};background:#E5383B;transition:width .35s"></div>
+          <div style="width:{{ fw }};background:#3B7BF0;transition:width .35s"></div>
+        </div>
+        <div style="position:absolute;left:0;right:0;top:5px;height:24px;background-image:repeating-linear-gradient(90deg,transparent 0,transparent calc(2% - 2px),#0F0E0D calc(2% - 2px),#0F0E0D 2%);pointer-events:none"></div>
+        <div style="position:absolute;left:50%;top:0;bottom:0;width:4px;margin-left:-2px;background:#F5C842"></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px 16px;flex-wrap:wrap;font-size:12px;color:#A39B90">
+        <span>Votos válidos apurados</span>
+        <span style="font-family:'Silkscreen',monospace;color:#F5C842">50% + 1 = NOCAUTE</span>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px 20px;font-size:13px;color:#A39B90">
+        <sc-for list="{{ outros }}" as="o" hint-placeholder-count="4">
+          <span style="display:flex;gap:6px"><span style="color:#F2EDE4">{{ o.nome }}</span><span>{{ o.partido }}</span><span style="font-variant-numeric:tabular-nums;color:#F2EDE4">{{ o.pct }}</span></span>
+        </sc-for>
+      </div>
+    </section>
+
+    <section data-screen-label="Ringue" style="border:1px solid #2A2622;background:#0B0A09;line-height:0">
+      <canvas ref="{{ canvasRef }}" style="display:block;width:100%;aspect-ratio:320 / 150"></canvas>
+    </section>
+
+    <section style="display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px">
+      <div style="display:flex;gap:8px">
+        <button onClick="{{ togglePlay }}" style="font-family:'Silkscreen',monospace;font-weight:700;font-size:14px;padding:0 18px;min-height:46px;min-width:132px;background:#2FA65A;color:#0F0E0D;border:0;border-radius:4px;box-shadow:inset 0 -4px 0 rgba(0,0,0,.28);cursor:pointer" style-active="transform:translateY(2px);box-shadow:inset 0 -2px 0 rgba(0,0,0,.28)">{{ playLabel }}</button>
+        <button onClick="{{ restart }}" style="font-family:'Silkscreen',monospace;font-weight:700;font-size:14px;padding:0 18px;min-height:46px;background:#E8833A;color:#0F0E0D;border:0;border-radius:4px;box-shadow:inset 0 -4px 0 rgba(0,0,0,.28);cursor:pointer" style-active="transform:translateY(2px);box-shadow:inset 0 -2px 0 rgba(0,0,0,.28)">REINICIAR</button>
+      </div>
+      <div style="flex:1 1 260px;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center">
+        <span style="font-family:'Silkscreen',monospace;font-size:11px;color:#A39B90">17:00</span>
+        <input type="range" min="0" max="1000" step="1" value="{{ scrub }}" onChange="{{ onScrub }}" aria-label="Linha do tempo da apuração" style="width:100%;margin:0;accent-color:#F5C842;cursor:pointer">
+        <span style="font-family:'Silkscreen',monospace;font-size:11px;color:#A39B90">21:30</span>
+      </div>
+      <div style="display:flex;border:1px solid #3A342E;border-radius:4px;overflow:hidden">
+        <sc-for list="{{ speeds }}" as="sp" hint-placeholder-count="3">
+          <button onClick="{{ sp.on }}" style="font-family:'Silkscreen',monospace;font-size:13px;min-width:48px;min-height:44px;border:0;background:{{ sp.bg }};color:{{ sp.fg }};cursor:pointer">{{ sp.label }}</button>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:20px;align-items:start">
+      <div data-screen-label="Por região" style="background:#161412;border:1px solid #2A2622;padding:18px 20px 8px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:8px">
+          <h2 style="margin:0;font-family:'Silkscreen',monospace;font-weight:400;font-size:13px;letter-spacing:0.06em">POR REGIÃO</h2>
+          <span style="font-size:12px;color:#A39B90">apurado</span>
+        </div>
+        <sc-for list="{{ regioes }}" as="r" hint-placeholder-count="5">
+          <div style="display:grid;grid-template-columns:100px minmax(0,1fr) 64px;gap:12px;align-items:center;padding:11px 0;border-top:1px solid #2A2622">
+            <div style="font-size:14px">{{ r.nome }}</div>
+            <div style="display:grid;gap:5px">
+              <div style="display:flex;justify-content:space-between;height:10px;background:#2A2622">
+                <div style="width:{{ r.lw }};background:#E5383B"></div>
+                <div style="width:{{ r.fw }};background:#3B7BF0"></div>
+              </div>
+              <div style="display:flex;justify-content:space-between;gap:8px;font-size:12px;color:#A39B90;font-variant-numeric:tabular-nums"><span>{{ r.lp }}</span><span>{{ r.fp }}</span></div>
+            </div>
+            <div style="text-align:right;font-size:14px;font-variant-numeric:tabular-nums">{{ r.apurado }}</div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div data-screen-label="Lance a lance" style="background:#161412;border:1px solid #2A2622;padding:18px 20px 8px">
+        <h2 style="margin:0 0 8px;font-family:'Silkscreen',monospace;font-weight:400;font-size:13px;letter-spacing:0.06em">LANCE A LANCE</h2>
+        <div style="max-height:330px;overflow:auto">
+          <sc-for list="{{ feed }}" as="e" hint-placeholder-count="3">
+            <div style="display:grid;grid-template-columns:44px minmax(0,1fr);gap:12px;padding:11px 0;border-top:1px solid #2A2622">
+              <div style="font-family:'Silkscreen',monospace;font-size:11px;color:#A39B90;padding-top:2px">{{ e.hora }}</div>
+              <div style="display:grid;gap:6px;justify-items:start">
+                <sc-if value="{{ e.hasTag }}" hint-placeholder-val="{{ false }}">
+                  <span style="font-family:'Silkscreen',monospace;font-size:10px;background:#F5C842;color:#0F0E0D;padding:2px 6px">{{ e.tag }}</span>
+                </sc-if>
+                <div style="font-size:14px;line-height:1.45;text-wrap:pretty">{{ e.txt }}</div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    <footer style="font-size:12px;color:#A39B90;line-height:1.5;border-top:1px solid #2A2622;padding-top:16px;display:flex;flex-wrap:wrap;gap:8px 20px;justify-content:space-between">
+      <span>Simulação ilustrativa com dados fictícios. Não é resultado oficial.</span>
+      <span>Resultados oficiais: <a href="https://resultados.tse.jus.br" target="_blank" rel="noopener">TSE</a></span>
+    </footer>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;cenario&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Virada → 2º turno&quot;,&quot;Lula no 1º turno&quot;,&quot;Flávio no 1º turno&quot;],&quot;default&quot;:&quot;Virada → 2º turno&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Simulação&quot;},&quot;duracao&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;min&quot;:30,&quot;max&quot;:240,&quot;step&quot;:10,&quot;unit&quot;:&quot;s&quot;,&quot;default&quot;:90,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Simulação&quot;},&quot;tremor&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Efeitos&quot;}}">
+class Component extends DCLogic {
+  state = { snap: null, playing: false, speed: 1 };
+  cv = React.createRef();
+  W = 320; H = 150; FLOOR = 132;
+  REG = [
+    { id: 'SE', nome: 'Sudeste', v: 50, d: 0, du: .78, b: 3 },
+    { id: 'S', nome: 'Sul', v: 17, d: 0, du: .70, b: 2 },
+    { id: 'CO', nome: 'Centro-Oeste', v: 9.5, d: .03, du: .80, b: 2 },
+    { id: 'NE', nome: 'Nordeste', v: 32, d: .10, du: .90, b: -4 },
+    { id: 'N', nome: 'Norte', v: 9, d: .12, du: .88, b: -2 },
+  ];
+  SCEN = {
+    'Virada → 2º turno': { SE: [42, 50], S: [35, 56], CO: [36, 56], NE: [66, 27], N: [48, 45] },
+    'Lula no 1º turno': { SE: [46, 47], S: [38, 53], CO: [40, 52], NE: [70, 24], N: [52, 42] },
+    'Flávio no 1º turno': { SE: [37, 56], S: [30, 62], CO: [32, 61], NE: [60, 34], N: [42, 51] },
+  };
+  OUT = [['Ronaldo Caiado', 'PSD', .44], ['Renan Santos', 'Missão', .22], ['Augusto Cury', 'Avante', .16], ['Outros', '', .18]];
+  NOME = { L: 'Lula', F: 'Flávio' };
+  COR = { L: '#E5383B', F: '#3B7BF0' };
+  PAL = {
+    L: { skin: '#C68A64', skinD: '#9A6748', hair: '#CFCAC2', brow: '#A9A39A', beard: true, shirt: '#E5383B', shirtD: '#A82226', shorts: '#6E1216', glove: '#EFE9DD', gloveD: '#B8AFA0', shoe: '#1A1714' },
+    F: { skin: '#E2B18E', skinD: '#B58563', hair: '#2A1E17', brow: '#2A1E17', beard: false, shirt: '#3B7BF0', shirtD: '#2552B0', shorts: '#14306E', glove: '#F5C842', gloveD: '#B8921F', shoe: '#1A1714' },
+  };
+
+  scen() { const s = this.props.cenario; return this.SCEN[s] ? s : 'Virada → 2º turno'; }
+  pc(v) { return v.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '%'; }
+  pc1(v) { return v.toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + '%'; }
+  num(v) { return Math.round(v).toLocaleString('pt-BR'); }
+  short(v) { return v >= 1e6 ? (v / 1e6).toLocaleString('pt-BR', { maximumFractionDigits: 1 }) + ' MI' : Math.round(v / 1000) + ' MIL'; }
+  hora(t) { const m = 17 * 60 + Math.round(t * 270); return String(Math.floor(m / 60)).padStart(2, '0') + ':' + String(m % 60).padStart(2, '0'); }
+
+  sample(t) {
+    const sc = this.SCEN[this.scen()];
+    let tot = 0, cnt = 0, L = 0, F = 0; const regs = [];
+    for (const g of this.REG) {
+      const x = Math.min(1, Math.max(0, (t - g.d) / g.du));
+      const r = 1 - Math.pow(1 - x, 1.7);
+      const [lf, ff] = sc[g.id];
+      const lp = lf + g.b * (1 - r), fp = ff - g.b * .8 * (1 - r);
+      const c = g.v * 1e6 * r;
+      tot += g.v * 1e6; cnt += c; L += c * lp / 100; F += c * fp / 100;
+      regs.push({ g, r, lp, fp, c });
+    }
+    const lp = cnt ? L / cnt * 100 : 0, fp = cnt ? F / cnt * 100 : 0;
+    return { t, urnas: cnt / tot * 100, cnt, L, F, lp, fp, op: cnt ? 100 - lp - fp : 0, regs };
+  }
+
+  ensure() {
+    const sc = this.scen(); if (this._sc === sc) return;
+    const first = this._sc === undefined; this._sc = sc; this.buildEvents();
+    if (!first) this._reset = true;
+  }
+
+  buildEvents() {
+    const N = 1000, ev = [], nm = k => this.NOME[k], pc = v => this.pc1(v);
+    const diff = (r, k) => k === 'L' ? r.lp - r.fp : r.fp - r.lp;
+    ev.push({ t: 0, tag: '', txt: 'Urnas fechadas. Começa a apuração do 1º turno para presidente.' });
+    let lead = null, prev = this.sample(0); const ms = [10, 25, 50, 75, 90, 99]; let mi = 0; const done = {};
+    for (let i = 1; i <= N; i++) {
+      const s = this.sample(i / N), m = s.lp - s.fp;
+      if (lead === null && s.cnt > 0) {
+        lead = m >= 0 ? 'L' : 'F';
+        const best = s.regs.slice().sort((a, b) => b.c * diff(b, lead) - a.c * diff(a, lead))[0];
+        ev.push({ t: s.t, tag: '', txt: `${nm(lead)} sai na frente com a força do ${best.g.nome}.` });
+      } else if (lead && Math.abs(m) > .1 && (m > 0 ? 'L' : 'F') !== lead) {
+        const nl = m > 0 ? 'L' : 'F';
+        const best = s.regs.map((r, j) => ({ r, k: (r.c - prev.regs[j].c) * diff(r, nl) })).sort((a, b) => b.k - a.k)[0].r;
+        ev.push({ t: s.t, tag: 'VIRADA', virada: nl, txt: `${nm(nl)} passa ${nm(lead)} com os votos do ${best.g.nome}.` });
+        lead = nl;
+      }
+      while (mi < ms.length && s.urnas >= ms[mi]) { ev.push({ t: s.t, tag: '', txt: `${ms[mi]}% das urnas apuradas: Lula ${pc(s.lp)} × ${pc(s.fp)} Flávio.` }); mi++; }
+      s.regs.forEach(r => {
+        if (r.r >= 1 && !done[r.g.id]) {
+          done[r.g.id] = 1; const w = r.lp > r.fp ? 'L' : 'F';
+          ev.push({ t: s.t, tag: '', txt: `${r.g.nome} 100% apurado. ${nm(w)} vence na região com ${pc(Math.max(r.lp, r.fp))}.` });
+        }
+      });
+      prev = s;
+    }
+    const f = this.sample(1), w = f.lp > f.fp ? 'L' : 'F', o = w === 'L' ? 'F' : 'L', wp = Math.max(f.lp, f.fp);
+    ev.push({ t: 1, tag: wp > 50 ? 'NOCAUTE' : 'FIM DO ROUND 1', txt: wp > 50 ? `${nm(w)} chega a ${pc(wp)} dos votos válidos e vence no 1º turno.` : `Ninguém passa de 50%. ${nm(w)} e ${nm(o)} voltam ao ringue no 2º turno, em 25 de outubro.` });
+    this.ev = ev;
+  }
+
+  mkF(k) { return { k, facing: k === 'L' ? 1 : -1, x: 160 + (k === 'L' ? -18 : 18), kx: 0, pose: 'idle', pt: 0, hit: false, fall: 0, flash: 0, phase: k === 'L' ? 0 : 1.7, lastV: 0, big: false }; }
+
+  componentDidMount() {
+    this.ensure(); this._reset = false;
+    const E = this.E = { t: 0, playing: false, speed: 1, ended: false, center: 160, banners: [], parts: [], floats: [], flashes: [], shake: 0, cheer: { L: 0, F: 0 }, nextAtk: 1, T: 0 };
+    E.f = { L: this.mkF('L'), F: this.mkF('F') };
+    this.bufC = document.createElement('canvas'); this.bufC.width = this.W; this.bufC.height = this.H; this.buf = this.bufC.getContext('2d');
+    this.buildBG(); this.buildCrowd();
+    let t0 = 0; try { const v = parseFloat(localStorage.getItem('apuracao-luta-t')); if (v > 0 && v <= 1) t0 = v; } catch (e) {}
+    this.seek(t0);
+    this.last = performance.now();
+    const loop = now => { this.raf = requestAnimationFrame(loop); this.frame(now); };
+    this.raf = requestAnimationFrame(loop);
+    if (t0 === 0) this.autoT = setTimeout(() => this.play(), 700);
+  }
+  componentWillUnmount() { cancelAnimationFrame(this.raf); clearTimeout(this.autoT); }
+  componentDidUpdate() { if (this._reset && this.E) { this._reset = false; this.seek(0); } }
+
+  push(force) {
+    const now = performance.now(); if (!force && now - (this.lastPush || 0) < 100) return;
+    this.lastPush = now; const E = this.E;
+    this.setState({ snap: this.sample(E.t), playing: E.playing, speed: E.speed });
+    try { localStorage.setItem('apuracao-luta-t', String(E.t)); } catch (e) {}
+  }
+  seek(t) {
+    const E = this.E; E.t = Math.max(0, Math.min(1, t)); E.ended = false; E.banners = []; E.floats = [];
+    const s = this.sample(E.t);
+    ['L', 'F'].forEach(k => { const f = E.f[k]; f.pose = 'idle'; f.pt = 0; f.fall = 0; f.kx = 0; f.lastV = k === 'L' ? s.L : s.F; });
+    if (E.t >= 1) this.finish(true); else this.push(true);
+  }
+  finish(instant) {
+    const E = this.E; E.ended = true; E.playing = false; E.t = 1;
+    const s = this.sample(1), w = s.lp > s.fp ? 'L' : 'F', o = w === 'L' ? 'F' : 'L', wp = Math.max(s.lp, s.fp);
+    if (wp > 50) {
+      E.f[o].pose = 'ko'; E.f[o].pt = instant ? 1 : 0; E.f[o].kx = E.f[w].facing * 14;
+      E.f[w].pose = 'win'; E.f[w].pt = 0; E.cheer[w] = 99;
+      E.banners = [{ text: 'K.O.!', sub: `${this.NOME[w].toUpperCase()} ELEITO NO 1º TURNO`, dur: 0, age: instant ? 1 : 0 }];
+    } else {
+      E.f.L.pose = 'idle'; E.f.F.pose = 'idle';
+      E.banners = [{ text: 'ROUND 2', sub: '2º TURNO · 25 DE OUTUBRO', dur: 0, age: instant ? 1 : 0 }];
+    }
+    this.push(true);
+  }
+  play() {
+    clearTimeout(this.autoT); const E = this.E;
+    if (E.ended || E.t >= 1) this.seek(0);
+    E.playing = true;
+    if (E.t === 0) E.banners = [{ text: 'ROUND 1', sub: 'PRESIDENTE · 1º TURNO', dur: 1.3, age: 0, intro: true }, { text: 'LUTEM!', sub: '', dur: .75, age: 0, intro: true }];
+    this.push(true);
+  }
+  toggle() { const E = this.E; if (E.playing) { E.playing = false; clearTimeout(this.autoT); this.push(true); } else this.play(); }
+  restart() { clearTimeout(this.autoT); this.seek(0); this.play(); }
+  setSpeed(v) { this.E.speed = v; this.setState({ speed: v }); }
+
+  frame(now) {
+    const E = this.E, dt = Math.min(.05, (now - this.last) / 1000); this.last = now; E.T += dt;
+    const intro = E.banners[0] && E.banners[0].intro;
+    if (E.playing && !E.ended && !intro) {
+      const dur = Math.max(10, this.props.duracao || 90), pt = E.t;
+      E.t = Math.min(1, E.t + dt * E.speed / dur);
+      for (const e of this.ev) if (e.virada && e.t > pt && e.t <= E.t) this.virada(e.virada);
+      if (E.t >= 1) this.finish(false); else this.push(false);
+    }
+    this.cur = this.sample(E.t);
+    this.update(dt); this.draw();
+  }
+  virada(k) {
+    const E = this.E, a = E.f[k];
+    E.banners = E.banners.filter(b => b.intro);
+    E.banners.push({ text: 'VIRADA!', sub: `${this.NOME[k].toUpperCase()} ASSUME A LIDERANÇA`, dur: 1.5, age: 0 });
+    a.pose = 'upper'; a.pt = 0; a.hit = false; E.nextAtk = .9;
+  }
+
+  isAtk(f) { return f.pose === 'jab' || f.pose === 'cross' || f.pose === 'upper'; }
+  update(dt) {
+    const E = this.E, s = this.cur, m = s.cnt ? s.lp - s.fp : 0;
+    const target = 160 + Math.max(-60, Math.min(60, m * 5));
+    E.center += (target - E.center) * Math.min(1, dt * 2.5);
+    E.cheer.L = Math.max(0, E.cheer.L - dt); E.cheer.F = Math.max(0, E.cheer.F - dt);
+    E.shake = Math.max(0, E.shake - dt);
+    if (E.playing && !E.ended && !(E.banners[0] && E.banners[0].intro)) {
+      E.nextAtk -= dt;
+      if (E.nextAtk <= 0) {
+        const lead = m >= 0 ? 'L' : 'F', pLead = .55 + Math.min(Math.abs(m), 12) * .03;
+        const ak = Math.random() < pLead ? lead : (lead === 'L' ? 'F' : 'L'), a = E.f[ak];
+        if (a.pose === 'idle') { a.pose = Math.random() < .5 ? 'jab' : 'cross'; a.pt = 0; a.hit = false; }
+        E.nextAtk = (.45 + Math.random() * .7) / Math.sqrt(E.speed);
+      }
+    }
+    this.updF(E.f.L, E.f.F, dt); this.updF(E.f.F, E.f.L, dt);
+    E.parts.forEach(p => { p.x += p.vx * dt; p.y += p.vy * dt; p.vy += 260 * dt; p.life -= dt; });
+    E.parts = E.parts.filter(p => p.life > 0);
+    E.floats.forEach(f => f.age += dt); E.floats = E.floats.filter(f => f.age < .9);
+    E.flashes.forEach(f => f.life -= dt); E.flashes = E.flashes.filter(f => f.life > 0);
+    if (Math.random() < dt * 4 && this.crowd) { const c = this.crowd[Math.floor(Math.random() * this.crowd.length)]; E.flashes.push({ x: c.x, y: c.y - 6, life: .07 }); }
+    const b0 = E.banners[0]; if (b0) { b0.age += dt; if (b0.dur && b0.age >= b0.dur) E.banners.shift(); }
+  }
+  updF(f, o, dt) {
+    f.pt += dt; f.flash = Math.max(0, f.flash - dt);
+    const atk = this.isAtk(f);
+    if (atk) {
+      const big = f.pose === 'upper', hitAt = big ? .13 : .08, end = big ? .4 : .22;
+      if (!f.hit && f.pt >= hitAt) { f.hit = true; this.land(f, o, big); }
+      if (f.pt >= end) { f.pose = 'idle'; f.pt = 0; }
+    } else if (f.pose === 'hit' && f.pt >= (f.big ? .45 : .28)) { f.pose = 'idle'; f.pt = 0; }
+    if (f.pose === 'ko') f.fall = Math.min(1, Math.pow(f.pt / .45, 2)); else { f.fall = 0; f.kx *= Math.exp(-dt * 5); }
+    const tx = this.E.center + (f.k === 'L' ? -18 : 18) + (atk ? 3 * f.facing : 0);
+    f.x += (tx - f.x) * Math.min(1, dt * 18);
+  }
+  land(a, d, big) {
+    const E = this.E;
+    if (d.pose === 'ko') return;
+    d.pose = 'hit'; d.pt = 0; d.flash = .07; d.big = big; d.kx += a.facing * (big ? 9 : 4);
+    const J = this.joints(a, E.T), g = a.pose === 'jab' ? J.gF : J.gB;
+    const gx = a.x + (g[0] + 3) * a.facing, gy = this.FLOOR + g[1];
+    for (let i = 0; i < (big ? 16 : 9); i++) E.parts.push({ x: gx, y: gy, vx: a.facing * (20 + Math.random() * 70) + (Math.random() - .5) * 60, vy: -30 - Math.random() * 90, life: .2 + Math.random() * .2, col: Math.random() < .5 ? '#FFFFFF' : '#F5C842', sz: Math.random() < .3 ? 2 : 1 });
+    E.parts.push({ x: gx, y: gy, vx: 0, vy: 0, life: .09, star: big ? 7 : 5 });
+    E.shake = this.props.tremor === false ? 0 : (big ? .2 : .08);
+    E.cheer[a.k] = big ? 1.6 : .7;
+    const v = a.k === 'L' ? this.cur.L : this.cur.F, dv = v - a.lastV; a.lastV = v;
+    if (dv > 500) E.floats.push({ x: gx, y: gy - 8, txt: '+' + this.short(dv), col: this.COR[a.k], age: 0 });
+  }
+
+  joints(f, T) {
+    const b = (f.pose === 'idle') ? Math.round(Math.sin(T * 6 + f.phase) * 1.2) : 0;
+    const J = { hip: [0, -28 + b], sh: [2, -46 + b], hd: [4, -55 + b], kB: [-7, -14], fB: [-11, 0], kF: [8, -14], fF: [10, 0], eF: [11, -39 + b], gF: [15, -47 + b], eB: [6, -38 + b], gB: [9, -46 + b] };
+    switch (f.pose) {
+      case 'jab': Object.assign(J, { sh: [4, -46], hd: [6, -55], eF: [15, -46], gF: [25, -48] }); break;
+      case 'cross': Object.assign(J, { hip: [1, -28], sh: [5, -46], hd: [7, -54], eB: [14, -45], gB: [25, -48], eF: [9, -40], gF: [12, -48] }); break;
+      case 'upper': Object.assign(J, { hip: [1, -26], sh: [4, -46], hd: [5, -56], eB: [15, -50], gB: [20, -61], eF: [9, -40], gF: [12, -48] }); break;
+      case 'hit': case 'ko': Object.assign(J, { hip: [-2, -28], sh: [-4, -46], hd: [-6, -54], eF: [3, -41], gF: [6, -51], eB: [-2, -40], gB: [1, -52], kF: [6, -14] }); break;
+      case 'win': {
+        const j = Math.round(Math.abs(Math.sin(T * 5)) * 4);
+        for (const k in J) J[k] = [J[k][0], J[k][1] - j];
+        Object.assign(J, { eF: [8, -58 - j], gF: [10, -68 - j], eB: [-2, -58 - j], gB: [-3, -68 - j] });
+        break;
+      }
+    }
+    return J;
+  }
+
+  buildBG() {
+    const W = this.W, H = this.H;
+    const c = document.createElement('canvas'); c.width = W; c.height = H; const g = c.getContext('2d');
+    const R = (x, y, w, h, col) => { g.fillStyle = col; g.fillRect(x, y, w, h); };
+    const bands = ['#0D0B0A', '#110E0C', '#15110E', '#1A1511', '#201913', '#271E16', '#2F2419'];
+    bands.forEach((col, i) => {
+      R(0, i * 13, W, 13, col);
+      if (i > 0) { g.fillStyle = bands[i - 1]; for (let x = i % 2; x < W; x += 2) g.fillRect(x, i * 13, 1, 1); for (let x = (i + 1) % 2; x < W; x += 4) g.fillRect(x, i * 13 + 1, 1, 1); }
+    });
+    let seed = 7; const rnd = () => { seed = (seed * 16807) % 2147483647; return seed / 2147483647; };
+    for (let i = 0; i < 44; i++) R(Math.floor(rnd() * W), Math.floor(rnd() * 50), 1, 1, rnd() < .3 ? '#8A7F70' : '#4A4239');
+    for (let y = -6; y <= 6; y++) { const hw = Math.floor(Math.sqrt(36 - y * y)); R(266 - hw, 22 + y, hw * 2 + 1, 1, '#D8CDB8'); }
+    R(264, 20, 2, 2, '#BFB39C'); R(268, 24, 2, 1, '#BFB39C'); R(263, 25, 1, 1, '#BFB39C');
+    const cg = '#3B3029', cgL = '#4C3E33';
+    R(80, 82, 160, 4, cg); R(80, 82, 160, 1, cgL);
+    R(151, 32, 7, 50, cg); R(162, 32, 7, 50, cg); R(158, 44, 4, 3, cg); R(151, 32, 7, 1, cgL); R(162, 32, 7, 1, cgL);
+    for (let y = 35; y < 80; y += 3) for (const x of [152, 154, 156, 163, 165, 167]) if (rnd() < .35) R(x, y, 1, 1, '#8A6A3E');
+    for (let i = 0; i < 10; i++) { const hw = Math.round(4 + i * 1.5); R(118 - hw, 81 - i, hw * 2, 1, cg); }
+    R(100, 72, 36, 1, cgL);
+    for (let y = 0; y < 9; y++) { const hw = Math.round(Math.sqrt(81 - y * y)); R(202 - hw, 81 - y, hw * 2, 1, cg); }
+    R(0, 86, W, 24, '#120F0E');
+    R(0, 110, W, 30, '#221E1B'); R(36, 112, 248, 26, '#26211D');
+    for (let a = 0; a < 360; a += 2) R(Math.round(160 + Math.cos(a * Math.PI / 180) * 46), Math.round(125 + Math.sin(a * Math.PI / 180) * 8), 1, 1, '#342D27');
+    R(0, 140, W, 1, '#4A4038'); R(0, 141, W, 9, '#151210');
+    this.bg = c;
+    const r = document.createElement('canvas'); r.width = W; r.height = H; const q = r.getContext('2d');
+    const Q = (x, y, w, h, col) => { q.fillStyle = col; q.fillRect(x, y, w, h); };
+    [[94, '#2FA65A', '#1E6E3B'], [101, '#F5C842', '#B08F26'], [108, '#3B7BF0', '#2552A8']].forEach(([y, c1, c2]) => { Q(10, y, 300, 1, c1); Q(10, y + 1, 300, 1, c2); });
+    Q(6, 88, 5, 54, '#9A9086'); Q(6, 88, 1, 54, '#C9C0B4'); Q(309, 88, 5, 54, '#9A9086'); Q(313, 88, 1, 54, '#6A625A');
+    Q(5, 92, 7, 18, '#C42A2E'); Q(5, 92, 7, 1, '#E5585B'); Q(308, 92, 7, 18, '#2E62C8'); Q(308, 92, 7, 1, '#5B8AF0');
+    this.ropes = r;
+  }
+  buildCrowd() {
+    const cr = [], LB = ['#6A2426', '#5A1E20', '#7A2C2C', '#4E2A26'], FB = ['#22386A', '#1C2E58', '#2A4278', '#283048'], NB = ['#3A342E', '#4A4038'], HD = ['#7A5A44', '#6A4C3A', '#8A6A50', '#5A4030', '#4A3A30'];
+    let seed = 3; const rnd = () => { seed = (seed * 16807) % 2147483647; return seed / 2147483647; };
+    [92, 97, 102].forEach((y, row) => {
+      for (let x = 14 + row * 1.7; x < 306; x += 3.6 + rnd() * 1.2) {
+        const pl = x < 160 ? .82 : .18, u = rnd(), k = u < pl ? 'L' : 'F';
+        const body = rnd() < .12 ? NB[Math.floor(rnd() * NB.length)] : (k === 'L' ? LB : FB)[Math.floor(rnd() * 4)];
+        cr.push({ x: Math.round(x), y, k, body, head: HD[Math.floor(rnd() * HD.length)], ph: rnd() * 6.28 });
+      }
+    });
+    this.crowd = cr;
+  }
+
+  drawCrowd(b) {
+    const E = this.E, T = E.T;
+    for (const p of this.crowd) {
+      const ch = E.cheer[p.k] > 0;
+      const bob = ch ? -Math.round(Math.abs(Math.sin(T * 16 + p.ph)) * 2) : (Math.sin(T * 1.7 + p.ph * 3) > .96 ? -1 : 0);
+      const y = p.y + bob;
+      b.fillStyle = p.body; b.fillRect(p.x - 2, y - 4, 4, 5);
+      b.fillStyle = p.head; b.fillRect(p.x - 1, y - 7, 3, 3);
+      if (ch) { b.fillRect(p.x - 3, y - 9, 1, 4); b.fillRect(p.x + 2, y - 9, 1, 4); }
+    }
+    for (const f of E.flashes) { b.fillStyle = '#FFFFFF'; b.fillRect(f.x - 1, f.y, 3, 1); b.fillRect(f.x, f.y - 1, 1, 3); }
+  }
+
+  drawF(b, f) {
+    const E = this.E, P = this.PAL[f.k], s = f.facing, X = Math.round(f.x + f.kx), Y = this.FLOOR;
+    const J = this.joints(f, E.T);
+    const th = f.fall * Math.PI / 2, cs = Math.cos(th), sn = Math.sin(th);
+    const C = col => f.flash > 0 ? '#FFFFFF' : col;
+    const tr = p => [X + (p[0] * cs + p[1] * sn) * s, Y + (-p[0] * sn + p[1] * cs)];
+    const ln = (p1, p2, w, col) => {
+      const a = tr(p1), c = tr(p2), n = Math.max(1, Math.ceil(Math.max(Math.abs(c[0] - a[0]), Math.abs(c[1] - a[1])))), o = Math.floor(w / 2);
+      b.fillStyle = C(col);
+      for (let i = 0; i <= n; i++) b.fillRect(Math.round(a[0] + (c[0] - a[0]) * i / n) - o, Math.round(a[1] + (c[1] - a[1]) * i / n) - o, w, w);
+    };
+    const rc = (x0, y0, w, h, col) => {
+      b.fillStyle = C(col);
+      if (th === 0) { b.fillRect(s > 0 ? X + x0 : X - x0 - w + 1, Y + y0, w, h); return; }
+      for (let i = 0; i < w; i++) for (let j = 0; j < h; j++) { const q = tr([x0 + i, y0 + j]); b.fillRect(Math.round(q[0]), Math.round(q[1]), 2, 2); }
+    };
+    const ad = (p, dx, dy) => [p[0] + dx, p[1] + dy];
+    const sw = 26 + f.fall * 34;
+    b.fillStyle = 'rgba(0,0,0,.45)'; b.fillRect(Math.round(X - sw / 2 - s * f.fall * 26), Y, Math.round(sw), 2);
+    ln(ad(J.hip, -2, 0), J.kB, 5, P.skinD); ln(J.kB, J.fB, 5, P.skinD); rc(J.fB[0] - 3, J.fB[1] - 3, 7, 3, P.shoe);
+    const shB = ad(J.sh, -2, 2), shF = ad(J.sh, 2, 2);
+    ln(shB, J.eB, 3, P.skinD); ln(J.eB, J.gB, 3, P.skinD); rc(J.gB[0] - 2, J.gB[1] - 2, 5, 5, P.gloveD);
+    ln(ad(J.hip, 2, 0), J.kF, 5, P.skin); ln(J.kF, J.fF, 5, P.skin); rc(J.fF[0] - 3, J.fF[1] - 3, 7, 3, P.shoe);
+    ln(J.hip, J.sh, 9, P.shirt); ln(ad(J.hip, -3, 0), ad(J.sh, -3, 0), 2, P.shirtD);
+    ln(ad(J.hip, 0, -1), ad(J.hip, 0, 4), 11, P.shorts); ln(ad(J.hip, -5, -2), ad(J.hip, 5, -2), 1, P.glove);
+    const h = J.hd;
+    rc(h[0] - 2, h[1] + 4, 4, 3, P.skinD);
+    rc(h[0] - 5, h[1] - 6, 11, 12, P.skin);
+    rc(h[0] + 6, h[1] - 1, 1, 2, P.skin);
+    rc(h[0] - 5, h[1] - 6, 11, 3, P.hair); rc(h[0] - 5, h[1] - 3, 3, 5, P.hair);
+    if (P.beard) { rc(h[0] - 2, h[1] + 1, 8, 5, P.hair); rc(h[0] + 2, h[1] + 2, 3, 1, P.skinD); }
+    rc(h[0] + 2, h[1] - 3, 3, 1, P.brow); rc(h[0] + 3, h[1] - 2, 1, 1, '#14110F');
+    rc(h[0] - 1, h[1] - 1, 2, 2, P.skinD);
+    ln(shF, J.eF, 3, P.skin); ln(J.eF, J.gF, 3, P.skin); rc(J.gF[0] - 2, J.gF[1] - 3, 6, 6, P.glove); rc(J.gF[0] - 2, J.gF[1] - 3, 6, 1, '#FFFFFF');
+  }
+
+  draw() {
+    const c = this.cv.current; if (!c || !this.bg) return;
+    const E = this.E, W = this.W, H = this.H, b = this.buf;
+    const dpr = Math.min(2, window.devicePixelRatio || 1), cw = Math.max(1, Math.round(c.clientWidth * dpr)), ch = Math.round(cw * H / W);
+    if (c.width !== cw || c.height !== ch) { c.width = cw; c.height = ch; }
+    b.drawImage(this.bg, 0, 0); this.drawCrowd(b); b.drawImage(this.ropes, 0, 0);
+    ['L', 'F'].sort((x, y) => (this.isAtk(E.f[x]) ? 1 : 0) - (this.isAtk(E.f[y]) ? 1 : 0)).forEach(k => this.drawF(b, E.f[k]));
+    for (const p of E.parts) {
+      if (p.star) { const r = p.star, x = Math.round(p.x), y = Math.round(p.y); b.fillStyle = '#F5C842'; b.fillRect(x - r, y, r * 2 + 1, 1); b.fillRect(x, y - r, 1, r * 2 + 1); b.fillStyle = '#FFFFFF'; b.fillRect(x - 2, y - 2, 5, 5); }
+      else { b.fillStyle = p.col; b.fillRect(Math.round(p.x), Math.round(p.y), p.sz, p.sz); }
+    }
+    const ctx = c.getContext('2d'), sc = cw / W;
+    ctx.imageSmoothingEnabled = false;
+    const ox = E.shake > 0 ? Math.round((Math.random() * 2 - 1) * 1.5) * sc : 0, oy = E.shake > 0 ? Math.round((Math.random() * 2 - 1)) * sc : 0;
+    ctx.fillStyle = '#0B0A09'; ctx.fillRect(0, 0, cw, ch);
+    ctx.drawImage(this.bufC, ox, oy, cw, ch);
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.lineJoin = 'round';
+    for (const f of E.floats) {
+      ctx.globalAlpha = Math.max(0, 1 - Math.max(0, (f.age - .5) / .4));
+      ctx.font = `700 ${Math.round(7 * sc)}px Silkscreen, monospace`; ctx.lineWidth = Math.max(3, 1.8 * sc); ctx.strokeStyle = '#0F0E0D';
+      const y = (f.y - f.age * 16) * sc; ctx.strokeText(f.txt, f.x * sc, y); ctx.fillStyle = f.col; ctx.fillText(f.txt, f.x * sc, y);
+    }
+    const b0 = E.banners[0];
+    if (b0) {
+      const k = b0.age < .16 ? 1.7 - .7 * (b0.age / .16) : 1;
+      ctx.globalAlpha = b0.dur && b0.age > b0.dur - .25 ? Math.max(0, (b0.dur - b0.age) / .25) : 1;
+      const y = ch * .3;
+      ctx.fillStyle = 'rgba(11,10,9,.6)'; ctx.fillRect(0, y - 22 * sc, cw, (b0.sub ? 44 : 34) * sc);
+      ctx.font = `700 ${Math.round(26 * sc * k)}px Silkscreen, monospace`;
+      ctx.lineWidth = 3.2 * sc; ctx.strokeStyle = '#0F0E0D';
+      ctx.fillStyle = '#B02428'; ctx.fillText(b0.text, cw / 2 + 1.5 * sc, y - 5 * sc + 1.5 * sc);
+      ctx.strokeText(b0.text, cw / 2, y - 5 * sc); ctx.fillStyle = '#F5C842'; ctx.fillText(b0.text, cw / 2, y - 5 * sc);
+      if (b0.sub) { ctx.font = `700 ${Math.round(6.5 * sc)}px Silkscreen, monospace`; ctx.fillStyle = '#F2EDE4'; ctx.fillText(b0.sub, cw / 2, y + 13 * sc); }
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  renderVals() {
+    this.ensure();
+    const s = this.state.snap || this.sample(0), pc = v => this.pc(v), has = s.cnt > 0, end = s.t >= 1, wp = Math.max(s.lp, s.fp);
+    return {
+      canvasRef: this.cv,
+      lPct: has ? pc(s.lp) : '0,00%', fPct: has ? pc(s.fp) : '0,00%',
+      lVotos: this.num(s.L) + ' votos', fVotos: this.num(s.F) + ' votos',
+      lw: (has ? s.lp : 0) + '%', fw: (has ? s.fp : 0) + '%',
+      urnas: pc(s.urnas), clock: 'ATUALIZADO ' + this.hora(s.t),
+      round: end ? (wp > 50 ? 'K.O.' : 'FIM DO ROUND 1') : 'ROUND 1',
+      outros: this.OUT.map(([n, p, fr]) => ({ nome: n, partido: p ? `(${p})` : '', pct: has ? pc(s.op * fr) : '0,00%' })),
+      regioes: s.regs.map(r => ({ nome: r.g.nome, apurado: pc(r.r * 100), lw: (r.r > 0 ? r.lp : 0) + '%', fw: (r.r > 0 ? r.fp : 0) + '%', lp: r.r > 0 ? 'Lula ' + this.pc1(r.lp) : '—', fp: r.r > 0 ? this.pc1(r.fp) + ' Flávio' : '—' })),
+      feed: (this.ev || []).filter(e => e.t <= s.t + 1e-9).slice().reverse().map(e => ({ hora: this.hora(e.t), txt: e.txt, tag: e.tag, hasTag: !!e.tag })),
+      playLabel: this.state.playing ? 'PAUSAR' : (end ? 'DE NOVO' : 'ASSISTIR'),
+      togglePlay: () => this.toggle(), restart: () => this.restart(),
+      scrub: Math.round(s.t * 1000), onScrub: e => this.seek(+e.target.value / 1000),
+      speeds: [1, 2, 4].map(v => ({ label: v + '×', bg: this.state.speed === v ? '#F2EDE4' : 'transparent', fg: this.state.speed === v ? '#0F0E0D' : '#A39B90', on: () => this.setSpeed(v) })),
+    };
+  }
+}
+</script>
+</body>
+</html>
