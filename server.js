@@ -12,6 +12,7 @@ const HOST = process.env.HOST || '127.0.0.1';
 const BASE = process.env.TSE_BASE || 'https://resultados.tse.jus.br/oficial/ele2026';
 const INTERVALO = Number(process.env.INTERVALO_MS || 15000);
 const INTERVALO_LENTO = 5 * 60 * 1000; // 2º turno ainda sem arquivos, ou totalização encerrada
+const ANTES = 60 * 60 * 1000; // a partir de quanto antes do fechamento das urnas o turno sem arquivos é consultado no ritmo normal
 const PASSO = 60 * 1000; // no máximo um ponto de histórico por minuto de dados
 const NO_AR = Date.now();
 const DATA = path.join(__dirname, 'data');
@@ -238,8 +239,11 @@ function eleitorado(res) {
 async function laco(T) {
   try { await ciclo(T); } catch (e) { T.coleta.erro = String(e.message || e); console.error(`turno ${T.turno}:`, T.coleta.erro); }
   if (T.coleta.falhas) console.error(`turno ${T.turno}: ${T.coleta.falhas} arquivo(s) falharam`);
-  const lento = !T.ativo || (T.atual && T.atual.finalizado);
-  setTimeout(() => laco(T), lento ? INTERVALO_LENTO : INTERVALO);
+  // sem arquivos do TSE ainda: a cada 5 min, mas a partir de 1 h antes de as urnas fecharem, a cada 15 s
+  // (os arquivos do 2º turno aparecem perto das 17h e a página deve entrar nele assim que saírem)
+  const falta = T.ativo ? 0 : T.inicio - ANTES - Date.now();
+  const lento = falta > 0 || (T.atual && T.atual.finalizado);
+  setTimeout(() => laco(T), !lento ? INTERVALO : falta > 0 ? Math.max(INTERVALO, Math.min(INTERVALO_LENTO, falta)) : INTERVALO_LENTO);
 }
 
 // ---------- público online ----------

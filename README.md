@@ -22,7 +22,9 @@ No ar: https://apuracaox1doscria.duckdns.org (o endereço antigo, https://apurac
   O `md`/`tf` (resultado oficial) continuam vindo do `br`.
 - Histórico: no máximo um ponto por minuto de dados; entre um e outro, o último ponto acompanha os números.
 - Cada ponto guarda Brasil, 5 regiões e 28 UFs: `[seções totalizadas, seções, válidos, comparecimento, abstenção, brancos, nulos, {número: votos}]`.
-- Histórico em `data/historico-<eleição>.json`. O 2º turno é consultado a cada 5 min até o TSE publicar os arquivos.
+- Histórico em `data/historico-<eleição>.json`. Um turno sem arquivos no TSE é consultado a cada 5 min, e a cada 15 s
+  a partir de 1 h antes de as urnas fecharem (no dia 25/10, das 16h de Brasília em diante), para a página entrar no
+  2º turno assim que os arquivos saírem.
 - Público online: cada navegador guarda um id aleatório (F5 e outras abas não contam de novo) e o manda (`&id=`) nas
   consultas com a página visível; `online` = ids vistos nos últimos 40 s.
 - `eleitorado` na API: eleitorado total do TSE (`e.te`) por área (Brasil, regiões, UFs, exterior). A página usa para o
@@ -46,6 +48,9 @@ Os desenhos anteriores (v1 a v4) ficam em `design/` como referência.
   confete e o painel de previsão do 1º turno com a conta do 2º. Quando o 2º turno começa, a página vai sozinha para ele.
 - Brasil, região, UF ou exterior (seletor, mapa de quadradinhos, regiões clicáveis, "disputa mais apertada"); 1º/2º turno.
 - Ao vivo e replay do histórico (1×, 2×, 4×, 8×), com marcas de virada na linha do tempo; lance a lance por área.
+  A linha do tempo anda pela apuração, não pelo relógio: a posição mistura 90% da parte das urnas apuradas na área
+  com 10% da hora. O replay (60 s em 1×) passa devagar quando as urnas chegam em massa e rápido pelas horas em que
+  quase nada muda (no 1º turno, o Brasil foi de 90% a 100% em 7 das 10 horas); o meio da barra é ~50% das urnas.
   A linha do tempo de cada área vai até ela chegar a 100% das urnas apuradas (no 1º turno, o Brasil às 02:59 de 05/10;
   a totalização oficial do TSE só saiu às 12:51, sem mudar votos); depois disso, a página mostra o resultado final.
 - Fim de luta quando a área chega a 100% das urnas apuradas (ou com a totalização do TSE). No Brasil, nocaute ou
@@ -126,6 +131,7 @@ PORT=3100 node server.js
 
 ## Histórico
 
+- 05/10/2026: replay e linha do tempo pela % de urnas apuradas; 2º turno consultado a cada 15 s a partir das 16h de 25/10.
 - 05/10/2026: front v5: Entenda a apuração, aba DADOS (gráficos, tabela e CSV), matematicamente eleito/vitória
   garantida pelo eleitorado do TSE, supercenas, easter eggs, juiz novo e treinos redesenhados; a luta termina nos
   100% das urnas. Back: `eleitorado` por área e `t1` (fim do 1º turno) no 2º turno.
