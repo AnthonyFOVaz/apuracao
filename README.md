@@ -28,15 +28,23 @@ No ar: https://apuracaox1doscria.duckdns.org (o endereço antigo, https://apurac
 
 ## Front (`public/index.html`)
 
-Port de `design/Apuracao Luta v2.dc.html` para HTML/JS puro, ligado a `/api/estado?v=2` (consulta a cada 10 s).
+Port de `design/Apuracao Luta v3.dc.html` para HTML/JS puro, ligado a `/api/estado?v=2` (consulta a cada 10 s).
 
+- **Intervalo** entre os turnos (botão INTERVALO; é onde a página abre quando o 1º turno termina sem nocaute e o 2º
+  ainda não começou): resultado do 1º turno, contagem regressiva até as urnas do 2º turno fecharem (horário vindo do
+  servidor), calendário de 5 a 25/10 com um treino por dia no ringue (corner, coletiva, saco, corda, comício, corrida,
+  debate, flexões, manopla, sombra, pesagem, véspera, encarada) e montagem automática, sala de golpes (os 25 golpes,
+  um a um ou em demo), palpite para o 2º turno (salvo no aparelho; o banner do nocaute diz se acertou), torcida com
+  confete e o painel de previsão do 1º turno com a conta do 2º. Quando o 2º turno começa, a página vai sozinha para ele.
 - Brasil, região, UF ou exterior (seletor, mapa de quadradinhos, regiões clicáveis, "disputa mais apertada"); 1º/2º turno.
 - Ao vivo e replay do histórico (1×, 2×, 4×, 8×), com marcas de virada na linha do tempo; lance a lance por área.
 - Fim de luta: Brasil pelo resultado oficial do TSE (`md`/`tf`); estado ou região quando chega a 100% das seções.
-- Modo jogável (teclado ou botões; especial carregado pelos votos e por golpes certos), estatísticas, som e vibração.
+- Modo jogável com 25 golpes (socos, chutes, joelhadas, aéreos, arremesso, especial e ultra, provocação, esquiva) pelo
+  teclado ou pelos botões; especial carregado pelos votos e por golpes certos. Quedas, tontura, contra-golpes e juiz
+  que conta as quedas e, no nocaute, conta até 10 e levanta o braço do vencedor. Estatísticas, som e vibração.
 - Público online no topo. Layout de celular (largura < 720 px ou altura < 500 px): placar e ringue fixos no topo,
-  botões embaixo do ringue e abas Estados / Lances / Regiões / Luta.
-- Abre no 2º turno quando ele estiver disponível; `?turno=1` força o 1º.
+  golpes principais embaixo do ringue (os outros numa faixa que rola de lado) e abas Previsão / Estados / Lances / Regiões / Luta.
+- Abre no 2º turno quando ele estiver disponível (antes disso, no intervalo); `?turno=1` força a luta do 1º turno.
 - **Previsão** (primeiro painel; no celular, aba PREVISÃO), refeita a cada ponto, também no replay e para cada área:
   - em cada UF, os votos que faltam (estimados pelas seções que faltam) se dividem como os das últimas urnas apuradas
     nela (últimos 10 pontos de seções). Testado com a noite do 1º turno: mais estável que usar só o acumulado;
@@ -87,6 +95,8 @@ PORT=3100 node server.js
 
 ## Histórico
 
+- 04/10/2026: front v3: intervalo até o 2º turno (calendário de treinos, contagem, sala de golpes, palpite, torcida),
+  25 golpes, quedas e juiz no ringue.
 - 04/10/2026: coletor do TSE, API e página v1 publicados; histórico deduplicado por atualização nacional.
 - 04/10/2026: back v2 com histórico por UF/região, suporte ao 2º turno e API `?v=2`; atualização automática pelo GitHub.
 - 04/10/2026: painel de previsão (projeção por UF, chances por simulação, conta do 2º turno).

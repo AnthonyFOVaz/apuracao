@@ -1,0 +1,1947 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;background:#0F0E0D;color:#F2EDE4}
+a{color:#F5C842}
+a:hover{color:#F2EDE4}
+@keyframes liveP{0%,100%{opacity:1}50%{opacity:.25}}
+</style>
+</helmet>
+<sc-if value="{{ isDesk }}" hint-placeholder-val="{{ true }}">
+<div style="min-height:100vh;background:#0F0E0D;color:#F2EDE4;font-family:'Archivo',system-ui,sans-serif">
+  <header style="max-width:1180px;margin:0 auto;padding:18px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px 16px;flex-wrap:wrap;border-bottom:1px solid #2A2622">
+    <div style="display:flex;align-items:center;gap:10px">
+      <div style="width:14px;height:14px;background:#F5C842"></div>
+      <div style="font-weight:800;font-stretch:115%;font-size:18px;letter-spacing:-0.01em">Apuração 2026</div>
+      <div style="font-family:'Silkscreen',monospace;font-size:11px;color:#0F0E0D;background:#F5C842;padding:3px 6px">MODO LUTA</div>
+    </div>
+    <div style="display:flex;gap:10px 16px;align-items:center;flex-wrap:wrap;font-size:13px;color:#A39B90">
+      <span title="Pessoas no site agora" style="display:flex;align-items:center;gap:7px">{{ liveDot }}<span style="color:#F2EDE4;font-weight:600;font-variant-numeric:tabular-nums">{{ viewers }}</span><span>{{ viewLbl }}</span></span>
+      <span>{{ headerSub }}</span>
+      <span style="font-family:'Silkscreen',monospace;font-size:11px;color:#F2EDE4;border:1px solid #3A342E;padding:3px 6px">SIMULAÇÃO</span>
+    </div>
+  </header>
+
+  <main style="max-width:1180px;margin:0 auto;padding:22px 20px 56px;display:grid;gap:22px">
+    <sc-if value="{{ isLuta }}" hint-placeholder-val="{{ false }}">
+    <p style="margin:0;max-width:680px;font-size:15px;line-height:1.5;color:#A39B90;text-wrap:pretty">A apuração virou luta. Quem tem mais votos bate mais e empurra o rival para o corner. Escolha um estado no mapa para ver a luta local, ou entre no ringue e jogue com seu candidato.</p>
+    </sc-if>
+    <sc-if value="{{ isEspera }}" hint-placeholder-val="{{ true }}">
+    <p style="margin:0;max-width:680px;font-size:15px;line-height:1.5;color:#A39B90;text-wrap:pretty">O 1º turno acabou sem nocaute. Lula e Flávio voltam ao ringue em 25 de outubro. Até lá, cada dia tem um treino diferente, e a sala de golpes já está aberta.</p>
+    </sc-if>
+    <div style="display:flex;flex-wrap:wrap;align-items:center;gap:12px 18px">
+      <div style="display:flex;border:1px solid #3A342E;border-radius:4px;overflow:hidden">
+        <sc-for list="{{ turnos }}" as="tn" hint-placeholder-count="3">
+          <button onClick="{{ tn.on }}" disabled="{{ tn.dis }}" title="{{ tn.title }}" style="font-family:'Silkscreen',monospace;font-size:12px;padding:0 14px;min-height:42px;border:0;background:{{ tn.bg }};color:{{ tn.fg }};cursor:{{ tn.cur }}">{{ tn.label }}</button>
+        </sc-for>
+      </div>
+      <sc-if value="{{ isEspera }}" hint-placeholder-val="{{ true }}">
+        <span style="font-size:13px;color:#A39B90">Resultado do 1º turno: <span style="color:#F2EDE4;font-variant-numeric:tabular-nums">Lula {{ r1L }} × {{ r1F }} Flávio</span></span>
+      </sc-if>
+    </div>
+    <sc-if value="{{ isLuta }}" hint-placeholder-val="{{ false }}">
+    <section data-screen-label="Escopo" style="display:flex;flex-wrap:wrap;align-items:center;gap:12px 18px">
+      <label style="display:flex;align-items:center;gap:10px">
+        <span style="font-family:'Silkscreen',monospace;font-size:11px;color:#A39B90">ASSISTINDO</span>
+        <select value="{{ scope }}" onChange="{{ onScope }}" style="font-family:'Archivo',sans-serif;font-size:15px;font-weight:600;background:#161412;color:#F2EDE4;border:1px solid #3A342E;border-radius:4px;min-height:42px;padding:0 10px;cursor:pointer">
+          <option value="BR">Brasil</option>
+          <optgroup label="Regiões">
+            <sc-for list="{{ regOpts }}" as="o" hint-placeholder-count="0"><option value="{{ o.id }}">{{ o.label }}</option></sc-for>
+          </optgroup>
+          <optgroup label="Estados">
+            <sc-for list="{{ ufOpts }}" as="o" hint-placeholder-count="0"><option value="{{ o.id }}">{{ o.label }}</option></sc-for>
+          </optgroup>
+        </select>
+      </label>
+      <sc-if value="{{ notBR }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;align-items:center;gap:8px 12px;flex-wrap:wrap;font-size:13px;color:#A39B90">
+          <span style="font-family:'Silkscreen',monospace;font-size:11px">BRASIL</span>
+          <span style="color:#F2EDE4;font-variant-numeric:tabular-nums">{{ brLine }}</span>
+          <button onClick="{{ toBR }}" style="font-family:'Silkscreen',monospace;font-size:11px;min-height:36px;padding:0 10px;background:transparent;color:#F5C842;border:1px solid #3A342E;border-radius:4px;cursor:pointer">VER BRASIL</button>
+        </div>
+      </sc-if>
+    </section>
+
+    <section data-screen-label="Placar" style="display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:16px;align-items:end">
+      <div style="display:grid;gap:10px;min-width:0">
+        <div style="display:flex;align-items:center;gap:12px;min-width:0">
+          <div style="flex:none;width:clamp(44px,6vw,64px);aspect-ratio:1;background:#E5383B;display:grid;place-items:center;font-family:'Silkscreen',monospace;font-weight:700;font-size:clamp(18px,2.6vw,28px);color:#0F0E0D">13</div>
+          <div style="min-width:0">
+            <div style="font-family:'Silkscreen',monospace;font-size:11px;letter-spacing:0.06em;color:#E5383B">P1 · PT</div>
+            <div style="font-weight:800;font-stretch:125%;font-size:clamp(22px,3.6vw,40px);line-height:1;letter-spacing:-0.01em">LULA</div>
+            <div style="font-size:12px;color:#A39B90;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Luiz Inácio Lula da Silva</div>
+          </div>
+        </div>
+        <div style="font-weight:800;font-stretch:112%;font-size:clamp(28px,6vw,68px);line-height:0.95;font-variant-numeric:tabular-nums;letter-spacing:-0.02em">{{ lPct }}</div>
+        <div style="font-size:13px;color:#A39B90;font-variant-numeric:tabular-nums">{{ lVotos }}</div>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          <div style="display:flex;gap:2px">
+            <sc-for list="{{ lSup }}" as="sg" hint-placeholder-count="10"><div style="width:9px;height:8px;background:{{ sg.bg }}"></div></sc-for>
+          </div>
+          <span style="font-family:'Silkscreen',monospace;font-size:10px;color:{{ lSupC }}">{{ lSupT }}</span>
+        </div>
+      </div>
+
+      <div style="display:grid;justify-items:center;gap:6px;padding-bottom:4px;text-align:center">
+        <div style="font-family:'Silkscreen',monospace;font-size:11px;color:#A39B90;max-width:160px">{{ scopeName }}</div>
+        <div style="font-family:'Silkscreen',monospace;font-size:12px;color:#0F0E0D;background:#F5C842;padding:3px 8px;white-space:nowrap">{{ round }}</div>
+        <div style="font-weight:800;font-size:clamp(22px,4vw,46px);line-height:1;font-variant-numeric:tabular-nums">{{ urnas }}</div>
+        <div style="font-size:12px;color:#A39B90">urnas apuradas</div>
+        <div style="font-family:'Silkscreen',monospace;font-size:11px;color:#A39B90;white-space:nowrap">{{ clock }}</div>
+      </div>
+
+      <div style="display:grid;gap:10px;min-width:0;justify-items:end;text-align:right">
+        <div style="display:flex;flex-direction:row-reverse;align-items:center;gap:12px;min-width:0">
+          <div style="flex:none;width:clamp(44px,6vw,64px);aspect-ratio:1;background:#3B7BF0;display:grid;place-items:center;font-family:'Silkscreen',monospace;font-weight:700;font-size:clamp(18px,2.6vw,28px);color:#0F0E0D">22</div>
+          <div style="min-width:0">
+            <div style="font-family:'Silkscreen',monospace;font-size:11px;letter-spacing:0.06em;color:#3B7BF0">P2 · PL</div>
+            <div style="font-weight:800;font-stretch:125%;font-size:clamp(22px,3.6vw,40px);line-height:1;letter-spacing:-0.01em">FLÁVIO</div>
+            <div style="font-size:12px;color:#A39B90;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Flávio Bolsonaro</div>
+          </div>
+        </div>
+        <div style="font-weight:800;font-stretch:112%;font-size:clamp(28px,6vw,68px);line-height:0.95;font-variant-numeric:tabular-nums;letter-spacing:-0.02em">{{ fPct }}</div>
+        <div style="font-size:13px;color:#A39B90;font-variant-numeric:tabular-nums">{{ fVotos }}</div>
+        <div style="display:flex;flex-direction:row-reverse;align-items:center;gap:8px;flex-wrap:wrap">
+          <div style="display:flex;flex-direction:row-reverse;gap:2px">
+            <sc-for list="{{ fSup }}" as="sg" hint-placeholder-count="10"><div style="width:9px;height:8px;background:{{ sg.bg }}"></div></sc-for>
+          </div>
+          <span style="font-family:'Silkscreen',monospace;font-size:10px;color:{{ fSupC }}">{{ fSupT }}</span>
+        </div>
+      </div>
+    </section>
+
+    <section style="display:grid;gap:10px">
+      <div style="position:relative;padding:5px 0">
+        <div style="height:24px;background:#2A2622;display:flex;justify-content:space-between;overflow:hidden">
+          <div style="width:{{ lw }};background:#E5383B;transition:width .35s"></div>
+          <div style="width:{{ fw }};background:#3B7BF0;transition:width .35s"></div>
+        </div>
+        <div style="position:absolute;left:0;right:0;top:5px;height:24px;background-image:repeating-linear-gradient(90deg,transparent 0,transparent calc(2% - 2px),#0F0E0D calc(2% - 2px),#0F0E0D 2%);pointer-events:none"></div>
+        <div style="position:absolute;left:50%;top:0;bottom:0;width:4px;margin-left:-2px;background:#F5C842"></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px 16px;flex-wrap:wrap;font-size:12px;color:#A39B90">
+        <span>Votos válidos apurados</span>
+        <span style="font-family:'Silkscreen',monospace;color:#F5C842">50% + 1 = NOCAUTE</span>
+      </div>
+      <sc-if value="{{ showOutros }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;flex-wrap:wrap;gap:6px 20px;font-size:13px;color:#A39B90">
+          <sc-for list="{{ outros }}" as="o" hint-placeholder-count="4">
+            <span style="display:flex;gap:6px"><span style="color:#F2EDE4">{{ o.nome }}</span><span>{{ o.partido }}</span><span style="font-variant-numeric:tabular-nums;color:#F2EDE4">{{ o.pct }}</span></span>
+          </sc-for>
+        </div>
+      </sc-if>
+    </section>
+
+    </sc-if>
+    <sc-if value="{{ isEspera }}" hint-placeholder-val="{{ true }}">
+    <section data-screen-label="Contagem" style="display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:16px;align-items:center">
+      <div style="display:flex;align-items:center;gap:12px;min-width:0">
+        <div style="flex:none;width:clamp(44px,6vw,64px);aspect-ratio:1;background:#E5383B;display:grid;place-items:center;font-family:'Silkscreen',monospace;font-weight:700;font-size:clamp(18px,2.6vw,28px);color:#0F0E0D">13</div>
+        <div style="min-width:0">
+          <div style="font-family:'Silkscreen',monospace;font-size:11px;letter-spacing:0.06em;color:#E5383B">P1 · PT</div>
+          <div style="font-weight:800;font-stretch:125%;font-size:clamp(22px,3.6vw,40px);line-height:1;letter-spacing:-0.01em">LULA</div>
+          <div style="font-size:12px;color:#A39B90;font-variant-numeric:tabular-nums">1º turno: {{ r1L }}</div>
+        </div>
+      </div>
+      <div style="display:grid;justify-items:center;gap:6px;text-align:center">
+        <div style="font-family:'Silkscreen',monospace;font-size:12px;color:#0F0E0D;background:#F5C842;padding:3px 8px;white-space:nowrap">2º TURNO · 25 OUT</div>
+        <div style="display:flex;align-items:baseline;gap:8px"><span style="font-weight:800;font-stretch:112%;font-size:clamp(40px,7vw,84px);line-height:.9;font-variant-numeric:tabular-nums;letter-spacing:-0.02em">{{ cdDias }}</span><span style="font-family:'Silkscreen',monospace;font-size:14px;color:#A39B90">{{ cdDiasLbl }}</span></div>
+        <div style="font-family:'Silkscreen',monospace;font-size:clamp(16px,2vw,22px);font-variant-numeric:tabular-nums">{{ cdHms }}</div>
+        <div style="font-size:12px;color:#A39B90">até as urnas fecharem, às 17h de Brasília</div>
+      </div>
+      <div style="display:flex;flex-direction:row-reverse;align-items:center;gap:12px;min-width:0;text-align:right">
+        <div style="flex:none;width:clamp(44px,6vw,64px);aspect-ratio:1;background:#3B7BF0;display:grid;place-items:center;font-family:'Silkscreen',monospace;font-weight:700;font-size:clamp(18px,2.6vw,28px);color:#0F0E0D">22</div>
+        <div style="min-width:0">
+          <div style="font-family:'Silkscreen',monospace;font-size:11px;letter-spacing:0.06em;color:#3B7BF0">P2 · PL</div>
+          <div style="font-weight:800;font-stretch:125%;font-size:clamp(22px,3.6vw,40px);line-height:1;letter-spacing:-0.01em">FLÁVIO</div>
+          <div style="font-size:12px;color:#A39B90;font-variant-numeric:tabular-nums">1º turno: {{ r1F }}</div>
+        </div>
+      </div>
+    </section>
+    </sc-if>
+    <section data-screen-label="Ringue" style="border:1px solid #2A2622;background:#0B0A09;line-height:0">
+      <canvas ref="{{ canvasRef }}" style="display:block;width:100%;aspect-ratio:320 / 150"></canvas>
+    </section>
+
+    <sc-if value="{{ isLuta }}" hint-placeholder-val="{{ false }}">
+    <section data-screen-label="Controles" style="display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px">
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button onClick="{{ togglePlay }}" style="font-family:'Silkscreen',monospace;font-weight:700;font-size:14px;padding:0 18px;min-height:46px;min-width:132px;background:#2FA65A;color:#0F0E0D;border:0;border-radius:4px;box-shadow:inset 0 -4px 0 rgba(0,0,0,.28);cursor:pointer" style-active="transform:translateY(2px);box-shadow:inset 0 -2px 0 rgba(0,0,0,.28)">{{ playLabel }}</button>
+        <button onClick="{{ restart }}" style="font-family:'Silkscreen',monospace;font-weight:700;font-size:14px;padding:0 18px;min-height:46px;background:#E8833A;color:#0F0E0D;border:0;border-radius:4px;box-shadow:inset 0 -4px 0 rgba(0,0,0,.28);cursor:pointer" style-active="transform:translateY(2px);box-shadow:inset 0 -2px 0 rgba(0,0,0,.28)">REINICIAR</button>
+        <sc-if value="{{ showGoR2 }}" hint-placeholder-val="{{ false }}">
+          <button onClick="{{ goR2 }}" style="font-family:'Silkscreen',monospace;font-weight:700;font-size:14px;padding:0 18px;min-height:46px;background:#F5C842;color:#0F0E0D;border:0;border-radius:4px;box-shadow:inset 0 -4px 0 rgba(0,0,0,.28);cursor:pointer" style-active="transform:translateY(2px);box-shadow:inset 0 -2px 0 rgba(0,0,0,.28)">IR PARA O 2º TURNO</button>
+        </sc-if>
+      </div>
+      <div style="flex:1 1 280px;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center">
+        <span style="font-family:'Silkscreen',monospace;font-size:11px;color:#A39B90">17:00</span>
+        <div style="position:relative;padding-top:12px">
+          <div style="position:absolute;left:8px;right:8px;top:0;height:10px">
+            <sc-for list="{{ marks }}" as="mk" hint-placeholder-count="0">
+              <div title="{{ mk.title }}" style="position:absolute;left:{{ mk.left }};top:0;width:3px;height:10px;margin-left:-1px;background:#F5C842"></div>
+            </sc-for>
+          </div>
+          <input type="range" min="0" max="1000" step="1" value="{{ scrub }}" onChange="{{ onScrub }}" aria-label="Linha do tempo da apuração" style="width:100%;margin:0;accent-color:#F5C842;cursor:pointer">
+        </div>
+        <span style="font-family:'Silkscreen',monospace;font-size:11px;color:#A39B90">21:30</span>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <div style="display:flex;border:1px solid #3A342E;border-radius:4px;overflow:hidden">
+          <sc-for list="{{ speeds }}" as="sp" hint-placeholder-count="4">
+            <button onClick="{{ sp.on }}" style="font-family:'Silkscreen',monospace;font-size:13px;min-width:44px;min-height:44px;border:0;background:{{ sp.bg }};color:{{ sp.fg }};cursor:pointer">{{ sp.label }}</button>
+          </sc-for>
+        </div>
+        <button onClick="{{ toggleSound }}" style="font-family:'Silkscreen',monospace;font-size:12px;min-height:46px;padding:0 12px;background:transparent;color:{{ sndC }};border:1px solid #3A342E;border-radius:4px;cursor:pointer">{{ sndLabel }}</button>
+      </div>
+    </section>
+
+    <section data-screen-label="Jogar" style="background:#161412;border:1px solid #2A2622;padding:16px 20px;display:grid;gap:14px">
+      <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px">
+        <h2 style="margin:0;font-family:'Silkscreen',monospace;font-weight:400;font-size:13px;letter-spacing:0.06em">ENTRE NO RINGUE</h2>
+        <div style="display:flex;border:1px solid #3A342E;border-radius:4px;overflow:hidden">
+          <sc-for list="{{ ctrlOpts }}" as="c" hint-placeholder-count="3">
+            <button onClick="{{ c.on }}" style="font-family:'Silkscreen',monospace;font-size:12px;padding:0 14px;min-height:44px;border:0;background:{{ c.bg }};color:{{ c.fg }};cursor:pointer">{{ c.label }}</button>
+          </sc-for>
+        </div>
+      </div>
+      <sc-if value="{{ hasCtrl }}" hint-placeholder-val="{{ false }}">
+        <div style="display:grid;gap:12px">
+          <sc-for list="{{ padGroups }}" as="pg" hint-placeholder-count="4">
+            <div style="display:grid;gap:6px">
+              <span style="font-family:'Silkscreen',monospace;font-size:10px;color:#A39B90">{{ pg.title }}</span>
+              <div style="display:flex;flex-wrap:wrap;gap:6px">
+                <sc-for list="{{ pg.items }}" as="pb" hint-placeholder-count="5">
+                  <button onClick="{{ pb.on }}" style="font-family:'Silkscreen',monospace;font-size:11px;min-height:42px;padding:0 10px;display:flex;align-items:center;gap:8px;background:{{ pb.bg }};color:{{ pb.fg }};border:1px solid #3A342E;border-radius:4px;box-shadow:inset 0 -3px 0 rgba(0,0,0,.35);cursor:pointer" style-active="transform:translateY(2px)"><span>{{ pb.label }}</span><span style="font-size:10px;background:#0F0E0D;color:#F5C842;padding:2px 5px">{{ pb.key }}</span></button>
+                </sc-for>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:flex">
+          <button onPointerDown="{{ blockDown }}" onPointerUp="{{ blockUp }}" onPointerLeave="{{ blockUp }}" style="font-family:'Silkscreen',monospace;font-size:12px;min-height:46px;padding:0 12px;display:flex;align-items:center;gap:8px;background:#2E58B0;color:#F2EDE4;border:1px solid #3A342E;border-radius:4px;box-shadow:inset 0 -3px 0 rgba(0,0,0,.35);cursor:pointer;touch-action:none" style-active="transform:translateY(2px)"><span>DEFESA</span><span style="font-size:10px;background:#0F0E0D;color:#F5C842;padding:2px 5px">E</span></button>
+        </div>
+        <p style="margin:0;font-size:13px;line-height:1.5;color:#A39B90;text-wrap:pretty">Segure E (ou o botão) para defender. O especial carrega com os votos e com golpes certos. Seus golpes não mudam a apuração: o placar continua decidindo quem vence.</p>
+      </sc-if>
+      <sc-if value="{{ noCtrl }}" hint-placeholder-val="{{ true }}">
+        <p style="margin:0;font-size:13px;line-height:1.5;color:#A39B90;text-wrap:pretty">Escolha um candidato para lutar com ele pelo teclado ou pelos botões. Dá para jogar com a apuração pausada.</p>
+      </sc-if>
+    </section>
+
+    <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:20px;align-items:start">
+      <div data-screen-label="Estados" style="background:#161412;border:1px solid #2A2622;padding:18px 20px">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+          <h2 style="margin:0;font-family:'Silkscreen',monospace;font-weight:400;font-size:13px;letter-spacing:0.06em">ESTADOS</h2>
+          <div style="display:flex;border:1px solid #3A342E;border-radius:4px;overflow:hidden">
+            <sc-for list="{{ mapModes }}" as="mm" hint-placeholder-count="2">
+              <button onClick="{{ mm.on }}" style="font-family:'Silkscreen',monospace;font-size:11px;padding:0 10px;min-height:36px;border:0;background:{{ mm.bg }};color:{{ mm.fg }};cursor:pointer">{{ mm.label }}</button>
+            </sc-for>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:4px;max-width:340px;margin:16px auto 0">
+          <sc-for list="{{ tiles }}" as="u" hint-placeholder-count="27">
+            <button onClick="{{ u.on }}" title="{{ u.title }}" style="grid-column:{{ u.col }};grid-row:{{ u.row }};aspect-ratio:1;min-width:0;border:0;border-radius:3px;background:{{ u.bg }};color:{{ u.fg }};box-shadow:{{ u.ring }};display:grid;place-content:center;gap:2px;padding:0;cursor:pointer;text-align:center">
+              <span style="font-family:'Silkscreen',monospace;font-size:12px;font-weight:700;line-height:1">{{ u.id }}</span>
+              <span style="font-size:10px;font-weight:600;line-height:1;font-variant-numeric:tabular-nums">{{ u.txt }}</span>
+            </button>
+          </sc-for>
+        </div>
+        <sc-if value="{{ leadMode }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;margin-top:16px;font-size:12px;color:#A39B90">
+            <span style="display:flex;align-items:center;gap:3px"><span style="width:12px;height:12px;background:#6B2A2B"></span><span style="width:12px;height:12px;background:#A8302F"></span><span style="width:12px;height:12px;background:#E5383B"></span><span style="margin-left:4px">Lula</span></span>
+            <span style="display:flex;align-items:center;gap:3px"><span style="width:12px;height:12px;background:#2A3A63"></span><span style="width:12px;height:12px;background:#2E58B0"></span><span style="width:12px;height:12px;background:#3B7BF0"></span><span style="margin-left:4px">Flávio</span></span>
+            <span>vantagem: até 5 · 5 a 15 · 15+ pts</span>
+          </div>
+        </sc-if>
+        <sc-if value="{{ countMode }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;margin-top:16px;font-size:12px;color:#A39B90">
+            <span style="display:flex;align-items:center;gap:3px"><span style="width:12px;height:12px;background:#3A3226"></span><span style="width:12px;height:12px;background:#6B5A2E"></span><span style="width:12px;height:12px;background:#A88A33"></span><span style="width:12px;height:12px;background:#D9B23C"></span><span style="width:12px;height:12px;background:#F5C842"></span></span>
+            <span>0% → 100% das urnas apuradas</span>
+          </div>
+        </sc-if>
+        <sc-if value="{{ hasClosest }}" hint-placeholder-val="{{ false }}">
+          <button onClick="{{ closestOn }}" style="margin-top:14px;width:100%;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 12px;min-height:44px;background:#0F0E0D;border:1px solid #2A2622;border-radius:4px;color:#F2EDE4;font-family:inherit;font-size:13px;cursor:pointer;text-align:left" style-hover="border-color:#F5C842">
+            <span style="color:#A39B90">Disputa mais apertada agora</span>
+            <span style="font-variant-numeric:tabular-nums">{{ closestTxt }}</span>
+          </button>
+        </sc-if>
+      </div>
+
+      <div data-screen-label="Por região" style="background:#161412;border:1px solid #2A2622;padding:18px 20px 8px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:8px">
+          <h2 style="margin:0;font-family:'Silkscreen',monospace;font-weight:400;font-size:13px;letter-spacing:0.06em">POR REGIÃO</h2>
+          <span style="font-size:12px;color:#A39B90">toque para assistir</span>
+        </div>
+        <sc-for list="{{ regioes }}" as="r" hint-placeholder-count="5">
+          <button onClick="{{ r.on }}" style="width:calc(100% + 16px);margin:0 -8px;display:grid;grid-template-columns:100px minmax(0,1fr) 64px;gap:12px;align-items:center;padding:11px 8px;border:0;border-top:1px solid #2A2622;background:{{ r.bg }};color:#F2EDE4;font-family:inherit;text-align:left;cursor:pointer">
+            <span style="font-size:14px;color:{{ r.nc }}">{{ r.nome }}</span>
+            <span style="display:grid;gap:5px">
+              <span style="display:flex;justify-content:space-between;height:10px;background:#2A2622">
+                <span style="width:{{ r.lw }};background:#E5383B"></span>
+                <span style="width:{{ r.fw }};background:#3B7BF0"></span>
+              </span>
+              <span style="display:flex;justify-content:space-between;gap:8px;font-size:12px;color:#A39B90;font-variant-numeric:tabular-nums"><span>{{ r.lp }}</span><span>{{ r.fp }}</span></span>
+            </span>
+            <span style="text-align:right;font-size:14px;font-variant-numeric:tabular-nums">{{ r.apurado }}</span>
+          </button>
+        </sc-for>
+      </div>
+
+      <div data-screen-label="Lance a lance" style="background:#161412;border:1px solid #2A2622;padding:18px 20px 8px">
+        <h2 style="margin:0 0 8px;font-family:'Silkscreen',monospace;font-weight:400;font-size:13px;letter-spacing:0.06em">{{ feedTitle }}</h2>
+        <div style="max-height:360px;overflow:auto">
+          <sc-for list="{{ feed }}" as="e" hint-placeholder-count="3">
+            <div style="display:grid;grid-template-columns:44px minmax(0,1fr);gap:12px;padding:11px 0;border-top:1px solid #2A2622">
+              <div style="font-family:'Silkscreen',monospace;font-size:11px;color:#A39B90;padding-top:2px">{{ e.hora }}</div>
+              <div style="display:grid;gap:6px;justify-items:start">
+                <sc-if value="{{ e.hasTag }}" hint-placeholder-val="{{ false }}">
+                  <span style="font-family:'Silkscreen',monospace;font-size:10px;background:#F5C842;color:#0F0E0D;padding:2px 6px">{{ e.tag }}</span>
+                </sc-if>
+                <div style="font-size:14px;line-height:1.45;text-wrap:pretty">{{ e.txt }}</div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div data-screen-label="Estatísticas" style="background:#161412;border:1px solid #2A2622;padding:18px 20px">
+        <h2 style="margin:0 0 12px;font-family:'Silkscreen',monospace;font-weight:400;font-size:13px;letter-spacing:0.06em">ESTATÍSTICAS DA LUTA</h2>
+        <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:8px;padding-bottom:8px;font-family:'Silkscreen',monospace;font-size:11px">
+          <span style="color:#E5383B">LULA</span><span></span><span style="color:#3B7BF0;text-align:right">FLÁVIO</span>
+        </div>
+        <sc-for list="{{ stats }}" as="st" hint-placeholder-count="5">
+          <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center;padding:10px 0;border-top:1px solid #2A2622">
+            <span style="font-weight:800;font-size:24px;line-height:1;font-variant-numeric:tabular-nums">{{ st.l }}</span>
+            <span style="font-size:13px;color:#A39B90;text-align:center">{{ st.label }}</span>
+            <span style="font-weight:800;font-size:24px;line-height:1;font-variant-numeric:tabular-nums;text-align:right">{{ st.f }}</span>
+          </div>
+        </sc-for>
+        <p style="margin:12px 0 0;font-size:12px;line-height:1.5;color:#A39B90;text-wrap:pretty">Os golpes são encenação. Quem lidera a apuração ataca mais; quem está atrás defende mais.</p>
+      </div>
+    </section>
+
+    </sc-if>
+    <sc-if value="{{ isEspera }}" hint-placeholder-val="{{ true }}">
+    <section data-screen-label="Calendário" style="display:grid;gap:14px">
+      <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 16px">
+        <div style="display:grid;gap:4px;min-width:0;flex:1 1 320px">
+          <span style="font-family:'Silkscreen',monospace;font-size:11px;color:#A39B90">{{ dayKicker }}</span>
+          <span style="font-weight:800;font-stretch:115%;font-size:26px;line-height:1.1">{{ dayTitle }}</span>
+          <span style="font-size:14px;line-height:1.5;color:#A39B90;max-width:560px;text-wrap:pretty">{{ dayTxt }}</span>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button onClick="{{ prevDay }}" aria-label="Dia anterior" style="font-family:'Silkscreen',monospace;font-size:14px;min-width:46px;min-height:46px;background:transparent;color:#F2EDE4;border:1px solid #3A342E;border-radius:4px;cursor:pointer">&lt;</button>
+          <button onClick="{{ nextDay }}" aria-label="Próximo dia" style="font-family:'Silkscreen',monospace;font-size:14px;min-width:46px;min-height:46px;background:transparent;color:#F2EDE4;border:1px solid #3A342E;border-radius:4px;cursor:pointer">&gt;</button>
+          <button onClick="{{ toggleMontage }}" style="font-family:'Silkscreen',monospace;font-weight:700;font-size:13px;padding:0 16px;min-height:46px;min-width:200px;background:#2FA65A;color:#0F0E0D;border:0;border-radius:4px;box-shadow:inset 0 -4px 0 rgba(0,0,0,.28);cursor:pointer" style-active="transform:translateY(2px)">{{ montLabel }}</button>
+          <button onClick="{{ toggleSound }}" style="font-family:'Silkscreen',monospace;font-size:12px;min-height:46px;padding:0 12px;background:transparent;color:{{ sndC }};border:1px solid #3A342E;border-radius:4px;cursor:pointer">{{ sndLabel }}</button>
+        </div>
+      </div>
+      <div style="overflow-x:auto;padding:4px 4px 6px">
+        <div style="display:grid;grid-template-columns:repeat(21,minmax(42px,1fr));gap:4px;min-width:min-content">
+          <sc-for list="{{ days }}" as="d" hint-placeholder-count="21">
+            <button onClick="{{ d.on }}" title="{{ d.title }}" style="min-height:58px;padding:6px 0;border:0;border-radius:3px;background:{{ d.bg }};color:{{ d.fg }};box-shadow:{{ d.ring }};display:grid;place-content:center;gap:4px;text-align:center;cursor:pointer;font-family:inherit">
+              <span style="font-family:'Silkscreen',monospace;font-size:9px;line-height:1">{{ d.wd }}</span>
+              <span style="font-weight:800;font-size:17px;line-height:1;font-variant-numeric:tabular-nums">{{ d.n }}</span>
+              <span style="font-family:'Silkscreen',monospace;font-size:8px;line-height:1;min-height:8px">{{ d.tag }}</span>
+            </button>
+          </sc-for>
+        </div>
+      </div>
+      <sc-if value="{{ isFightDay }}" hint-placeholder-val="{{ false }}">
+        <button onClick="{{ goR2 }}" style="justify-self:start;font-family:'Silkscreen',monospace;font-weight:700;font-size:14px;padding:0 18px;min-height:46px;background:#F5C842;color:#0F0E0D;border:0;border-radius:4px;box-shadow:inset 0 -4px 0 rgba(0,0,0,.28);cursor:pointer" style-active="transform:translateY(2px)">ASSISTIR A SIMULAÇÃO DO 2º TURNO</button>
+      </sc-if>
+    </section>
+
+    <section style="display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start">
+      <div data-screen-label="Sala de golpes" style="flex:2 1 520px;min-width:0;background:#161412;border:1px solid #2A2622;padding:18px 20px;display:grid;gap:14px">
+        <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px">
+          <h2 style="margin:0;font-family:'Silkscreen',monospace;font-weight:400;font-size:13px;letter-spacing:0.06em">SALA DE GOLPES · 25 GOLPES</h2>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <div style="display:flex;border:1px solid #3A342E;border-radius:4px;overflow:hidden">
+              <sc-for list="{{ demoOpts }}" as="c" hint-placeholder-count="2">
+                <button onClick="{{ c.on }}" style="font-family:'Silkscreen',monospace;font-size:12px;padding:0 14px;min-height:44px;border:0;background:{{ c.bg }};color:{{ c.fg }};cursor:pointer">{{ c.label }}</button>
+              </sc-for>
+            </div>
+            <button onClick="{{ toggleAuto }}" style="font-family:'Silkscreen',monospace;font-weight:700;font-size:12px;padding:0 14px;min-height:44px;background:#E8833A;color:#0F0E0D;border:0;border-radius:4px;box-shadow:inset 0 -4px 0 rgba(0,0,0,.28);cursor:pointer" style-active="transform:translateY(2px)">{{ autoLbl }}</button>
+          </div>
+        </div>
+        <sc-for list="{{ golpes }}" as="g" hint-placeholder-count="4">
+          <div style="display:grid;gap:6px">
+            <span style="font-family:'Silkscreen',monospace;font-size:10px;color:#A39B90">{{ g.title }}</span>
+            <div style="display:flex;flex-wrap:wrap;gap:6px">
+              <sc-for list="{{ g.items }}" as="it" hint-placeholder-count="5">
+                <button onClick="{{ it.on }}" style="font-family:'Silkscreen',monospace;font-size:11px;min-height:42px;padding:0 10px;display:flex;align-items:center;gap:8px;background:{{ it.bg }};color:{{ it.fg }};border:1px solid #3A342E;border-radius:4px;box-shadow:inset 0 -3px 0 rgba(0,0,0,.35);cursor:pointer" style-active="transform:translateY(2px)"><span>{{ it.label }}</span><span style="font-size:10px;background:#0F0E0D;color:#F5C842;padding:2px 5px">{{ it.key }}</span></button>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px">
+          <sc-if value="{{ inTreino }}" hint-placeholder-val="{{ false }}">
+            <button onClick="{{ backScene }}" style="font-family:'Silkscreen',monospace;font-size:12px;min-height:44px;padding:0 12px;background:transparent;color:#F5C842;border:1px solid #3A342E;border-radius:4px;cursor:pointer">VOLTAR AO TREINO DO DIA</button>
+          </sc-if>
+          <p style="margin:0;flex:1 1 260px;font-size:13px;line-height:1.5;color:#A39B90;text-wrap:pretty">Toque num golpe ou use o teclado para ver no ringue. No dia 25 você joga com todos eles.</p>
+        </div>
+      </div>
+      <div style="flex:1 1 280px;min-width:0;display:grid;gap:20px">
+        <div data-screen-label="Palpite" style="background:#161412;border:1px solid #2A2622;padding:18px 20px;display:grid;gap:12px">
+          <h2 style="margin:0;font-family:'Silkscreen',monospace;font-weight:400;font-size:13px;letter-spacing:0.06em">SEU PALPITE</h2>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <sc-for list="{{ palOpts }}" as="pp" hint-placeholder-count="2">
+              <button onClick="{{ pp.on }}" style="font-family:'Silkscreen',monospace;font-weight:700;font-size:13px;min-height:46px;background:{{ pp.bg }};color:{{ pp.fg }};border:1px solid #3A342E;border-radius:4px;cursor:pointer">{{ pp.label }}</button>
+            </sc-for>
+          </div>
+          <p style="margin:0;font-size:13px;line-height:1.5;color:#A39B90;text-wrap:pretty">{{ palTxt }}</p>
+        </div>
+        <div data-screen-label="Torcida" style="background:#161412;border:1px solid #2A2622;padding:18px 20px;display:grid;gap:12px">
+          <h2 style="margin:0;font-family:'Silkscreen',monospace;font-weight:400;font-size:13px;letter-spacing:0.06em">TORCIDA</h2>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <button onClick="{{ torL }}" style="font-family:'Silkscreen',monospace;font-weight:700;font-size:13px;min-height:46px;background:#E5383B;color:#0F0E0D;border:0;border-radius:4px;box-shadow:inset 0 -4px 0 rgba(0,0,0,.28);cursor:pointer" style-active="transform:translateY(2px)">VAI LULA</button>
+            <button onClick="{{ torF }}" style="font-family:'Silkscreen',monospace;font-weight:700;font-size:13px;min-height:46px;background:#3B7BF0;color:#0F0E0D;border:0;border-radius:4px;box-shadow:inset 0 -4px 0 rgba(0,0,0,.28);cursor:pointer" style-active="transform:translateY(2px)">VAI FLÁVIO</button>
+          </div>
+          <p style="margin:0;font-size:13px;line-height:1.5;color:#A39B90;text-wrap:pretty">Cada toque solta confete na tela. Não conta voto.</p>
+        </div>
+      </div>
+    </section>
+    </sc-if>
+
+    <footer style="font-size:12px;color:#A39B90;line-height:1.6;border-top:1px solid #2A2622;padding-top:16px;display:flex;flex-wrap:wrap;gap:8px 20px;justify-content:space-between">
+      <span>Simulação ilustrativa com dados fictícios, incluindo o público online. Não é resultado oficial.</span>
+      <span>Atalhos: Espaço play/pausa · ← → troca o dia · letras nos botões = golpes · E defesa</span>
+      <span>Resultados oficiais: <a href="https://resultados.tse.jus.br" target="_blank" rel="noopener">TSE</a></span>
+    </footer>
+  </main>
+</div>
+</sc-if>
+<sc-if value="{{ isMob }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Celular" style="min-height:100vh;background:#0F0E0D;color:#F2EDE4;font-family:'Archivo',system-ui,sans-serif;padding-bottom:28px">
+  <div style="position:{{ mobPos }};top:0;z-index:5;background:#0F0E0D;border-bottom:1px solid #2A2622">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 14px 0">
+      <div style="display:flex;align-items:center;gap:8px">
+        <div style="width:10px;height:10px;background:#F5C842"></div>
+        <span style="font-weight:800;font-stretch:115%;font-size:15px">Apuração 2026</span>
+      </div>
+      <span title="Pessoas no site agora" style="display:flex;align-items:center;gap:6px;font-size:12px;color:#A39B90">{{ liveDot }}<span style="color:#F2EDE4;font-weight:600;font-variant-numeric:tabular-nums">{{ viewers }}</span><span>online</span></span>
+    </div>
+    <sc-if value="{{ isEspera }}" hint-placeholder-val="{{ false }}">
+    <div style="display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:8px;align-items:center;padding:10px 14px">
+      <div style="display:flex;align-items:center;gap:6px;min-width:0">
+        <span style="flex:none;width:22px;height:22px;background:#E5383B;color:#0F0E0D;display:grid;place-items:center;font-family:'Silkscreen',monospace;font-size:11px;font-weight:700">13</span>
+        <span style="display:grid;min-width:0"><span style="font-weight:800;font-stretch:120%;font-size:15px">LULA</span><span style="font-size:11px;color:#A39B90;font-variant-numeric:tabular-nums">{{ r1L }}</span></span>
+      </div>
+      <div style="display:grid;justify-items:center;gap:3px;text-align:center">
+        <span style="font-family:'Silkscreen',monospace;font-size:10px;color:#0F0E0D;background:#F5C842;padding:2px 6px;white-space:nowrap">2º TURNO · 25/10</span>
+        <span style="font-weight:800;font-size:19px;line-height:1;font-variant-numeric:tabular-nums;white-space:nowrap">{{ cdShort }}</span>
+      </div>
+      <div style="display:flex;flex-direction:row-reverse;align-items:center;gap:6px;min-width:0;text-align:right">
+        <span style="flex:none;width:22px;height:22px;background:#3B7BF0;color:#0F0E0D;display:grid;place-items:center;font-family:'Silkscreen',monospace;font-size:11px;font-weight:700">22</span>
+        <span style="display:grid;min-width:0"><span style="font-weight:800;font-stretch:120%;font-size:15px">FLÁVIO</span><span style="font-size:11px;color:#A39B90;font-variant-numeric:tabular-nums">{{ r1F }}</span></span>
+      </div>
+    </div>
+    </sc-if>
+    <sc-if value="{{ isLuta }}" hint-placeholder-val="{{ true }}">
+    <div style="display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:8px;align-items:end;padding:10px 14px 8px">
+      <div style="min-width:0">
+        <div style="display:flex;align-items:center;gap:6px">
+          <span style="flex:none;width:22px;height:22px;background:#E5383B;color:#0F0E0D;display:grid;place-items:center;font-family:'Silkscreen',monospace;font-size:11px;font-weight:700">13</span>
+          <span style="font-weight:800;font-stretch:120%;font-size:15px">LULA</span>
+        </div>
+        <div style="font-weight:800;font-stretch:110%;font-size:24px;line-height:1;margin-top:5px;font-variant-numeric:tabular-nums">{{ lPct }}</div>
+      </div>
+      <div style="display:grid;justify-items:center;gap:4px;text-align:center">
+        <span style="font-family:'Silkscreen',monospace;font-size:10px;color:#A39B90;max-width:110px">{{ scopeName }}</span>
+        <span style="font-family:'Silkscreen',monospace;font-size:11px;color:#0F0E0D;background:#F5C842;padding:2px 6px;white-space:nowrap">{{ round }}</span>
+        <span style="font-size:11px;color:#A39B90;white-space:nowrap;font-variant-numeric:tabular-nums">{{ urnasShort }} urnas</span>
+      </div>
+      <div style="min-width:0;text-align:right">
+        <div style="display:flex;flex-direction:row-reverse;align-items:center;gap:6px">
+          <span style="flex:none;width:22px;height:22px;background:#3B7BF0;color:#0F0E0D;display:grid;place-items:center;font-family:'Silkscreen',monospace;font-size:11px;font-weight:700">22</span>
+          <span style="font-weight:800;font-stretch:120%;font-size:15px">FLÁVIO</span>
+        </div>
+        <div style="font-weight:800;font-stretch:110%;font-size:24px;line-height:1;margin-top:5px;font-variant-numeric:tabular-nums">{{ fPct }}</div>
+      </div>
+    </div>
+    <div style="padding:0 14px 8px;display:grid;gap:6px">
+      <div style="position:relative;padding:3px 0">
+        <div style="height:12px;background:#2A2622;display:flex;justify-content:space-between;overflow:hidden">
+          <div style="width:{{ lw }};background:#E5383B;transition:width .35s"></div>
+          <div style="width:{{ fw }};background:#3B7BF0;transition:width .35s"></div>
+        </div>
+        <div style="position:absolute;left:50%;top:0;bottom:0;width:3px;margin-left:-1px;background:#F5C842"></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+        <div style="display:flex;gap:2px">
+          <sc-for list="{{ lSup }}" as="sg" hint-placeholder-count="10"><div style="width:7px;height:6px;background:{{ sg.bg }}"></div></sc-for>
+        </div>
+        <span style="font-family:'Silkscreen',monospace;font-size:9px;color:#A39B90">ESPECIAL</span>
+        <div style="display:flex;flex-direction:row-reverse;gap:2px">
+          <sc-for list="{{ fSup }}" as="sg" hint-placeholder-count="10"><div style="width:7px;height:6px;background:{{ sg.bg }}"></div></sc-for>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+    <div style="line-height:0;background:#0B0A09;display:flex;justify-content:center">
+      <canvas ref="{{ canvasRef }}" style="display:block;width:min(100%, calc((100vh - 170px) * 2.13));aspect-ratio:320 / 150"></canvas>
+    </div>
+    <sc-if value="{{ hasCtrl }}" hint-placeholder-val="{{ false }}">
+      <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;padding:8px 10px 10px">
+        <sc-for list="{{ pad }}" as="pb" hint-placeholder-count="7">
+          <button onClick="{{ pb.on }}" style="font-family:'Silkscreen',monospace;font-size:11px;line-height:1.1;min-height:50px;padding:4px;background:{{ pb.bg }};color:{{ pb.fg }};border:1px solid #3A342E;border-radius:4px;box-shadow:inset 0 -3px 0 rgba(0,0,0,.35);touch-action:manipulation;user-select:none" style-active="transform:translateY(2px)">{{ pb.label }}</button>
+        </sc-for>
+        <button onPointerDown="{{ blockDown }}" onPointerUp="{{ blockUp }}" onPointerLeave="{{ blockUp }}" onPointerCancel="{{ blockUp }}" onContextMenu="{{ noMenu }}" style="font-family:'Silkscreen',monospace;font-size:11px;line-height:1.1;min-height:50px;padding:4px;background:#2E58B0;color:#F2EDE4;border:1px solid #3A342E;border-radius:4px;box-shadow:inset 0 -3px 0 rgba(0,0,0,.35);touch-action:none;user-select:none" style-active="transform:translateY(2px)">DEFESA</button>
+      </div>
+      <div style="display:flex;gap:6px;overflow-x:auto;padding:0 10px 10px;scrollbar-width:none">
+        <sc-for list="{{ padExtra }}" as="pb" hint-placeholder-count="6">
+          <button onClick="{{ pb.on }}" style="flex:none;font-family:'Silkscreen',monospace;font-size:10px;min-height:44px;padding:0 10px;background:{{ pb.bg }};color:{{ pb.fg }};border:1px solid #3A342E;border-radius:4px;box-shadow:inset 0 -3px 0 rgba(0,0,0,.35);touch-action:manipulation;user-select:none;white-space:nowrap" style-active="transform:translateY(2px)">{{ pb.label }}</button>
+        </sc-for>
+      </div>
+    </sc-if>
+  </div>
+
+  <div style="padding:12px 14px 0;display:grid;gap:12px">
+    <div style="display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);border:1px solid #3A342E;border-radius:4px;overflow:hidden">
+      <sc-for list="{{ turnos }}" as="tn" hint-placeholder-count="3">
+        <button onClick="{{ tn.on }}" disabled="{{ tn.dis }}" style="font-family:'Silkscreen',monospace;font-size:11px;padding:0 4px;min-height:44px;border:0;background:{{ tn.bg }};color:{{ tn.fg }};touch-action:manipulation">{{ tn.label }}</button>
+      </sc-for>
+    </div>
+    <sc-if value="{{ isEspera }}" hint-placeholder-val="{{ false }}">
+      <div style="display:grid;gap:4px">
+        <span style="font-family:'Silkscreen',monospace;font-size:10px;color:#A39B90">{{ dayKicker }}</span>
+        <span style="font-weight:800;font-stretch:115%;font-size:20px;line-height:1.1">{{ dayTitle }}</span>
+        <span style="font-size:13px;line-height:1.45;color:#A39B90;text-wrap:pretty">{{ dayTxt }}</span>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button onClick="{{ prevDay }}" aria-label="Dia anterior" style="font-family:'Silkscreen',monospace;font-size:14px;min-width:48px;min-height:48px;background:transparent;color:#F2EDE4;border:1px solid #3A342E;border-radius:4px;touch-action:manipulation">&lt;</button>
+        <button onClick="{{ toggleMontage }}" style="flex:1;font-family:'Silkscreen',monospace;font-weight:700;font-size:12px;min-height:48px;background:#2FA65A;color:#0F0E0D;border:0;border-radius:4px;box-shadow:inset 0 -4px 0 rgba(0,0,0,.28);touch-action:manipulation" style-active="transform:translateY(2px)">{{ montLabel }}</button>
+        <button onClick="{{ nextDay }}" aria-label="Próximo dia" style="font-family:'Silkscreen',monospace;font-size:14px;min-width:48px;min-height:48px;background:transparent;color:#F2EDE4;border:1px solid #3A342E;border-radius:4px;touch-action:manipulation">&gt;</button>
+        <button onClick="{{ toggleSound }}" style="font-family:'Silkscreen',monospace;font-size:11px;min-height:48px;padding:0 8px;background:transparent;color:{{ sndC }};border:1px solid #3A342E;border-radius:4px;touch-action:manipulation">{{ sndLabel }}</button>
+      </div>
+      <div style="overflow-x:auto;margin:0 -14px;padding:4px 14px 6px">
+        <div style="display:flex;gap:4px;width:max-content">
+          <sc-for list="{{ days }}" as="d" hint-placeholder-count="21">
+            <button onClick="{{ d.on }}" style="width:44px;min-height:56px;padding:5px 0;border:0;border-radius:3px;background:{{ d.bg }};color:{{ d.fg }};box-shadow:{{ d.ring }};display:grid;place-content:center;gap:3px;text-align:center;font-family:inherit;touch-action:manipulation">
+              <span style="font-family:'Silkscreen',monospace;font-size:9px;line-height:1">{{ d.wd }}</span>
+              <span style="font-weight:800;font-size:16px;line-height:1;font-variant-numeric:tabular-nums">{{ d.n }}</span>
+              <span style="font-family:'Silkscreen',monospace;font-size:8px;line-height:1;min-height:8px">{{ d.tag }}</span>
+            </button>
+          </sc-for>
+        </div>
+      </div>
+      <sc-if value="{{ isFightDay }}" hint-placeholder-val="{{ false }}">
+        <button onClick="{{ goR2 }}" style="font-family:'Silkscreen',monospace;font-weight:700;font-size:13px;min-height:48px;background:#F5C842;color:#0F0E0D;border:0;border-radius:4px;box-shadow:inset 0 -4px 0 rgba(0,0,0,.28);touch-action:manipulation">ASSISTIR SIMULAÇÃO DO 2º TURNO</button>
+      </sc-if>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <button onClick="{{ torL }}" style="font-family:'Silkscreen',monospace;font-weight:700;font-size:12px;min-height:48px;background:#E5383B;color:#0F0E0D;border:0;border-radius:4px;box-shadow:inset 0 -4px 0 rgba(0,0,0,.28);touch-action:manipulation" style-active="transform:translateY(2px)">VAI LULA</button>
+        <button onClick="{{ torF }}" style="font-family:'Silkscreen',monospace;font-weight:700;font-size:12px;min-height:48px;background:#3B7BF0;color:#0F0E0D;border:0;border-radius:4px;box-shadow:inset 0 -4px 0 rgba(0,0,0,.28);touch-action:manipulation" style-active="transform:translateY(2px)">VAI FLÁVIO</button>
+      </div>
+      <div data-screen-label="Sala de golpes" style="display:grid;gap:10px;border-top:1px solid #2A2622;padding-top:12px">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap">
+          <span style="font-family:'Silkscreen',monospace;font-size:11px">SALA DE GOLPES · 25</span>
+          <div style="display:flex;border:1px solid #3A342E;border-radius:4px;overflow:hidden">
+            <sc-for list="{{ demoOpts }}" as="c" hint-placeholder-count="2">
+              <button onClick="{{ c.on }}" style="font-family:'Silkscreen',monospace;font-size:11px;padding:0 12px;min-height:44px;border:0;background:{{ c.bg }};color:{{ c.fg }};touch-action:manipulation">{{ c.label }}</button>
+            </sc-for>
+          </div>
+        </div>
+        <button onClick="{{ toggleAuto }}" style="font-family:'Silkscreen',monospace;font-weight:700;font-size:12px;min-height:48px;background:#E8833A;color:#0F0E0D;border:0;border-radius:4px;box-shadow:inset 0 -4px 0 rgba(0,0,0,.28);touch-action:manipulation" style-active="transform:translateY(2px)">{{ autoLbl }}</button>
+        <sc-for list="{{ golpes }}" as="g" hint-placeholder-count="4">
+          <div style="display:grid;gap:6px">
+            <span style="font-family:'Silkscreen',monospace;font-size:10px;color:#A39B90">{{ g.title }}</span>
+            <div style="display:flex;flex-wrap:wrap;gap:6px">
+              <sc-for list="{{ g.items }}" as="it" hint-placeholder-count="5">
+                <button onClick="{{ it.on }}" style="font-family:'Silkscreen',monospace;font-size:11px;min-height:44px;padding:0 10px;background:{{ it.bg }};color:{{ it.fg }};border:1px solid #3A342E;border-radius:4px;box-shadow:inset 0 -3px 0 rgba(0,0,0,.35);touch-action:manipulation;user-select:none" style-active="transform:translateY(2px)">{{ it.label }}</button>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+        <sc-if value="{{ inTreino }}" hint-placeholder-val="{{ false }}">
+          <button onClick="{{ backScene }}" style="font-family:'Silkscreen',monospace;font-size:11px;min-height:44px;background:transparent;color:#F5C842;border:1px solid #3A342E;border-radius:4px;touch-action:manipulation">VOLTAR AO TREINO DO DIA</button>
+        </sc-if>
+      </div>
+      <div data-screen-label="Palpite" style="display:grid;gap:10px;border-top:1px solid #2A2622;padding-top:12px">
+        <span style="font-family:'Silkscreen',monospace;font-size:11px">SEU PALPITE</span>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <sc-for list="{{ palOpts }}" as="pp" hint-placeholder-count="2">
+            <button onClick="{{ pp.on }}" style="font-family:'Silkscreen',monospace;font-weight:700;font-size:12px;min-height:48px;background:{{ pp.bg }};color:{{ pp.fg }};border:1px solid #3A342E;border-radius:4px;touch-action:manipulation">{{ pp.label }}</button>
+          </sc-for>
+        </div>
+        <p style="margin:0;font-size:12px;line-height:1.5;color:#A39B90;text-wrap:pretty">{{ palTxt }}</p>
+      </div>
+    </sc-if>
+    <sc-if value="{{ isLuta }}" hint-placeholder-val="{{ true }}">
+    <div style="display:flex;gap:8px">
+      <button onClick="{{ togglePlay }}" style="flex:1;font-family:'Silkscreen',monospace;font-weight:700;font-size:14px;min-height:48px;background:#2FA65A;color:#0F0E0D;border:0;border-radius:4px;box-shadow:inset 0 -4px 0 rgba(0,0,0,.28);touch-action:manipulation" style-active="transform:translateY(2px)">{{ playLabel }}</button>
+      <button onClick="{{ restart }}" style="font-family:'Silkscreen',monospace;font-weight:700;font-size:12px;min-height:48px;padding:0 12px;background:#E8833A;color:#0F0E0D;border:0;border-radius:4px;box-shadow:inset 0 -4px 0 rgba(0,0,0,.28);touch-action:manipulation" style-active="transform:translateY(2px)">REINICIAR</button>
+      <button onClick="{{ cycleSpeed }}" aria-label="Velocidade" style="font-family:'Silkscreen',monospace;font-size:13px;min-width:48px;min-height:48px;background:transparent;color:#F2EDE4;border:1px solid #3A342E;border-radius:4px;touch-action:manipulation">{{ speedLabel }}</button>
+      <button onClick="{{ toggleSound }}" style="font-family:'Silkscreen',monospace;font-size:11px;min-height:48px;padding:0 8px;background:transparent;color:{{ sndC }};border:1px solid #3A342E;border-radius:4px;touch-action:manipulation">{{ sndLabel }}</button>
+    </div>
+    <div style="display:grid;gap:4px">
+      <div style="position:relative;padding-top:10px">
+        <div style="position:absolute;left:8px;right:8px;top:0;height:8px">
+          <sc-for list="{{ marks }}" as="mk" hint-placeholder-count="0">
+            <div style="position:absolute;left:{{ mk.left }};top:0;width:3px;height:8px;margin-left:-1px;background:#F5C842"></div>
+          </sc-for>
+        </div>
+        <input type="range" min="0" max="1000" step="1" value="{{ scrub }}" onChange="{{ onScrub }}" aria-label="Linha do tempo da apuração" style="width:100%;height:28px;margin:0;accent-color:#F5C842">
+      </div>
+      <div style="display:flex;justify-content:space-between;font-family:'Silkscreen',monospace;font-size:10px;color:#A39B90"><span>17:00</span><span>{{ clock }}</span><span>21:30</span></div>
+    </div>
+    <sc-if value="{{ showGoR2 }}" hint-placeholder-val="{{ false }}">
+      <button onClick="{{ goR2 }}" style="font-family:'Silkscreen',monospace;font-weight:700;font-size:14px;min-height:48px;background:#F5C842;color:#0F0E0D;border:0;border-radius:4px;box-shadow:inset 0 -4px 0 rgba(0,0,0,.28);touch-action:manipulation">IR PARA O 2º TURNO</button>
+    </sc-if>
+    <div style="display:flex;gap:8px">
+      <select value="{{ scope }}" onChange="{{ onScope }}" aria-label="Escolher Brasil, região ou estado" style="flex:1;min-width:0;font-family:'Archivo',sans-serif;font-size:15px;font-weight:600;background:#161412;color:#F2EDE4;border:1px solid #3A342E;border-radius:4px;min-height:44px;padding:0 8px">
+        <option value="BR">Brasil</option>
+        <optgroup label="Regiões">
+          <sc-for list="{{ regOpts }}" as="o" hint-placeholder-count="0"><option value="{{ o.id }}">{{ o.label }}</option></sc-for>
+        </optgroup>
+        <optgroup label="Estados">
+          <sc-for list="{{ ufOpts }}" as="o" hint-placeholder-count="0"><option value="{{ o.id }}">{{ o.label }}</option></sc-for>
+        </optgroup>
+      </select>
+    </div>
+    <sc-if value="{{ notBR }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:12px;color:#A39B90">
+        <span style="min-width:0"><span style="font-family:'Silkscreen',monospace;font-size:10px">BRASIL </span><span style="color:#F2EDE4;font-variant-numeric:tabular-nums">{{ brLine }}</span></span>
+        <button onClick="{{ toBR }}" style="flex:none;font-family:'Silkscreen',monospace;font-size:10px;min-height:44px;padding:0 10px;background:transparent;color:#F5C842;border:1px solid #3A342E;border-radius:4px;touch-action:manipulation">VER BRASIL</button>
+      </div>
+    </sc-if>
+    <sc-if value="{{ showOutros }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12px;color:#A39B90">
+        <sc-for list="{{ outros }}" as="o" hint-placeholder-count="4">
+          <span style="display:flex;gap:5px"><span style="color:#F2EDE4">{{ o.nome }}</span><span style="font-variant-numeric:tabular-nums">{{ o.pct }}</span></span>
+        </sc-for>
+      </div>
+    </sc-if>
+    <div style="display:grid;gap:8px">
+      <span style="font-family:'Silkscreen',monospace;font-size:11px;color:#A39B90">ENTRE NO RINGUE</span>
+      <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:1px solid #3A342E;border-radius:4px;overflow:hidden">
+        <sc-for list="{{ ctrlOpts }}" as="c" hint-placeholder-count="3">
+          <button onClick="{{ c.on }}" style="font-family:'Silkscreen',monospace;font-size:11px;min-height:44px;border:0;background:{{ c.bg }};color:{{ c.fg }};touch-action:manipulation">{{ c.label }}</button>
+        </sc-for>
+      </div>
+      <sc-if value="{{ hasCtrl }}" hint-placeholder-val="{{ false }}">
+        <p style="margin:0;font-size:12px;line-height:1.5;color:#A39B90;text-wrap:pretty">Os botões ficam embaixo do ringue. Segure DEFESA para bloquear. Seus golpes não mudam a apuração.</p>
+      </sc-if>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid #3A342E;border-radius:4px;overflow:hidden;margin-top:4px">
+      <sc-for list="{{ mobTabs }}" as="tb" hint-placeholder-count="4">
+        <button onClick="{{ tb.on }}" style="font-family:'Silkscreen',monospace;font-size:11px;min-height:44px;padding:0 2px;border:0;background:{{ tb.bg }};color:{{ tb.fg }};touch-action:manipulation">{{ tb.label }}</button>
+      </sc-for>
+    </div>
+
+    <sc-if value="{{ tabEstados }}" hint-placeholder-val="{{ true }}">
+      <div style="display:grid;gap:12px">
+        <div style="display:flex;justify-content:flex-end">
+          <div style="display:flex;border:1px solid #3A342E;border-radius:4px;overflow:hidden">
+            <sc-for list="{{ mapModes }}" as="mm" hint-placeholder-count="2">
+              <button onClick="{{ mm.on }}" style="font-family:'Silkscreen',monospace;font-size:10px;padding:0 10px;min-height:36px;border:0;background:{{ mm.bg }};color:{{ mm.fg }};touch-action:manipulation">{{ mm.label }}</button>
+            </sc-for>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:4px">
+          <sc-for list="{{ tiles }}" as="u" hint-placeholder-count="27">
+            <button onClick="{{ u.on }}" style="grid-column:{{ u.col }};grid-row:{{ u.row }};aspect-ratio:1;min-width:0;border:0;border-radius:3px;background:{{ u.bg }};color:{{ u.fg }};box-shadow:{{ u.ring }};display:grid;place-content:center;gap:2px;padding:0;text-align:center;touch-action:manipulation">
+              <span style="font-family:'Silkscreen',monospace;font-size:12px;font-weight:700;line-height:1">{{ u.id }}</span>
+              <span style="font-size:10px;font-weight:600;line-height:1;font-variant-numeric:tabular-nums">{{ u.txt }}</span>
+            </button>
+          </sc-for>
+        </div>
+        <sc-if value="{{ leadMode }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;font-size:11px;color:#A39B90">
+            <span style="display:flex;align-items:center;gap:3px"><span style="width:10px;height:10px;background:#6B2A2B"></span><span style="width:10px;height:10px;background:#A8302F"></span><span style="width:10px;height:10px;background:#E5383B"></span><span style="margin-left:4px">Lula</span></span>
+            <span style="display:flex;align-items:center;gap:3px"><span style="width:10px;height:10px;background:#2A3A63"></span><span style="width:10px;height:10px;background:#2E58B0"></span><span style="width:10px;height:10px;background:#3B7BF0"></span><span style="margin-left:4px">Flávio</span></span>
+            <span>até 5 · 5 a 15 · 15+ pts</span>
+          </div>
+        </sc-if>
+        <sc-if value="{{ countMode }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;font-size:11px;color:#A39B90">
+            <span style="display:flex;align-items:center;gap:3px"><span style="width:10px;height:10px;background:#3A3226"></span><span style="width:10px;height:10px;background:#6B5A2E"></span><span style="width:10px;height:10px;background:#A88A33"></span><span style="width:10px;height:10px;background:#D9B23C"></span><span style="width:10px;height:10px;background:#F5C842"></span></span>
+            <span>0% → 100% apurado</span>
+          </div>
+        </sc-if>
+        <sc-if value="{{ hasClosest }}" hint-placeholder-val="{{ false }}">
+          <button onClick="{{ closestOn }}" style="display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 12px;min-height:44px;background:#161412;border:1px solid #2A2622;border-radius:4px;color:#F2EDE4;font-family:inherit;font-size:13px;text-align:left;touch-action:manipulation">
+            <span style="color:#A39B90">Mais apertada</span>
+            <span style="font-variant-numeric:tabular-nums">{{ closestTxt }}</span>
+          </button>
+        </sc-if>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ tabLances }}" hint-placeholder-val="{{ false }}">
+      <div>
+        <sc-for list="{{ feed }}" as="e" hint-placeholder-count="3">
+          <div style="display:grid;grid-template-columns:40px minmax(0,1fr);gap:10px;padding:10px 0;border-top:1px solid #2A2622">
+            <div style="font-family:'Silkscreen',monospace;font-size:10px;color:#A39B90;padding-top:2px">{{ e.hora }}</div>
+            <div style="display:grid;gap:5px;justify-items:start">
+              <sc-if value="{{ e.hasTag }}" hint-placeholder-val="{{ false }}">
+                <span style="font-family:'Silkscreen',monospace;font-size:10px;background:#F5C842;color:#0F0E0D;padding:2px 6px">{{ e.tag }}</span>
+              </sc-if>
+              <div style="font-size:14px;line-height:1.45;text-wrap:pretty">{{ e.txt }}</div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ tabRegioes }}" hint-placeholder-val="{{ false }}">
+      <div>
+        <sc-for list="{{ regioes }}" as="r" hint-placeholder-count="5">
+          <button onClick="{{ r.on }}" style="width:100%;display:grid;grid-template-columns:92px minmax(0,1fr) 56px;gap:10px;align-items:center;padding:11px 6px;border:0;border-top:1px solid #2A2622;background:{{ r.bg }};color:#F2EDE4;font-family:inherit;text-align:left;touch-action:manipulation">
+            <span style="font-size:14px;color:{{ r.nc }}">{{ r.nome }}</span>
+            <span style="display:grid;gap:5px">
+              <span style="display:flex;justify-content:space-between;height:8px;background:#2A2622">
+                <span style="width:{{ r.lw }};background:#E5383B"></span>
+                <span style="width:{{ r.fw }};background:#3B7BF0"></span>
+              </span>
+              <span style="display:flex;justify-content:space-between;gap:6px;font-size:11px;color:#A39B90;font-variant-numeric:tabular-nums"><span>{{ r.lp }}</span><span>{{ r.fp }}</span></span>
+            </span>
+            <span style="text-align:right;font-size:13px;font-variant-numeric:tabular-nums">{{ r.apurado }}</span>
+          </button>
+        </sc-for>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ tabLuta }}" hint-placeholder-val="{{ false }}">
+      <div>
+        <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:8px;padding-bottom:8px;font-family:'Silkscreen',monospace;font-size:11px">
+          <span style="color:#E5383B">LULA</span><span></span><span style="color:#3B7BF0;text-align:right">FLÁVIO</span>
+        </div>
+        <sc-for list="{{ stats }}" as="st" hint-placeholder-count="5">
+          <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center;padding:10px 0;border-top:1px solid #2A2622">
+            <span style="font-weight:800;font-size:22px;line-height:1;font-variant-numeric:tabular-nums">{{ st.l }}</span>
+            <span style="font-size:13px;color:#A39B90;text-align:center">{{ st.label }}</span>
+            <span style="font-weight:800;font-size:22px;line-height:1;font-variant-numeric:tabular-nums;text-align:right">{{ st.f }}</span>
+          </div>
+        </sc-for>
+        <p style="margin:10px 0 0;font-size:12px;line-height:1.5;color:#A39B90;text-wrap:pretty">Os golpes são encenação. Quem lidera a apuração ataca mais; quem está atrás defende mais.</p>
+      </div>
+    </sc-if>
+
+    </sc-if>
+    <footer style="font-size:11px;color:#A39B90;line-height:1.6;border-top:1px solid #2A2622;padding-top:14px;margin-top:8px">Simulação ilustrativa com dados fictícios, incluindo o público online. Não é resultado oficial. Resultados oficiais: <a href="https://resultados.tse.jus.br" target="_blank" rel="noopener">TSE</a></footer>
+  </div>
+</div>
+</sc-if>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;cenario&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Virada → 2º turno&quot;,&quot;Lula no 1º turno&quot;,&quot;Flávio no 1º turno&quot;],&quot;default&quot;:&quot;Virada → 2º turno&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Simulação&quot;},&quot;turno2&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Lula vence&quot;,&quot;Flávio vence&quot;],&quot;default&quot;:&quot;Lula vence&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Simulação&quot;},&quot;duracao&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;min&quot;:30,&quot;max&quot;:240,&quot;step&quot;:10,&quot;unit&quot;:&quot;s&quot;,&quot;default&quot;:90,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Simulação&quot;},&quot;tremor&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Efeitos&quot;}}">
+class Component extends DCLogic {
+  state = { v: 0 };
+  cv = React.createRef();
+  W = 320; H = 150; FLOOR = 132;
+  scope = 'BR'; turno = 1; ctrl = null; mapMode = 'lead'; snd = false; mobTab = 'estados';
+  buzz(ms) { try { if (navigator.vibrate) navigator.vibrate(ms); } catch (e) {} }
+  REG = [
+    { id: 'r:SE', nome: 'Sudeste', em: 'no Sudeste', d: 0, du: .78, b: 3 },
+    { id: 'r:S', nome: 'Sul', em: 'no Sul', d: 0, du: .70, b: 2 },
+    { id: 'r:CO', nome: 'Centro-Oeste', em: 'no Centro-Oeste', d: .03, du: .80, b: 2 },
+    { id: 'r:NE', nome: 'Nordeste', em: 'no Nordeste', d: .10, du: .90, b: -4 },
+    { id: 'r:N', nome: 'Norte', em: 'no Norte', d: .12, du: .88, b: -2 },
+  ];
+  UFD = [
+    ['AC', 'Acre', 'no', 'N', .6, -12, 0, 2], ['AL', 'Alagoas', 'em', 'NE', 2.3, -6, 5, 3], ['AP', 'Amapá', 'no', 'N', .55, -2, 2, 0], ['AM', 'Amazonas', 'no', 'N', 2.6, 1, 1, 1],
+    ['BA', 'Bahia', 'na', 'NE', 11.3, 5, 3, 3], ['CE', 'Ceará', 'no', 'NE', 6.8, 3, 4, 1], ['DF', 'Distrito Federal', 'no', 'CO', 2.2, -2, 2, 4], ['ES', 'Espírito Santo', 'no', 'SE', 2.9, -6, 4, 4],
+    ['GO', 'Goiás', 'em', 'CO', 4.9, -1, 2, 3], ['MA', 'Maranhão', 'no', 'NE', 5, 3, 3, 1], ['MT', 'Mato Grosso', 'em', 'CO', 2.5, -4, 1, 3], ['MS', 'Mato Grosso do Sul', 'em', 'CO', 2, 1, 1, 4],
+    ['MG', 'Minas Gerais', 'em', 'SE', 16.3, 4, 3, 4], ['PA', 'Pará', 'no', 'N', 6.1, 6, 2, 1], ['PB', 'Paraíba', 'na', 'NE', 3.1, 1, 4, 2], ['PR', 'Paraná', 'no', 'S', 8.5, -2, 1, 5],
+    ['PE', 'Pernambuco', 'em', 'NE', 7, 1, 5, 2], ['PI', 'Piauí', 'no', 'NE', 2.6, 7, 3, 2], ['RJ', 'Rio de Janeiro', 'no', 'SE', 12.8, -3, 3, 5], ['RN', 'Rio Grande do Norte', 'no', 'NE', 2.6, -1, 5, 1],
+    ['RS', 'Rio Grande do Sul', 'no', 'S', 8.6, 4, 1, 7], ['RO', 'Rondônia', 'em', 'N', 1.2, -14, 1, 2], ['RR', 'Roraima', 'em', 'N', .37, -18, 1, 0], ['SC', 'Santa Catarina', 'em', 'S', 5.5, -6, 1, 6],
+    ['SP', 'São Paulo', 'em', 'SE', 34.7, -2, 2, 5], ['SE', 'Sergipe', 'em', 'NE', 1.7, -1, 4, 3], ['TO', 'Tocantins', 'no', 'N', 1.1, 2, 2, 2],
+  ];
+  SCEN = {
+    'Virada → 2º turno': { 'r:SE': [42, 50], 'r:S': [35, 56], 'r:CO': [36, 56], 'r:NE': [66, 27], 'r:N': [48, 45] },
+    'Lula no 1º turno': { 'r:SE': [46, 47], 'r:S': [38, 53], 'r:CO': [40, 52], 'r:NE': [70, 24], 'r:N': [52, 42] },
+    'Flávio no 1º turno': { 'r:SE': [37, 56], 'r:S': [30, 62], 'r:CO': [32, 61], 'r:NE': [60, 34], 'r:N': [42, 51] },
+  };
+  OUT = [['Ronaldo Caiado', 'PSD', .44], ['Renan Santos', 'Missão', .22], ['Augusto Cury', 'Avante', .16], ['Outros', '', .18]];
+  NOME = { L: 'Lula', F: 'Flávio' };
+  COR = { L: '#E5383B', F: '#3B7BF0' };
+  SPN = { L: 'ESTRELA 13!', F: 'FOGUETE 22!' };
+  mode = 'espera'; view = 'cena'; day = 0; montage = true; demoK = 'L'; autoDemo = false; palpite = null;
+  CLOSE = Date.UTC(2026, 9, 25, 20, 0, 0);
+  ULT = { L: 'CHUVA DE ESTRELAS!', F: 'CHUVA DE FOGUETES!' };
+  MV = {
+    jab: { hit: .08, end: .22, limb: 'gF', high: 1, kb: 4 },
+    cross: { hit: .1, end: .26, limb: 'gB', high: 1, kb: 5 },
+    hook: { hit: .12, end: .3, limb: 'gF', high: 1, kb: 6 },
+    upper: { hit: .13, end: .4, limb: 'gB', kb: 9, big: 1 },
+    low: { hit: .12, end: .32, limb: 'fF', low: 1, kb: 5 },
+    high: { hit: .16, end: .42, limb: 'fF', high: 1, kb: 10, big: 1 },
+    special: { hit: .3, end: .6, limb: 'gF', proj: 1, kb: 14, big: 1 },
+    body: { hit: .12, end: .32, limb: 'gB', kb: 5, react: 'hitb' },
+    overhand: { hit: .17, end: .4, limb: 'gB', high: 1, kb: 8, big: 1 },
+    backfist: { hit: .2, end: .42, limb: 'gF', high: 1, kb: 8, big: 1, step: 5 },
+    superman: { hit: .2, end: .45, limb: 'gB', high: 1, kb: 9, big: 1, step: 8 },
+    teep: { hit: .14, end: .38, limb: 'fF', kb: 13, react: 'hitb' },
+    spin: { hit: .2, end: .48, limb: 'fB', high: 1, kb: 13, big: 1 },
+    knee: { hit: .14, end: .36, limb: 'kF', kb: 6, step: 7, react: 'hitb' },
+    flyknee: { hit: .22, end: .5, limb: 'kF', high: 1, kb: 10, big: 1, step: 8, launch: 1, lv: 150, lx: 60 },
+    elbow: { hit: .1, end: .3, limb: 'eF', high: 1, kb: 6, step: 8 },
+    sweep: { hit: .16, end: .45, limb: 'fF', low: 1, kb: 3, ub: 1, react: 'down' },
+    drop: { hit: .24, end: .7, limb: 'fF', high: 1, kb: 12, big: 1, launch: 1, step: 4, lv: 140, lx: 90 },
+    throw: { hit: .16, end: .5, limb: 'gF', ub: 1, kb: 6, big: 1, launch: 1, step: 8, lv: 200, lx: 75 },
+    combo3: { hits: [.07, .16, .27], end: .4, limbs: ['gF', 'gB', 'gF'], high: 1, kb: 3 },
+    flurry: { hits: [.06, .12, .18, .24, .3, .36], end: .48, limbs: ['gF', 'gB', 'gF', 'gB', 'gF', 'gB'], high: 1, kb: 1.5 },
+    bomb: { hit: .34, end: .62, limb: 'gB', high: 1, kb: 16, big: 1, react: 'dizzy' },
+    rising: { hit: .14, end: .56, limb: 'gB', kb: 8, big: 1, launch: 1, lv: 190, lx: 30 },
+    taunt: { hit: 99, end: .8, taunt: 1 },
+    ultra: { hits: [.4, .55, .7, .85], end: 1.05, rain: 1, kb: 4, big: 1, lv: 170, lx: 50 },
+  };
+  MVN = { jab: 'JAB', cross: 'DIRETO', hook: 'GANCHO', upper: 'UPPERCUT', low: 'CHUTE BAIXO', high: 'CHUTE ALTO', body: 'SOCO NO CORPO', overhand: 'OVERHAND', backfist: 'SOCO GIRATÓRIO', superman: 'SOCO VOADOR', teep: 'CHUTE FRONTAL', spin: 'CHUTE GIRATÓRIO', knee: 'JOELHADA', flyknee: 'JOELHADA VOADORA', elbow: 'COTOVELADA', sweep: 'RASTEIRA', drop: 'VOADORA', throw: 'ARREMESSO', combo3: 'SEQUÊNCIA 1-2-3', flurry: 'METRALHADORA', bomb: 'SOCO BOMBA', rising: 'UPPER VOADOR', taunt: 'PROVOCAÇÃO' };
+  BASIC = { jab: 1, cross: 1, hook: 1, low: 1 };
+  NOACT = { ko: 1, win: 1, hit: 1, hitb: 1, air: 1, down: 1, getup: 1, dizzy: 1 };
+  GOLPES = [
+    ['SOCOS', [['punch', 'SOCO', 'A'], ['hook', 'GANCHO', 'S'], ['upper', 'UPPERCUT', 'D'], ['body', 'NO CORPO', 'Z'], ['overhand', 'OVERHAND', 'H'], ['backfist', 'GIRATÓRIO', 'J'], ['combo3', '1-2-3', 'T'], ['flurry', 'METRALHADORA', 'Y'], ['bomb', 'SOCO BOMBA', 'U']]],
+    ['CHUTES, JOELHO E COTOVELO', [['low', 'CHUTE BAIXO', 'F'], ['high', 'CHUTE ALTO', 'G'], ['teep', 'CHUTE FRONTAL', 'V'], ['spin', 'CHUTE GIRATÓRIO', 'K'], ['sweep', 'RASTEIRA', 'B'], ['knee', 'JOELHADA', 'C'], ['elbow', 'COTOVELADA', 'X']]],
+    ['AÉREOS E AGARRÃO', [['superman', 'SOCO VOADOR', 'L'], ['rising', 'UPPER VOADOR', 'I'], ['flyknee', 'JOELHADA VOADORA', 'O'], ['drop', 'VOADORA', 'P'], ['throw', 'ARREMESSO', 'N']]],
+    ['ESPECIAIS E ATITUDE', [['special', 'ESPECIAL', 'W'], ['ultra', 'ULTRA', '1'], ['taunt', 'PROVOCAÇÃO', 'M'], ['duck', 'ESQUIVA', 'Q']]],
+  ];
+  PICK = [['jab', 15], ['cross', 12], ['hook', 9], ['body', 8], ['low', 7], ['high', 5], ['upper', 5], ['overhand', 5], ['combo3', 5], ['elbow', 4], ['knee', 4], ['teep', 4], ['backfist', 3], ['superman', 3], ['spin', 3], ['flurry', 3], ['sweep', 3], ['flyknee', 2], ['throw', 2], ['drop', 2], ['rising', 2], ['bomb', 2], ['taunt', 2]];
+  DEMO = ['jab', 'cross', 'hook', 'upper', 'body', 'overhand', 'backfist', 'combo3', 'flurry', 'bomb', 'low', 'high', 'teep', 'spin', 'sweep', 'knee', 'elbow', 'superman', 'rising', 'flyknee', 'drop', 'throw', 'taunt', 'special', 'ultra'];
+  SOMBRA = ['jab', 'cross', 'hook', 'upper', 'body', 'overhand', 'backfist', 'elbow', 'knee', 'teep', 'high', 'spin', 'superman', 'combo3', 'flyknee', 'sweep', 'bomb', 'rising', 'drop', 'flurry'];
+  FALAS = ['BLÁ BLÁ BLÁ', 'NÃO É BEM ASSIM!', 'OS NÚMEROS MOSTRAM...', 'VAMOS FALAR DE PROPOSTA', 'DIREITO DE RESPOSTA!', 'O POVO SABE', 'ISSO É FAKE!', 'DEIXA EU TERMINAR'];
+  WDN = { SEG: 'segunda', TER: 'terça', QUA: 'quarta', QUI: 'quinta', SEX: 'sexta', 'SÁB': 'sábado', DOM: 'domingo' };
+  DAYS = [
+    [5, 'SEG', 'corner', 'Corner', 'Depois do 1º turno, cada um no seu corner: toalha, água e conversa com o técnico.'],
+    [6, 'TER', 'coletiva', 'Coletiva', 'Entrevista dos dois lados. Muita câmera, muito flash.'],
+    [7, 'QUA', 'saco', 'Saco de pancadas', 'Volta o treino pesado: jab, direto, gancho e sequência no saco.'],
+    [8, 'QUI', 'corda', 'Pular corda', 'Fôlego para três semanas de campanha.'],
+    [9, 'SEX', 'comicio', 'Comício', 'Palanque cheio, bandeira e confete nos dois lados.'],
+    [10, 'SÁB', 'corrida', 'Corrida', 'Treino de rua. A liderança troca de mão a cada quarteirão.'],
+    [11, 'DOM', 'debate', 'Debate', 'Primeiro debate do 2º turno. Cada um com seu tempo, e o relógio correndo.'],
+    [12, 'SEG', 'flexao', 'Flexões', 'Treino de força, com contagem em voz alta.'],
+    [13, 'TER', 'manopla', 'Manopla', 'O técnico segura a manopla e o candidato descarrega.'],
+    [14, 'QUA', 'sombra', 'Luta de sombra', 'Golpes no ar, ensaiando cada movimento do 2º turno.'],
+    [15, 'QUI', 'coletiva', 'Entrevistas', 'Mais uma rodada de perguntas. Os flashes não param.'],
+    [16, 'SEX', 'comicio', 'Comício', 'Mais um palanque, agora com a torcida maior.'],
+    [17, 'SÁB', 'saco', 'Saco de pancadas', 'Saco novo. O antigo não aguentou.'],
+    [18, 'DOM', 'debate', 'Debate', 'Segundo debate. Direito de resposta pedido a cada minuto.'],
+    [19, 'SEG', 'corda', 'Pular corda', 'Ritmo mais rápido: falta menos de uma semana.'],
+    [20, 'TER', 'corrida', 'Corrida', 'Mais uma corrida lado a lado.'],
+    [21, 'QUA', 'manopla', 'Manopla', 'Ajuste fino nos golpes de finalização.'],
+    [22, 'QUI', 'debate', 'Último debate', 'O último encontro antes da luta.'],
+    [23, 'SEX', 'pesagem', 'Pesagem', 'Os dois sobem na balança. O visor só mostra o número.'],
+    [24, 'SÁB', 'vespera', 'Véspera', 'Noite antes da luta. Luz apagada e descanso.'],
+    [25, 'DOM', 'encarada', 'Dia da luta', 'Urnas abertas das 8h às 17h. Depois, a apuração.'],
+  ];
+  DIG = { '0': '111101101101111', '1': '010110010010111', '2': '111001111100111', '3': '111001011001111', '4': '101101111001001', '5': '111100111001111', '6': '111100111101111', '7': '111001001001001', '8': '111101111101111', '9': '111101111001111' };
+  PAL = {
+    L: { skin: '#C68A64', skinD: '#9A6748', hair: '#CFCAC2', brow: '#A9A39A', beard: true, shirt: '#E5383B', shirtD: '#A82226', shorts: '#6E1216', glove: '#EFE9DD', gloveD: '#B8AFA0', shoe: '#1A1714' },
+    F: { skin: '#E2B18E', skinD: '#B58563', hair: '#2A1E17', brow: '#2A1E17', beard: false, shirt: '#3B7BF0', shirtD: '#2552B0', shorts: '#14306E', glove: '#F5C842', gloveD: '#B8921F', shoe: '#1A1714' },
+    R: { skin: '#D19A74', skinD: '#A57352', hair: '#4A4038', brow: '#3A342E', beard: false, shirt: '#E9E4DA', shirtD: '#BDB6AA', shorts: '#1A1714', glove: '#D19A74', gloveD: '#A57352', shoe: '#1A1714', leg: '#1A1714', legD: '#100E0C', belt: '#3A342E', hand: 1, tie: 1 },
+    C: { skin: '#A87454', skinD: '#80553C', hair: '#1A1714', brow: '#1A1714', beard: false, shirt: '#3A342E', shirtD: '#2A2622', shorts: '#2A2622', glove: '#E8833A', gloveD: '#A85E28', shoe: '#1A1714', leg: '#2A2622', legD: '#1E1B18', belt: '#4A4038' },
+  };
+
+  scen() { const s = this.props.cenario; return this.SCEN[s] ? s : 'Virada → 2º turno'; }
+  oth(k) { return k === 'L' ? 'F' : 'L'; }
+  pc(v) { return v.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '%'; }
+  pc1(v) { return v.toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + '%'; }
+  num(v) { return Math.round(v).toLocaleString('pt-BR'); }
+  short(v) { return v >= 1e6 ? (v / 1e6).toLocaleString('pt-BR', { maximumFractionDigits: 1 }) + ' MI' : v >= 1e3 ? Math.round(v / 1000) + ' MIL' : String(Math.round(v)); }
+  hora(t) { const m = 17 * 60 + Math.round(t * 270); return String(Math.floor(m / 60)).padStart(2, '0') + ':' + String(m % 60).padStart(2, '0'); }
+
+  initData() {
+    if (this.UF) return;
+    this.KEYS = {}; this.KEYF = {}; this.GL = {}; this.GOLPES.forEach(g => g[1].forEach(([mv, lb, key]) => { this.KEYS[key.toLowerCase()] = mv; this.KEYF[mv] = key; this.GL[mv] = lb; }));
+    this.PAL.CH = Object.assign({}, this.PAL.C, { glove: this.PAL.C.skin, gloveD: this.PAL.C.skinD, hand: 1 });
+    const rg = {}; this.REG.forEach(g => rg[g.id] = g);
+    this.UF = this.UFD.map((a, i) => {
+      const [id, nome, pre, r, el, lean, col, row] = a, reg = 'r:' + r, g = rg[reg];
+      const v = el * 1e6 * .75, d = g.d + ((i * 37) % 9) / 150;
+      const du = Math.min(g.du * (.75 + .25 * Math.min(1, el / 8)), .995 - d);
+      return { id, nome, em: pre + ' ' + nome, reg, v, lean, col, row, d, du, b: g.b };
+    });
+    this.REG.forEach(g => {
+      const us = this.UF.filter(u => u.reg === g.id), tv = us.reduce((s, u) => s + u.v, 0), m = us.reduce((s, u) => s + u.v * u.lean, 0) / tv;
+      us.forEach(u => u.lc = u.lean - m); g.ufs = us.map(u => u.id);
+    });
+    this.ALL = { BR: { id: 'BR', nome: 'Brasil', em: 'no Brasil', tipo: 'br' } };
+    this.REG.forEach(g => this.ALL[g.id] = { id: g.id, nome: g.nome, em: g.em, tipo: 'reg' });
+    this.UF.forEach(u => this.ALL[u.id] = { id: u.id, nome: u.nome, em: u.em, tipo: 'uf' });
+  }
+  computeFin() {
+    const sc = this.SCEN[this.scen()];
+    let tv = 0, b2 = 0;
+    this.UF.forEach(u => {
+      const [lf, ff] = sc[u.reg], lp = Math.max(8, Math.min(88, lf + u.lc)), fp = Math.max(8, Math.min(88, ff - u.lc));
+      u.f1 = [lp, fp]; u.base2 = lp + (100 - lp - fp) * .35; tv += u.v; b2 += u.v * u.base2;
+    });
+    const sw = (this.props.turno2 === 'Flávio vence' ? 48.7 : 51.3) - b2 / tv;
+    this.UF.forEach(u => { const l = Math.max(10, Math.min(90, u.base2 + sw)); u.f2 = [l, 100 - l]; });
+    const s1 = this.sample(1, 1).e.BR; this.has2 = Math.max(s1.lp, s1.fp) <= 50;
+    if (!this.has2) this.turno = 1;
+  }
+  ensureProps() {
+    this.initData();
+    const key = this.scen() + '|' + (this.props.turno2 || '');
+    if (key === this._pk) return;
+    const first = this._pk === undefined; this._pk = key;
+    this.computeFin(); this.buildEvents(); if (!this.has2) this.mode = 'luta';
+    if (!first) this._reset = true;
+  }
+
+  sample(t, turno) {
+    const T2 = (turno || this.turno) === 2, e = {}, mk = () => ({ tot: 0, cnt: 0, L: 0, F: 0 });
+    e.BR = mk(); this.REG.forEach(g => e[g.id] = mk());
+    for (const u of this.UF) {
+      const x = Math.min(1, Math.max(0, (t - u.d) / u.du)), r = 1 - Math.pow(1 - x, 1.7);
+      const [lf, ff] = T2 ? u.f2 : u.f1, eb = u.b * (1 - r), lp = lf + eb, fp = ff - eb * (T2 ? 1 : .8), c = u.v * r;
+      const o = { tot: u.v, cnt: c, L: c * lp / 100, F: c * fp / 100 };
+      e[u.id] = o;
+      for (const k of ['BR', u.reg]) { const a = e[k]; a.tot += o.tot; a.cnt += o.cnt; a.L += o.L; a.F += o.F; }
+    }
+    for (const k in e) { const a = e[k]; a.r = a.cnt / a.tot; a.urnas = a.r * 100; a.lp = a.cnt ? a.L / a.cnt * 100 : 0; a.fp = a.cnt ? a.F / a.cnt * 100 : 0; a.op = a.cnt ? Math.max(0, 100 - a.lp - a.fp) : 0; }
+    return { t, e };
+  }
+
+  buildEvents() {
+    const N = 600, sc = this.scope, A = this.ALL[sc], nm = k => this.NOME[k], p1 = v => this.pc1(v), T2 = this.turno === 2;
+    const de = s => s.replace(/^no /, 'do ').replace(/^na /, 'da ').replace(/^em /, 'de ');
+    const subs = sc === 'BR' ? this.REG.map(g => g.id) : A.tipo === 'reg' ? this.REG.find(g => g.id === sc).ufs : [];
+    const ev = [{ t: 0, tag: T2 ? 'ROUND 2' : '', txt: T2 ? `Começa a apuração do 2º turno ${A.em}. Só Lula e Flávio no ringue.` : `Urnas fechadas. Começa a apuração do 1º turno ${A.em}.` }];
+    let lead = null, lastVt = -1, prev = this.sample(0), mi = 0; const ms = [10, 25, 50, 75, 90], done = {};
+    for (let i = 1; i <= N; i++) {
+      const S = this.sample(i / N), s = S.e[sc], m = s.lp - s.fp;
+      if (lead === null && s.cnt > 0) { lead = m >= 0 ? 'L' : 'F'; ev.push({ t: S.t, tag: '', txt: `${nm(lead)} sai na frente ${A.em}.` }); }
+      else if (lead && Math.abs(m) > .1 && (m > 0 ? 'L' : 'F') !== lead && S.t - lastVt > .03) {
+        const nl = m > 0 ? 'L' : 'F'; let src = '';
+        if (subs.length) {
+          const best = subs.map(id => { const a = S.e[id], b = prev.e[id], dl = (a.L - b.L) - (a.F - b.F); return { id, k: nl === 'L' ? dl : -dl }; }).sort((x, y) => y.k - x.k)[0];
+          src = ` com os votos ${de(this.ALL[best.id].em)}`;
+        }
+        ev.push({ t: S.t, tag: 'VIRADA', virada: nl, txt: `${nm(nl)} passa ${nm(lead)}${src}.` }); lead = nl; lastVt = S.t;
+      }
+      while (mi < ms.length && s.urnas >= ms[mi]) { ev.push({ t: S.t, tag: '', txt: `${ms[mi]}% das urnas apuradas ${A.em}: Lula ${p1(s.lp)} × ${p1(s.fp)} Flávio.` }); mi++; }
+      subs.forEach(id => {
+        const a = S.e[id];
+        if (a.r >= 1 && !done[id]) { done[id] = 1; const w = a.lp > a.fp ? 'L' : 'F'; ev.push({ t: S.t, tag: '', txt: `${this.ALL[id].nome} 100% apurado. ${nm(w)} vence ${this.ALL[id].em} com ${p1(Math.max(a.lp, a.fp))}.` }); }
+      });
+      prev = S;
+    }
+    const f = this.sample(1).e[sc], w = f.lp > f.fp ? 'L' : 'F', o = this.oth(w), wp = Math.max(f.lp, f.fp), ko = wp > 50;
+    let tag, txt;
+    if (sc === 'BR') {
+      if (ko) { tag = 'NOCAUTE'; txt = T2 ? `${nm(w)} vence o 2º turno com ${p1(wp)} dos votos válidos e é eleito presidente.` : `${nm(w)} chega a ${p1(wp)} dos votos válidos e vence no 1º turno.`; }
+      else { tag = 'FIM DO ROUND 1'; txt = `Ninguém passa de 50%. ${nm(w)} e ${nm(o)} voltam ao ringue no 2º turno, em 25 de outubro.`; }
+    } else { tag = ko ? 'NOCAUTE' : 'FIM'; txt = ko ? `${nm(w)} vence ${A.em} com ${p1(wp)} dos votos válidos.` : `${nm(w)} termina na frente ${A.em}, mas sem maioria: ${p1(wp)}.`; }
+    ev.push({ t: 1, tag, txt });
+    this.ev = ev;
+  }
+
+  st0() { return { g: 0, d: 0, e: 0, s: 0, c: 0, q: 0 }; }
+  mkF(k) { return { k, facing: k === 'L' ? 1 : -1, x: 160 + (k === 'L' ? -18 : 18), kx: 0, pose: 'idle', pt: 0, hit: false, hn: 0, fall: 0, ay: 0, avy: 0, avx: 0, rot: 0, flash: 0, phase: k === 'L' ? 0 : 1.7, lastV: 0, lastSV: 0, big: false, sup: 0, combo: 0, comboT: 9, holdT: 0, hold: false, q: null, alt: 0, ctrl: this.ctrl === k, st: this.st0() }; }
+
+  componentDidMount() {
+    this.ensureProps(); this._reset = false;
+    const E = this.E = { t: 0, playing: false, speed: 1, ended: false, center: 160, banners: [], parts: [], floats: [], flashes: [], callouts: [], proj: [], drops: [], shake: 0, slow: 0, cheer: { L: 0, F: 0 }, nextAtk: 1, T: 0, koW: null, koT: 0, refN: null };
+    E.f = { L: this.mkF('L'), F: this.mkF('F') };
+    E.ref = this.act('R', 224, -1, 'ref', { pal: 'R' });
+    this.bufC = document.createElement('canvas'); this.bufC.width = this.W; this.bufC.height = this.H; this.buf = this.bufC.getContext('2d');
+    this.buildBG(); this.buildCrowd(); this.buildGym(); this.buildStudio();
+    let t0 = 0;
+    this.mode = this.has2 && Date.now() < this.CLOSE ? 'espera' : 'luta';
+    if (this.mode === 'luta' && this.has2) this.turno = 2;
+    try { const o = JSON.parse(localStorage.getItem('apuracao-luta-v3') || '{}'); if (o.scope && this.ALL[o.scope]) this.scope = o.scope; if (o.turno === 2 && this.has2) this.turno = 2; if (o.turno === 1) this.turno = 1; if (o.t > 0 && o.t <= 1) t0 = o.t; if (o.mode === 'luta' || (o.mode === 'espera' && this.has2)) this.mode = o.mode; if (o.palpite === 'L' || o.palpite === 'F') this.palpite = o.palpite; } catch (e) {}
+    if (this.mode === 'espera') t0 = 0;
+    this.day = this.todayIdx(); this.setScene(this.DAYS[this.day][2]);
+    this.viewers = Math.round(this.mode === 'espera' ? 8600 : 42000 + 150000 * t0); this.vSpike = 0; this.vT = 0;
+    this.buildEvents(); this.seek(t0);
+    this.kd = e => this.onKey(e, true); this.ku = e => this.onKey(e, false); this.pu = () => this.blockHold(false);
+    window.addEventListener('keydown', this.kd); window.addEventListener('keyup', this.ku); window.addEventListener('pointerup', this.pu);
+    this.rs = () => this.push(false); window.addEventListener('resize', this.rs);
+    this.last = performance.now();
+    const loop = now => { this.raf = requestAnimationFrame(loop); this.frame(now); };
+    this.raf = requestAnimationFrame(loop);
+    if (t0 === 0 && this.mode === 'luta') this.autoT = setTimeout(() => this.play(), 700);
+  }
+  componentWillUnmount() {
+    cancelAnimationFrame(this.raf); clearTimeout(this.autoT); clearTimeout(this.ptm);
+    window.removeEventListener('keydown', this.kd); window.removeEventListener('keyup', this.ku); window.removeEventListener('pointerup', this.pu); window.removeEventListener('resize', this.rs);
+  }
+  componentDidUpdate() { if (this._reset && this.E) { this._reset = false; this.seek(0); } }
+
+  push(force) {
+    const now = performance.now();
+    if (!force && now - (this.lpush || 0) < 100) { if (!this.ptm) this.ptm = setTimeout(() => { this.ptm = null; this.push(true); }, 110); return; }
+    this.lpush = now; const E = this.E;
+    this.snap = this.sample(E.t);
+    this.setState(s => ({ v: s.v + 1 }));
+    try { localStorage.setItem('apuracao-luta-v3', JSON.stringify({ t: E.t, turno: this.turno, scope: this.scope, mode: this.mode, palpite: this.palpite })); } catch (e) {}
+  }
+  seek(t) {
+    const E = this.E; E.t = Math.max(0, Math.min(1, t)); E.ended = false; E.banners = []; E.floats = []; E.proj = []; E.drops = []; E.callouts = []; E.koW = null; E.koT = 0; E.slow = 0;
+    const s = this.sample(E.t).e[this.scope], m = s.cnt && this.mode === 'luta' ? s.lp - s.fp : 0;
+    E.center = 160 + Math.max(-60, Math.min(60, m * 5));
+    ['L', 'F'].forEach(k => Object.assign(E.f[k], { pose: E.f[k].ctrl && E.f[k].hold ? 'block' : 'idle', pt: 0, fall: 0, kx: 0, ay: 0, avy: 0, rot: 0, q: null, combo: 0, sup: 0, lastV: s[k], lastSV: s[k], st: this.st0() }));
+    if (E.t >= 1) this.finish(true); else this.push(true);
+  }
+  finish(instant) {
+    const E = this.E; E.ended = true; E.playing = false; E.t = 1; E.proj = []; E.drops = [];
+    if (!instant) { this.vSpike = .2; E.slow = 1.1; }
+    const s = this.sample(1).e[this.scope], w = s.lp > s.fp ? 'L' : 'F', o = this.oth(w), wp = Math.max(s.lp, s.fp), N = this.NOME[w].toUpperCase(), A = this.ALL[this.scope], age = instant ? 1 : 0;
+    ['L', 'F'].forEach(k => Object.assign(E.f[k], { pose: 'idle', pt: 0, q: null, ay: 0, avy: 0, rot: 0, fall: 0 }));
+    if (wp > 50) {
+      Object.assign(E.f[o], { pose: 'ko', pt: instant ? 1 : 0, kx: E.f[w].facing * 14 });
+      E.f[w].pose = 'win'; E.cheer[w] = 99; E.koW = w; E.koT = instant ? 9 : 0;
+      let sub = this.scope === 'BR' ? (this.turno === 2 ? `${N} ELEITO PRESIDENTE` : `${N} ELEITO NO 1º TURNO`) : `${N} VENCE ${A.em.toUpperCase()}`;
+      if (this.scope === 'BR' && this.turno === 2 && this.palpite) sub += this.palpite === w ? ' · PALPITE CERTO' : ' · PALPITE ERRADO';
+      E.banners = [{ text: 'K.O.!', sub, dur: 0, age }];
+      if (!instant) this.sfx('ko');
+    } else {
+      E.banners = [this.scope === 'BR' && this.turno === 1 ? { text: 'ROUND 2', sub: '2º TURNO · 25 DE OUTUBRO', dur: 0, age } : { text: 'SEM NOCAUTE', sub: `${N} LIDERA ${A.em.toUpperCase()}`, dur: 0, age }];
+      if (!instant) this.sfx('bell');
+    }
+    this.push(true);
+  }
+  play() {
+    clearTimeout(this.autoT); const E = this.E;
+    if (E.ended || E.t >= 1) this.seek(0);
+    E.playing = true;
+    if (E.t === 0) {
+      E.banners = [{ text: this.turno === 2 ? 'ROUND 2' : 'ROUND 1', sub: (this.turno === 2 ? '2º TURNO · ' : '1º TURNO · ') + this.ALL[this.scope].nome.toUpperCase(), dur: 1.3, age: 0, intro: true }, { text: 'LUTEM!', sub: '', dur: .75, age: 0, intro: true }];
+      this.sfx('bell');
+    }
+    this.push(true);
+  }
+  toggle() { const E = this.E; if (E.playing) { E.playing = false; clearTimeout(this.autoT); this.push(true); } else this.play(); }
+  restart() { clearTimeout(this.autoT); this.seek(0); this.play(); }
+  setSpeed(v) { this.E.speed = v; this.push(true); }
+  setScope(id) { if (!this.ALL[id] || id === this.scope) return; this.scope = id; this.buildEvents(); this.seek(this.E.t); }
+  setTurno(n) {
+    if (n === 2 && !this.has2) return;
+    const was = this.mode; this.mode = 'luta'; this.view = 'cena'; this.autoDemo = false;
+    if (n === this.turno && was === 'luta') return this.push(true);
+    this.turno = n; this.buildEvents(); this.seek(0); this.play();
+  }
+  setMode(m) {
+    if (m === this.mode) return;
+    clearTimeout(this.autoT); this.mode = m; this.autoDemo = false;
+    if (m === 'espera') { const E = this.E; E.playing = false; this.view = 'cena'; this.ctrl = null; ['L', 'F'].forEach(k => { E.f[k].ctrl = false; E.f[k].hold = false; }); this.seek(0); this.setScene(this.DAYS[this.day][2]); }
+    this.push(true);
+  }
+  setCtrl(k) { this.ctrl = k; ['L', 'F'].forEach(x => { const f = this.E.f[x]; f.ctrl = k === x; f.hold = false; if (f.pose === 'block') f.pose = 'idle'; }); this.push(true); }
+  margin() { const s = this.cs; return s && s.cnt && this.mode === 'luta' ? s.lp - s.fp : 0; }
+
+  onKey(e, down) {
+    const tg = e.target && e.target.tagName;
+    if (tg === 'SELECT' || tg === 'TEXTAREA' || (tg === 'INPUT' && e.target.type !== 'range') || e.metaKey || e.ctrlKey || e.altKey) return;
+    const k = (e.key || '').toLowerCase();
+    if (k === ' ') {
+      e.preventDefault();
+      if (down && !e.repeat) { if (document.activeElement && document.activeElement.blur) document.activeElement.blur(); if (this.mode === 'espera') this.toggleMontage(); else this.toggle(); }
+      return;
+    }
+    if (this.mode === 'espera') {
+      if (!down || e.repeat) return;
+      if (k === 'arrowleft' || k === 'arrowright') { e.preventDefault(); this.setDay(this.day + (k === 'arrowright' ? 1 : -1)); return; }
+      if (this.KEYS[k]) { e.preventDefault(); this.demo(this.demoK, this.KEYS[k]); }
+      return;
+    }
+    if (down && k === 'r' && !e.repeat) { this.restart(); return; }
+    if (!this.ctrl) return;
+    if (k === 'e') { e.preventDefault(); if (!e.repeat) this.blockHold(down); return; }
+    if (down && this.KEYS[k] && !e.repeat) { e.preventDefault(); this.pmove(this.KEYS[k]); }
+  }
+  pmove(n) {
+    if (this.mode === 'espera') return this.demo(this.demoK, n);
+    if (!this.ctrl || !this.E) return;
+    const f = this.E.f[this.ctrl];
+    if (n === 'duck') { if (f.pose === 'idle' || f.pose === 'block') { f.pose = 'duck'; f.pt = 0; } return; }
+    let mv = n; if (n === 'punch') { mv = f.alt ? 'cross' : 'jab'; f.alt ^= 1; }
+    if ((mv === 'special' || mv === 'ultra') && f.sup < 100) { this.float(f.x, this.FLOOR - 66, 'CARREGANDO', '#A39B90'); return; }
+    if (f.pose === 'block') f.pose = 'idle';
+    this.startAtk(f, mv); this.push(false);
+  }
+  blockHold(down) {
+    if (!this.ctrl || !this.E || this.mode !== 'luta') return;
+    const f = this.E.f[this.ctrl]; f.hold = down;
+    if (down && (f.pose === 'idle' || f.pose === 'duck')) { f.pose = 'block'; f.pt = 0; }
+    if (!down && f.pose === 'block') this.toIdle(f);
+  }
+
+  sfx(type) {
+    if (!this.snd || !this.ac) return;
+    const ac = this.ac, t = ac.currentTime;
+    const tone = (f0, f1, d, w, v, dl) => { const o = ac.createOscillator(), g = ac.createGain(), s = t + (dl || 0); o.type = w; o.frequency.setValueAtTime(f0, s); o.frequency.exponentialRampToValueAtTime(Math.max(20, f1), s + d); g.gain.setValueAtTime(v, s); g.gain.exponentialRampToValueAtTime(.001, s + d); o.connect(g); g.connect(ac.destination); o.start(s); o.stop(s + d + .02); };
+    const noise = (d, v, fq, tp) => { const n = Math.floor(ac.sampleRate * d), b = ac.createBuffer(1, n, ac.sampleRate), ch = b.getChannelData(0); for (let i = 0; i < n; i++) ch[i] = (Math.random() * 2 - 1) * (1 - i / n); const s = ac.createBufferSource(); s.buffer = b; const fl = ac.createBiquadFilter(); fl.type = tp || 'lowpass'; fl.frequency.value = fq; const g = ac.createGain(); g.gain.value = v; s.connect(fl); fl.connect(g); g.connect(ac.destination); s.start(t); };
+    switch (type) {
+      case 'hit': noise(.07, .5, 1800); tone(180, 60, .08, 'square', .1); break;
+      case 'big': noise(.16, .7, 1200); tone(140, 40, .18, 'square', .16); break;
+      case 'block': tone(900, 600, .05, 'square', .07); noise(.03, .25, 4000, 'highpass'); break;
+      case 'whiff': noise(.1, .3, 2500, 'bandpass'); break;
+      case 'charge': tone(220, 880, .25, 'sawtooth', .06); break;
+      case 'shoot': tone(660, 200, .3, 'square', .06); noise(.2, .2, 3000, 'bandpass'); break;
+      case 'ko': tone(440, 55, .9, 'square', .1); noise(.4, .5, 600); break;
+      case 'bell': tone(1320, 1300, .9, 'sine', .14); tone(2640, 2600, .6, 'sine', .05); break;
+      case 'ding': tone(1568, 1560, .3, 'sine', .07); break;
+      case 'cheer': noise(.45, .12, 1400, 'bandpass'); break;
+      case 'virada': tone(392, 392, .1, 'square', .07); tone(523, 523, .1, 'square', .07, .1); tone(784, 784, .2, 'square', .07, .2); break;
+    }
+  }
+  toggleSound() {
+    this.snd = !this.snd;
+    if (this.snd && !this.ac) { try { this.ac = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) {} }
+    if (this.ac && this.ac.state === 'suspended') this.ac.resume();
+    if (this.snd) this.sfx('block');
+    this.push(true);
+  }
+
+  frame(now) {
+    const E = this.E, rdt = Math.min(.05, (now - this.last) / 1000); this.last = now;
+    let dt = rdt; if (E.slow > 0) { E.slow -= rdt; dt = rdt * .35; }
+    E.T += dt;
+    const scn = this.mode === 'espera' && this.view === 'cena';
+    if (scn) { this.stepScene(dt); this.updFx(dt); }
+    else {
+      const intro = E.banners[0] && E.banners[0].intro;
+      if (this.mode === 'luta' && E.playing && !E.ended && !intro) {
+        const dur = Math.max(10, this.props.duracao || 90), pt = E.t;
+        E.t = Math.min(1, E.t + dt * E.speed / dur);
+        for (const ev of this.ev) if (ev.virada && ev.t > pt && ev.t <= E.t) this.virada(ev.virada);
+        if (E.t >= 1) this.finish(false); else this.push(false);
+      }
+      this.cs = this.sample(E.t).e[this.scope];
+      if (this.mode === 'espera' && this.autoDemo) this.stepDemo(dt);
+      this.update(dt);
+    }
+    this.vT += rdt;
+    if (this.vT > 1) {
+      this.vT = 0; this.vSpike *= .85;
+      const base = this.mode === 'espera' ? 8600 : 42000 + 150000 * E.t, tgt = base * (1 + this.vSpike);
+      this.viewers = Math.max(1000, Math.round(this.viewers + (tgt - this.viewers) * .3 + (Math.random() - .5) * base * .012));
+      this.push(false);
+    }
+    this.draw(scn);
+  }
+  virada(k) {
+    const E = this.E, a = E.f[k], d = E.f[this.oth(k)];
+    E.banners = E.banners.filter(b => b.intro);
+    E.banners.push({ text: 'VIRADA!', sub: `${this.NOME[k].toUpperCase()} ASSUME A LIDERANÇA`, dur: 1.5, age: 0 });
+    if (!a.ctrl && this.canAct(a)) { if (!d.ctrl && (d.pose === 'block' || d.pose === 'duck')) { d.pose = 'idle'; d.pt = 0; } a.pose = 'idle'; this.startAtk(a, Math.random() < .5 ? 'upper' : 'rising', true); }
+    E.nextAtk = .9; this.sfx('virada'); this.vSpike = Math.max(this.vSpike || 0, .12);
+  }
+  pick() { const tot = this._ptot || (this._ptot = this.PICK.reduce((s, x) => s + x[1], 0)); let r = Math.random() * tot; for (const [k, v] of this.PICK) if ((r -= v) < 0) return k; return 'jab'; }
+  isAtk(f) { return !!this.MV[f.pose]; }
+  canAct(a) { return !this.NOACT[a.pose] && !this.isAtk(a); }
+  toIdle(f) { f.pose = f.ctrl && f.hold ? 'block' : 'idle'; f.pt = 0; }
+  float(x, y, txt, col) { this.E.floats.push({ x, y, txt, col, age: 0 }); }
+
+  startAtk(a, mv, noDef) {
+    if (!this.canAct(a)) return false;
+    const E = this.E, M = this.MV[mv]; if (!M) return false;
+    if (mv === 'special' || mv === 'ultra') { if (a.sup < 100) return false; a.sup = 0; a.st.s++; E.callouts.push({ k: a.k, txt: (mv === 'ultra' ? this.ULT : this.SPN)[a.k], age: 0 }); this.sfx('charge'); }
+    else if (this.MVN[mv] && (this.mode === 'espera' || !this.BASIC[mv])) E.callouts.push({ k: a.k, txt: this.MVN[mv], age: 0, sz: 6 });
+    if (mv === 'bomb') this.sfx('charge'); if (mv === 'taunt') this.sfx('cheer');
+    a.pose = mv; a.pt = 0; a.hit = false; a.hn = 0;
+    const d = E.f[this.oth(a.k)];
+    if (!noDef && !M.taunt && !M.ub && !d.ctrl && (d.pose === 'idle' || d.pose === 'block' || d.pose === 'duck')) {
+      const trailing = (this.margin() >= 0) === (d.k === 'F'), pb = (M.proj || M.rain ? .35 : .24) + (trailing ? .08 : 0), pd = M.high ? .18 : 0, u = Math.random();
+      if (u < pb) { d.pose = 'block'; d.pt = 0; d.holdT = M.end + (M.proj ? .5 : .12); }
+      else if (u < pb + pd) { d.pose = 'duck'; d.pt = 0; d.holdT = M.end + .05; }
+    }
+    return true;
+  }
+  land(a, d, mv, px, py, idx) {
+    const E = this.E, M = this.MV[mv], last = !M.hits || idx === M.hits.length - 1;
+    if (d.pose === 'ko' || d.pose === 'win') return;
+    let gx = px, gy = py;
+    if (gx == null) { const J = this.joints(a, E.T), fx = this.pfx(a), sg = a.facing * (fx.flip ? -1 : 1), lm = J[M.limbs ? M.limbs[idx] : M.limb] || J.gF; gx = a.x + a.kx + lm[0] * sg + 3 * a.facing; gy = this.FLOOR - (a.ay || 0) - fx.ay + lm[1]; }
+    if (d.pose === 'air' || d.pose === 'down' || d.pose === 'getup') { if (last) this.sfx('whiff'); return; }
+    if (d.pose === 'block' && !M.ub) {
+      d.kx += a.facing * (M.proj ? 5 : 1.5); d.st.d++; a.combo = 0; d.sup = Math.min(100, d.sup + 3);
+      for (let i = 0; i < 7; i++) E.parts.push({ x: gx, y: gy, vx: -a.facing * (10 + Math.random() * 40), vy: (Math.random() - .5) * 80, life: .15 + Math.random() * .1, col: Math.random() < .5 ? '#BFD8FF' : '#FFFFFF', sz: 1, g: 0 });
+      E.parts.push({ x: gx, y: gy, life: .1, ring: 1 });
+      this.float(gx, gy - 8, 'DEFESA', '#BFD8FF'); this.sfx('block'); if (d.ctrl) this.buzz(8);
+      if (!d.ctrl && this.mode === 'luta' && last && Math.random() < .22) d.q = { mv: Math.random() < .5 ? 'elbow' : 'body', in: .12, ct: 1 };
+      this.push(false); return;
+    }
+    if (d.pose === 'duck' && M.high) {
+      d.st.e++; a.combo = 0; this.float(d.x, this.FLOOR - 48, 'ESQUIVA', '#F2EDE4'); this.sfx('whiff');
+      if (!d.ctrl && Math.random() < .5) d.q = { mv: Math.random() < .5 ? 'upper' : 'body', in: .1 };
+      this.push(false); return;
+    }
+    const big = !!M.big && last, sp = mv === 'special' || (mv === 'ultra' && last);
+    let react = M.react === 'hitb' ? 'hitb' : 'hit';
+    if (last) { if (M.launch || mv === 'ultra') react = 'air'; else if (M.react) react = M.react; }
+    if (react === 'air' || react === 'down') { const dn = react === 'down'; Object.assign(d, { pose: 'air', pt: 0, ay: Math.max(1, d.ay || 0), avy: (dn ? 70 : M.lv || 150) + Math.random() * 20, avx: a.facing * (dn ? 20 : M.lx || 55), dby: a.k, flash: .07, combo: 0, q: null }); }
+    else if (react === 'dizzy') { Object.assign(d, { pose: 'dizzy', pt: 0, flash: .1, combo: 0, q: null }); this.float(d.x, this.FLOOR - 72, 'TONTO!', '#F5C842'); }
+    else Object.assign(d, { pose: react, pt: 0, flash: .07, big, combo: 0, q: null });
+    d.kx += a.facing * M.kb * (M.hits && last ? 2.5 : 1);
+    a.combo++; a.comboT = 0; a.st.g++; a.st.c = Math.max(a.st.c, a.combo); a.sup = Math.min(100, a.sup + 4);
+    if (a.combo === 5 && d.pose === 'hit') { d.pose = 'dizzy'; d.pt = 0; this.float(d.x, this.FLOOR - 72, 'TONTO!', '#F5C842'); }
+    for (let i = 0; i < (sp ? 24 : big ? 16 : 9); i++) E.parts.push({ x: gx, y: gy, vx: a.facing * (20 + Math.random() * 70) + (Math.random() - .5) * 60, vy: -30 - Math.random() * 90, life: .2 + Math.random() * .2, col: sp ? (Math.random() < .5 ? this.COR[a.k] : '#FFFFFF') : (Math.random() < .5 ? '#FFFFFF' : '#F5C842'), sz: Math.random() < .3 ? 2 : 1 });
+    E.parts.push({ x: gx, y: gy, life: .09, star: sp ? 9 : big ? 7 : 5 });
+    E.shake = this.props.tremor === false ? 0 : (sp ? .32 : big ? .2 : .08);
+    E.cheer[a.k] = big ? 1.6 : .7;
+    if (this.mode === 'luta') { const s = this.cs, v = s ? s[a.k] : 0, dv = v - a.lastV; a.lastV = v; if (dv > 50) this.float(gx, gy - 8, '+' + this.short(dv), this.COR[a.k]); }
+    this.sfx(big ? 'big' : 'hit');
+    if (d.ctrl) this.buzz(big ? 60 : 25); else if (a.ctrl) this.buzz(12);
+    this.push(false);
+  }
+  spawnProj(a) { this.E.proj.push({ k: a.k, x: a.x + 24 * a.facing, y: this.FLOOR - 45, vx: 170 * a.facing, age: 0 }); this.sfx('shoot'); }
+  spawnDrop(a, i) { const d = this.E.f[this.oth(a.k)]; this.E.drops.push({ k: a.k, x: d.x + d.kx + (i - 1.5) * 4, y: -10, vy: 260, i, age: 0 }); this.sfx('shoot'); }
+
+  update(dt) {
+    const E = this.E, s = this.cs, luta = this.mode === 'luta', m = luta && s.cnt ? s.lp - s.fp : 0;
+    E.center += (160 + Math.max(-60, Math.min(60, m * 5)) - E.center) * Math.min(1, dt * 2.5);
+    const intro = E.banners[0] && E.banners[0].intro;
+    if (luta && !E.ended) ['L', 'F'].forEach(k => { const f = E.f[k], v = s[k]; if (v > f.lastSV && s.tot) f.sup = Math.min(100, f.sup + (v - f.lastSV) / s.tot * 650); f.lastSV = v; });
+    if (luta && E.playing && !E.ended && !intro) {
+      E.nextAtk -= dt;
+      if (E.nextAtk <= 0) {
+        const lead = m >= 0 ? 'L' : 'F', pLead = .55 + Math.min(Math.abs(m), 12) * .03, vul = ['L', 'F'].find(k => E.f[k].pose === 'dizzy');
+        let ak = vul ? this.oth(vul) : Math.random() < pLead ? lead : this.oth(lead), skip = false;
+        if (E.f[ak].ctrl) { ak = this.oth(ak); skip = !!vul || Math.random() < .35; }
+        const a = E.f[ak], o = E.f[this.oth(ak)], down = o.pose === 'air' || o.pose === 'down' || o.pose === 'getup';
+        if (!skip && a.pose === 'idle') { if (!down) this.startAtk(a, a.sup >= 100 ? (Math.random() < .4 ? 'ultra' : 'special') : this.pick()); else if (Math.random() < .4) this.startAtk(a, 'taunt'); }
+        E.nextAtk = (vul ? .18 : .45 + Math.random() * .7) / Math.sqrt(E.speed);
+      }
+    }
+    this.updF(E.f.L, E.f.F, dt); this.updF(E.f.F, E.f.L, dt);
+    for (const p of E.proj) {
+      p.x += p.vx * dt; p.age += dt;
+      const a = E.f[p.k], d = E.f[this.oth(p.k)];
+      if (Math.random() < .8) E.parts.push({ x: p.x - Math.sign(p.vx) * 6, y: p.y + (Math.random() - .5) * 3, vx: -p.vx * .1, vy: 0, g: 0, life: .18, col: p.k === 'L' ? '#E5383B' : '#F5C842', sz: 1 });
+      if ((p.vx > 0 && p.x >= d.x + d.kx - 5) || (p.vx < 0 && p.x <= d.x + d.kx + 5)) { p.dead = 1; this.land(a, d, 'special', p.x, p.y); }
+      if (p.x < 0 || p.x > this.W) p.dead = 1;
+    }
+    E.proj = E.proj.filter(p => !p.dead);
+    for (const p of E.drops) {
+      p.y += p.vy * dt; p.age += dt;
+      const a = E.f[p.k], d = E.f[this.oth(p.k)];
+      if (Math.random() < .7) E.parts.push({ x: p.x + (Math.random() - .5) * 2, y: p.y - 8, vx: 0, vy: -20, g: 0, life: .15, col: p.k === 'L' ? '#F5C842' : '#E8833A', sz: 1 });
+      if (p.y >= this.FLOOR - 52 - (d.ay || 0)) { p.dead = 1; this.land(a, d, 'ultra', p.x, p.y, p.i); }
+    }
+    E.drops = E.drops.filter(p => !p.dead);
+    this.updRef(dt); this.updFx(dt);
+  }
+  updFx(dt) {
+    const E = this.E;
+    E.cheer.L = Math.max(0, E.cheer.L - dt); E.cheer.F = Math.max(0, E.cheer.F - dt); E.shake = Math.max(0, E.shake - dt);
+    E.parts.forEach(p => { if (p.vx != null) { p.x += p.vx * dt; p.y += p.vy * dt; p.vy += (p.g != null ? p.g : 260) * dt; } p.life -= dt; });
+    E.parts = E.parts.filter(p => p.life > 0);
+    E.floats.forEach(f => f.age += dt); E.floats = E.floats.filter(f => f.age < .9);
+    E.callouts.forEach(c => c.age += dt); E.callouts = E.callouts.filter(c => c.age < (c.sz ? .8 : 1.1));
+    E.flashes.forEach(f => f.life -= dt); E.flashes = E.flashes.filter(f => f.life > 0);
+    if (Math.random() < dt * 4 && this.crowd) { const c = this.crowd[Math.floor(Math.random() * this.crowd.length)]; E.flashes.push({ x: c.x, y: c.y - 6, life: .07 }); }
+    const b0 = E.banners[0]; if (b0) { b0.age += dt; if (b0.dur && b0.age >= b0.dur) E.banners.shift(); }
+  }
+  updRef(dt) {
+    const E = this.E, R = E.ref, L = E.f.L, F = E.f.F; R.pt += dt;
+    let tx, pose = 'ref', n = null;
+    const dn = [L, F].find(f => f.pose === 'down' || f.pose === 'getup');
+    if (E.koW) {
+      E.koT += dt; const w = E.f[E.koW], l = E.f[this.oth(E.koW)];
+      if (E.koT < 2.4) { tx = l.x + l.kx; pose = 'refcount'; n = Math.min(10, 1 + Math.floor(E.koT / .22)); }
+      else { tx = w.x - w.facing * 13; pose = 'refraise'; }
+    } else if (dn) { tx = dn.x + dn.kx - dn.facing * 6; pose = 'refcount'; if (dn.pose === 'down') n = 1 + Math.floor(dn.pt / .4); }
+    else tx = E.center + (E.center <= 160 ? 1 : -1) * 64;
+    tx = Math.max(20, Math.min(300, tx));
+    const dx = tx - R.x; R.x += dx * Math.min(1, dt * 5);
+    if (Math.abs(dx) > 4) pose = 'run';
+    if (pose !== R.pose) { R.pose = pose; R.pt = 0; }
+    R.facing = (L.x + F.x) / 2 >= R.x ? 1 : -1;
+    E.refN = n;
+  }
+  updF(f, o, dt) {
+    const E = this.E;
+    f.pt += dt; f.flash = Math.max(0, f.flash - dt); f.comboT += dt; if (f.comboT > 1.6) f.combo = 0;
+    const M = this.MV[f.pose];
+    if (M) {
+      if (M.taunt) { if (!f.hit && f.pt >= .15) { f.hit = true; this.float(f.x + f.facing * 12, this.FLOOR - 66, 'VEM!', this.COR[f.k]); f.sup = Math.min(100, f.sup + 12); E.cheer[f.k] = 1.4; } }
+      else if (M.hits) { while (this.MV[f.pose] === M && f.hn < M.hits.length && f.pt >= M.hits[f.hn]) { const i = f.hn++; if (M.rain) this.spawnDrop(f, i); else this.land(f, o, f.pose, null, null, i); } }
+      else if (!f.hit && f.pt >= M.hit) { f.hit = true; if (M.proj) this.spawnProj(f); else this.land(f, o, f.pose); }
+      if ((f.pose === 'bomb' || f.pose === 'ultra') && f.pt < (M.hit || .4) && Math.random() < dt * 40) { const J = this.joints(f, E.T), g = f.pose === 'bomb' ? J.gB : J.gF; E.parts.push({ x: f.x + f.kx + g[0] * f.facing + (Math.random() - .5) * 8, y: this.FLOOR + g[1] + (Math.random() - .5) * 8, vx: 0, vy: -25, g: 0, life: .25, col: '#F5C842', sz: 1 }); }
+      if (this.MV[f.pose] === M && f.pt >= M.end) this.toIdle(f);
+    } else if (f.pose === 'hit') { if (f.pt >= (f.big ? .45 : .28)) this.toIdle(f); }
+    else if (f.pose === 'hitb') { if (f.pt >= .38) this.toIdle(f); }
+    else if (f.pose === 'dizzy') { if (f.pt >= 1.3) this.toIdle(f); }
+    else if (f.pose === 'air') {
+      f.avy -= 480 * dt; f.ay += f.avy * dt; f.kx += (f.avx || 0) * dt; f.fall = Math.min(1, f.fall + dt * 3.4);
+      if (f.ay <= 0 && f.avy < 0) {
+        f.ay = 0; f.fall = 1; f.pose = 'down'; f.pt = 0;
+        if (f.dby && E.f[f.dby]) E.f[f.dby].st.q++;
+        E.shake = this.props.tremor === false ? 0 : .16;
+        for (let i = 0; i < 14; i++) E.parts.push({ x: f.x + f.kx - f.facing * Math.random() * 44, y: this.FLOOR - 1, vx: (Math.random() - .5) * 60, vy: -Math.random() * 40, life: .3, col: '#6A5E52', sz: 1 });
+        this.float(f.x + f.kx - f.facing * 22, this.FLOOR - 24, 'QUEDA!', '#F2EDE4'); this.sfx('big'); if (f.ctrl) this.buzz(40);
+      }
+    }
+    else if (f.pose === 'down') { f.fall = 1; if (f.pt >= 1.2) { f.pose = 'getup'; f.pt = 0; } }
+    else if (f.pose === 'getup') { f.fall = Math.max(0, 1 - f.pt / .35); if (f.pt >= .35) { f.fall = 0; this.toIdle(f); } }
+    else if (f.pose === 'block') { if (f.ctrl ? !f.hold : f.pt >= f.holdT) this.toIdle(f); }
+    else if (f.pose === 'duck') { if (f.pt >= (f.ctrl ? .45 : f.holdT || .45)) this.toIdle(f); }
+    if (f.q) {
+      f.q.in -= dt;
+      if (f.q.in <= 0) {
+        if (f.pose === 'block' && !f.ctrl) f.pose = 'idle';
+        if (this.canAct(f)) { if (this.startAtk(f, f.q.mv, this.mode === 'espera') && f.q.ct) this.float(f.x, this.FLOOR - 76, 'CONTRA-GOLPE!', '#F5C842'); f.q = null; }
+        else if (f.q.in < -1) f.q = null;
+      }
+    }
+    if (f.pose === 'ko') f.fall = Math.min(1, Math.pow(f.pt / .45, 2));
+    else if (f.pose !== 'air' && f.pose !== 'down' && f.pose !== 'getup') { f.fall = 0; f.kx *= Math.exp(-dt * 5); }
+    else if (f.pose !== 'air') f.kx *= Math.exp(-dt * 2);
+    const sM = this.MV[f.pose], tx = E.center + (f.k === 'L' ? -18 : 18) + (sM ? (sM.step || 3) * f.facing : 0);
+    f.x += (tx - f.x) * Math.min(1, dt * 18);
+    const X = f.x + f.kx; if (X < 24) f.kx = 24 - f.x; if (X > 296) f.kx = 296 - f.x;
+    if (f.sup >= 100 && !E.ended && this.mode === 'luta' && Math.random() < dt * 14) E.parts.push({ x: f.x + (Math.random() - .5) * 22, y: this.FLOOR - 4 - Math.random() * 50, vx: 0, vy: -30, g: 0, life: .4, col: '#F5C842', sz: 1 });
+  }
+
+  pfx(f) {
+    const pt = f.pt || 0, o = { ay: 0, rot: 0, flip: false, fall: 0 };
+    const arc = (t0, d, h) => pt < t0 ? 0 : Math.sin(Math.min(1, (pt - t0) / d) * Math.PI) * h;
+    switch (f.pose) {
+      case 'superman': o.ay = arc(.08, .34, 9); break;
+      case 'flyknee': o.ay = arc(.1, .38, 14); break;
+      case 'rising': o.ay = arc(.06, .46, 18); break;
+      case 'backfist': o.flip = pt >= .08 && pt < .19; break;
+      case 'spin': o.flip = pt >= .08 && pt < .42; break;
+      case 'drop':
+        if (pt >= .1 && pt < .42) { o.ay = arc(.1, .32, 16); o.rot = Math.min(1.1, (pt - .1) * 7); }
+        else if (pt >= .42) o.fall = pt < .56 ? 1 : Math.max(0, 1 - (pt - .56) / .14);
+        break;
+    }
+    return o;
+  }
+
+  joints(f, T) {
+    const b = f.pose === 'idle' ? Math.round(Math.sin(T * 6 + (f.phase || 0)) * 1.2) : 0, pt = f.pt || 0, M = this.MV[f.pose], pre = !!(M && M.hit != null && pt < M.hit);
+    const J = { hip: [0, -28 + b], sh: [2, -46 + b], hd: [4, -55 + b], kB: [-7, -14], fB: [-11, 0], kF: [8, -14], fF: [10, 0], eF: [11, -39 + b], gF: [15, -47 + b], eB: [6, -38 + b], gB: [9, -46 + b] };
+    const P = o => Object.assign(J, o);
+    const HIT = { hip: [-2, -28], sh: [-4, -46], hd: [-6, -54], eF: [3, -41], gF: [6, -51], eB: [-2, -40], gB: [1, -52], kF: [6, -14] };
+    const JAB = { sh: [4, -46], hd: [6, -55], eF: [15, -46], gF: [25, -48] }, CROSS = { hip: [1, -28], sh: [5, -46], hd: [7, -54], eB: [14, -45], gB: [25, -48], eF: [9, -40], gF: [12, -48] }, HOOK = { hip: [1, -28], sh: [5, -45], hd: [7, -54], eF: [16, -52], gF: [23, -50], eB: [7, -39], gB: [10, -47] };
+    const CROUCH = { hip: [-2, -24], sh: [0, -42], hd: [2, -51], kB: [-9, -11], kF: [7, -11], eF: [6, -37], gF: [9, -43], eB: [2, -36], gB: [5, -42] };
+    switch (f.pose) {
+      case 'jab': P(JAB); break;
+      case 'cross': P(CROSS); break;
+      case 'hook': P(HOOK); break;
+      case 'upper': P({ hip: [1, -26], sh: [4, -46], hd: [5, -56], eB: [15, -50], gB: [20, -61], eF: [9, -40], gF: [12, -48] }); break;
+      case 'low': P({ hip: [-1, -28], sh: [-1, -46], hd: [1, -55], kF: [12, -17], fF: [24, -10], eF: [8, -40], gF: [12, -48], eB: [3, -39], gB: [6, -47] }); break;
+      case 'high': P({ hip: [-2, -29], sh: [-6, -46], hd: [-5, -55], kB: [-5, -14], fB: [-8, 0], kF: [12, -36], fF: [25, -47], eF: [5, -40], gF: [9, -48], eB: [-3, -39], gB: [1, -47] }); break;
+      case 'special':
+        if (pt < .22) P({ hip: [-1, -27], sh: [-1, -45], hd: [0, -54], kB: [-10, -12], fB: [-16, 0], kF: [10, -13], fF: [14, 0], eF: [3, -40], gF: [-3, -41], eB: [1, -39], gB: [-5, -40] });
+        else P({ hip: [-1, -28], sh: [3, -46], hd: [4, -55], kB: [-10, -12], fB: [-16, 0], kF: [10, -13], fF: [14, 0], eF: [13, -44], gF: [22, -45], eB: [11, -42], gB: [21, -42] });
+        break;
+      case 'body': pre ? P({ hip: [-1, -26], sh: [1, -43], hd: [3, -52], eB: [2, -37], gB: [6, -40] }) : P({ hip: [1, -25], sh: [6, -41], hd: [8, -50], kF: [10, -13], fF: [13, 0], eB: [14, -34], gB: [24, -34], eF: [10, -42], gF: [12, -49] }); break;
+      case 'overhand': pre ? P({ sh: [0, -47], hd: [1, -56], eB: [-3, -53], gB: [-5, -61] }) : P({ hip: [2, -27], sh: [8, -44], hd: [10, -52], kF: [11, -14], eB: [16, -52], gB: [25, -46], eF: [9, -38], gF: [11, -45] }); break;
+      case 'backfist': pt < .08 ? P({ eF: [6, -40], gF: [3, -46] }) : pre ? P({ sh: [1, -46], hd: [2, -55], eF: [-4, -44], gF: [-8, -47], eB: [4, -40], gB: [6, -46] }) : P({ sh: [5, -46], hd: [6, -55], eF: [17, -48], gF: [27, -50] }); break;
+      case 'superman': pre ? P({ hip: [-1, -27], kB: [-12, -20], fB: [-20, -14], eB: [-2, -42], gB: [-4, -47], eF: [10, -42], gF: [13, -48] }) : P({ hip: [1, -28], sh: [6, -46], hd: [8, -54], kB: [-12, -20], fB: [-21, -14], kF: [8, -12], fF: [6, 0], eB: [15, -47], gB: [26, -49], eF: [6, -41], gF: [8, -47] }); break;
+      case 'teep': pre ? P({ kF: [11, -26], fF: [9, -14], eF: [10, -41], gF: [14, -49] }) : P({ hip: [-2, -28], sh: [-5, -46], hd: [-4, -55], kF: [13, -29], fF: [26, -31], eF: [4, -41], gF: [8, -49], eB: [0, -39], gB: [3, -47] }); break;
+      case 'spin':
+        if (pt < .08) P({ kF: [6, -16], eF: [8, -41], gF: [10, -47] });
+        else if (pre) P({ hip: [0, -29], sh: [4, -44], hd: [7, -52], kB: [-9, -26], fB: [-5, -15], eF: [9, -38], gF: [12, -44] });
+        else P({ hip: [0, -30], sh: [7, -42], hd: [10, -50], kF: [4, -14], fF: [6, 0], kB: [-14, -34], fB: [-27, -38], eF: [11, -37], gF: [14, -43], eB: [8, -36], gB: [11, -42] });
+        break;
+      case 'knee': pre ? P({ sh: [5, -46], hd: [7, -55], eF: [14, -48], gF: [22, -51], eB: [12, -46], gB: [20, -49] }) : P({ hip: [2, -30], sh: [5, -47], hd: [7, -56], kF: [17, -38], fF: [9, -26], kB: [-5, -15], fB: [-9, 0], eF: [14, -46], gF: [19, -42], eB: [12, -45], gB: [17, -41] }); break;
+      case 'flyknee': pt < .1 ? P(CROUCH) : P({ hip: [1, -29], sh: [3, -46], hd: [5, -55], kF: [15, -37], fF: [7, -25], kB: [-6, -17], fB: [-13, -6], eF: [-2, -41], gF: [-7, -45], eB: [-4, -40], gB: [-9, -44] }); break;
+      case 'elbow': pre ? P({ eF: [6, -50], gF: [1, -47] }) : P({ hip: [1, -28], sh: [6, -46], hd: [7, -54], eF: [19, -49], gF: [10, -53], eB: [8, -40], gB: [11, -47] }); break;
+      case 'sweep': pre ? P({ hip: [-1, -20], sh: [1, -35], hd: [3, -44], kB: [-8, -10], fB: [-7, 0], kF: [8, -6], fF: [14, -1], eF: [7, -27], gF: [11, -20], eB: [3, -26], gB: [6, -19] }) : P({ hip: [-2, -16], sh: [-1, -32], hd: [1, -41], kB: [-9, -8], fB: [-7, 0], kF: [12, -4], fF: [27, -2], eF: [6, -24], gF: [9, -14], eB: [1, -24], gB: [3, -15] }); break;
+      case 'drop': pt < .1 ? P(CROUCH) : pt >= .42 ? P(HIT) : P({ kF: [12, -22], fF: [25, -24], kB: [10, -18], fB: [23, -18], eF: [-4, -42], gF: [-9, -44], eB: [-6, -40], gB: [-11, -42] }); break;
+      case 'throw': pre ? P({ hip: [1, -27], sh: [5, -45], hd: [7, -53], eF: [15, -44], gF: [24, -43], eB: [13, -42], gB: [22, -41] }) : P({ hip: [-1, -27], sh: [-2, -46], hd: [-1, -55], eF: [10, -58], gF: [16, -66], eB: [8, -56], gB: [14, -64], kF: [10, -14], fF: [13, 0] }); break;
+      case 'combo3': P(pt < .12 ? JAB : pt < .22 ? CROSS : HOOK); break;
+      case 'flurry': { const w = Math.floor(pt / .12) % 3 - 1; Math.floor(pt / .06) % 2 ? P({ hip: [1, -28], sh: [5, -46], hd: [7, -54], eB: [14, -45 + w], gB: [25, -47 + w], eF: [9, -41], gF: [12, -48] }) : P({ sh: [4, -46], hd: [6, -55], eF: [15, -46 - w], gF: [25, -49 - w], eB: [7, -40], gB: [10, -46] }); break; }
+      case 'bomb': pre ? P({ hip: [-2, -28], sh: [-3, -46], hd: [-2, -55], kB: [-10, -13], fB: [-14, 0], eB: [-9, -42], gB: [-15, -48], eF: [8, -42], gF: [12, -49] }) : P({ hip: [2, -28], sh: [8, -45], hd: [10, -53], kF: [13, -14], fF: [16, 0], eB: [17, -47], gB: [28, -49], eF: [8, -39], gF: [10, -46] }); break;
+      case 'rising': pre ? P({ hip: [-1, -23], sh: [1, -41], hd: [3, -50], kB: [-9, -11], kF: [7, -11], eB: [6, -34], gB: [10, -40] }) : P({ hip: [1, -29], sh: [4, -47], hd: [5, -56], kF: [9, -18], fF: [7, -6], eB: [10, -62], gB: [12, -74], eF: [8, -41], gF: [11, -48] }); break;
+      case 'taunt': { const w = Math.floor(pt * 10) % 2; P({ hip: [-1, -28], sh: [0, -46], hd: [1, -55], eF: [14, -44], gF: [22, -46 - w * 2], eB: [-4, -38], gB: [-2, -31] }); break; }
+      case 'ultra': if (pt < .95) P({ eF: [8, -58], gF: [10, -68], eB: [-2, -58], gB: [-3, -68] }); break;
+      case 'block': P({ hip: [-1, -28], sh: [0, -46], hd: [1, -54], eF: [9, -45], gF: [9, -53], eB: [7, -44], gB: [6, -52] }); break;
+      case 'duck': P({ hip: [-1, -20], sh: [3, -34], hd: [6, -42], kF: [10, -10], kB: [-8, -10], eF: [12, -29], gF: [15, -36], eB: [8, -28], gB: [11, -35] }); break;
+      case 'hit': case 'ko': case 'air': case 'down': case 'getup': P(HIT); break;
+      case 'hitb': P({ hip: [-2, -26], sh: [3, -40], hd: [6, -46], eF: [6, -35], gF: [9, -32], eB: [3, -34], gB: [6, -31], kF: [7, -13] }); break;
+      case 'dizzy': { const w = Math.round(Math.sin(T * 7) * 2); P({ hip: [Math.round(w / 2), -28], sh: [w, -46], hd: [w * 2, -55], eF: [8 + w, -37], gF: [11 + w, -33], eB: [4 + w, -37], gB: [6 + w, -32] }); break; }
+      case 'win': {
+        const j = Math.round(Math.abs(Math.sin(T * 5)) * 4);
+        for (const k in J) J[k] = [J[k][0], J[k][1] - j];
+        P({ eF: [8, -58 - j], gF: [10, -68 - j], eB: [-2, -58 - j], gB: [-3, -68 - j] });
+        break;
+      }
+      case 'rope': P({ kF: [2, -14], fF: [3, 0], kB: [-2, -14], fB: [-1, 0], eF: [7, -38], gF: [9, -31], eB: [0, -38], gB: [-3, -31] }); break;
+      case 'run': { const a = Math.sin(pt * 13), u = Math.round(Math.abs(Math.cos(pt * 13)) * 2); P({ hip: [1, -28 - u], sh: [6, -45 - u], hd: [8, -54 - u], kF: [3 + a * 7, -14 - Math.max(0, a) * 4 - u], fF: [a * 10, -Math.max(0, a) * 6], kB: [3 - a * 7, -14 - Math.max(0, -a) * 4 - u], fB: [-a * 10, -Math.max(0, -a) * 6], eF: [5 - a * 5, -38 - u], gF: [10 - a * 7, -44 - u], eB: [5 + a * 5, -38 - u], gB: [10 + a * 7, -44 - u] }); break; }
+      case 'pushup': { const d = 5 - Math.round((f.u || 0) * 5); P({ fB: [-22, 0], fF: [-21, 0], kB: [-13, -3 - d * .6], kF: [-12, -3 - d * .6], hip: [-4, -7 - d], sh: [11, -9 - d * 1.6], hd: [17, -11 - d * 1.6], eF: [7 + d, -6 - d * .8], gF: [13, -2], eB: [6 + d, -6 - d * .8], gB: [12, -2] }); break; }
+      case 'sit': P({ hip: [0, -17], sh: [0, -35], hd: [2, -44], kF: [10, -17], fF: [11, 0], kB: [8, -16], fB: [8, 0], eF: [-5, -31], gF: [-10, -33], eB: [-6, -30], gB: [-11, -32] }); break;
+      case 'talk': { const g = Math.sin(pt * 7); P({ eF: [11, -42 + Math.round(g * 2)], gF: [17, -49 + Math.round(g * 4)], eB: [5, -38], gB: [8, -44], hd: [4 + (g > .6 ? 1 : 0), -55] }); break; }
+      case 'listen': P({ eF: [9, -40], gF: [3, -42], eB: [7, -41], gB: [1, -43] }); break;
+      case 'wave': { const g = Math.round(Math.sin(pt * 8) * 3); P({ eF: [7, -57], gF: [9 + g, -67], eB: [-2, -57], gB: [-4 - g, -67] }); break; }
+      case 'flex': P({ sh: [2, -47], eF: [13, -49], gF: [10, -59], eB: [-8, -49], gB: [-5, -59] }); break;
+      case 'stare': P({ sh: [5, -46], hd: [9, -54], eF: [10, -36], gF: [14, -42], eB: [6, -36], gB: [10, -41] }); break;
+      case 'mitts': P({ eF: [10, -46], gF: [15, -52], eB: [8, -41], gB: [14, -45] }); break;
+      case 'fan': { const g = Math.round(Math.sin(pt * 16) * 4); P({ eF: [8, -54], gF: [10 + g, -64], eB: [3, -38], gB: [5, -31] }); break; }
+      case 'ref': P({ eF: [4, -36], gF: [5, -29], eB: [1, -36], gB: [0, -29] }); break;
+      case 'refcount': { const g = (pt % .4) < .12 ? 6 : 0; P({ hip: [-1, -26], sh: [2, -43], hd: [4, -52], eF: [11, -44 + g], gF: [16, -50 + g], eB: [1, -34], gB: [2, -28] }); break; }
+      case 'refraise': P({ eF: [7, -58], gF: [9, -68], eB: [1, -36], gB: [0, -29] }); break;
+      case 'refsep': P({ eF: [11, -44], gF: [19, -45], eB: [-5, -44], gB: [-13, -45] }); break;
+    }
+    return J;
+  }
+
+  act(k, x, facing, pose, o) { return Object.assign({ k, x, kx: 0, facing, pose: pose || 'idle', pt: 0, flash: 0, fall: 0, phase: k === 'L' ? 0 : 1.7, ay: 0, rot: 0, hit: false, i: 0, wait: .4, hn: 0 }, o || {}); }
+  todayIdx() { const d = new Date(Date.now() - 3 * 3600e3), y = d.getUTCFullYear(), m = d.getUTCMonth(), n = d.getUTCDate(); if (y < 2026 || (y === 2026 && (m < 9 || (m === 9 && n < 5)))) return 0; if (y > 2026 || m > 9 || n > 25) return 20; return n - 5; }
+  cd() { const ms = this.CLOSE - Date.now(); if (ms <= 0) return null; const s = Math.floor(ms / 1000); return { d: Math.floor(s / 86400), h: Math.floor(s / 3600) % 24, m: Math.floor(s / 60) % 60, s: s % 60 }; }
+  toggleMontage() { this.montage = !this.montage; if (this.montage) { if (this.view !== 'cena') { this.view = 'cena'; this.autoDemo = false; this.setScene(this.DAYS[this.day][2]); } } this.push(true); }
+  setDay(i, keep) { this.day = Math.max(0, Math.min(this.DAYS.length - 1, i)); if (!keep) this.montage = false; this.view = 'cena'; this.autoDemo = false; this.setScene(this.DAYS[this.day][2]); this.push(true); }
+  setScene(id) {
+    const S = this.SC = { id, T: 0, a: {}, n: { L: 0, F: 0 }, fl: [], k: -1 }, A = S.a, a = (k, x, f, p, o) => this.act(k, x, f, p, o), E = this.E;
+    if (E) { E.parts = []; E.floats = []; E.callouts = []; }
+    switch (id) {
+      case 'corner': A.cL = a('C', 17, 1, 'fan', { pal: 'CH' }); A.cF = a('C', 303, -1, 'fan', { pal: 'CH', pt: .4 }); A.L = a('L', 36, 1, 'sit'); A.F = a('F', 284, -1, 'sit'); break;
+      case 'coletiva': A.L = a('L', 92, 1, 'talk'); A.F = a('F', 228, -1, 'listen'); break;
+      case 'saco': A.L = a('L', 84, 1); A.F = a('F', 236, -1, 'idle', { wait: .9, i: 4 }); S.bag = { L: { a: 0, v: 0, x: 110 }, F: { a: 0, v: 0, x: 210 } }; break;
+      case 'corda': A.L = a('L', 80, 1, 'rope'); A.F = a('F', 240, -1, 'rope'); break;
+      case 'comicio': A.L = a('L', 80, 1, 'wave', { by: 116 }); A.F = a('F', 240, -1, 'wave', { by: 116, pt: 1 }); S.crowd = this.mkFans(); break;
+      case 'corrida': A.F = a('F', 164, 1, 'run', { by: 127, pt: .3 }); A.L = a('L', 156, 1, 'run'); break;
+      case 'debate': A.L = a('L', 84, 1, 'talk'); A.F = a('F', 236, -1, 'listen'); break;
+      case 'flexao': A.L = a('L', 76, 1, 'pushup'); A.F = a('F', 244, -1, 'pushup', { ph: 1.3 }); break;
+      case 'manopla': A.cL = a('C', 104, -1, 'mitts'); A.cF = a('C', 216, 1, 'mitts'); A.L = a('L', 64, 1); A.F = a('F', 256, -1, 'idle', { wait: .8, i: 3 }); break;
+      case 'sombra': A.L = a('L', 84, 1); A.F = a('F', 236, -1, 'idle', { wait: .7, i: 7 }); break;
+      case 'pesagem': A.L = a('L', 70, 1); A.F = a('F', 250, -1); break;
+      case 'vespera': A.L = a('L', 96, 1, 'idle', { by: 121, fall: 1, eyes: 'z' }); A.F = a('F', 224, -1, 'idle', { by: 121, fall: 1, eyes: 'z', zt: .7 }); break;
+      case 'encarada': A.R = a('R', 160, 1, 'refsep', { pal: 'R' }); A.L = a('L', 145, 1, 'stare'); A.F = a('F', 175, -1, 'stare'); break;
+    }
+  }
+  mkFans() { const r = []; let seed = 11; const rnd = () => { seed = (seed * 16807) % 2147483647; return seed / 2147483647; }; for (let row = 0; row < 3; row++) for (let x = 4 + row * 3; x < 316; x += 6 + Math.floor(rnd() * 3)) r.push({ x, y: 132 + row * 6, k: x < 160 ? 'L' : 'F', flag: rnd() < .3, ph: rnd() * 6.28, head: ['#7A5A44', '#6A4C3A', '#8A6A50', '#5A4030'][Math.floor(rnd() * 4)] }); return r; }
+  seq(a, list, gap, dt, onHit, onStart) {
+    const M = this.MV[a.pose];
+    if (M) { const h = M.hit != null ? M.hit : M.hits[0]; if (!a.hit && a.pt >= h) { a.hit = true; if (onHit) onHit(); } if (a.pt >= M.end) { a.pose = 'idle'; a.pt = 0; a.wait = gap * (.6 + Math.random() * .8); } }
+    else if ((a.wait -= dt) <= 0) { const mv = list[a.i++ % list.length]; a.pose = mv; a.pt = 0; a.hit = false; if (onStart) onStart(mv); }
+  }
+  stepScene(dt) {
+    const S = this.SC, A = S.a, E = this.E, F = this.FLOOR; if (!S) return;
+    const T = (S.T += dt);
+    if (this.montage && T > 9) { this.setDay((this.day + 1) % this.DAYS.length, true); return; }
+    for (const k in A) { const a = A[k]; a.pt += dt; a.flash = Math.max(0, a.flash - dt); a.kx *= Math.exp(-dt * 8); }
+    S.fl.forEach(f => f.life -= dt); S.fl = S.fl.filter(f => f.life > 0);
+    const P = (x, y, col, n, sp) => { for (let i = 0; i < n; i++) E.parts.push({ x, y, vx: (Math.random() - .5) * sp, vy: -Math.random() * sp * .8, life: .25 + Math.random() * .25, col, sz: 1 }); };
+    switch (S.id) {
+      case 'corner':
+        if (Math.random() < dt * .7) ['L', 'F'].forEach(k => { const c = A['c' + k]; for (let i = 0; i < 8; i++) E.parts.push({ x: c.x + c.facing * 8, y: F - 52, vx: c.facing * (40 + Math.random() * 30), vy: -20 + Math.random() * 20, life: .35, col: i % 2 ? '#BFD8FF' : '#FFFFFF', sz: 1, g: 120 }); });
+        break;
+      case 'coletiva': case 'debate': {
+        const per = S.id === 'debate' ? 4 : 3, turn = Math.floor(T / per), sp = turn % 2 ? 'F' : 'L';
+        if (turn !== S.k) { S.k = turn; this.sfx('ding'); S.line = this.FALAS[(turn * 3 + (S.id === 'debate' ? 1 : 0) + this.day) % this.FALAS.length]; S.both = S.id === 'debate' && turn % 3 === 2; }
+        ['L', 'F'].forEach(k => { const a = A[k], want = k === sp || S.both ? 'talk' : 'listen'; if (a.pose !== want) { a.pose = want; a.pt = 0; } });
+        if (S.id === 'coletiva' && Math.random() < dt * 6) S.fl.push({ x: 8 + Math.random() * 304, y: 134 + Math.random() * 6, life: .08 });
+        break;
+      }
+      case 'saco': ['L', 'F'].forEach(k => { const a = A[k], g = S.bag[k]; this.seq(a, ['jab', 'jab', 'cross', 'hook', 'body', 'upper', 'combo3', 'jab', 'cross', 'flurry', 'overhand'], .35, dt, () => { g.v += a.facing * (this.MV[a.pose].big ? 2.2 : 1.2); g.hit = .08; P(g.x - a.facing * 6, F - 46, '#D8CDB8', 4, 60); this.sfx('hit'); }); g.v += (-g.a * 40 - g.v * 2.2) * dt; g.a += g.v * dt; g.hit = Math.max(0, (g.hit || 0) - dt); }); break;
+      case 'corda': ['L', 'F'].forEach((k, i) => { const a = A[k], ph = T * 8.2 + i * .9; a.rp = ph; a.ay = Math.round(Math.max(0, -Math.cos(ph)) * 6); if (Math.random() < dt * 1.5) P(a.x + (Math.random() - .5) * 6, F - 58, '#BFD8FF', 1, 30); }); break;
+      case 'comicio': ['L', 'F'].forEach((k, i) => { const a = A[k], want = Math.floor((T + i * 1.5) / 3) % 2 ? 'talk' : 'wave'; if (a.pose !== want) { a.pose = want; a.pt = 0; } if (Math.random() < dt * 22) { const c = k === 'L' ? ['#E5383B', '#F5C842', '#F2EDE4'] : ['#3B7BF0', '#F5C842', '#F2EDE4']; E.parts.push({ x: (k === 'L' ? 10 : 170) + Math.random() * 140, y: -2, vx: (Math.random() - .5) * 20, vy: 18 + Math.random() * 20, g: 0, life: 4, col: c[Math.floor(Math.random() * 3)], sz: 1 }); } }); E.cheer.L = E.cheer.F = 1; break;
+      case 'corrida': { A.L.x = 156 + Math.sin(T * .55) * 32; A.F.x = 164 + Math.sin(T * .55 + 2.8) * 32; const ld = A.L.x > A.F.x ? 'L' : 'F'; if (ld !== S.ld) { if (S.ld) this.sfx('virada'); S.ld = ld; } break; }
+      case 'flexao': ['L', 'F'].forEach(k => { const a = A[k], u = (1 - Math.cos(T * 3.2 + (a.ph || 0))) / 2; if (u > .97 && !a.dn) { a.dn = 1; S.n[k]++; this.float(a.x + a.facing * 4, F - 34, String(S.n[k]), this.COR[k]); } if (u < .5) a.dn = 0; a.u = u; }); break;
+      case 'manopla': ['L', 'F'].forEach(k => { const a = A[k], c = A['c' + k]; this.seq(a, ['jab', 'cross', 'hook', 'jab', 'jab', 'upper', 'elbow', 'combo3', 'cross', 'overhand'], .3, dt, () => { c.flash = .05; c.kx = -c.facing * 2; P(c.x + c.facing * 14, F - 50, '#F5C842', 6, 90); this.float(c.x + c.facing * 10, F - 62, 'PÁ!', '#F2EDE4'); this.sfx('hit'); }); }); break;
+      case 'sombra': ['L', 'F'].forEach(k => { const a = A[k]; this.seq(a, this.SOMBRA, .45, dt, null, mv => E.callouts.push({ k, x: a.x, txt: this.MVN[mv], age: 0, sz: 6 })); }); break;
+      case 'pesagem': {
+        const p = T % 7.5, D = { L: [70, 112], F: [250, 208] };
+        ['L', 'F'].forEach(k => { const a = A[k], x0 = D[k][0], x1 = D[k][1]; let pose;
+          if (p < 1.3) { a.x = x0 + (x1 - x0) * (p / 1.3); pose = 'run'; a.by = F; }
+          else { a.x = x1; a.by = F - 4; pose = p < 2.8 ? 'idle' : p < 5.6 ? 'flex' : 'wave'; }
+          if (a.pose !== pose) { a.pose = pose; a.pt = 0; if (pose === 'flex' && k === 'L') this.sfx('ding'); } });
+        S.disp = p < 1.3 ? '' : p < 2.8 ? String(10 + Math.floor(Math.random() * 89)) : null;
+        if (p > 2.8 && p < 5.6 && Math.random() < dt * 7) S.fl.push({ x: 20 + Math.random() * 280, y: 70 + Math.random() * 40, life: .08 });
+        break;
+      }
+      case 'vespera': ['L', 'F'].forEach(k => { const a = A[k]; a.zt = (a.zt || 0) + dt; if (a.zt > 1.4) { a.zt = 0; this.float(a.x - a.facing * 52, a.by - 12, 'Z', '#A39B90'); } }); break;
+      case 'encarada': A.L.ox = Math.random() < .1 ? (Math.random() < .5 ? -1 : 1) : 0; A.F.ox = Math.random() < .1 ? (Math.random() < .5 ? -1 : 1) : 0; E.cheer.L = E.cheer.F = .5; if (Math.random() < dt * 5) E.flashes.push({ x: 14 + Math.random() * 292, y: 86 + Math.random() * 14, life: .07 }); break;
+    }
+  }
+  enterTreino() {
+    if (this.view === 'treino') return;
+    this.view = 'treino'; this.montage = false;
+    const E = this.E; E.parts = []; E.floats = []; E.callouts = []; E.banners = []; E.proj = []; E.drops = []; E.center = 160;
+    ['L', 'F'].forEach(x => Object.assign(E.f[x], { pose: 'idle', pt: 0, kx: 0, ay: 0, avy: 0, fall: 0, rot: 0, q: null }));
+  }
+  demo(k, mv, auto) {
+    if (!auto) this.autoDemo = false;
+    this.enterTreino();
+    const E = this.E, a = E.f[k], d = E.f[this.oth(k)];
+    if (mv === 'duck') { if (this.canAct(a)) { a.pose = 'duck'; a.pt = 0; a.holdT = .45; } this.push(false); return; }
+    if (mv === 'punch') { mv = a.alt ? 'cross' : 'jab'; a.alt ^= 1; }
+    if (mv === 'special' || mv === 'ultra') a.sup = 100;
+    if (!this.canAct(a)) { a.q = { mv, in: .05 }; this.push(false); return; }
+    if (d.pose === 'block' || d.pose === 'duck') this.toIdle(d);
+    this.startAtk(a, mv, true); this.push(false);
+  }
+  stepDemo(dt) {
+    this.adT = (this.adT || 0) - dt; if (this.adT > 0) return;
+    const E = this.E, i = (this.adI || 0) % this.DEMO.length, k = i % 2 ? 'F' : 'L', mv = this.DEMO[i];
+    if (!this.canAct(E.f[k]) || E.f[this.oth(k)].pose !== 'idle') { this.adT = .15; return; }
+    this.adI = i + 1; this.demo(k, mv, true); this.adT = this.MV[mv].end + (this.MV[mv].launch || mv === 'ultra' || mv === 'sweep' ? 1.6 : .5);
+  }
+  toggleAuto() { this.autoDemo = !this.autoDemo; if (this.autoDemo) { this.enterTreino(); this.adI = 0; this.adT = .2; } this.push(true); }
+  torcer(k) {
+    const E = this.E, c = k === 'L' ? ['#E5383B', '#F5C842', '#F2EDE4'] : ['#3B7BF0', '#F5C842', '#F2EDE4'], x0 = this.mode === 'espera' && this.view === 'cena' ? (k === 'L' ? 80 : 240) : E.f[k].x;
+    for (let i = 0; i < 40; i++) E.parts.push({ x: x0 + (Math.random() - .5) * 60, y: 150, vx: (Math.random() - .5) * 80, vy: -120 - Math.random() * 90, g: 160, life: 1.1 + Math.random() * .5, col: c[i % 3], sz: Math.random() < .3 ? 2 : 1 });
+    E.cheer[k] = 2.5; this.float(x0, 40, 'VAI ' + this.NOME[k].toUpperCase() + '!', this.COR[k]); this.sfx('cheer'); this.vSpike = Math.max(this.vSpike || 0, .03); this.buzz(15); this.push(false);
+  }
+  setPalpite(k) { this.palpite = this.palpite === k ? null : k; this.push(true); }
+
+  pxText(g, str, x, y, col, s) { g.fillStyle = col; let cx = x; for (const ch of str) { const p = this.DIG[ch]; if (p) for (let i = 0; i < 15; i++) if (p[i] === '1') g.fillRect(cx + (i % 3) * s, y + Math.floor(i / 3) * s, s, s); cx += 4 * s; } }
+  line(b, a, c, col) { b.fillStyle = col; const n = Math.max(1, Math.ceil(Math.max(Math.abs(c[0] - a[0]), Math.abs(c[1] - a[1])))); for (let i = 0; i <= n; i++) b.fillRect(Math.round(a[0] + (c[0] - a[0]) * i / n), Math.round(a[1] + (c[1] - a[1]) * i / n), 1, 1); }
+  buildGym() {
+    const W = this.W, H = this.H, c = document.createElement('canvas'); c.width = W; c.height = H; const g = c.getContext('2d'), R = (x, y, w, h, col) => { g.fillStyle = col; g.fillRect(x, y, w, h); };
+    R(0, 0, W, 128, '#1A1512');
+    for (let y = 0; y < 128; y += 6) { R(0, y, W, 1, '#14100D'); for (let x = (y / 6) % 2 ? 8 : 0; x < W; x += 16) R(x, y, 1, 6, '#14100D'); }
+    [40, 120, 200, 280].forEach(wx => { R(wx - 15, 12, 30, 24, '#0B0A09'); R(wx - 13, 14, 26, 20, '#1C2233'); R(wx - 13, 14, 26, 2, '#2A3346'); R(wx - 1, 14, 2, 20, '#0B0A09'); R(wx - 13, 23, 26, 2, '#0B0A09'); });
+    R(28, 44, 26, 32, '#E5383B'); R(28, 44, 26, 2, '#F5C842'); R(28, 76, 4, 3, '#E5383B'); R(50, 76, 4, 3, '#E5383B');
+    R(266, 44, 26, 32, '#3B7BF0'); R(266, 44, 26, 2, '#F5C842'); R(266, 76, 4, 3, '#3B7BF0'); R(288, 76, 4, 3, '#3B7BF0');
+    this.pxText(g, '13', 30, 53, '#0F0E0D', 3); this.pxText(g, '22', 268, 53, '#0F0E0D', 3);
+    R(0, 124, W, 4, '#120F0D'); R(0, 128, W, 22, '#3A2C21'); R(0, 128, W, 1, '#4C3A2B');
+    for (let y = 134; y < 150; y += 6) R(0, y, W, 1, '#33271D');
+    for (let x = 0; x < W; x += 24) R(x + ((x / 24) % 2) * 12, 129, 1, 21, '#2E231A');
+    R(159, 0, 2, 124, '#0B0A09');
+    this.gym = c;
+  }
+  buildStudio() {
+    const W = this.W, H = this.H, c = document.createElement('canvas'); c.width = W; c.height = H; const g = c.getContext('2d'), R = (x, y, w, h, col) => { g.fillStyle = col; g.fillRect(x, y, w, h); };
+    R(0, 0, W, 128, '#121010');
+    for (let x = 0; x < W; x += 32) R(x, 0, 1, 124, '#1A1715');
+    R(0, 4, W, 3, '#2A2622'); for (let x = 20; x < W; x += 40) { R(x - 3, 7, 7, 3, '#1A1714'); R(x - 2, 10, 5, 1, '#F5C842'); }
+    R(118, 18, 84, 40, '#0B0A09'); R(120, 20, 80, 36, '#161216'); for (let y = 21; y < 56; y += 2) R(120, y, 80, 1, '#1A161A');
+    R(159, 20, 2, 36, '#F5C842'); this.pxText(g, '13', 133, 30, '#E5383B', 2); this.pxText(g, '22', 173, 30, '#3B7BF0', 2);
+    R(0, 124, W, 4, '#0B0A09'); R(0, 128, W, 22, '#1E1A17'); R(0, 128, W, 1, '#3A342E');
+    for (let y = 132; y < 150; y += 4) R(0, y, W, 1, '#221E1B');
+    this.studio = c;
+  }
+
+  buildBG() {
+    const W = this.W, H = this.H;
+    const c = document.createElement('canvas'); c.width = W; c.height = H; const g = c.getContext('2d');
+    const R = (x, y, w, h, col) => { g.fillStyle = col; g.fillRect(x, y, w, h); };
+    const bands = ['#0D0B0A', '#110E0C', '#15110E', '#1A1511', '#201913', '#271E16', '#2F2419'];
+    bands.forEach((col, i) => {
+      R(0, i * 13, W, 13, col);
+      if (i > 0) { g.fillStyle = bands[i - 1]; for (let x = i % 2; x < W; x += 2) g.fillRect(x, i * 13, 1, 1); for (let x = (i + 1) % 2; x < W; x += 4) g.fillRect(x, i * 13 + 1, 1, 1); }
+    });
+    let seed = 7; const rnd = () => { seed = (seed * 16807) % 2147483647; return seed / 2147483647; };
+    for (let i = 0; i < 44; i++) R(Math.floor(rnd() * W), Math.floor(rnd() * 50), 1, 1, rnd() < .3 ? '#8A7F70' : '#4A4239');
+    for (let y = -6; y <= 6; y++) { const hw = Math.floor(Math.sqrt(36 - y * y)); R(266 - hw, 22 + y, hw * 2 + 1, 1, '#D8CDB8'); }
+    R(264, 20, 2, 2, '#BFB39C'); R(268, 24, 2, 1, '#BFB39C'); R(263, 25, 1, 1, '#BFB39C');
+    const cg = '#3B3029', cgL = '#4C3E33';
+    R(80, 82, 160, 4, cg); R(80, 82, 160, 1, cgL);
+    R(151, 32, 7, 50, cg); R(162, 32, 7, 50, cg); R(158, 44, 4, 3, cg); R(151, 32, 7, 1, cgL); R(162, 32, 7, 1, cgL);
+    for (let y = 35; y < 80; y += 3) for (const x of [152, 154, 156, 163, 165, 167]) if (rnd() < .35) R(x, y, 1, 1, '#8A6A3E');
+    for (let i = 0; i < 10; i++) { const hw = Math.round(4 + i * 1.5); R(118 - hw, 81 - i, hw * 2, 1, cg); }
+    R(100, 72, 36, 1, cgL);
+    for (let y = 0; y < 9; y++) { const hw = Math.round(Math.sqrt(81 - y * y)); R(202 - hw, 81 - y, hw * 2, 1, cg); }
+    R(0, 86, W, 24, '#120F0E');
+    R(0, 110, W, 30, '#221E1B'); R(36, 112, 248, 26, '#26211D');
+    for (let a = 0; a < 360; a += 2) R(Math.round(160 + Math.cos(a * Math.PI / 180) * 46), Math.round(125 + Math.sin(a * Math.PI / 180) * 8), 1, 1, '#342D27');
+    R(0, 140, W, 1, '#4A4038'); R(0, 141, W, 9, '#151210');
+    this.bg = c;
+    const r = document.createElement('canvas'); r.width = W; r.height = H; const q = r.getContext('2d');
+    const Q = (x, y, w, h, col) => { q.fillStyle = col; q.fillRect(x, y, w, h); };
+    [[94, '#2FA65A', '#1E6E3B'], [101, '#F5C842', '#B08F26'], [108, '#3B7BF0', '#2552A8']].forEach(([y, c1, c2]) => { Q(10, y, 300, 1, c1); Q(10, y + 1, 300, 1, c2); });
+    Q(6, 88, 5, 54, '#9A9086'); Q(6, 88, 1, 54, '#C9C0B4'); Q(309, 88, 5, 54, '#9A9086'); Q(313, 88, 1, 54, '#6A625A');
+    Q(5, 92, 7, 18, '#C42A2E'); Q(5, 92, 7, 1, '#E5585B'); Q(308, 92, 7, 18, '#2E62C8'); Q(308, 92, 7, 1, '#5B8AF0');
+    this.ropes = r;
+  }
+  buildCrowd() {
+    const cr = [], LB = ['#6A2426', '#5A1E20', '#7A2C2C', '#4E2A26'], FB = ['#22386A', '#1C2E58', '#2A4278', '#283048'], NB = ['#3A342E', '#4A4038'], HD = ['#7A5A44', '#6A4C3A', '#8A6A50', '#5A4030', '#4A3A30'];
+    let seed = 3; const rnd = () => { seed = (seed * 16807) % 2147483647; return seed / 2147483647; };
+    [92, 97, 102].forEach((y, row) => {
+      for (let x = 14 + row * 1.7; x < 306; x += 3.6 + rnd() * 1.2) {
+        const k = rnd() < (x < 160 ? .82 : .18) ? 'L' : 'F';
+        const body = rnd() < .12 ? NB[Math.floor(rnd() * NB.length)] : (k === 'L' ? LB : FB)[Math.floor(rnd() * 4)];
+        cr.push({ x: Math.round(x), y, k, body, head: HD[Math.floor(rnd() * HD.length)], ph: rnd() * 6.28 });
+      }
+    });
+    this.crowd = cr;
+  }
+  drawCrowd(b) {
+    const E = this.E, T = E.T;
+    for (const p of this.crowd) {
+      const ch = E.cheer[p.k] > 0;
+      const y = p.y + (ch ? -Math.round(Math.abs(Math.sin(T * 16 + p.ph)) * 2) : (Math.sin(T * 1.7 + p.ph * 3) > .96 ? -1 : 0));
+      b.fillStyle = p.body; b.fillRect(p.x - 2, y - 4, 4, 5);
+      b.fillStyle = p.head; b.fillRect(p.x - 1, y - 7, 3, 3);
+      if (ch) { b.fillRect(p.x - 3, y - 9, 1, 4); b.fillRect(p.x + 2, y - 9, 1, 4); }
+    }
+    for (const f of E.flashes) { b.fillStyle = '#FFFFFF'; b.fillRect(f.x - 1, f.y, 3, 1); b.fillRect(f.x, f.y - 1, 1, 3); }
+  }
+  drawF(b, f) {
+    const E = this.E, P = this.PAL[f.pal || f.k], fx = this.pfx(f), s = f.facing * (fx.flip ? -1 : 1), base = f.by || this.FLOOR, ay = (f.ay || 0) + fx.ay;
+    const X = Math.round(f.x + (f.kx || 0) + (f.ox || 0)), Y = Math.round(base - ay), J = this.joints(f, E.T);
+    const fall = Math.min(1, (f.fall || 0) + fx.fall), rot = (f.rot || 0) + fx.rot, th = fall * Math.PI / 2 + rot, cs = Math.cos(th), sn = Math.sin(th), pv = rot ? -28 : 0;
+    const C = col => f.sil || (f.flash > 0 ? '#FFFFFF' : col);
+    const tr = p => [X + (p[0] * cs + (p[1] - pv) * sn) * s, Y + pv + (-p[0] * sn + (p[1] - pv) * cs)];
+    const ln = (p1, p2, w, col) => {
+      const a = tr(p1), c = tr(p2), n = Math.max(1, Math.ceil(Math.max(Math.abs(c[0] - a[0]), Math.abs(c[1] - a[1])))), o = Math.floor(w / 2);
+      b.fillStyle = C(col);
+      for (let i = 0; i <= n; i++) b.fillRect(Math.round(a[0] + (c[0] - a[0]) * i / n) - o, Math.round(a[1] + (c[1] - a[1]) * i / n) - o, w, w);
+    };
+    const rc = (x0, y0, w, h, col) => {
+      x0 = Math.round(x0); y0 = Math.round(y0); b.fillStyle = C(col);
+      if (th === 0) { b.fillRect(s > 0 ? X + x0 : X - x0 - w + 1, Y + y0, w, h); return; }
+      for (let i = 0; i < w; i++) for (let j = 0; j < h; j++) { const q = tr([x0 + i, y0 + j]); b.fillRect(Math.round(q[0]), Math.round(q[1]), 2, 2); }
+    };
+    const ad = (p, dx, dy) => [p[0] + dx, p[1] + dy];
+    if (!f.sil && !f.noSh) { const sw = Math.max(8, 26 + fall * 34 - ay); b.fillStyle = 'rgba(0,0,0,.45)'; b.fillRect(Math.round(X - sw / 2 - s * fall * 26), base, Math.round(sw), 2); }
+    const lg = P.leg || P.skin, lgD = P.legD || P.skinD;
+    ln(ad(J.hip, -2, 0), J.kB, 5, lgD); ln(J.kB, J.fB, 5, lgD); rc(J.fB[0] - 3, J.fB[1] - 3, 7, 3, P.shoe);
+    const shB = ad(J.sh, -2, 2), shF = ad(J.sh, 2, 2);
+    ln(shB, J.eB, 3, P.skinD); ln(J.eB, J.gB, 3, P.skinD);
+    if (P.hand) rc(J.gB[0] - 1, J.gB[1] - 1, 3, 3, P.skinD); else rc(J.gB[0] - 2, J.gB[1] - 2, 5, 5, P.gloveD);
+    ln(ad(J.hip, 2, 0), J.kF, 5, lg); ln(J.kF, J.fF, 5, lg); rc(J.fF[0] - 3, J.fF[1] - 3, 7, 3, P.shoe);
+    ln(J.hip, J.sh, 9, P.shirt); ln(ad(J.hip, -3, 0), ad(J.sh, -3, 0), 2, P.shirtD);
+    ln(ad(J.hip, 0, -1), ad(J.hip, 0, 4), 11, P.shorts); ln(ad(J.hip, -5, -2), ad(J.hip, 5, -2), 1, P.belt || P.glove);
+    const h = J.hd;
+    rc(h[0] - 2, h[1] + 4, 4, 3, P.skinD);
+    rc(h[0] - 5, h[1] - 6, 11, 12, P.skin);
+    rc(h[0] + 6, h[1] - 1, 1, 2, P.skin);
+    rc(h[0] - 5, h[1] - 6, 11, 3, P.hair); rc(h[0] - 5, h[1] - 3, 3, 5, P.hair);
+    if (P.beard) { rc(h[0] - 2, h[1] + 1, 8, 5, P.hair); rc(h[0] + 2, h[1] + 2, 3, 1, P.skinD); }
+    rc(h[0] + 2, h[1] - 3, 3, 1, P.brow); rc(h[0] + 3, h[1] - 2, 1, 1, f.eyes === 'z' ? P.skinD : f.pose === 'ko' ? '#F2EDE4' : '#14110F');
+    rc(h[0] - 1, h[1] - 1, 2, 2, P.skinD);
+    if (P.tie) rc(h[0] - 1, h[1] + 7, 3, 2, '#0F0E0D');
+    ln(shF, J.eF, 3, P.skin); ln(J.eF, J.gF, 3, P.skin);
+    if (P.hand) rc(J.gF[0] - 1, J.gF[1] - 1, 3, 3, P.skin); else { rc(J.gF[0] - 2, J.gF[1] - 3, 6, 6, P.glove); rc(J.gF[0] - 2, J.gF[1] - 3, 6, 1, '#FFFFFF'); }
+    if (f.pose === 'dizzy' && !f.sil) for (let i = 0; i < 3; i++) { const an = E.T * 6 + i * 2.09, q = tr([h[0] + Math.cos(an) * 7, h[1] - 9 + Math.sin(an) * 2]); b.fillStyle = i ? '#F5C842' : '#FFFFFF'; b.fillRect(Math.round(q[0]), Math.round(q[1]), 2, 2); }
+  }
+  drawDrop(b, p) {
+    const x = Math.round(p.x), y = Math.round(p.y), R = (dx, dy, w, h, c) => { b.fillStyle = c; b.fillRect(x + dx, y + dy, w, h); };
+    if (p.k === 'L') { R(-1, -10, 3, 5, '#E5383B'); R(-4, 0, 9, 1, '#F5C842'); R(0, -4, 1, 9, '#F5C842'); R(-2, -2, 5, 5, '#F5C842'); R(-1, -1, 3, 3, '#FFFFFF'); }
+    else { const fl = Math.floor(p.age * 24) % 2; R(-1, -11 - fl, 3, 3 + fl, '#F5C842'); R(-2, -7, 1, 3, '#2552B0'); R(2, -7, 1, 3, '#2552B0'); R(-1, -7, 3, 9, '#3B7BF0'); R(-1, -7, 1, 9, '#7FA8F5'); R(-1, 2, 3, 1, '#FFFFFF'); R(0, 3, 1, 1, '#FFFFFF'); }
+  }
+  drawStage(b, T) {
+    const R = (x, y, w, h, c) => { b.fillStyle = c; b.fillRect(x, y, w, h); }, W = this.W;
+    R(0, 0, W, 150, '#0D0B0A'); for (let i = 0; i < 30; i++) R((i * 73) % W, (i * 37) % 60, 1, 1, '#4A4239');
+    ['L', 'F'].forEach((k, i) => {
+      const x0 = i ? 168 : 8, c = this.COR[k], cd = k === 'L' ? '#3A1C1D' : '#1C2A48', cx = x0 + 72;
+      for (let y = 24; y < 116; y++) { const hw = Math.round(4 + (y - 24) * .28); for (let x = cx - hw + (y % 2); x <= cx + hw; x += 2) R(x, y, 1, 1, cd); }
+      R(x0, 18, 144, 3, '#3A342E'); for (let x = x0; x < x0 + 144; x += 6) R(x, 19, 3, 1, '#4A4038');
+      R(x0 + 2, 21, 3, 95, '#2A2622'); R(x0 + 139, 21, 3, 95, '#2A2622');
+      [x0 + 24, x0 + 72, x0 + 120].forEach((lx, j) => { R(lx - 2, 21, 5, 3, '#1A1714'); R(lx - 1, 24, 3, 1, (Math.floor(T * 4) + j) % 3 ? '#F5C842' : c); });
+      R(x0 + 52, 30, 40, 22, '#0B0A09'); R(x0 + 53, 31, 38, 20, cd); this.pxText(b, k === 'L' ? '13' : '22', x0 + 62, 34, c, 3);
+      R(x0 + 6, 92, 10, 24, '#0F0E0D'); R(x0 + 128, 92, 10, 24, '#0F0E0D');
+      [[x0 + 11, 98], [x0 + 11, 108], [x0 + 133, 98], [x0 + 133, 108]].forEach(([sx, sy]) => { R(sx - 3, sy - 3, 7, 7, '#2A2622'); R(sx - 1, sy - 1, 3, 3, '#3A342E'); });
+      R(x0, 116, 144, 3, '#4A4038'); R(x0, 119, 144, 31, '#161412');
+    });
+  }
+  drawFans(b, cr, T) {
+    for (const p of cr) {
+      const y = p.y - Math.round(Math.abs(Math.sin(T * 9 + p.ph)) * 2), c = this.COR[p.k];
+      b.fillStyle = p.k === 'L' ? '#4E2224' : '#1E2E58'; b.fillRect(p.x - 3, y, 7, 12);
+      b.fillStyle = p.head; b.fillRect(p.x - 2, y - 5, 5, 5);
+      if (p.flag) { const w = Math.floor(T * 6 + p.ph) % 2; b.fillStyle = '#6A5E52'; b.fillRect(p.x + 3, y - 16, 1, 14); b.fillStyle = c; b.fillRect(p.x + 4, y - 16 + w, 7, 4); b.fillStyle = '#F5C842'; b.fillRect(p.x + 4, y - 16 + w, 7, 1); }
+      else { b.fillRect(p.x - 4, y - 8, 1, 4); b.fillRect(p.x + 4, y - 8, 1, 4); }
+    }
+  }
+  drawStreet(b, T) {
+    const R = (x, y, w, h, c) => { b.fillStyle = c; b.fillRect(Math.round(x), y, w, h); }, W = this.W;
+    ['#0D0B0A', '#110E0C', '#15110E', '#1A1511', '#201913', '#271E16'].forEach((c, i) => R(0, i * 12, W, 12, c));
+    R(0, 72, W, 52, '#271E16');
+    const s1 = T * 10, o1 = s1 % 32, b0 = Math.floor(s1 / 32);
+    for (let i = -1; i < 12; i++) {
+      const id = i + b0, bx = i * 32 - o1, hgt = 34 + (Math.abs(id * 7919) % 7) * 8;
+      R(bx, 124 - hgt, 30, hgt, '#1A1511');
+      for (let r = 0; r < Math.floor(hgt / 8) - 1; r++) for (let q = 0; q < 4; q++) R(bx + 4 + q * 6, 124 - hgt + 5 + r * 8, 3, 3, Math.abs(id * 31 + r * 7 + q * 13) % 5 === 0 ? '#6B5A2E' : '#221B15');
+    }
+    const o2 = (T * 45) % 80; for (let i = -1; i < 6; i++) { const x = i * 80 - o2; R(x, 84, 1, 40, '#3A342E'); R(x - 2, 82, 5, 2, '#4A4038'); R(x - 1, 84, 3, 1, '#F5C842'); }
+    R(0, 124, W, 7, '#2A2622'); const o3 = (T * 90) % 16; for (let x = -o3; x < W; x += 16) R(x, 124, 1, 7, '#221E1B');
+    R(0, 131, W, 1, '#4A4038'); R(0, 132, W, 18, '#1A1714');
+    const o4 = (T * 90) % 24; for (let x = -o4; x < W; x += 24) R(x, 141, 10, 1, '#6A625A');
+  }
+  bubble(ctx, sc, x, y, t, col) {
+    ctx.font = `700 ${Math.round(6 * sc)}px Silkscreen, monospace`;
+    const w = ctx.measureText(t).width / sc + 10, X = Math.max(4, Math.min(this.W - 4 - w, x - w / 2));
+    ctx.fillStyle = '#F2EDE4'; ctx.fillRect(X * sc, (y - 7) * sc, w * sc, 14 * sc); ctx.fillRect((x - 2) * sc, (y + 7) * sc, 4 * sc, 3 * sc);
+    ctx.fillStyle = col; ctx.fillRect(X * sc, (y + 6) * sc, w * sc, sc);
+    ctx.fillStyle = '#0F0E0D'; ctx.textAlign = 'center'; ctx.fillText(t, (X + w / 2) * sc, y * sc);
+  }
+  drawScene(b) {
+    const S = this.SC, A = S.a, E = this.E, W = this.W, H = this.H, T = S.T, F = this.FLOOR;
+    const R = (x, y, w, h, c) => { b.fillStyle = c; b.fillRect(Math.round(x), Math.round(y), w, h); }, D = f => this.drawF(b, f);
+    const flash = () => S.fl.forEach(f => { R(f.x - 3, f.y, 7, 1, '#FFFFFF'); R(f.x, f.y - 3, 1, 7, '#FFFFFF'); R(f.x - 1, f.y - 1, 3, 3, '#FFFFFF'); });
+    const ring = () => { b.drawImage(this.bg, 0, 0); this.drawCrowd(b); };
+    switch (S.id) {
+      case 'corner':
+        ring(); D(A.cL); D(A.cF); b.drawImage(this.ropes, 0, 0);
+        ['L', 'F'].forEach(k => {
+          const a = A[k], c = A['c' + k], bx = a.x - a.facing * 13;
+          R(bx - 3, F - 8, 7, 8, '#3A342E'); R(bx - 3, F - 8, 7, 1, '#6A5E52');
+          R(a.x - 6, F - 17, 13, 2, '#6A5E52'); R(a.x - 5, F - 15, 2, 15, '#4A4038'); R(a.x + 4, F - 15, 2, 15, '#4A4038');
+          D(a);
+          const g = this.joints(c, E.T).gF, tx = c.x + g[0] * c.facing, ty = F + g[1], w = Math.round(Math.sin(c.pt * 16) * 2), x0 = c.facing > 0 ? tx : tx - 6;
+          R(x0, ty - 1 + w, 7, 5, '#F2EDE4'); R(x0, ty + 4 + w, 7, 1, '#BDB6AA');
+        });
+        break;
+      case 'coletiva':
+        b.drawImage(this.studio, 0, 0);
+        ['L', 'F'].forEach(k => {
+          const a = A[k], x0 = a.x - 30; D(a);
+          R(x0, 104, 60, 2, '#4A4038'); R(x0, 106, 60, 26, '#26211D'); R(x0, 106, 60, 2, this.COR[k]);
+          this.pxText(b, k === 'L' ? '13' : '22', a.x - 7, 114, '#F2EDE4', 2);
+          ['#E5383B', '#3B7BF0', '#F5C842', '#2FA65A', '#E8833A'].forEach((c, i) => { const mx = a.x + a.facing * (7 + i * 3), hh = i % 2 ? 9 : 6; R(mx, 104 - hh, 1, hh, '#0F0E0D'); R(mx - 1, 102 - hh, 3, 3, c); });
+        });
+        for (let x = 4; x < W; x += 18) { R(x, 139, 9, 11, '#0B0A09'); R(x + 2, 135, 5, 4, '#0B0A09'); R(x + 7, 137, 6, 4, '#1A1714'); R(x + 12, 138, 2, 2, '#3A342E'); }
+        flash(); break;
+      case 'saco':
+        b.drawImage(this.gym, 0, 0);
+        ['L', 'F'].forEach(k => {
+          const g = S.bag[k], dx = Math.sin(g.a) * 24, bx = Math.round(g.x + dx);
+          for (let y = 0; y < 78; y += 2) R(g.x + dx * y / 78, y, 1, 1, '#6A625A');
+          R(bx - 4, 78, 9, 2, '#2A2622'); R(bx - 6, 80, 13, 38, g.hit > 0 ? '#7A5440' : '#5A3E2E'); R(bx - 5, 81, 2, 36, '#6E4C38'); R(bx - 6, 83, 13, 2, '#3E2A1F'); R(bx - 6, 112, 13, 2, '#3E2A1F');
+          D(A[k]);
+        });
+        break;
+      case 'corda':
+        b.drawImage(this.gym, 0, 0);
+        ['L', 'F'].forEach(k => {
+          const a = A[k], ph = a.rp || 0, s = a.facing, Y = F - a.ay, cx = a.x + 2 * s, cy = Y - 33; D(a);
+          const J = this.joints(a, E.T), pts = [[a.x + J.gB[0] * s, Y + J.gB[1]]];
+          for (let j = -6; j <= 6; j++) { const q = ph + j * .16; pts.push([cx + Math.sin(q) * 15 * s, cy - Math.cos(q) * 36]); }
+          pts.push([a.x + J.gF[0] * s, Y + J.gF[1]]);
+          for (let j = 1; j < pts.length; j++) this.line(b, pts[j - 1], pts[j], '#D8CDB8');
+        });
+        break;
+      case 'comicio':
+        this.drawStage(b, T);
+        ['L', 'F'].forEach(k => { const a = A[k], mx = a.x + a.facing * 14; D(a); R(mx, a.by - 40, 1, 40, '#3A342E'); R(mx - 1, a.by - 42, 3, 3, '#0F0E0D'); });
+        this.drawFans(b, S.crowd, T); break;
+      case 'corrida': this.drawStreet(b, T); D(A.F); D(A.L); break;
+      case 'debate': {
+        b.drawImage(this.studio, 0, 0);
+        const per = 4, rem = 1 - (T % per) / per, sp = Math.floor(T / per) % 2 ? 'F' : 'L';
+        ['L', 'F'].forEach(k => {
+          const a = A[k], px = a.x + a.facing * 7, cd = k === 'L' ? '#2A1C1D' : '#1C2436';
+          for (let y = 12; y < 128; y++) { const hw = Math.round(3 + (y - 12) * .16); for (let x = a.x - hw + (y % 2); x <= a.x + hw; x += 2) R(x, y, 1, 1, cd); }
+          D(a);
+          R(px - 10, 98, 21, 2, '#4A4038'); R(px - 9, 100, 19, 32, '#26211D'); R(px - 7, 104, 15, 11, this.COR[k]); this.pxText(b, k === 'L' ? '13' : '22', px - 3, 107, '#0F0E0D', 1);
+          this.line(b, [px, 98], [a.x + a.facing * 9, F - 50], '#0F0E0D'); R(a.x + a.facing * 9 - 1, F - 51, 2, 2, '#3A342E');
+        });
+        R(128, 62, 64, 6, '#0B0A09'); R(130, 64, Math.round(60 * rem), 2, this.COR[sp]);
+        break;
+      }
+      case 'flexao':
+        b.drawImage(this.gym, 0, 0);
+        ['L', 'F'].forEach(k => { const a = A[k], x0 = a.facing > 0 ? a.x - 26 : a.x - 20; R(x0, F - 1, 46, 2, '#3A342E'); R(x0, F - 1, 46, 1, this.COR[k]); D(a); });
+        break;
+      case 'manopla': ring(); b.drawImage(this.ropes, 0, 0); D(A.cL); D(A.cF); D(A.L); D(A.F); break;
+      case 'sombra':
+        b.drawImage(this.gym, 0, 0);
+        ['L', 'F'].forEach(k => { const a = A[k]; this.drawF(b, Object.assign({}, a, { sil: '#0E0B09', ox: -a.facing * 9, by: F - 7, noSh: 1, flash: 0 })); D(a); });
+        break;
+      case 'pesagem':
+        b.drawImage(this.studio, 0, 0);
+        [['L', 112], ['F', 208]].forEach(([k, sx]) => {
+          const a = A[k], px = sx + (k === 'L' ? 16 : -16), t = S.disp === null ? (k === 'L' ? '13' : '22') : S.disp;
+          R(px, 92, 2, 36, '#6A625A'); R(px - 7, 83, 16, 10, '#0B0A09'); R(px - 7, 83, 16, 1, '#3A342E');
+          if (t) this.pxText(b, t, px - 3, 85, S.disp === null ? '#2FA65A' : '#1E6E3B', 1);
+          R(sx - 12, F - 4, 25, 4, '#9A9086'); R(sx - 12, F - 4, 25, 1, '#C9C0B4');
+          D(a);
+        });
+        flash(); break;
+      case 'vespera':
+        b.drawImage(this.gym, 0, 0);
+        R(150, 40, 20, 18, '#E9E4DA'); R(150, 40, 20, 4, '#E5383B'); this.pxText(b, '24', 154, 47, '#0F0E0D', 1);
+        ['L', 'F'].forEach(k => {
+          const a = A[k], x0 = k === 'L' ? 36 : 218;
+          R(x0, 121, 66, 4, '#4A4038'); R(x0, 121, 66, 1, '#6A5E52'); R(x0 + 2, 125, 2, 7, '#2A2622'); R(x0 + 62, 125, 2, 7, '#2A2622');
+          R(k === 'L' ? x0 + 2 : x0 + 50, 116, 14, 5, '#E9E4DA');
+          D(a);
+          R(k === 'L' ? x0 + 18 : x0 + 2, 114, 46, 7, k === 'L' ? '#6E1216' : '#14306E'); R(k === 'L' ? x0 + 18 : x0 + 2, 114, 46, 1, this.COR[k]);
+        });
+        b.fillStyle = 'rgba(6,6,12,.6)'; b.fillRect(0, 0, W, H);
+        R(32, 17, 5, 5, '#D8CDB8'); R(34, 17, 3, 1, '#0B0A09');
+        break;
+      case 'encarada': ring(); b.drawImage(this.ropes, 0, 0); D(A.R); D(A.L); D(A.F); break;
+    }
+  }
+  overScene(txt, ctx, sc) {
+    const S = this.SC, d = this.DAYS[this.day], W = this.W, left = 25 - d[0];
+    txt(String(d[0]).padStart(2, '0') + '/10 · ' + d[1], 8, 10, 6, '#A39B90', 'left');
+    txt(d[3].toUpperCase(), 8, 21, 8, '#F5C842', 'left');
+    txt(left > 0 ? 'FALTAM ' + left + (left > 1 ? ' DIAS' : ' DIA') : 'HOJE TEM LUTA', W - 8, 10, 6, '#F2EDE4', 'right');
+    switch (S.id) {
+      case 'debate': case 'coletiva': if (S.line) { const k = Math.floor(S.T / (S.id === 'debate' ? 4 : 3)) % 2 ? 'F' : 'L', a = S.a[k]; this.bubble(ctx, sc, a.x + a.facing * 10, this.FLOOR - 76, S.line, this.COR[k]); if (S.both) { const o = S.a[this.oth(k)]; this.bubble(ctx, sc, o.x + o.facing * 10, this.FLOOR - 76, '!!!', this.COR[o.k]); } } if (S.id === 'debate') txt('TEMPO', W / 2, 56, 6, '#A39B90'); break;
+      case 'corrida': if (S.ld) txt(this.NOME[S.ld].toUpperCase() + ' NA FRENTE', W / 2, 36, 7, this.COR[S.ld]); break;
+      case 'flexao': ['L', 'F'].forEach(k => txt(S.n[k] + ' FLEXÕES', S.a[k].x, 60, 7, this.COR[k])); break;
+      case 'encarada': { const k = 1 + Math.sin(S.T * 10) * .06; txt('VS', W / 2, 44, 22 * k, '#F5C842'); txt('LULA', 64, 60, 10, '#E5383B'); txt('FLÁVIO', 256, 60, 10, '#3B7BF0'); break; }
+      case 'pesagem': txt('PESAGEM OFICIAL', W / 2, 66, 7, '#F2EDE4'); break;
+    }
+    if (this.montage) { ctx.fillStyle = '#F5C842'; ctx.fillRect(0, ctx.canvas.height - 2 * sc, ctx.canvas.width * Math.min(1, S.T / 9), 2 * sc); }
+  }
+
+  drawProj(b, p) {
+    const x = Math.round(p.x), y = Math.round(p.y), s = Math.sign(p.vx) || 1;
+    const R = (dx, dy, w, h, c) => { b.fillStyle = c; b.fillRect(s > 0 ? x + dx : x - dx - w + 1, y + dy, w, h); };
+    if (p.k === 'L') {
+      R(-9, -1, 4, 3, '#E5383B'); R(-4, 0, 9, 1, '#F5C842'); R(0, -4, 1, 9, '#F5C842'); R(-2, -2, 5, 5, '#F5C842'); R(-1, -1, 3, 3, '#FFFFFF');
+      if (Math.floor(p.age * 20) % 2) { R(-3, -3, 1, 1, '#F5C842'); R(3, -3, 1, 1, '#F5C842'); R(-3, 3, 1, 1, '#F5C842'); R(3, 3, 1, 1, '#F5C842'); }
+    } else {
+      const fl = Math.floor(p.age * 24) % 2;
+      R(-8 - fl, -1, 2 + fl, 3, '#F5C842'); R(-10 - fl * 2, 0, 2, 1, '#E8833A');
+      R(-6, -3, 2, 2, '#2552B0'); R(-6, 2, 2, 2, '#2552B0');
+      R(-5, -1, 8, 3, '#3B7BF0'); R(-5, -1, 8, 1, '#7FA8F5'); R(3, -1, 1, 3, '#FFFFFF'); R(4, 0, 1, 1, '#FFFFFF');
+    }
+  }
+
+  draw(scn) {
+    const c = this.cv.current; if (!c || !this.bg) return;
+    const E = this.E, W = this.W, H = this.H, b = this.buf;
+    const dpr = Math.min(2, window.devicePixelRatio || 1), cw = Math.max(1, Math.round(c.clientWidth * dpr)), ch = Math.round(cw * H / W);
+    if (c.width !== cw || c.height !== ch) { c.width = cw; c.height = ch; }
+    if (scn) this.drawScene(b);
+    else {
+      b.drawImage(this.bg, 0, 0); this.drawCrowd(b); b.drawImage(this.ropes, 0, 0);
+      this.drawF(b, E.ref);
+      ['L', 'F'].sort((x, y) => (this.isAtk(E.f[x]) ? 1 : 0) - (this.isAtk(E.f[y]) ? 1 : 0)).forEach(k => this.drawF(b, E.f[k]));
+      for (const p of E.proj) this.drawProj(b, p);
+      for (const p of E.drops) this.drawDrop(b, p);
+    }
+    for (const p of E.parts) {
+      const x = Math.round(p.x), y = Math.round(p.y);
+      if (p.star) { const r = p.star; b.fillStyle = '#F5C842'; b.fillRect(x - r, y, r * 2 + 1, 1); b.fillRect(x, y - r, 1, r * 2 + 1); b.fillStyle = '#FFFFFF'; b.fillRect(x - 2, y - 2, 5, 5); }
+      else if (p.ring) { b.fillStyle = '#BFD8FF'; b.fillRect(x - 6, y - 2, 1, 5); b.fillRect(x + 6, y - 2, 1, 5); b.fillRect(x - 2, y - 6, 5, 1); b.fillRect(x - 2, y + 6, 5, 1); b.fillStyle = '#FFFFFF'; b.fillRect(x - 1, y - 1, 3, 3); }
+      else { b.fillStyle = p.col; b.fillRect(x, y, p.sz, p.sz); }
+    }
+    const ctx = c.getContext('2d'), sc = cw / W;
+    ctx.imageSmoothingEnabled = false;
+    const ox = E.shake > 0 ? Math.round((Math.random() * 2 - 1) * 1.5) * sc : 0, oy = E.shake > 0 ? Math.round(Math.random() * 2 - 1) * sc : 0;
+    ctx.fillStyle = '#0B0A09'; ctx.fillRect(0, 0, cw, ch);
+    ctx.drawImage(this.bufC, ox, oy, cw, ch);
+    ctx.textBaseline = 'middle'; ctx.lineJoin = 'round'; ctx.strokeStyle = '#0F0E0D';
+    const txt = (t, x, y, size, col, al) => { ctx.textAlign = al || 'center'; ctx.font = `700 ${Math.round(size * sc)}px Silkscreen, monospace`; ctx.lineWidth = Math.max(3, size * .26 * sc); ctx.strokeText(t, x * sc, y * sc); ctx.fillStyle = col; ctx.fillText(t, x * sc, y * sc); };
+    for (const f of E.floats) { ctx.globalAlpha = Math.max(0, 1 - Math.max(0, (f.age - .5) / .4)); txt(f.txt, f.x, f.y - f.age * 16, 7, f.col); }
+    for (const co of E.callouts) {
+      const life = co.sz ? .8 : 1.1, x0 = co.x != null ? co.x : E.f[co.k].x + E.f[co.k].kx;
+      ctx.globalAlpha = co.age > life - .3 ? Math.max(0, (life - co.age) / .3) : 1;
+      const k = co.age < .1 ? 1.5 - 5 * co.age : 1;
+      txt(co.txt, Math.max(40, Math.min(280, x0)), this.FLOOR - (co.sz ? 72 : 76) - co.age * (co.sz ? 10 : 6), (co.sz || 9) * k, co.sz ? '#F2EDE4' : '#F5C842');
+    }
+    ctx.globalAlpha = 1;
+    if (scn) this.overScene(txt, ctx, sc);
+    else {
+      if (E.refN) txt(String(E.refN), E.ref.x, this.FLOOR - 84, 14, '#F5C842');
+      ['L', 'F'].forEach(k => {
+        const f = E.f[k]; if (f.combo < 2 || f.comboT > 1.3) return;
+        const x = k === 'L' ? 10 : W - 10, al = k === 'L' ? 'left' : 'right';
+        txt(f.combo + ' HITS', x, 16, 11, this.COR[k], al); txt('COMBO!', x, 28, 6, '#F5C842', al);
+      });
+      if (this.mode === 'espera') { txt('SALA DE GOLPES', 8, H - 8, 6, '#A39B90', 'left'); txt(this.autoDemo ? 'DEMO AUTOMÁTICA' : 'TOQUE NUM GOLPE', W - 8, H - 8, 6, this.autoDemo ? '#F5C842' : '#A39B90', 'right'); }
+      const b0 = E.banners[0];
+      if (b0) {
+        const k = b0.age < .16 ? 1.7 - .7 * (b0.age / .16) : 1;
+        ctx.globalAlpha = b0.dur && b0.age > b0.dur - .25 ? Math.max(0, (b0.dur - b0.age) / .25) : 1;
+        const y = ch * .3;
+        ctx.fillStyle = 'rgba(11,10,9,.6)'; ctx.fillRect(0, y - 22 * sc, cw, (b0.sub ? 44 : 34) * sc);
+        ctx.textAlign = 'center'; ctx.font = `700 ${Math.round(26 * sc * k)}px Silkscreen, monospace`;
+        ctx.lineWidth = 3.2 * sc;
+        ctx.fillStyle = '#B02428'; ctx.fillText(b0.text, cw / 2 + 1.5 * sc, y - 3.5 * sc);
+        ctx.strokeText(b0.text, cw / 2, y - 5 * sc); ctx.fillStyle = '#F5C842'; ctx.fillText(b0.text, cw / 2, y - 5 * sc);
+        if (b0.sub) { ctx.font = `700 ${Math.round(6.5 * sc)}px Silkscreen, monospace`; ctx.fillStyle = '#F2EDE4'; ctx.fillText(b0.sub, cw / 2, y + 13 * sc); }
+      }
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  renderVals() {
+    this.ensureProps();
+    const S = this.snap || this.sample(0), e = S.e, sc = this.scope, s = e[sc], A = this.ALL[sc], E = this.E, T2 = this.turno === 2, esp = this.mode === 'espera';
+    const has = s.cnt > 0, end = S.t >= 1, wp = Math.max(s.lp, s.fp), pc = v => this.pc(v), p1 = v => this.pc1(v), br = e.BR, p2 = n => String(n).padStart(2, '0');
+    const F = k => (E ? E.f[k] : null);
+    const sup = k => { const v = F(k) ? F(k).sup : 0; return Array.from({ length: 10 }, (_, i) => ({ bg: v >= (i + 1) * 10 ? (v >= 100 ? '#F5C842' : this.COR[k]) : '#2A2622' })); };
+    const full = k => !!(F(k) && F(k).sup >= 100);
+    const st = k => (F(k) ? F(k).st : this.st0());
+    const lead = this.mapMode === 'lead';
+    const tiles = this.UF.map(u => {
+      const a = e[u.id], m = a.lp - a.fp, am = Math.abs(m); let bg, fg = '#F2EDE4', t;
+      if (lead) {
+        if (a.cnt <= 0) { bg = '#221E1B'; fg = '#8A8178'; t = '—'; }
+        else { const P = m >= 0 ? ['#6B2A2B', '#A8302F', '#E5383B'] : ['#2A3A63', '#2E58B0', '#3B7BF0'], i = am < 5 ? 0 : am < 15 ? 1 : 2; bg = P[i]; if (i === 2) fg = '#0F0E0D'; t = Math.round(Math.max(a.lp, a.fp)) + '%'; }
+      } else {
+        const r = a.r; bg = r <= 0 ? '#221E1B' : r < .25 ? '#3A3226' : r < .5 ? '#6B5A2E' : r < .75 ? '#A88A33' : r < 1 ? '#D9B23C' : '#F5C842';
+        if (r >= .5) fg = '#0F0E0D'; if (r <= 0) fg = '#8A8178'; t = Math.floor(r * 100) + '%';
+      }
+      return { id: u.id, txt: t, bg, fg, col: u.col + 1, row: u.row + 1, ring: sc === u.id ? '0 0 0 2px #0F0E0D, 0 0 0 4px #F2EDE4' : 'none', on: () => this.setScope(u.id), title: a.cnt > 0 ? `${u.nome}: Lula ${p1(a.lp)} × ${p1(a.fp)} Flávio · ${p1(a.urnas)} apurado` : `${u.nome}: apuração não começou` };
+    });
+    let cl = null;
+    this.UF.forEach(u => { const a = e[u.id]; if (a.r > .15) { const d = Math.abs(a.lp - a.fp); if (!cl || d < cl.d) cl = { u, d, a }; } });
+    const fC = this.ctrl ? F(this.ctrl) : null, ready = !!(fC && fC.sup >= 100);
+    const mk = mv => { const sp = mv === 'special' || mv === 'ultra', lb = this.GL[mv]; return { label: sp && ready ? lb + ' PRONTO' : lb, key: this.KEYF[mv], on: () => this.pmove(mv), bg: sp ? (ready ? '#F5C842' : '#1E1B18') : '#26211D', fg: sp ? (ready ? '#0F0E0D' : '#A39B90') : '#F2EDE4' }; };
+    const MAIN = ['punch', 'hook', 'upper', 'low', 'high', 'duck', 'special'], ALLM = [].concat(...this.GOLPES.map(g => g[1].map(x => x[0])));
+    const round = end ? (wp > 50 ? 'K.O.' : (sc === 'BR' && !T2 ? 'FIM DO ROUND 1' : 'SEM NOCAUTE')) : (T2 ? 'ROUND 2' : 'ROUND 1');
+    const speed = E ? E.speed : 1, playing = E ? E.playing : false;
+    const vw = typeof window !== 'undefined' ? window.innerWidth : 1200, vh = typeof window !== 'undefined' ? window.innerHeight : 800, mob = vw < 720 || vh < 500;
+    const cd = this.cd(), dd = this.DAYS[this.day], today = this.todayIdx(), left = 25 - dd[0], r1 = this.sample(1, 1).e.BR, treino = esp && this.view === 'treino';
+    return {
+      isMob: mob, isDesk: !mob, mobPos: vh >= 560 && vh > vw * 1.1 ? 'sticky' : 'relative',
+      isEspera: esp, isLuta: !esp,
+      urnasShort: p1(s.urnas),
+      mobTabs: [['estados', 'ESTADOS'], ['lances', 'LANCES'], ['regioes', 'REGIÕES'], ['luta', 'LUTA']].map(([id, label]) => ({ label, on: () => { this.mobTab = id; this.push(true); }, bg: this.mobTab === id ? '#F2EDE4' : 'transparent', fg: this.mobTab === id ? '#0F0E0D' : '#A39B90' })),
+      tabEstados: this.mobTab === 'estados', tabLances: this.mobTab === 'lances', tabRegioes: this.mobTab === 'regioes', tabLuta: this.mobTab === 'luta',
+      speedLabel: speed + '×', cycleSpeed: () => this.setSpeed({ 1: 2, 2: 4, 4: 8, 8: 1 }[speed] || 1),
+      noMenu: ev => ev.preventDefault(),
+      viewers: this.num(this.viewers || 8600), viewLbl: esp ? 'no treino agora' : 'assistindo agora',
+      liveDot: this._dot || (this._dot = React.createElement('span', { style: { display: 'inline-block', width: 8, height: 8, borderRadius: '50%', background: '#2FA65A', animation: 'liveP 1.4s ease-in-out infinite', flex: 'none' } })),
+      canvasRef: this.cv,
+      headerSub: esp ? 'Presidente · intervalo até o 2º turno' : T2 ? 'Presidente · 2º turno' : 'Presidente · 1º turno',
+      turnos: [['espera', 'INTERVALO'], [1, '1º TURNO'], [2, '2º TURNO']].filter(x => x[0] !== 'espera' || this.has2).map(([n, label]) => { const on = n === 'espera' ? esp : !esp && this.turno === n, dis = n === 2 && !this.has2; return { label, on: () => (n === 'espera' ? this.setMode('espera') : this.setTurno(n)), dis, title: dis ? 'Houve nocaute no 1º turno neste cenário' : '', bg: on ? '#F2EDE4' : 'transparent', fg: on ? '#0F0E0D' : dis ? '#5A534B' : '#A39B90', cur: dis ? 'not-allowed' : 'pointer' }; }),
+      scope: sc, onScope: ev => this.setScope(ev.target.value),
+      regOpts: this.REG.map(g => ({ id: g.id, label: 'Região ' + g.nome })),
+      ufOpts: this.UF.slice().sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR')).map(u => ({ id: u.id, label: `${u.nome} (${u.id})` })),
+      notBR: sc !== 'BR', toBR: () => this.setScope('BR'),
+      brLine: br.cnt > 0 ? `Lula ${p1(br.lp)} × ${p1(br.fp)} Flávio · ${p1(br.urnas)} das urnas` : 'apuração não começou',
+      scopeName: A.nome.toUpperCase(),
+      lPct: has ? pc(s.lp) : '0,00%', fPct: has ? pc(s.fp) : '0,00%',
+      lVotos: this.num(s.L) + ' votos', fVotos: this.num(s.F) + ' votos',
+      lSup: sup('L'), fSup: sup('F'),
+      lSupT: full('L') ? 'ESPECIAL PRONTO' : 'ESPECIAL', fSupT: full('F') ? 'ESPECIAL PRONTO' : 'ESPECIAL',
+      lSupC: full('L') ? '#F5C842' : '#A39B90', fSupC: full('F') ? '#F5C842' : '#A39B90',
+      lw: (has ? s.lp : 0) + '%', fw: (has ? s.fp : 0) + '%',
+      urnas: pc(s.urnas), clock: 'ATUALIZADO ' + this.hora(S.t), round,
+      showOutros: !T2 && !esp,
+      outros: this.OUT.map(([n, p, fr]) => ({ nome: n, partido: p ? `(${p})` : '', pct: has ? pc(s.op * fr) : '0,00%' })),
+      playLabel: playing ? 'PAUSAR' : (end ? 'DE NOVO' : 'ASSISTIR'),
+      togglePlay: () => this.toggle(), restart: () => this.restart(),
+      showGoR2: !T2 && this.has2 && end, goR2: () => this.setTurno(2),
+      scrub: Math.round(S.t * 1000), onScrub: ev => this.seek(+ev.target.value / 1000),
+      marks: (this.ev || []).filter(x => x.virada).map(x => ({ left: (x.t * 100).toFixed(2) + '%', title: this.hora(x.t) + ' · ' + x.txt })),
+      speeds: [1, 2, 4, 8].map(v => ({ label: v + '×', bg: speed === v ? '#F2EDE4' : 'transparent', fg: speed === v ? '#0F0E0D' : '#A39B90', on: () => this.setSpeed(v) })),
+      toggleSound: () => this.toggleSound(), sndLabel: this.snd ? 'SOM ON' : 'SOM OFF', sndC: this.snd ? '#F5C842' : '#A39B90',
+      ctrlOpts: [[null, 'ASSISTIR'], ['L', 'LULA'], ['F', 'FLÁVIO']].map(([id, label]) => { const on = this.ctrl === id; return { label, on: () => this.setCtrl(id), bg: on ? (id ? this.COR[id] : '#F2EDE4') : 'transparent', fg: on ? '#0F0E0D' : '#A39B90' }; }),
+      hasCtrl: !esp && !!this.ctrl, noCtrl: !this.ctrl,
+      pad: MAIN.map(mk), padExtra: ALLM.filter(m => MAIN.indexOf(m) < 0).map(mk),
+      padGroups: this.GOLPES.map(([title, items]) => ({ title, items: items.filter(x => x[0] !== 'duck' || true).map(x => mk(x[0])) })),
+      blockDown: ev => { if (ev && ev.preventDefault) ev.preventDefault(); this.blockHold(true); }, blockUp: () => this.blockHold(false),
+      mapModes: [['lead', 'LIDERANÇA'], ['count', 'APURAÇÃO']].map(([id, label]) => ({ label, on: () => { this.mapMode = id; this.push(true); }, bg: this.mapMode === id ? '#F2EDE4' : 'transparent', fg: this.mapMode === id ? '#0F0E0D' : '#A39B90' })),
+      tiles, leadMode: lead, countMode: !lead,
+      hasClosest: !!cl, closestOn: () => cl && this.setScope(cl.u.id),
+      closestTxt: cl ? `${cl.u.nome} · ${cl.a.lp >= cl.a.fp ? 'Lula' : 'Flávio'} +${cl.d.toLocaleString('pt-BR', { maximumFractionDigits: 1, minimumFractionDigits: 1 })} pts` : '',
+      regioes: this.REG.map(g => { const a = e[g.id], sel = sc === g.id; return { nome: g.nome, on: () => this.setScope(g.id), bg: sel ? '#221E1B' : 'transparent', nc: sel ? '#F5C842' : '#F2EDE4', apurado: pc(a.urnas), lw: (a.cnt > 0 ? a.lp : 0) + '%', fw: (a.cnt > 0 ? a.fp : 0) + '%', lp: a.cnt > 0 ? 'Lula ' + p1(a.lp) : '—', fp: a.cnt > 0 ? p1(a.fp) + ' Flávio' : '—' }; }),
+      feedTitle: 'LANCE A LANCE · ' + A.nome.toUpperCase(),
+      feed: (this.ev || []).filter(x => x.t <= S.t + 1e-9).slice().reverse().map(x => ({ hora: this.hora(x.t), txt: x.txt, tag: x.tag, hasTag: !!x.tag })),
+      stats: [['Golpes certos', 'g'], ['Defesas', 'd'], ['Esquivas', 'e'], ['Quedas aplicadas', 'q'], ['Especiais', 's'], ['Maior combo', 'c']].map(([label, key]) => ({ label, l: st('L')[key], f: st('F')[key] })),
+      r1L: p1(r1.lp), r1F: p1(r1.fp),
+      cdDias: cd ? String(cd.d) : '0', cdDiasLbl: cd ? (cd.d === 1 ? 'DIA' : 'DIAS') : 'URNAS FECHADAS',
+      cdHms: cd ? [cd.h, cd.m, cd.s].map(p2).join(':') : '00:00:00',
+      cdShort: cd ? `${cd.d}D ${p2(cd.h)}:${p2(cd.m)}:${p2(cd.s)}` : 'É HOJE',
+      dayKicker: `${p2(dd[0])}/10 · ${this.WDN[dd[1]]} · ${left > 0 ? 'faltam ' + left + (left > 1 ? ' dias' : ' dia') : 'dia da luta'}`.toUpperCase(),
+      dayTitle: dd[3], dayTxt: dd[4], isFightDay: this.day === this.DAYS.length - 1,
+      days: this.DAYS.map((d, i) => { const sel = i === this.day && !treino, past = i < today, td = i === today, fd = i === this.DAYS.length - 1; return { wd: d[1], n: p2(d[0]), tag: td ? 'HOJE' : fd ? 'LUTA' : '', on: () => this.setDay(i), title: `${p2(d[0])}/10 · ${d[3]}`, bg: fd ? '#E8833A' : td ? '#F5C842' : past ? '#1E1B18' : '#26211D', fg: fd || td ? '#0F0E0D' : past ? '#8A8178' : '#F2EDE4', ring: sel ? '0 0 0 2px #0F0E0D, 0 0 0 4px #F2EDE4' : 'none' }; }),
+      prevDay: () => this.setDay(this.day - 1), nextDay: () => this.setDay(this.day + 1),
+      montLabel: this.montage ? 'PAUSAR MONTAGEM' : 'MONTAGEM DE TREINO', toggleMontage: () => this.toggleMontage(),
+      inTreino: treino,
+      backScene: () => { this.view = 'cena'; this.autoDemo = false; this.setScene(this.DAYS[this.day][2]); this.push(true); },
+      demoOpts: [['L', 'LULA'], ['F', 'FLÁVIO']].map(([id, label]) => { const on = this.demoK === id; return { label, on: () => { this.demoK = id; this.push(true); }, bg: on ? this.COR[id] : 'transparent', fg: on ? '#0F0E0D' : '#A39B90' }; }),
+      autoLbl: this.autoDemo ? 'PARAR DEMO' : 'VER TODOS OS GOLPES', toggleAuto: () => this.toggleAuto(),
+      golpes: this.GOLPES.map(([title, items]) => ({ title, items: items.map(([mv, label, key]) => { const sp = mv === 'special' || mv === 'ultra'; return { label: mv === 'special' ? this.SPN[this.demoK].replace('!', '') : mv === 'ultra' ? this.ULT[this.demoK].replace('!', '') : label, key, on: () => this.demo(this.demoK, mv), bg: sp ? '#F5C842' : '#26211D', fg: sp ? '#0F0E0D' : '#F2EDE4' }; }) })),
+      palOpts: [['L', 'LULA'], ['F', 'FLÁVIO']].map(([id, label]) => { const on = this.palpite === id; return { label, on: () => this.setPalpite(id), bg: on ? this.COR[id] : '#26211D', fg: on ? '#0F0E0D' : '#F2EDE4' }; }),
+      palTxt: this.palpite ? `Palpite salvo: ${this.NOME[this.palpite]}. No fim da simulação do 2º turno, o placar avisa se você acertou.` : 'Quem vence o 2º turno? O palpite fica salvo só neste aparelho.',
+      torL: () => this.torcer('L'), torF: () => this.torcer('F'),
+    };
+  }
+
+}
+</script>
+</body>
+</html>

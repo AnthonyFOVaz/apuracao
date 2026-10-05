@@ -25,6 +25,7 @@ a:hover{color:var(--fg)}
 button,select{font:inherit;color:inherit}
 :focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 html.mob #desk,html:not(.mob) #mob,#pecas{display:none}
+html.espera .so-luta,html:not(.espera) .so-espera{display:none!important}
 .px{font-family:'Silkscreen',monospace}
 @keyframes liveP{0%,100%{opacity:1}50%{opacity:.25}}
 @keyframes pisca{to{visibility:hidden}}
@@ -124,14 +125,74 @@ main{max-width:1180px;margin:0 auto;padding:22px 20px 56px;display:grid;gap:22px
 .jh{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px}
 h2{margin:0;font-family:'Silkscreen',monospace;font-weight:400;font-size:13px;letter-spacing:.06em}
 #ctrlopts button{min-height:44px}
-#pad{display:flex;flex-wrap:wrap;gap:8px}
-#pad button{font-family:'Silkscreen',monospace;font-size:12px;min-height:46px;padding:0 12px;display:flex;align-items:center;gap:8px;background:#26211D;color:var(--fg);border:1px solid var(--line2);border-radius:4px;box-shadow:inset 0 -3px 0 rgba(0,0,0,.35);cursor:pointer;touch-action:manipulation;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
-#pad button:active{transform:translateY(2px)}
-#pad kbd{font-family:inherit;font-size:10px;background:var(--bg);color:var(--gold);padding:2px 5px}
-#pad .esp{background:#1E1B18;color:var(--mut)}
-#pad .esp.pronto{background:var(--gold);color:var(--bg)}
-#pad .def{background:#2E58B0;touch-action:none}
+/* botões de golpe (controle e sala de golpes) */
+.grupos{display:grid;gap:12px}
+.grupo{display:grid;gap:6px}
+.grupo>span{font-family:'Silkscreen',monospace;font-size:10px;color:var(--mut)}
+.grupo>div{display:flex;flex-wrap:wrap;gap:6px}
+.golpe{font-family:'Silkscreen',monospace;font-size:11px;min-height:42px;padding:0 10px;display:flex;align-items:center;justify-content:center;gap:8px;background:#26211D;color:var(--fg);border:1px solid var(--line2);border-radius:4px;box-shadow:inset 0 -3px 0 rgba(0,0,0,.35);cursor:pointer;touch-action:manipulation;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+.golpe:active{transform:translateY(2px)}
+.golpe kbd{font-family:inherit;font-size:10px;background:var(--bg);color:var(--gold);padding:2px 5px}
+.golpe.esp{background:#1E1B18;color:var(--mut)}
+.golpe.esp.pronto,#sala .golpe.esp{background:var(--gold);color:var(--bg)}
+.golpe.def{background:#2E58B0;color:var(--fg);font-size:12px;min-height:46px;padding:0 12px;touch-action:none}
+#padD{display:grid;gap:12px}
+#padD .defl{display:flex}
+#padM{padding:8px 10px 10px;display:grid;gap:6px}
+.pmain{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.pmain .golpe{font-size:11px;line-height:1.1;min-height:50px;padding:4px;text-align:center;cursor:default}
+.pextra{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:0 -10px;padding:0 10px}
+.pextra::-webkit-scrollbar{display:none}
+.pextra .golpe{flex:none;font-size:10px;min-height:44px;white-space:nowrap;cursor:default}
+#padM kbd{display:none}
 .ajuda{margin:0;font-size:13px;line-height:1.5;color:var(--mut);text-wrap:pretty}
+/* intervalo até o 2º turno */
+.r1{font-size:13px;color:var(--mut)}
+.r1 b{color:var(--fg);font-weight:400;font-variant-numeric:tabular-nums}
+.contagem{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:16px;align-items:center}
+.p1{font-size:12px;color:var(--mut);font-variant-numeric:tabular-nums}
+.cdc{display:grid;justify-items:center;gap:6px;text-align:center}
+.cdd{display:flex;align-items:baseline;gap:8px}
+.cdd b{font-weight:800;font-stretch:112%;font-size:clamp(40px,7vw,84px);line-height:.9;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.cdd span{font-family:'Silkscreen',monospace;font-size:14px;color:var(--mut)}
+.cdh{font-family:'Silkscreen',monospace;font-size:clamp(16px,2vw,22px);font-variant-numeric:tabular-nums}
+.cal{display:grid;gap:14px}
+.calh{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 16px}
+.calt{flex:1 1 320px;min-width:0}
+#dia{display:grid;gap:4px;min-width:0}
+#diaK{font-family:'Silkscreen',monospace;font-size:11px;color:var(--mut)}
+#diaT{font-weight:800;font-stretch:115%;font-size:26px;line-height:1.1}
+#diaX{font-size:14px;line-height:1.5;color:var(--mut);max-width:560px;text-wrap:pretty}
+.seta{font-family:'Silkscreen',monospace;font-size:14px;min-width:46px;min-height:46px;background:transparent;color:var(--fg);border:1px solid var(--line2);border-radius:4px;cursor:pointer;touch-action:manipulation}
+.mont{min-width:200px;font-size:13px;padding:0 16px}
+.faixa{overflow-x:auto;padding:4px 4px 6px}
+#dias{display:grid;grid-template-columns:repeat(21,minmax(42px,1fr));gap:4px;min-width:min-content}
+#dias button{min-height:58px;padding:6px 0;border:0;border-radius:3px;background:#26211D;color:var(--fg);display:grid;place-content:center;gap:4px;text-align:center;cursor:pointer;font-family:inherit;touch-action:manipulation}
+#dias i{font-style:normal;font-family:'Silkscreen',monospace;font-size:9px;line-height:1}
+#dias b{font-weight:800;font-size:17px;line-height:1;font-variant-numeric:tabular-nums}
+#dias u{text-decoration:none;font-family:'Silkscreen',monospace;font-size:8px;line-height:1;min-height:8px}
+#dias .passou{background:#1E1B18;color:#8A8178}
+#dias .hoje{background:var(--gold);color:var(--bg)}
+#dias .luta{background:#E8833A;color:var(--bg)}
+#dias .sel{box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--fg)}
+.dia25{justify-self:start}
+.treino{display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start}
+.treino>.painel:first-child{flex:2 1 520px;min-width:0}
+.lateral{flex:1 1 280px;min-width:0;display:grid;gap:20px}
+#sala{display:grid;gap:14px}
+.salah{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px}
+.salab{display:flex;gap:8px;flex-wrap:wrap}
+.salab .btn{font-size:12px;min-height:44px;padding:0 14px}
+#demoOpts button{min-height:44px}
+.salap{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px}
+.salap .ajuda{flex:1 1 260px}
+.salap .link{font-size:12px;min-height:44px;padding:0 12px}
+#palpite,.torcida{display:grid;gap:12px}
+.duas{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pal{font-family:'Silkscreen',monospace;font-weight:700;font-size:13px;min-height:46px;background:#26211D;color:var(--fg);border:1px solid var(--line2);border-radius:4px;cursor:pointer;touch-action:manipulation}
+.tor{font-size:13px;padding:0 8px}
+.tor.a{background:var(--cA)}
+.tor.b{background:var(--cB)}
 .paineis{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:20px;align-items:start}
 .painel{background:var(--card);border:1px solid var(--line);padding:18px 20px 8px}
 .painel.cheio2{padding-bottom:18px}
@@ -178,9 +239,10 @@ h2{margin:0;font-family:'Silkscreen',monospace;font-weight:400;font-size:13px;le
 .nota{margin:12px 0 0;font-size:12px;line-height:1.5;color:var(--mut);text-wrap:pretty}
 footer{font-size:12px;color:var(--mut);line-height:1.6;border-top:1px solid var(--line);padding-top:16px;display:flex;flex-wrap:wrap;gap:8px 20px;justify-content:space-between}
 @media (max-width:640px){
-  .placar{grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-areas:"c c" "a b";gap:14px 12px}
+  .placar,.contagem{grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-areas:"c c" "a b";gap:14px 12px}
   .lado.a{grid-area:a}
   .lado.b{grid-area:b}
+  .cdc{grid-area:c}
   .centro{grid-area:c;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px 10px;padding:0}
   .num{width:36px;font-size:16px}
   .id{gap:8px}
@@ -255,10 +317,46 @@ footer{font-size:12px;color:var(--mut);line-height:1.6;border-top:1px solid var(
 .msup>span.pronto{color:var(--gold)}
 .mringue{line-height:0;background:var(--ring);display:flex;justify-content:center}
 .mob #cv{width:min(100%,calc((100vh - 170px) * 2.13))}
-.mob #pad{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;padding:8px 10px 10px}
-.mob #pad button{font-size:11px;line-height:1.1;min-height:50px;padding:4px;justify-content:center;text-align:center;cursor:default}
-.mob #pad kbd{display:none}
+.mcd{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:8px;align-items:center;padding:10px 14px}
+.mcd .mid.b{flex-direction:row-reverse;text-align:right}
+.mcd .a .mnum{background:var(--cA)}
+.mcd .b .mnum{background:var(--cB)}
+.mcn{display:grid;min-width:0}
+.mr1{font-size:11px;color:var(--mut);font-variant-numeric:tabular-nums}
+.mcdc{display:grid;justify-items:center;gap:3px;text-align:center}
+.mcdc .rd{font-family:'Silkscreen',monospace;font-size:10px;color:var(--bg);background:var(--gold);padding:2px 6px;white-space:nowrap}
+#mCd{font-weight:800;font-size:19px;line-height:1;font-variant-numeric:tabular-nums;white-space:nowrap}
 .mcorpo{padding:12px 14px 0;display:grid;gap:12px}
+.mesp,.mluta{display:grid;gap:12px}
+.mob #turnos{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr)}
+.mob #turnos button{font-size:11px;padding:0 4px;min-height:44px}
+.mob #diaK{font-size:10px}
+.mob #diaT{font-size:20px}
+.mob #diaX{font-size:13px;line-height:1.45}
+.mdia{display:flex;gap:8px}
+.mdia .seta{min-width:48px;min-height:48px}
+.mdia .mont{flex:1;min-width:0;min-height:48px;font-size:12px;padding:0 8px}
+.mdia .som{font-size:11px;min-height:48px;padding:0 8px}
+.mob .faixa{margin:0 -14px;padding:4px 14px 6px}
+.mob #dias{display:flex;width:max-content}
+.mob #dias button{width:44px;min-height:56px;padding:5px 0;gap:3px}
+.mob #dias b{font-size:16px}
+.mesp>.btn{min-height:48px;font-size:13px}
+.mob .tor{min-height:48px;font-size:12px}
+.msec{border-top:1px solid var(--line);padding-top:12px}
+.mob #sala{gap:10px}
+.mob .salah h2{font-size:11px;letter-spacing:0}
+.mob .salab{display:contents}
+.mob .salab .btn{order:3;width:100%;min-height:48px}
+.mob #demoOpts button{font-size:11px;padding:0 12px}
+.mob #sala .golpe{min-height:44px}
+.mob #sala .golpe kbd,.mob .salap .ajuda,.so-desk{display:none}
+html:not(.mob) .so-desk{display:inline}
+.mob .salap .link{width:100%;font-size:11px}
+.mob #palpite{gap:10px}
+.mob #palpite h2{font-size:11px;letter-spacing:0}
+.mob .pal{min-height:48px;font-size:12px}
+.mob #palTxt{font-size:12px}
 .mbtns{display:flex;gap:8px}
 .mbtns .btn{min-height:48px;padding:0 12px;font-size:12px}
 #mPlay{flex:1;min-width:0;font-size:14px}
@@ -271,9 +369,6 @@ footer{font-size:12px;color:var(--mut);line-height:1.6;border-top:1px solid var(
 .mob #scrub{height:28px}
 .mtl{display:flex;justify-content:space-between;gap:8px;font-family:'Silkscreen',monospace;font-size:10px;color:var(--mut)}
 .mtl span:nth-child(2){color:var(--fg);text-align:center}
-.mesc{display:flex;gap:8px}
-.mob #turnos{flex:none}
-.mob #turnos button{font-size:11px;padding:0 10px;min-height:44px}
 .mob #escolha{flex:1;min-height:44px;padding:0 8px}
 .mob #brline{justify-content:space-between;flex-wrap:nowrap;font-size:12px}
 .mob #brline .k{font-size:10px}
@@ -316,22 +411,24 @@ footer{font-size:12px;color:var(--mut);line-height:1.6;border-top:1px solid var(
   <header class="top">
     <div class="marca"><i></i><b>Apuração 2026</b><span class="chip">MODO LUTA</span></div>
     <div class="topdir">
-      <span class="online" title="Pessoas no site agora"><span class="vivo"></span><b id="onD">—</b><span>assistindo agora</span></span>
+      <span class="online" title="Pessoas no site agora"><span class="vivo"></span><b id="onD">—</b><span id="onL">assistindo agora</span></span>
       <span id="sub">Presidente · 1º turno</span>
       <span class="modo" id="modo">CONECTANDO</span>
     </div>
   </header>
 
   <main>
-    <p class="lede">A apuração virou luta. Quem tem mais votos bate mais e empurra o rival para o corner. Escolha um estado no mapa para ver a luta local, ou entre no ringue e jogue com seu candidato. Os números são os oficiais do TSE e se atualizam sozinhos.</p>
+    <p class="lede so-luta">A apuração virou luta. Quem tem mais votos bate mais e empurra o rival para o corner. Escolha um estado no mapa para ver a luta local, ou entre no ringue e jogue com seu candidato. Os números são os oficiais do TSE e se atualizam sozinhos.</p>
+    <p class="lede so-espera" id="ledeE">O 1º turno acabou sem nocaute. Até o 2º turno, cada dia tem um treino diferente, e a sala de golpes já está aberta.</p>
 
     <section class="escopo" aria-label="O que assistir">
       <div data-slot="turnos"></div>
-      <label class="assist"><span>ASSISTINDO</span><span data-slot="escolha"></span></label>
-      <div data-slot="brline"></div>
+      <label class="assist so-luta"><span>ASSISTINDO</span><span data-slot="escolha"></span></label>
+      <div class="so-luta" data-slot="brline"></div>
+      <span class="r1 so-espera">Resultado do 1º turno: <b id="r1">—</b></span>
     </section>
 
-    <section class="placar" aria-label="Placar">
+    <section class="placar so-luta" aria-label="Placar">
       <div class="lado a">
         <div class="id">
           <div class="num" id="numA">13</div>
@@ -359,7 +456,7 @@ footer{font-size:12px;color:var(--mut);line-height:1.6;border-top:1px solid var(
       </div>
     </section>
 
-    <section class="cabo">
+    <section class="cabo so-luta">
       <div class="trilho">
         <div class="fundo"><i id="barA" style="width:0"></i><i id="barB" style="width:0"></i></div>
         <div class="grade"></div>
@@ -370,9 +467,30 @@ footer{font-size:12px;color:var(--mut);line-height:1.6;border-top:1px solid var(
       <div class="extras" id="extras"></div>
     </section>
 
+    <section class="contagem so-espera" aria-label="Contagem para o 2º turno">
+      <div class="lado a">
+        <div class="id">
+          <div class="num" id="cNumA">13</div>
+          <div><div class="tag" id="cTagA">P1</div><div class="nome" id="cNomeA">LULA</div><div class="p1" id="cR1A">1º turno: —</div></div>
+        </div>
+      </div>
+      <div class="cdc">
+        <div class="round">2º TURNO · 25 OUT</div>
+        <div class="cdd"><b id="cdD">—</b><span id="cdL">DIAS</span></div>
+        <div class="cdh" id="cdH">--:--:--</div>
+        <div class="leg">até as urnas fecharem, às 17h de Brasília</div>
+      </div>
+      <div class="lado b">
+        <div class="id">
+          <div class="num" id="cNumB">22</div>
+          <div><div class="tag" id="cTagB">P2</div><div class="nome" id="cNomeB">FLÁVIO</div><div class="p1" id="cR1B">1º turno: —</div></div>
+        </div>
+      </div>
+    </section>
+
     <section class="ringue" data-slot="cv"></section>
 
-    <section class="ctrl" aria-label="Controles">
+    <section class="ctrl so-luta" aria-label="Controles">
       <div class="btns">
         <button type="button" class="btn verde" id="bPlay">REPLAY</button>
         <button type="button" class="btn laranja" id="bReini" hidden>REINICIAR</button>
@@ -392,14 +510,14 @@ footer{font-size:12px;color:var(--mut);line-height:1.6;border-top:1px solid var(
       </div>
     </section>
 
-    <section class="jogar" aria-label="Entre no ringue">
+    <section class="jogar so-luta" aria-label="Entre no ringue">
       <div class="jh"><h2>ENTRE NO RINGUE</h2><div data-slot="ctrlopts"></div></div>
-      <div data-slot="pad"></div>
+      <div id="padD" hidden></div>
       <p class="ajuda" id="ajudaD">Escolha um candidato para lutar com ele pelo teclado ou pelos botões, ao vivo ou no replay.</p>
     </section>
 
-    <section class="paineis">
-      <div class="painel cheio2" data-slot="previsao"></div>
+    <section class="paineis so-luta">
+      <div class="painel cheio2" data-slot="previsao" data-modo="luta"></div>
       <div class="painel cheio2">
         <div class="ph"><h2>ESTADOS</h2><div data-slot="modos"></div></div>
         <div data-slot="mapa"></div>
@@ -419,9 +537,32 @@ footer{font-size:12px;color:var(--mut);line-height:1.6;border-top:1px solid var(
       </div>
     </section>
 
+    <section class="cal so-espera" aria-label="Calendário até o 2º turno">
+      <div class="calh">
+        <div class="calt" data-slot="dia"></div>
+        <div class="btns">
+          <button type="button" class="seta" data-dia="-1" aria-label="Dia anterior">&lt;</button>
+          <button type="button" class="seta" data-dia="1" aria-label="Próximo dia">&gt;</button>
+          <button type="button" class="btn verde mont" data-mont>PAUSAR MONTAGEM</button>
+          <button type="button" class="som" data-som>SOM OFF</button>
+        </div>
+      </div>
+      <div class="faixa" data-slot="dias"></div>
+      <button type="button" class="btn ouro dia25" data-luta2 hidden>ASSISTIR A APURAÇÃO DO 2º TURNO</button>
+    </section>
+
+    <section class="treino so-espera">
+      <div class="painel cheio2" data-slot="sala"></div>
+      <div class="lateral">
+        <div class="painel cheio2" data-slot="palpite"></div>
+        <div class="painel cheio2 torcida"><h2>TORCIDA</h2><div data-slot="torc"></div><p class="ajuda">Cada toque solta confete na tela. Não conta voto.</p></div>
+        <div class="painel cheio2" data-slot="previsao" data-modo="espera"></div>
+      </div>
+    </section>
+
     <footer>
       <span>Dados oficiais do TSE, coletados a cada 15 segundos. O placar do Brasil soma os arquivos dos estados, que saem antes do nacional.</span>
-      <span>Atalhos: Espaço play/pausa · R reinicia · A S D F G Q W golpes · E defesa</span>
+      <span id="atalhos">Atalhos: Espaço play/pausa · R reinicia · letras nos botões = golpes · E defesa</span>
       <span>Resultados oficiais: <a class="fonte" href="https://resultados.tse.jus.br/oficial/app/index.html#/eleicao/6257/uf/br/cargo/1/vis/nominal/resultados" target="_blank" rel="noopener">TSE</a></span>
     </footer>
   </main>
@@ -433,7 +574,12 @@ footer{font-size:12px;color:var(--mut);line-height:1.6;border-top:1px solid var(
       <div class="mmarca"><i></i><b>Apuração 2026</b></div>
       <span class="online" title="Pessoas no site agora"><span class="vivo"></span><b id="onM">—</b><span>online</span></span>
     </div>
-    <div class="mplacar">
+    <div class="mcd so-espera">
+      <div class="mid a"><span class="mnum" id="mcNumA">13</span><span class="mcn"><span class="mnome" id="mcNomeA">LULA</span><span class="mr1" id="mR1A">—</span></span></div>
+      <div class="mcdc"><span class="rd">2º TURNO · 25/10</span><span id="mCd">—</span></div>
+      <div class="mid b"><span class="mnum" id="mcNumB">22</span><span class="mcn"><span class="mnome" id="mcNomeB">FLÁVIO</span><span class="mr1" id="mR1B">—</span></span></div>
+    </div>
+    <div class="mplacar so-luta">
       <div class="mlado a">
         <div class="mid"><span class="mnum" id="mNumA">13</span><span class="mnome" id="mNomeA">LULA</span></div>
         <div class="mpct" id="mPctA">0,00%</div>
@@ -448,7 +594,7 @@ footer{font-size:12px;color:var(--mut);line-height:1.6;border-top:1px solid var(
         <div class="mpct" id="mPctB">0,00%</div>
       </div>
     </div>
-    <div class="mcabo">
+    <div class="mcabo so-luta">
       <div class="mtrilho">
         <div class="mfundo"><i id="mBarA" style="width:0"></i><i id="mBarB" style="width:0"></i></div>
         <div class="mmeio"></div>
@@ -456,60 +602,70 @@ footer{font-size:12px;color:var(--mut);line-height:1.6;border-top:1px solid var(
       <div class="msup"><div class="segs" id="mSupA"></div><span id="mSupT">ESPECIAL</span><div class="segs r" id="mSupB"></div></div>
     </div>
     <div class="mringue" data-slot="cv"></div>
-    <div data-slot="pad"></div>
+    <div id="padM" class="so-luta" hidden></div>
   </div>
 
   <div class="mcorpo">
-    <div class="mbtns">
-      <button type="button" class="btn verde" id="mPlay">REPLAY</button>
-      <button type="button" class="btn laranja on" id="mVivo">AO VIVO</button>
-      <button type="button" class="vel1" id="mVel" aria-label="Velocidade do replay">1×</button>
-      <button type="button" class="som" data-som>SOM OFF</button>
+    <div data-slot="turnos"></div>
+
+    <div class="mesp so-espera">
+      <div data-slot="dia"></div>
+      <div class="mdia">
+        <button type="button" class="seta" data-dia="-1" aria-label="Dia anterior">&lt;</button>
+        <button type="button" class="btn verde mont" data-mont>PAUSAR MONTAGEM</button>
+        <button type="button" class="seta" data-dia="1" aria-label="Próximo dia">&gt;</button>
+        <button type="button" class="som" data-som>SOM OFF</button>
+      </div>
+      <div class="faixa" data-slot="dias"></div>
+      <button type="button" class="btn ouro" data-luta2 hidden>ASSISTIR A APURAÇÃO DO 2º TURNO</button>
+      <div data-slot="torc"></div>
+      <div class="msec" data-slot="sala"></div>
+      <div class="msec" data-slot="palpite"></div>
+      <div class="msec" data-slot="previsao" data-modo="espera"></div>
     </div>
-    <div class="mtempo">
-      <div data-slot="trk"></div>
-      <div class="mtl"><span id="mtIni">17:00</span><span id="mClock">CONECTANDO</span><span id="mtFim">--:--</span></div>
+
+    <div class="mluta so-luta">
+      <div class="mbtns">
+        <button type="button" class="btn verde" id="mPlay">REPLAY</button>
+        <button type="button" class="btn laranja on" id="mVivo">AO VIVO</button>
+        <button type="button" class="vel1" id="mVel" aria-label="Velocidade do replay">1×</button>
+        <button type="button" class="som" data-som>SOM OFF</button>
+      </div>
+      <div class="mtempo">
+        <div data-slot="trk"></div>
+        <div class="mtl"><span id="mtIni">17:00</span><span id="mClock">CONECTANDO</span><span id="mtFim">--:--</span></div>
+      </div>
+      <button type="button" class="btn ouro" id="mR2" hidden>IR PARA O 2º TURNO</button>
+      <div data-slot="escolha" style="display:flex;min-width:0"></div>
+      <div data-slot="brline"></div>
+      <div data-slot="outros"></div>
+      <div class="mjogar">
+        <span>ENTRE NO RINGUE</span>
+        <div data-slot="ctrlopts"></div>
+        <p id="ajudaM" hidden>Os botões ficam embaixo do ringue. Segure DEFESA para bloquear. Seus golpes não mudam a apuração.</p>
+      </div>
+      <div class="seg mabas" id="abas">
+        <button type="button" data-aba="previsao" class="on">PREVISÃO</button><button type="button" data-aba="estados">ESTADOS</button><button type="button" data-aba="lances">LANCES</button><button type="button" data-aba="regioes">REGIÕES</button><button type="button" data-aba="luta">LUTA</button>
+      </div>
+      <div class="maba" data-painel="previsao"><div data-slot="previsao" data-modo="luta"></div></div>
+      <div class="maba" data-painel="estados" hidden><div class="mmodos" data-slot="modos"></div><div data-slot="mapa"></div></div>
+      <div class="maba" data-painel="lances" hidden><div data-slot="feed"></div></div>
+      <div class="maba" data-painel="regioes" hidden><div data-slot="regioes"></div></div>
+      <div class="maba" data-painel="luta" hidden><div><div data-slot="stats"></div><p class="nota">Os golpes são encenação. Quem lidera a apuração ataca mais; quem está atrás defende mais.</p></div></div>
     </div>
-    <button type="button" class="btn ouro" id="mR2" hidden>IR PARA O 2º TURNO</button>
-    <div class="mesc"><div data-slot="turnos"></div><div data-slot="escolha" style="flex:1;min-width:0;display:flex"></div></div>
-    <div data-slot="brline"></div>
-    <div data-slot="outros"></div>
-    <div class="mjogar">
-      <span>ENTRE NO RINGUE</span>
-      <div data-slot="ctrlopts"></div>
-      <p id="ajudaM" hidden>Os botões ficam embaixo do ringue. Segure DEFESA para bloquear. Seus golpes não mudam a apuração.</p>
-    </div>
-    <div class="seg mabas" id="abas">
-      <button type="button" data-aba="previsao" class="on">PREVISÃO</button><button type="button" data-aba="estados">ESTADOS</button><button type="button" data-aba="lances">LANCES</button><button type="button" data-aba="regioes">REGIÕES</button><button type="button" data-aba="luta">LUTA</button>
-    </div>
-    <div class="maba" data-painel="previsao"><div data-slot="previsao"></div></div>
-    <div class="maba" data-painel="estados" hidden><div class="mmodos" data-slot="modos"></div><div data-slot="mapa"></div></div>
-    <div class="maba" data-painel="lances" hidden><div data-slot="feed"></div></div>
-    <div class="maba" data-painel="regioes" hidden><div data-slot="regioes"></div></div>
-    <div class="maba" data-painel="luta" hidden><div><div data-slot="stats"></div><p class="nota">Os golpes são encenação. Quem lidera a apuração ataca mais; quem está atrás defende mais.</p></div></div>
     <div class="mrodape">Dados oficiais do TSE, atualizados sozinhos. O placar do Brasil soma os arquivos dos estados, que saem antes do nacional. Resultados oficiais: <a class="fonte" href="https://resultados.tse.jus.br/oficial/app/index.html#/eleicao/6257/uf/br/cargo/1/vis/nominal/resultados" target="_blank" rel="noopener">TSE</a></div>
   </div>
 </div>
 
-<!-- peças que mudam de lugar entre o layout do computador e o do celular -->
+<!-- peças que mudam de lugar entre o layout do computador e o do celular (e entre a luta e o intervalo) -->
 <div id="pecas">
-  <canvas id="cv" data-peca="cv" role="img" aria-label="Ringue em pixel art: os dois candidatos mais votados lutam conforme a apuração avança"></canvas>
-  <div class="seg" id="turnos" data-peca="turnos"><button type="button" data-turno="1" class="on">1º TURNO</button><button type="button" data-turno="2" disabled>2º TURNO</button></div>
+  <canvas id="cv" data-peca="cv" role="img" aria-label="Ringue em pixel art: os dois candidatos mais votados lutam conforme a apuração avança; no intervalo, treinam para o 2º turno"></canvas>
+  <div class="seg" id="turnos" data-peca="turnos"><button type="button" data-turno="espera" hidden>INTERVALO</button><button type="button" data-turno="1" class="on">1º TURNO</button><button type="button" data-turno="2" disabled>2º TURNO</button></div>
   <select id="escolha" data-peca="escolha" aria-label="Escolher Brasil, região ou estado"></select>
   <div id="brline" data-peca="brline" hidden><span><span class="k">BRASIL </span><span class="v" id="brv"></span></span><button type="button" class="link" id="verBR">VER BRASIL</button></div>
   <div id="outros" data-peca="outros"></div>
   <div id="trk" data-peca="trk"><div id="marcas"></div><input type="range" id="scrub" min="0" max="1000" step="1" value="1000" aria-label="Linha do tempo da apuração"></div>
   <div class="seg" id="ctrlopts" data-peca="ctrlopts"><button type="button" data-ctrl="" class="on">ASSISTIR</button><button type="button" data-ctrl="A" id="ctrlA">LULA</button><button type="button" data-ctrl="B" id="ctrlB">FLÁVIO</button></div>
-  <div id="pad" data-peca="pad" hidden>
-    <button type="button" data-mv="punch"><span>SOCO</span><kbd>A</kbd></button>
-    <button type="button" data-mv="hook"><span>GANCHO</span><kbd>S</kbd></button>
-    <button type="button" data-mv="upper"><span>UPPERCUT</span><kbd>D</kbd></button>
-    <button type="button" data-mv="low"><span>CHUTE BAIXO</span><kbd>F</kbd></button>
-    <button type="button" data-mv="high"><span>CHUTE ALTO</span><kbd>G</kbd></button>
-    <button type="button" data-mv="duck"><span>ESQUIVA</span><kbd>Q</kbd></button>
-    <button type="button" data-mv="special" class="esp" id="bEsp"><span id="bEspT">ESPECIAL</span><kbd>W</kbd></button>
-    <button type="button" class="def" id="bDef"><span>DEFESA</span><kbd>E</kbd></button>
-  </div>
   <div class="seg" id="modos" data-peca="modos"><button type="button" data-modo="lead" class="on">LIDERANÇA</button><button type="button" data-modo="count">APURAÇÃO</button></div>
   <div id="mapa" data-peca="mapa">
     <div id="grade"></div>
@@ -532,6 +688,28 @@ footer{font-size:12px;color:var(--mut);line-height:1.6;border-top:1px solid var(
     <div class="pv-h">PROJEÇÃO POR REGIÃO · % APURADO · VOTOS QUE FALTAM</div>
     <div id="pvTab"></div>
     <p class="nota">Projeção matemática feita com os números do TSE: não é pesquisa nem resultado oficial. Em cada estado, os votos que faltam (estimados pelas seções que faltam) se dividem como os das últimas urnas apuradas nele, com todos os candidatos na conta. As chances vêm de 1.200 simulações com variação nacional e por estado. Para o 2º turno, sem dado sobre para onde vão os eleitores dos outros candidatos, toda divisão desses votos é tratada como igualmente provável.</p>
+  </div>
+  <div id="dia" data-peca="dia"><span id="diaK"></span><span id="diaT"></span><span id="diaX"></span></div>
+  <div id="dias" data-peca="dias"></div>
+  <div class="duas" id="torc" data-peca="torc"><button type="button" class="btn tor a" data-torce="A" id="torA">VAI LULA</button><button type="button" class="btn tor b" data-torce="B" id="torB">VAI FLÁVIO</button></div>
+  <div id="sala" data-peca="sala">
+    <div class="salah">
+      <h2>SALA DE GOLPES · <span id="salaN">25</span><span class="so-desk"> GOLPES</span></h2>
+      <div class="salab">
+        <div class="seg" id="demoOpts"><button type="button" data-demo="A" id="demoA">LULA</button><button type="button" data-demo="B" id="demoB">FLÁVIO</button></div>
+        <button type="button" class="btn laranja" id="bAuto">VER TODOS OS GOLPES</button>
+      </div>
+    </div>
+    <div class="grupos" id="golpes"></div>
+    <div class="salap">
+      <button type="button" class="link" id="bVolta" hidden>VOLTAR AO TREINO DO DIA</button>
+      <p class="ajuda">Toque num golpe ou use o teclado para ver no ringue. No dia 25 você joga com todos eles.</p>
+    </div>
+  </div>
+  <div id="palpite" data-peca="palpite">
+    <h2>SEU PALPITE</h2>
+    <div class="duas"><button type="button" class="pal" data-pal="A" id="palA">LULA</button><button type="button" class="pal" data-pal="B" id="palB">FLÁVIO</button></div>
+    <p class="ajuda" id="palTxt">Quem vence o 2º turno? O palpite fica salvo só neste aparelho.</p>
   </div>
 </div>
 
@@ -584,7 +762,86 @@ const MV = {
   low: { hit: 0.12, end: 0.32, limb: 'fF', low: 1, kb: 5 },
   high: { hit: 0.16, end: 0.42, limb: 'fF', high: 1, kb: 10, big: 1 },
   special: { hit: 0.3, end: 0.6, limb: 'gF', proj: 1, kb: 14, big: 1 },
+  body: { hit: 0.12, end: 0.32, limb: 'gB', kb: 5, react: 'hitb' },
+  overhand: { hit: 0.17, end: 0.4, limb: 'gB', high: 1, kb: 8, big: 1 },
+  backfist: { hit: 0.2, end: 0.42, limb: 'gF', high: 1, kb: 8, big: 1, step: 5 },
+  superman: { hit: 0.2, end: 0.45, limb: 'gB', high: 1, kb: 9, big: 1, step: 8 },
+  teep: { hit: 0.14, end: 0.38, limb: 'fF', kb: 13, react: 'hitb' },
+  spin: { hit: 0.2, end: 0.48, limb: 'fB', high: 1, kb: 13, big: 1 },
+  knee: { hit: 0.14, end: 0.36, limb: 'kF', kb: 6, step: 7, react: 'hitb' },
+  flyknee: { hit: 0.22, end: 0.5, limb: 'kF', high: 1, kb: 10, big: 1, step: 8, launch: 1, lv: 150, lx: 60 },
+  elbow: { hit: 0.1, end: 0.3, limb: 'eF', high: 1, kb: 6, step: 8 },
+  sweep: { hit: 0.16, end: 0.45, limb: 'fF', low: 1, kb: 3, ub: 1, react: 'down' },
+  drop: { hit: 0.24, end: 0.7, limb: 'fF', high: 1, kb: 12, big: 1, launch: 1, step: 4, lv: 140, lx: 90 },
+  throw: { hit: 0.16, end: 0.5, limb: 'gF', ub: 1, kb: 6, big: 1, launch: 1, step: 8, lv: 200, lx: 75 },
+  combo3: { hits: [0.07, 0.16, 0.27], end: 0.4, limbs: ['gF', 'gB', 'gF'], high: 1, kb: 3 },
+  flurry: { hits: [0.06, 0.12, 0.18, 0.24, 0.3, 0.36], end: 0.48, limbs: ['gF', 'gB', 'gF', 'gB', 'gF', 'gB'], high: 1, kb: 1.5 },
+  bomb: { hit: 0.34, end: 0.62, limb: 'gB', high: 1, kb: 16, big: 1, react: 'dizzy' },
+  rising: { hit: 0.14, end: 0.56, limb: 'gB', kb: 8, big: 1, launch: 1, lv: 190, lx: 30 },
+  taunt: { hit: 99, end: 0.8, taunt: 1 },
+  ultra: { hits: [0.4, 0.55, 0.7, 0.85], end: 1.05, rain: 1, kb: 4, big: 1, lv: 170, lx: 50 },
 };
+// nome que aparece no ringue quando o golpe sai (os básicos só aparecem na sala de golpes)
+const MVN = { jab: 'JAB', cross: 'DIRETO', hook: 'GANCHO', upper: 'UPPERCUT', low: 'CHUTE BAIXO', high: 'CHUTE ALTO', body: 'SOCO NO CORPO', overhand: 'OVERHAND', backfist: 'SOCO GIRATÓRIO', superman: 'SOCO VOADOR', teep: 'CHUTE FRONTAL', spin: 'CHUTE GIRATÓRIO', knee: 'JOELHADA', flyknee: 'JOELHADA VOADORA', elbow: 'COTOVELADA', sweep: 'RASTEIRA', drop: 'VOADORA', throw: 'ARREMESSO', combo3: 'SEQUÊNCIA 1-2-3', flurry: 'METRALHADORA', bomb: 'SOCO BOMBA', rising: 'UPPER VOADOR', taunt: 'PROVOCAÇÃO' };
+const BASIC = { jab: 1, cross: 1, hook: 1, low: 1 };
+const NOACT = { ko: 1, win: 1, hit: 1, hitb: 1, air: 1, down: 1, getup: 1, dizzy: 1 }; // poses em que não dá para atacar
+// [grupo, [[golpe, rótulo, tecla]]]: os botões da sala de golpes e do controle, na mesma ordem
+const GOLPES = [
+  ['SOCOS', [['punch', 'SOCO', 'A'], ['hook', 'GANCHO', 'S'], ['upper', 'UPPERCUT', 'D'], ['body', 'NO CORPO', 'Z'], ['overhand', 'OVERHAND', 'H'], ['backfist', 'GIRATÓRIO', 'J'], ['combo3', '1-2-3', 'T'], ['flurry', 'METRALHADORA', 'Y'], ['bomb', 'SOCO BOMBA', 'U']]],
+  ['CHUTES, JOELHO E COTOVELO', [['low', 'CHUTE BAIXO', 'F'], ['high', 'CHUTE ALTO', 'G'], ['teep', 'CHUTE FRONTAL', 'V'], ['spin', 'CHUTE GIRATÓRIO', 'K'], ['sweep', 'RASTEIRA', 'B'], ['knee', 'JOELHADA', 'C'], ['elbow', 'COTOVELADA', 'X']]],
+  ['AÉREOS E AGARRÃO', [['superman', 'SOCO VOADOR', 'L'], ['rising', 'UPPER VOADOR', 'I'], ['flyknee', 'JOELHADA VOADORA', 'O'], ['drop', 'VOADORA', 'P'], ['throw', 'ARREMESSO', 'N']]],
+  ['ESPECIAIS E ATITUDE', [['special', 'ESPECIAL', 'W'], ['ultra', 'ULTRA', '1'], ['taunt', 'PROVOCAÇÃO', 'M'], ['duck', 'ESQUIVA', 'Q']]],
+];
+const KEYS = {}, KEYF = {}, GL = {};
+for (const [, itens] of GOLPES) for (const [mv, lb, key] of itens) { KEYS[key.toLowerCase()] = mv; KEYF[mv] = key; GL[mv] = lb; }
+const N_GOLPES = Object.keys(GL).length;
+const MAIN = ['punch', 'hook', 'upper', 'low', 'high', 'duck', 'special']; // botões grandes do celular; os outros vão na faixa de baixo
+// golpes que a luta automática escolhe, com o peso de cada um
+const PICK = [['jab', 15], ['cross', 12], ['hook', 9], ['body', 8], ['low', 7], ['high', 5], ['upper', 5], ['overhand', 5], ['combo3', 5], ['elbow', 4], ['knee', 4], ['teep', 4], ['backfist', 3], ['superman', 3], ['spin', 3], ['flurry', 3], ['sweep', 3], ['flyknee', 2], ['throw', 2], ['drop', 2], ['rising', 2], ['bomb', 2], ['taunt', 2]];
+const PICK_T = PICK.reduce((s, x) => s + x[1], 0);
+const DEMO = ['jab', 'cross', 'hook', 'upper', 'body', 'overhand', 'backfist', 'combo3', 'flurry', 'bomb', 'low', 'high', 'teep', 'spin', 'sweep', 'knee', 'elbow', 'superman', 'rising', 'flyknee', 'drop', 'throw', 'taunt', 'special', 'ultra'];
+const SOMBRA = ['jab', 'cross', 'hook', 'upper', 'body', 'overhand', 'backfist', 'elbow', 'knee', 'teep', 'high', 'spin', 'superman', 'combo3', 'flyknee', 'sweep', 'bomb', 'rising', 'drop', 'flurry'];
+const FALAS = ['BLÁ BLÁ BLÁ', 'NÃO É BEM ASSIM!', 'OS NÚMEROS MOSTRAM...', 'VAMOS FALAR DE PROPOSTA', 'DIREITO DE RESPOSTA!', 'O POVO SABE', 'ISSO É FAKE!', 'DEIXA EU TERMINAR'];
+// figurantes: juiz, técnico (de luva) e técnico de mão livre
+const PALX = {
+  R: { skin: '#D19A74', skinD: '#A57352', hair: '#4A4038', brow: '#3A342E', beard: false, shirt: '#E9E4DA', shirtD: '#BDB6AA', shorts: '#1A1714', glove: '#D19A74', gloveD: '#A57352', shoe: '#1A1714', leg: '#1A1714', legD: '#100E0C', belt: '#3A342E', hand: 1, tie: 1 },
+  C: { skin: '#A87454', skinD: '#80553C', hair: '#1A1714', brow: '#1A1714', beard: false, shirt: '#3A342E', shirtD: '#2A2622', shorts: '#2A2622', glove: '#E8833A', gloveD: '#A85E28', shoe: '#1A1714', leg: '#2A2622', legD: '#1E1B18', belt: '#4A4038' },
+};
+PALX.CH = { ...PALX.C, glove: PALX.C.skin, gloveD: PALX.C.skinD, hand: 1 };
+// tons de cena por candidato: [palco, púlpito, torcedor]
+const TONS = { 13: ['#3A1C1D', '#2A1C1D', '#4E2224'], 22: ['#1C2A48', '#1C2436', '#1E2E58'] };
+const DIG = { 0: '111101101101111', 1: '010110010010111', 2: '111001111100111', 3: '111001011001111', 4: '101101111001001', 5: '111100111001111', 6: '111100111101111', 7: '111001001001001', 8: '111101111101111', 9: '111101111001111' };
+
+// ---------- intervalo entre os turnos: um treino por dia até a luta ----------
+const FECHA2 = Date.parse('2026-10-25T17:00:00-03:00'); // urnas do 2º turno fecham (o servidor manda o horário certo em turnos)
+const WDN = { SEG: 'segunda', TER: 'terça', QUA: 'quarta', QUI: 'quinta', SEX: 'sexta', 'SÁB': 'sábado', DOM: 'domingo' };
+// [dia de outubro, dia da semana, cena, título, texto]
+const DAYS = [
+  [5, 'SEG', 'corner', 'Corner', 'Depois do 1º turno, cada um no seu corner: toalha, água e conversa com o técnico.'],
+  [6, 'TER', 'coletiva', 'Coletiva', 'Entrevista dos dois lados. Muita câmera, muito flash.'],
+  [7, 'QUA', 'saco', 'Saco de pancadas', 'Volta o treino pesado: jab, direto, gancho e sequência no saco.'],
+  [8, 'QUI', 'corda', 'Pular corda', 'Fôlego para três semanas de campanha.'],
+  [9, 'SEX', 'comicio', 'Comício', 'Palanque cheio, bandeira e confete nos dois lados.'],
+  [10, 'SÁB', 'corrida', 'Corrida', 'Treino de rua. A liderança troca de mão a cada quarteirão.'],
+  [11, 'DOM', 'debate', 'Treino de debate', 'Cada um com seu tempo, e o relógio correndo.'],
+  [12, 'SEG', 'flexao', 'Flexões', 'Treino de força, com contagem em voz alta.'],
+  [13, 'TER', 'manopla', 'Manopla', 'O técnico segura a manopla e o candidato descarrega.'],
+  [14, 'QUA', 'sombra', 'Luta de sombra', 'Golpes no ar, ensaiando cada movimento do 2º turno.'],
+  [15, 'QUI', 'coletiva', 'Entrevistas', 'Mais uma rodada de perguntas. Os flashes não param.'],
+  [16, 'SEX', 'comicio', 'Comício', 'Mais um palanque, agora com a torcida maior.'],
+  [17, 'SÁB', 'saco', 'Saco de pancadas', 'Saco novo. O antigo não aguentou.'],
+  [18, 'DOM', 'debate', 'Treino de debate', 'Direito de resposta pedido a cada minuto.'],
+  [19, 'SEG', 'corda', 'Pular corda', 'Ritmo mais rápido: falta menos de uma semana.'],
+  [20, 'TER', 'corrida', 'Corrida', 'Mais uma corrida lado a lado.'],
+  [21, 'QUA', 'manopla', 'Manopla', 'Ajuste fino nos golpes de finalização.'],
+  [22, 'QUI', 'debate', 'Último treino de debate', 'O último ensaio de palanque antes da luta.'],
+  [23, 'SEX', 'pesagem', 'Pesagem', 'Os dois sobem na balança. O visor só mostra o número.'],
+  [24, 'SÁB', 'vespera', 'Véspera', 'Noite antes da luta. Luz apagada e descanso.'],
+  [25, 'DOM', 'encarada', 'Dia da luta', 'Urnas abertas das 8h às 17h. Depois, a apuração.'],
+];
+// índice de hoje (data de Brasília) no calendário: negativo antes de 5/10, maior que 20 depois de 25/10
+function diaIdx() { const d = new Date(Date.now() - 3 * 3600e3); d.setUTCHours(0, 0, 0, 0); return Math.round((d.getTime() - Date.UTC(2026, 9, 5)) / 864e5); }
+const diaHoje = () => Math.max(0, Math.min(DAYS.length - 1, diaIdx()));
 
 // ---------- Brasil, regiões e UFs (mesmas chaves da API) ----------
 const REGIOES = [
@@ -619,16 +876,22 @@ const ZP = { t: 0, ht: '', def: 0, fim: 0, d: {} };
 const ZE = { st: 0, ts: 0, pst: 0, vv: 0, c: 0, ab: 0, b: 0, nu: 0, votos: {}, A: 0, B: 0, ap: 0, bp: 0, has: false, tot: 0, fim: false, sem: true };
 
 // ---------- motor da luta ----------
+const st0 = () => ({ g: 0, d: 0, e: 0, s: 0, c: 0, q: 0 });
+const lim60 = (v) => Math.max(-60, Math.min(60, v));
 class Luta {
   constructor(cv) {
     this.cv = cv; this.W = 320; this.H = 150; this.FLOOR = 132;
     this.scope = 'br'; this.ctrl = null; this.snd = false; this.ac = null;
+    // modo: 'luta' (apuração) ou 'espera' (intervalo até o 2º turno); no intervalo, vista 'cena' (treino do dia) ou 'treino' (sala de golpes)
+    this.modo = 'luta'; this.vista = 'cena'; this.dia = diaHoje(); this.montagem = true; this.demoK = 'A'; this.autoDemo = false; this.palpite = null;
     this.ev = null; this.cache = new Map(); this.ckey = ''; this._fx = null; this.iniciado = false; this.pendFinal = false;
-    const E = this.E = { mode: 'live', tau: 0, idx: 0, playing: false, speed: 1, ended: false, center: 160, banners: [], parts: [], floats: [], flashes: [], callouts: [], proj: [], shake: 0, cheer: { A: 0, B: 0 }, nextAtk: 1, T: 0 };
+    const E = this.E = { mode: 'live', tau: 0, idx: 0, playing: false, speed: 1, ended: false, center: 160, banners: [], parts: [], floats: [], flashes: [], callouts: [], proj: [], drops: [], shake: 0, slow: 0, cheer: { A: 0, B: 0 }, nextAtk: 1, T: 0, koW: null, koT: 0, refN: null };
     E.f = { A: this.mkF('A'), B: this.mkF('B') };
+    E.ref = this.act('R', 224, -1, 'ref', { pal: 'R' });
     this.bufC = document.createElement('canvas'); this.bufC.width = this.W; this.bufC.height = this.H; this.buf = this.bufC.getContext('2d');
     this.buildBG();
     this.setLutadores(['13', '22']);
+    this.setScene(DAYS[this.dia][2]);
     this.cur = this.view(0);
     this.last = performance.now();
     const loop = (now) => { requestAnimationFrame(loop); this.frame(now); };
@@ -639,6 +902,7 @@ class Luta {
   cheio(n) { return COMPLETO[n] || titulo((S.cand[n] || {}).completo || ''); }
   rotulo(n) { return COMPLETO[n] || titulo((S.cand[n] || {}).nome || n); }
   nk(k) { return this.nome(k === 'A' ? this.nA : this.nB); }
+  num(k) { return k === 'A' ? this.nA : this.nB; }
   oth(k) { return k === 'A' ? 'B' : 'A'; }
 
   setLutadores([a, b]) {
@@ -651,8 +915,11 @@ class Luta {
     const lid = (c) => [shade(c, -0.55), shade(c, -0.25), c];
     this.LID = { A: LIDER[a] || lid(this.cor.A), B: LIDER[b] || lid(this.cor.B) };
     this.ESP = { A: ESPECIAL[a] || `ESPECIAL ${a}!`, B: ESPECIAL[b] || `ESPECIAL ${b}!` };
+    this.ULT = { A: FOGUETE[a] ? 'CHUVA DE FOGUETES!' : 'CHUVA DE ESTRELAS!', B: FOGUETE[b] ? 'CHUVA DE FOGUETES!' : 'CHUVA DE ESTRELAS!' };
+    const tons = (c) => [shade(c, -0.75), shade(c, -0.8), shade(c, -0.65)];
+    this.TONS = { A: TONS[a] || tons(this.cor.A), B: TONS[b] || tons(this.cor.B) };
     this.ev = null;
-    this.buildRopes(); this.buildCrowd();
+    this.buildRopes(); this.buildCrowd(); this.buildGym(); this.buildStudio();
     UI.lutadores(this);
   }
 
@@ -827,18 +1094,18 @@ class Luta {
   }
 
   mkF(k) {
-    return { k, facing: k === 'A' ? 1 : -1, x: 160 + (k === 'A' ? -18 : 18), kx: 0, pose: 'idle', pt: 0, hit: false, fall: 0, flash: 0, phase: k === 'A' ? 0 : 1.7,
-      lastV: 0, lastSV: 0, big: false, sup: 0, combo: 0, comboT: 9, holdT: 0, hold: false, q: null, alt: 0, ctrl: false, st: { g: 0, d: 0, e: 0, s: 0, c: 0 } };
+    return { k, facing: k === 'A' ? 1 : -1, x: 160 + (k === 'A' ? -18 : 18), kx: 0, pose: 'idle', pt: 0, hit: false, hn: 0, fall: 0, ay: 0, avy: 0, avx: 0, rot: 0, flash: 0, phase: k === 'A' ? 0 : 1.7,
+      lastV: 0, lastSV: 0, big: false, sup: 0, combo: 0, comboT: 9, holdT: 0, hold: false, q: null, alt: 0, ctrl: false, st: st0() };
   }
   // começa uma luta nova na mesma posição (troca de área, replay, ao vivo): poses, especial e estatísticas zerados
   resetPoses() {
     const E = this.E, v = this.view(E.idx);
-    E.ended = false; E.floats = []; E.proj = []; E.callouts = []; E.cheer.A = 0; E.cheer.B = 0;
+    E.ended = false; E.floats = []; E.proj = []; E.drops = []; E.callouts = []; E.cheer.A = 0; E.cheer.B = 0; E.koW = null; E.koT = 0; E.slow = 0; E.refN = null;
     E.banners = E.banners.filter((b) => b.intro);
-    E.center = 160 + Math.max(-60, Math.min(60, (v.has ? v.ap - v.bp : 0) * 5));
+    E.center = 160 + (this.modo === 'luta' ? lim60((v.has ? v.ap - v.bp : 0) * 5) : 0);
     for (const k of ['A', 'B']) {
       const f = E.f[k];
-      Object.assign(f, { pose: f.ctrl && f.hold ? 'block' : 'idle', pt: 0, fall: 0, kx: 0, hit: false, q: null, combo: 0, comboT: 9, sup: 0, lastV: v[k], lastSV: v[k], st: { g: 0, d: 0, e: 0, s: 0, c: 0 } });
+      Object.assign(f, { pose: f.ctrl && f.hold ? 'block' : 'idle', pt: 0, fall: 0, kx: 0, ay: 0, avy: 0, avx: 0, rot: 0, hit: false, hn: 0, q: null, combo: 0, comboT: 9, sup: 0, lastV: v[k], lastSV: v[k], st: st0() });
     }
   }
   intro() {
@@ -855,6 +1122,7 @@ class Luta {
     this.escolher();
     UI.lutadores(this);
     const E = this.E, ult = Math.max(0, S.hist.length - 1);
+    if (this.modo === 'espera') { E.idx = ult; this.iniciado = false; return this.push(true); } // no intervalo a luta fica parada
     if (!this.iniciado) {
       if (!S.hist.length) return this.push(true);
       this.iniciado = true; E.idx = ult; this.resetPoses(); this.intro(); this.pendFinal = true;
@@ -896,17 +1164,19 @@ class Luta {
   finish(instant) {
     const E = this.E, r = this.desfecho(E.idx);
     if (!r) return;
-    E.ended = true; E.proj = [];
-    for (const k of ['A', 'B']) Object.assign(E.f[k], { pose: 'idle', pt: 0, q: null });
+    E.ended = true; E.proj = []; E.drops = [];
+    if (!instant) E.slow = 1.1; // câmera lenta no golpe final
+    for (const k of ['A', 'B']) Object.assign(E.f[k], { pose: 'idle', pt: 0, q: null, ay: 0, avy: 0, avx: 0, rot: 0, fall: 0 });
     const age = instant ? 1 : 0, EM = ALL[this.scope].em.toUpperCase(), N = r.n ? this.nome(r.n).toUpperCase() : '';
     if (r.tipo === 'ko') {
       const w = r.n === this.nA ? 'A' : r.n === this.nB ? 'B' : null;
       if (w) {
         const o = this.oth(w);
         Object.assign(E.f[o], { pose: 'ko', pt: instant ? 1 : 0, kx: E.f[w].facing * 14 });
-        E.f[w].pose = 'win'; E.cheer[w] = 1e9;
+        E.f[w].pose = 'win'; E.cheer[w] = 1e9; E.koW = w; E.koT = instant ? 9 : 0; // o juiz conta até 10 e levanta o braço do vencedor
       }
-      const sub = this.scope === 'br' ? (S.turno === 2 ? `${N} ELEITO PRESIDENTE` : `${N} ELEITO NO 1º TURNO`) : `${N} VENCE ${EM}`;
+      let sub = this.scope === 'br' ? (S.turno === 2 ? `${N} ELEITO PRESIDENTE` : `${N} ELEITO NO 1º TURNO`) : `${N} VENCE ${EM}`;
+      if (this.scope === 'br' && S.turno === 2 && this.palpite) sub += this.palpite === r.n ? ' · PALPITE CERTO' : ' · PALPITE ERRADO';
       E.banners = [{ text: 'K.O.!', sub, dur: 0, age }];
       if (!instant) this.sfx('ko');
     } else {
@@ -956,11 +1226,12 @@ class Luta {
     if (!ALL[id] || id === this.scope) return;
     const E = this.E;
     this.scope = id; this.ev = null;
+    UI.guardar();
+    if (this.modo === 'espera') return this.push(true); // no intervalo, a área só muda o painel de previsão
     if (E.mode === 'replay') { const [t0, t1] = this.faixa(); E.tau = Math.max(t0, Math.min(t1, E.tau)); E.idx = this.idxAt(E.tau); }
     else E.idx = Math.max(0, S.hist.length - 1);
     E.banners = []; this.resetPoses();
     if (this.finalEm(E.idx)) this.finish(true);
-    UI.guardar();
     this.push(true);
   }
   // troca de turno: a luta recomeça do zero, ao vivo, quando os dados chegarem
@@ -971,12 +1242,31 @@ class Luta {
     this.resetPoses();
     this.push(true);
   }
+  // do intervalo para o ringue: a apuração do 1º turno volta do começo, em replay
+  entrarLuta() {
+    this.modo = 'luta'; this.vista = 'cena'; this.autoDemo = false;
+    const E = this.E;
+    E.parts = []; E.floats = []; E.callouts = [];
+    if (!S.hist.length) { this.iniciado = false; this.resetPoses(); return this.push(true); }
+    this.iniciado = true; this.pendFinal = false;
+    if (this.temReplay()) this.restart(); else this.aoVivo(false);
+  }
+  // da luta para o intervalo: a apuração fica parada e o ringue mostra o treino do dia
+  entrarEspera() {
+    const E = this.E;
+    this.modo = 'espera'; this.vista = 'cena'; this.autoDemo = false;
+    E.mode = 'live'; E.playing = false; E.idx = Math.max(0, S.hist.length - 1); E.banners = [];
+    this.setCtrl(null);
+    this.resetPoses();
+    this.setScene(DAYS[this.dia][2]);
+    this.push(true);
+  }
   setCtrl(k) {
     this.ctrl = k || null;
     for (const x of ['A', 'B']) { const f = this.E.f[x]; f.ctrl = this.ctrl === x; f.hold = false; if (f.pose === 'block' || f.pose === 'duck') { f.pose = 'idle'; f.pt = 0; } }
     this.push(true);
   }
-  margin() { const s = this.cur; return s && s.has ? s.ap - s.bp : 0; }
+  margin() { const s = this.cur; return s && s.has && this.modo === 'luta' ? s.ap - s.bp : 0; }
 
   onKey(e, down) {
     const tg = e.target && e.target.tagName;
@@ -984,27 +1274,33 @@ class Luta {
     const k = (e.key || '').toLowerCase();
     if (k === ' ') {
       e.preventDefault();
-      if (down && !e.repeat) { if (document.activeElement && document.activeElement.blur) document.activeElement.blur(); this.toggle(); }
+      if (down && !e.repeat) { if (document.activeElement && document.activeElement.blur) document.activeElement.blur(); if (this.modo === 'espera') this.toggleMontagem(); else this.toggle(); }
+      return;
+    }
+    if (this.modo === 'espera') {
+      if (!down || e.repeat) return;
+      if (k === 'arrowleft' || k === 'arrowright') { e.preventDefault(); this.setDia(this.dia + (k === 'arrowright' ? 1 : -1)); return; }
+      if (KEYS[k]) { e.preventDefault(); this.demo(this.demoK, KEYS[k]); }
       return;
     }
     if (down && k === 'r' && !e.repeat) { this.restart(); return; }
     if (!this.ctrl) return;
     if (k === 'e') { e.preventDefault(); if (!e.repeat) this.blockHold(down); return; }
-    const map = { a: 'punch', s: 'hook', d: 'upper', f: 'low', g: 'high', q: 'duck', w: 'special' };
-    if (down && map[k] && !e.repeat) { e.preventDefault(); this.pmove(map[k]); }
+    if (down && KEYS[k] && !e.repeat) { e.preventDefault(); this.pmove(KEYS[k]); }
   }
   pmove(n) {
+    if (this.modo === 'espera') return this.demo(this.demoK, n);
     if (!this.ctrl) return;
     const f = this.E.f[this.ctrl];
     if (n === 'duck') { if (f.pose === 'idle' || f.pose === 'block') { f.pose = 'duck'; f.pt = 0; } return; }
     let mv = n;
     if (n === 'punch') { mv = f.alt ? 'cross' : 'jab'; f.alt ^= 1; }
-    if (mv === 'special' && f.sup < 100) { this.float(f.x, this.FLOOR - 66, 'CARREGANDO', '#A39B90'); return; }
+    if ((mv === 'special' || mv === 'ultra') && f.sup < 100) { this.float(f.x, this.FLOOR - 66, 'CARREGANDO', '#A39B90'); return; }
     if (f.pose === 'block') f.pose = 'idle';
     this.startAtk(f, mv); this.push(false);
   }
   blockHold(down) {
-    if (!this.ctrl) return;
+    if (!this.ctrl || this.modo !== 'luta') return;
     const f = this.E.f[this.ctrl];
     f.hold = down;
     if (down && (f.pose === 'idle' || f.pose === 'duck')) { f.pose = 'block'; f.pt = 0; }
@@ -1026,6 +1322,8 @@ class Luta {
       case 'shoot': tone(660, 200, 0.3, 'square', 0.06); noise(0.2, 0.2, 3000, 'bandpass'); break;
       case 'ko': tone(440, 55, 0.9, 'square', 0.1); noise(0.4, 0.5, 600); break;
       case 'bell': tone(1320, 1300, 0.9, 'sine', 0.14); tone(2640, 2600, 0.6, 'sine', 0.05); break;
+      case 'ding': tone(1568, 1560, 0.3, 'sine', 0.07); break;
+      case 'cheer': noise(0.45, 0.12, 1400, 'bandpass'); break;
       case 'virada': tone(392, 392, 0.1, 'square', 0.07); tone(523, 523, 0.1, 'square', 0.07, 0.1); tone(784, 784, 0.2, 'square', 0.07, 0.2); break;
     }
   }
@@ -1048,22 +1346,32 @@ class Luta {
   }
 
   frame(now) {
-    const E = this.E, dt = Math.min(0.05, Math.max(0, (now - this.last) / 1000));
-    this.last = now; E.T += dt;
-    const intro = !!(E.banners[0] && E.banners[0].intro);
-    if (E.mode === 'replay' && E.playing && !intro) {
-      const [t0, t1] = this.faixa();
-      E.tau = Math.min(t1, E.tau + (dt * E.speed * Math.max(1, t1 - t0)) / REPLAY_S);
-      const ni = this.idxAt(E.tau);
-      if (ni !== E.idx) this.avanca(E.idx, ni);
-      if (E.tau >= t1) this.aoVivo(true); else this.push(false);
+    const E = this.E, rdt = Math.min(0.05, Math.max(0, (now - this.last) / 1000));
+    this.last = now;
+    let dt = rdt;
+    if (E.slow > 0) { E.slow -= rdt; dt = rdt * 0.35; }
+    E.T += dt;
+    const cena = this.modo === 'espera' && this.vista === 'cena';
+    if (cena) { this.stepScene(dt); this.updFx(dt); }
+    else {
+      const intro = !!(E.banners[0] && E.banners[0].intro);
+      if (this.modo === 'luta' && E.mode === 'replay' && E.playing && !intro) {
+        const [t0, t1] = this.faixa();
+        E.tau = Math.min(t1, E.tau + (dt * E.speed * Math.max(1, t1 - t0)) / REPLAY_S);
+        const ni = this.idxAt(E.tau);
+        if (ni !== E.idx) this.avanca(E.idx, ni);
+        if (E.tau >= t1) this.aoVivo(true); else this.push(false);
+      }
+      if (this.modo === 'luta' && !intro && this.pendFinal) {
+        this.pendFinal = false;
+        if (E.mode === 'live' && !E.ended && this.finalEm(E.idx)) this.finish(false);
+      }
+      this.cur = this.view(E.idx);
+      if (this.modo === 'espera' && this.autoDemo) this.stepDemo(dt);
+      this.update(dt);
     }
-    if (!intro && this.pendFinal) {
-      this.pendFinal = false;
-      if (E.mode === 'live' && !E.ended && this.finalEm(E.idx)) this.finish(false);
-    }
-    this.cur = this.view(E.idx);
-    this.update(dt); this.draw();
+    if (this.modo === 'espera') { const s = Math.floor(Date.now() / 1000); if (s !== this.seg) { this.seg = s; UI.contagem(); } }
+    this.draw(cena);
   }
 
   virada(k) {
@@ -1073,141 +1381,448 @@ class Luta {
     if (!a.ctrl) {
       if (!d.ctrl && (d.pose === 'block' || d.pose === 'duck')) { d.pose = 'idle'; d.pt = 0; }
       if (this.isAtk(a)) { a.pose = 'idle'; a.pt = 0; }
-      this.startAtk(a, 'upper', true);
+      if (this.canAct(a)) this.startAtk(a, Math.random() < 0.5 ? 'upper' : 'rising', true);
     }
     E.nextAtk = 0.9; this.sfx('virada');
   }
-  pick() { const w = [['jab', 30], ['cross', 24], ['hook', 15], ['low', 14], ['high', 9], ['upper', 8]]; let r = Math.random() * 100; for (const [k, v] of w) if ((r -= v) < 0) return k; return 'jab'; }
+  pick() { let r = Math.random() * PICK_T; for (const [k, v] of PICK) if ((r -= v) < 0) return k; return 'jab'; }
   isAtk(f) { return !!MV[f.pose]; }
+  canAct(a) { return !NOACT[a.pose] && !this.isAtk(a); }
   toIdle(f) { f.pose = f.ctrl && f.hold ? 'block' : 'idle'; f.pt = 0; }
   float(x, y, txt, col) { this.E.floats.push({ x, y, txt, col, age: 0 }); }
 
   startAtk(a, mv, noDef) {
-    if (a.pose === 'ko' || a.pose === 'win' || a.pose === 'hit' || this.isAtk(a)) return false;
-    if (mv === 'special') { if (a.sup < 100) return false; a.sup = 0; a.st.s++; this.E.callouts.push({ k: a.k, txt: this.ESP[a.k], age: 0 }); this.sfx('charge'); }
-    a.pose = mv; a.pt = 0; a.hit = false;
-    const d = this.E.f[this.oth(a.k)], M = MV[mv];
-    if (!noDef && !d.ctrl && (d.pose === 'idle' || d.pose === 'block' || d.pose === 'duck')) {
-      const trailing = (this.margin() >= 0) === (d.k === 'B'), pb = (M.proj ? 0.35 : 0.24) + (trailing ? 0.08 : 0), pd = M.high ? 0.18 : 0, u = Math.random();
+    if (!this.canAct(a)) return false;
+    const E = this.E, M = MV[mv];
+    if (!M) return false;
+    if (mv === 'special' || mv === 'ultra') { if (a.sup < 100) return false; a.sup = 0; a.st.s++; E.callouts.push({ k: a.k, txt: (mv === 'ultra' ? this.ULT : this.ESP)[a.k], age: 0 }); this.sfx('charge'); }
+    else if (MVN[mv] && (this.modo === 'espera' || !BASIC[mv])) E.callouts.push({ k: a.k, txt: MVN[mv], age: 0, sz: 6 });
+    if (mv === 'bomb') this.sfx('charge');
+    if (mv === 'taunt') this.sfx('cheer');
+    a.pose = mv; a.pt = 0; a.hit = false; a.hn = 0;
+    const d = E.f[this.oth(a.k)];
+    if (!noDef && !M.taunt && !M.ub && !d.ctrl && (d.pose === 'idle' || d.pose === 'block' || d.pose === 'duck')) {
+      const trailing = (this.margin() >= 0) === (d.k === 'B'), pb = (M.proj || M.rain ? 0.35 : 0.24) + (trailing ? 0.08 : 0), pd = M.high ? 0.18 : 0, u = Math.random();
       if (u < pb) { d.pose = 'block'; d.pt = 0; d.holdT = M.end + (M.proj ? 0.5 : 0.12); }
       else if (u < pb + pd) { d.pose = 'duck'; d.pt = 0; d.holdT = M.end + 0.05; }
     }
     return true;
   }
-  land(a, d, mv, px, py) {
-    const E = this.E, M = MV[mv];
+  land(a, d, mv, px, py, idx) {
+    const E = this.E, M = MV[mv], last = !M.hits || idx === M.hits.length - 1;
     if (d.pose === 'ko' || d.pose === 'win') return;
-    const J = this.joints(a, E.T), lm = J[M.limb];
-    const gx = px != null ? px : a.x + (lm[0] + 3) * a.facing, gy = py != null ? py : this.FLOOR + lm[1];
-    if (d.pose === 'block') {
+    let gx = px, gy = py;
+    if (gx == null) {
+      const J = this.joints(a, E.T), fx = this.pfx(a), sg = a.facing * (fx.flip ? -1 : 1), lm = J[M.limbs ? M.limbs[idx] : M.limb] || J.gF;
+      gx = a.x + a.kx + lm[0] * sg + 3 * a.facing; gy = this.FLOOR - (a.ay || 0) - fx.ay + lm[1];
+    }
+    if (d.pose === 'air' || d.pose === 'down' || d.pose === 'getup') { if (last) this.sfx('whiff'); return; }
+    if (d.pose === 'block' && !M.ub) {
       d.kx += a.facing * (M.proj ? 5 : 1.5); d.st.d++; a.combo = 0; d.sup = Math.min(100, d.sup + 3);
       for (let i = 0; i < 7; i++) E.parts.push({ x: gx, y: gy, vx: -a.facing * (10 + Math.random() * 40), vy: (Math.random() - 0.5) * 80, life: 0.15 + Math.random() * 0.1, col: Math.random() < 0.5 ? '#BFD8FF' : '#FFFFFF', sz: 1, g: 0 });
       E.parts.push({ x: gx, y: gy, life: 0.1, ring: 1 });
       this.float(gx, gy - 8, 'DEFESA', '#BFD8FF'); this.sfx('block'); if (d.ctrl) this.buzz(8);
+      if (!d.ctrl && this.modo === 'luta' && last && Math.random() < 0.22) d.q = { mv: Math.random() < 0.5 ? 'elbow' : 'body', in: 0.12, ct: 1 };
       this.push(false); return;
     }
     if (d.pose === 'duck' && M.high) {
       d.st.e++; a.combo = 0; this.float(d.x, this.FLOOR - 48, 'ESQUIVA', '#F2EDE4'); this.sfx('whiff');
-      if (!d.ctrl && Math.random() < 0.5) d.q = { mv: 'upper', in: 0.1 };
+      if (!d.ctrl && Math.random() < 0.5) d.q = { mv: Math.random() < 0.5 ? 'upper' : 'body', in: 0.1 };
       this.push(false); return;
     }
-    const big = !!M.big, sp = mv === 'special';
-    Object.assign(d, { pose: 'hit', pt: 0, flash: 0.07, big, combo: 0, q: null }); d.kx += a.facing * M.kb;
+    const big = !!M.big && last, sp = mv === 'special' || (mv === 'ultra' && last);
+    let react = M.react === 'hitb' ? 'hitb' : 'hit';
+    if (last) { if (M.launch || mv === 'ultra') react = 'air'; else if (M.react) react = M.react; }
+    if (react === 'air' || react === 'down') {
+      const dn = react === 'down';
+      Object.assign(d, { pose: 'air', pt: 0, ay: Math.max(1, d.ay || 0), avy: (dn ? 70 : M.lv || 150) + Math.random() * 20, avx: a.facing * (dn ? 20 : M.lx || 55), dby: a.k, flash: 0.07, combo: 0, q: null });
+    } else if (react === 'dizzy') { Object.assign(d, { pose: 'dizzy', pt: 0, flash: 0.1, combo: 0, q: null }); this.float(d.x, this.FLOOR - 72, 'TONTO!', '#F5C842'); }
+    else Object.assign(d, { pose: react, pt: 0, flash: 0.07, big, combo: 0, q: null });
+    d.kx += a.facing * M.kb * (M.hits && last ? 2.5 : 1);
     a.combo++; a.comboT = 0; a.st.g++; a.st.c = Math.max(a.st.c, a.combo); a.sup = Math.min(100, a.sup + 4);
+    if (a.combo === 5 && d.pose === 'hit') { d.pose = 'dizzy'; d.pt = 0; this.float(d.x, this.FLOOR - 72, 'TONTO!', '#F5C842'); }
     for (let i = 0; i < (sp ? 24 : big ? 16 : 9); i++) E.parts.push({ x: gx, y: gy, vx: a.facing * (20 + Math.random() * 70) + (Math.random() - 0.5) * 60, vy: -30 - Math.random() * 90, life: 0.2 + Math.random() * 0.2, col: sp ? (Math.random() < 0.5 ? this.cor[a.k] : '#FFFFFF') : (Math.random() < 0.5 ? '#FFFFFF' : '#F5C842'), sz: Math.random() < 0.3 ? 2 : 1 });
     E.parts.push({ x: gx, y: gy, life: 0.09, star: sp ? 9 : big ? 7 : 5 });
     E.shake = REDUZ ? 0 : sp ? 0.32 : big ? 0.2 : 0.08;
     E.cheer[a.k] = Math.max(E.cheer[a.k], big ? 1.6 : 0.7);
-    const s = this.cur, v = s ? s[a.k] : 0, dv = v - a.lastV;
-    a.lastV = v;
-    if (dv > 50) this.float(gx, gy - 8, '+' + short(dv), this.cor[a.k]);
+    if (this.modo === 'luta') {
+      const s = this.cur, v = s ? s[a.k] : 0, dv = v - a.lastV;
+      a.lastV = v;
+      if (dv > 50) this.float(gx, gy - 8, '+' + short(dv), this.cor[a.k]);
+    }
     this.sfx(big ? 'big' : 'hit');
     if (d.ctrl) this.buzz(big ? 60 : 25); else if (a.ctrl) this.buzz(12);
     this.push(false);
   }
-  spawnProj(a) { this.E.proj.push({ k: a.k, x: a.x + 24 * a.facing, y: this.FLOOR - 45, vx: 170 * a.facing, age: 0 }); this.sfx('shoot'); }
+  spawnProj(a) { this.E.proj.push({ k: a.k, x: a.x + a.kx + 24 * a.facing, y: this.FLOOR - 45, vx: 170 * a.facing, age: 0 }); this.sfx('shoot'); }
+  spawnDrop(a, i) { const d = this.E.f[this.oth(a.k)]; this.E.drops.push({ k: a.k, x: d.x + d.kx + (i - 1.5) * 4, y: -10, vy: 260, i, age: 0 }); this.sfx('shoot'); }
+  foguete(k) { return !!FOGUETE[this.num(k)]; }
 
   update(dt) {
-    const E = this.E, s = this.cur, m = s.has ? s.ap - s.bp : 0;
-    E.center += (160 + Math.max(-60, Math.min(60, m * 5)) - E.center) * Math.min(1, dt * 2.5);
-    E.cheer.A = Math.max(0, E.cheer.A - dt); E.cheer.B = Math.max(0, E.cheer.B - dt);
-    E.shake = Math.max(0, E.shake - dt);
+    const E = this.E, s = this.cur, luta = this.modo === 'luta', m = luta && s.has ? s.ap - s.bp : 0;
+    E.center += (160 + lim60(m * 5) - E.center) * Math.min(1, dt * 2.5);
     const intro = E.banners[0] && E.banners[0].intro;
     // o especial carrega com os votos que entram (≈ 6,5 especiais se alguém levasse 100% dos votos da área)
-    if (!E.ended) for (const k of ['A', 'B']) { const f = E.f[k], v = s[k]; if (v > f.lastSV && s.tot) f.sup = Math.min(100, f.sup + ((v - f.lastSV) / s.tot) * 650); f.lastSV = v; }
-    if (!E.ended && !intro && s.has && (E.mode === 'live' || E.playing)) {
+    if (luta && !E.ended) for (const k of ['A', 'B']) { const f = E.f[k], v = s[k]; if (v > f.lastSV && s.tot) f.sup = Math.min(100, f.sup + ((v - f.lastSV) / s.tot) * 650); f.lastSV = v; }
+    if (luta && !E.ended && !intro && s.has && (E.mode === 'live' || E.playing)) {
       E.nextAtk -= dt;
       if (E.nextAtk <= 0) {
-        const lead = m >= 0 ? 'A' : 'B', pLead = 0.55 + Math.min(Math.abs(m), 12) * 0.03;
-        let ak = Math.random() < pLead ? lead : this.oth(lead), skip = false;
-        if (E.f[ak].ctrl) { ak = this.oth(ak); skip = Math.random() < 0.35; }
-        const a = E.f[ak];
-        if (!skip && a.pose === 'idle') this.startAtk(a, a.sup >= 100 ? 'special' : this.pick());
-        E.nextAtk = E.mode === 'live' && !E.playing ? 0.7 + Math.random() * 1.1 : (0.45 + Math.random() * 0.7) / Math.sqrt(E.speed);
+        const lead = m >= 0 ? 'A' : 'B', pLead = 0.55 + Math.min(Math.abs(m), 12) * 0.03, vul = ['A', 'B'].find((k) => E.f[k].pose === 'dizzy');
+        let ak = vul ? this.oth(vul) : Math.random() < pLead ? lead : this.oth(lead), skip = false;
+        if (E.f[ak].ctrl) { ak = this.oth(ak); skip = !!vul || Math.random() < 0.35; }
+        const a = E.f[ak], o = E.f[this.oth(ak)], caido = o.pose === 'air' || o.pose === 'down' || o.pose === 'getup';
+        if (!skip && a.pose === 'idle') {
+          if (!caido) this.startAtk(a, a.sup >= 100 ? (Math.random() < 0.4 ? 'ultra' : 'special') : this.pick());
+          else if (Math.random() < 0.4) this.startAtk(a, 'taunt'); // rival no chão: provoca
+        }
+        E.nextAtk = vul ? 0.18 : E.mode === 'live' && !E.playing ? 0.7 + Math.random() * 1.1 : (0.45 + Math.random() * 0.7) / Math.sqrt(E.speed);
       }
     }
     this.updF(E.f.A, E.f.B, dt); this.updF(E.f.B, E.f.A, dt);
     for (const p of E.proj) {
       p.x += p.vx * dt; p.age += dt;
       const a = E.f[p.k], d = E.f[this.oth(p.k)];
-      if (Math.random() < 0.8) E.parts.push({ x: p.x - Math.sign(p.vx) * 6, y: p.y + (Math.random() - 0.5) * 3, vx: -p.vx * 0.1, vy: 0, g: 0, life: 0.18, col: FOGUETE[p.k === 'A' ? this.nA : this.nB] ? '#F5C842' : this.cor[p.k], sz: 1 });
-      if ((p.vx > 0 && p.x >= d.x - 5) || (p.vx < 0 && p.x <= d.x + 5)) { p.dead = 1; this.land(a, d, 'special', p.x, p.y); }
+      if (Math.random() < 0.8) E.parts.push({ x: p.x - Math.sign(p.vx) * 6, y: p.y + (Math.random() - 0.5) * 3, vx: -p.vx * 0.1, vy: 0, g: 0, life: 0.18, col: this.foguete(p.k) ? '#F5C842' : this.cor[p.k], sz: 1 });
+      if ((p.vx > 0 && p.x >= d.x + d.kx - 5) || (p.vx < 0 && p.x <= d.x + d.kx + 5)) { p.dead = 1; this.land(a, d, 'special', p.x, p.y); }
       if (p.x < 0 || p.x > this.W) p.dead = 1;
     }
     E.proj = E.proj.filter((p) => !p.dead);
+    for (const p of E.drops) {
+      p.y += p.vy * dt; p.age += dt;
+      const a = E.f[p.k], d = E.f[this.oth(p.k)];
+      if (Math.random() < 0.7) E.parts.push({ x: p.x + (Math.random() - 0.5) * 2, y: p.y - 8, vx: 0, vy: -20, g: 0, life: 0.15, col: this.foguete(p.k) ? '#E8833A' : '#F5C842', sz: 1 });
+      if (p.y >= this.FLOOR - 52 - (d.ay || 0)) { p.dead = 1; this.land(a, d, 'ultra', p.x, p.y, p.i); }
+    }
+    E.drops = E.drops.filter((p) => !p.dead);
+    this.updRef(dt); this.updFx(dt);
+  }
+  updFx(dt) {
+    const E = this.E;
+    E.cheer.A = Math.max(0, E.cheer.A - dt); E.cheer.B = Math.max(0, E.cheer.B - dt); E.shake = Math.max(0, E.shake - dt);
     E.parts.forEach((p) => { if (p.vx != null) { p.x += p.vx * dt; p.y += p.vy * dt; p.vy += (p.g != null ? p.g : 260) * dt; } p.life -= dt; });
     E.parts = E.parts.filter((p) => p.life > 0);
     E.floats.forEach((f) => (f.age += dt)); E.floats = E.floats.filter((f) => f.age < 0.9);
-    E.callouts.forEach((c) => (c.age += dt)); E.callouts = E.callouts.filter((c) => c.age < 1.1);
+    E.callouts.forEach((c) => (c.age += dt)); E.callouts = E.callouts.filter((c) => c.age < (c.sz ? 0.8 : 1.1));
     E.flashes.forEach((f) => (f.life -= dt)); E.flashes = E.flashes.filter((f) => f.life > 0);
     if (Math.random() < dt * 4 && this.crowd) { const c = this.crowd[Math.floor(Math.random() * this.crowd.length)]; E.flashes.push({ x: c.x, y: c.y - 6, life: 0.07 }); }
     const b0 = E.banners[0];
     if (b0) { b0.age += dt; if (b0.dur && b0.age >= b0.dur) E.banners.shift(); }
+  }
+  // o juiz acompanha a luta, conta as quedas e, no nocaute, conta até 10 e levanta o braço do vencedor
+  updRef(dt) {
+    const E = this.E, R = E.ref, fa = E.f.A, fb = E.f.B;
+    R.pt += dt;
+    let tx, pose = 'ref', n = null;
+    const dn = [fa, fb].find((f) => f.pose === 'down' || f.pose === 'getup');
+    if (E.koW) {
+      E.koT += dt;
+      const w = E.f[E.koW], l = E.f[this.oth(E.koW)];
+      if (E.koT < 2.4) { tx = l.x + l.kx; pose = 'refcount'; n = Math.min(10, 1 + Math.floor(E.koT / 0.22)); }
+      else { tx = w.x - w.facing * 13; pose = 'refraise'; }
+    } else if (dn) { tx = dn.x + dn.kx - dn.facing * 6; pose = 'refcount'; if (dn.pose === 'down') n = 1 + Math.floor(dn.pt / 0.4); }
+    else tx = E.center + (E.center <= 160 ? 1 : -1) * 64;
+    tx = Math.max(20, Math.min(300, tx));
+    const dx = tx - R.x;
+    R.x += dx * Math.min(1, dt * 5);
+    if (Math.abs(dx) > 4) pose = 'run';
+    if (pose !== R.pose) { R.pose = pose; R.pt = 0; }
+    R.facing = (fa.x + fb.x) / 2 >= R.x ? 1 : -1;
+    E.refN = n;
   }
   updF(f, o, dt) {
     const E = this.E;
     f.pt += dt; f.flash = Math.max(0, f.flash - dt); f.comboT += dt; if (f.comboT > 1.6) f.combo = 0;
     const M = MV[f.pose];
     if (M) {
-      if (!f.hit && f.pt >= M.hit) { f.hit = true; if (M.proj) this.spawnProj(f); else this.land(f, o, f.pose); }
-      if (MV[f.pose] && f.pt >= M.end) this.toIdle(f);
+      if (M.taunt) { if (!f.hit && f.pt >= 0.15) { f.hit = true; this.float(f.x + f.facing * 12, this.FLOOR - 66, 'VEM!', this.cor[f.k]); f.sup = Math.min(100, f.sup + 12); E.cheer[f.k] = Math.max(E.cheer[f.k], 1.4); } }
+      else if (M.hits) { while (MV[f.pose] === M && f.hn < M.hits.length && f.pt >= M.hits[f.hn]) { const i = f.hn++; if (M.rain) this.spawnDrop(f, i); else this.land(f, o, f.pose, null, null, i); } }
+      else if (!f.hit && f.pt >= M.hit) { f.hit = true; if (M.proj) this.spawnProj(f); else this.land(f, o, f.pose); }
+      if ((f.pose === 'bomb' || f.pose === 'ultra') && f.pt < (M.hit || 0.4) && Math.random() < dt * 40) {
+        const J = this.joints(f, E.T), g = f.pose === 'bomb' ? J.gB : J.gF;
+        E.parts.push({ x: f.x + f.kx + g[0] * f.facing + (Math.random() - 0.5) * 8, y: this.FLOOR + g[1] + (Math.random() - 0.5) * 8, vx: 0, vy: -25, g: 0, life: 0.25, col: '#F5C842', sz: 1 });
+      }
+      if (MV[f.pose] === M && f.pt >= M.end) this.toIdle(f);
     } else if (f.pose === 'hit') { if (f.pt >= (f.big ? 0.45 : 0.28)) this.toIdle(f); }
+    else if (f.pose === 'hitb') { if (f.pt >= 0.38) this.toIdle(f); }
+    else if (f.pose === 'dizzy') { if (f.pt >= 1.3) this.toIdle(f); }
+    else if (f.pose === 'air') {
+      f.avy -= 480 * dt; f.ay += f.avy * dt; f.kx += (f.avx || 0) * dt; f.fall = Math.min(1, f.fall + dt * 3.4);
+      if (f.ay <= 0 && f.avy < 0) {
+        f.ay = 0; f.fall = 1; f.pose = 'down'; f.pt = 0;
+        if (f.dby && E.f[f.dby]) E.f[f.dby].st.q++;
+        E.shake = REDUZ ? 0 : 0.16;
+        for (let i = 0; i < 14; i++) E.parts.push({ x: f.x + f.kx - f.facing * Math.random() * 44, y: this.FLOOR - 1, vx: (Math.random() - 0.5) * 60, vy: -Math.random() * 40, life: 0.3, col: '#6A5E52', sz: 1 });
+        this.float(f.x + f.kx - f.facing * 22, this.FLOOR - 24, 'QUEDA!', '#F2EDE4'); this.sfx('big'); if (f.ctrl) this.buzz(40);
+      }
+    }
+    else if (f.pose === 'down') { f.fall = 1; if (f.pt >= 1.2) { f.pose = 'getup'; f.pt = 0; } }
+    else if (f.pose === 'getup') { f.fall = Math.max(0, 1 - f.pt / 0.35); if (f.pt >= 0.35) { f.fall = 0; this.toIdle(f); } }
     else if (f.pose === 'block') { if (f.ctrl ? !f.hold : f.pt >= f.holdT) this.toIdle(f); }
-    else if (f.pose === 'duck') { if (f.pt >= (f.ctrl ? 0.45 : f.holdT)) this.toIdle(f); }
-    if (f.q) { f.q.in -= dt; if (f.q.in <= 0) { if (f.pose === 'idle') this.startAtk(f, f.q.mv); f.q = null; } }
-    if (f.pose === 'ko') f.fall = Math.min(1, Math.pow(f.pt / 0.45, 2)); else { f.fall = 0; f.kx *= Math.exp(-dt * 5); }
-    const tx = E.center + (f.k === 'A' ? -18 : 18) + (MV[f.pose] ? 3 * f.facing : 0);
+    else if (f.pose === 'duck') { if (f.pt >= (f.ctrl ? 0.45 : f.holdT || 0.45)) this.toIdle(f); }
+    if (f.q) {
+      f.q.in -= dt;
+      if (f.q.in <= 0) {
+        if (f.pose === 'block' && !f.ctrl) f.pose = 'idle';
+        if (this.canAct(f)) { if (this.startAtk(f, f.q.mv, this.modo === 'espera') && f.q.ct) this.float(f.x, this.FLOOR - 76, 'CONTRA-GOLPE!', '#F5C842'); f.q = null; }
+        else if (f.q.in < -1) f.q = null;
+      }
+    }
+    if (f.pose === 'ko') f.fall = Math.min(1, Math.pow(f.pt / 0.45, 2));
+    else if (f.pose !== 'air' && f.pose !== 'down' && f.pose !== 'getup') { f.fall = 0; f.kx *= Math.exp(-dt * 5); }
+    else if (f.pose !== 'air') f.kx *= Math.exp(-dt * 2);
+    const sM = MV[f.pose], tx = E.center + (f.k === 'A' ? -18 : 18) + (sM ? (sM.step || 3) * f.facing : 0);
     f.x += (tx - f.x) * Math.min(1, dt * 18);
-    if (f.sup >= 100 && !E.ended && Math.random() < dt * 14) E.parts.push({ x: f.x + (Math.random() - 0.5) * 22, y: this.FLOOR - 4 - Math.random() * 50, vx: 0, vy: -30, g: 0, life: 0.4, col: '#F5C842', sz: 1 });
+    const X = f.x + f.kx; if (X < 24) f.kx = 24 - f.x; if (X > 296) f.kx = 296 - f.x;
+    if (f.sup >= 100 && !E.ended && this.modo === 'luta' && Math.random() < dt * 14) E.parts.push({ x: f.x + (Math.random() - 0.5) * 22, y: this.FLOOR - 4 - Math.random() * 50, vx: 0, vy: -30, g: 0, life: 0.4, col: '#F5C842', sz: 1 });
+  }
+
+  // deslocamentos de golpes voadores e giratórios
+  pfx(f) {
+    const pt = f.pt || 0, o = { ay: 0, rot: 0, flip: false, fall: 0 };
+    const arc = (t0, d, h) => (pt < t0 ? 0 : Math.sin(Math.min(1, (pt - t0) / d) * Math.PI) * h);
+    switch (f.pose) {
+      case 'superman': o.ay = arc(0.08, 0.34, 9); break;
+      case 'flyknee': o.ay = arc(0.1, 0.38, 14); break;
+      case 'rising': o.ay = arc(0.06, 0.46, 18); break;
+      case 'backfist': o.flip = pt >= 0.08 && pt < 0.19; break;
+      case 'spin': o.flip = pt >= 0.08 && pt < 0.42; break;
+      case 'drop':
+        if (pt >= 0.1 && pt < 0.42) { o.ay = arc(0.1, 0.32, 16); o.rot = Math.min(1.1, (pt - 0.1) * 7); }
+        else if (pt >= 0.42) o.fall = pt < 0.56 ? 1 : Math.max(0, 1 - (pt - 0.56) / 0.14);
+        break;
+    }
+    return o;
   }
 
   joints(f, T) {
-    const b = f.pose === 'idle' ? Math.round(Math.sin(T * 6 + f.phase) * 1.2) : 0;
+    const b = f.pose === 'idle' ? Math.round(Math.sin(T * 6 + (f.phase || 0)) * 1.2) : 0, pt = f.pt || 0, M = MV[f.pose], pre = !!(M && M.hit != null && pt < M.hit);
     const J = { hip: [0, -28 + b], sh: [2, -46 + b], hd: [4, -55 + b], kB: [-7, -14], fB: [-11, 0], kF: [8, -14], fF: [10, 0], eF: [11, -39 + b], gF: [15, -47 + b], eB: [6, -38 + b], gB: [9, -46 + b] };
     const P = (o) => Object.assign(J, o);
+    const HIT = { hip: [-2, -28], sh: [-4, -46], hd: [-6, -54], eF: [3, -41], gF: [6, -51], eB: [-2, -40], gB: [1, -52], kF: [6, -14] };
+    const JAB = { sh: [4, -46], hd: [6, -55], eF: [15, -46], gF: [25, -48] }, CROSS = { hip: [1, -28], sh: [5, -46], hd: [7, -54], eB: [14, -45], gB: [25, -48], eF: [9, -40], gF: [12, -48] }, HOOK = { hip: [1, -28], sh: [5, -45], hd: [7, -54], eF: [16, -52], gF: [23, -50], eB: [7, -39], gB: [10, -47] };
+    const CROUCH = { hip: [-2, -24], sh: [0, -42], hd: [2, -51], kB: [-9, -11], kF: [7, -11], eF: [6, -37], gF: [9, -43], eB: [2, -36], gB: [5, -42] };
     switch (f.pose) {
-      case 'jab': P({ sh: [4, -46], hd: [6, -55], eF: [15, -46], gF: [25, -48] }); break;
-      case 'cross': P({ hip: [1, -28], sh: [5, -46], hd: [7, -54], eB: [14, -45], gB: [25, -48], eF: [9, -40], gF: [12, -48] }); break;
-      case 'hook': P({ hip: [1, -28], sh: [5, -45], hd: [7, -54], eF: [16, -52], gF: [23, -50], eB: [7, -39], gB: [10, -47] }); break;
+      case 'jab': P(JAB); break;
+      case 'cross': P(CROSS); break;
+      case 'hook': P(HOOK); break;
       case 'upper': P({ hip: [1, -26], sh: [4, -46], hd: [5, -56], eB: [15, -50], gB: [20, -61], eF: [9, -40], gF: [12, -48] }); break;
       case 'low': P({ hip: [-1, -28], sh: [-1, -46], hd: [1, -55], kF: [12, -17], fF: [24, -10], eF: [8, -40], gF: [12, -48], eB: [3, -39], gB: [6, -47] }); break;
       case 'high': P({ hip: [-2, -29], sh: [-6, -46], hd: [-5, -55], kB: [-5, -14], fB: [-8, 0], kF: [12, -36], fF: [25, -47], eF: [5, -40], gF: [9, -48], eB: [-3, -39], gB: [1, -47] }); break;
       case 'special':
-        if (f.pt < 0.22) P({ hip: [-1, -27], sh: [-1, -45], hd: [0, -54], kB: [-10, -12], fB: [-16, 0], kF: [10, -13], fF: [14, 0], eF: [3, -40], gF: [-3, -41], eB: [1, -39], gB: [-5, -40] });
+        if (pt < 0.22) P({ hip: [-1, -27], sh: [-1, -45], hd: [0, -54], kB: [-10, -12], fB: [-16, 0], kF: [10, -13], fF: [14, 0], eF: [3, -40], gF: [-3, -41], eB: [1, -39], gB: [-5, -40] });
         else P({ hip: [-1, -28], sh: [3, -46], hd: [4, -55], kB: [-10, -12], fB: [-16, 0], kF: [10, -13], fF: [14, 0], eF: [13, -44], gF: [22, -45], eB: [11, -42], gB: [21, -42] });
         break;
+      case 'body': if (pre) P({ hip: [-1, -26], sh: [1, -43], hd: [3, -52], eB: [2, -37], gB: [6, -40] }); else P({ hip: [1, -25], sh: [6, -41], hd: [8, -50], kF: [10, -13], fF: [13, 0], eB: [14, -34], gB: [24, -34], eF: [10, -42], gF: [12, -49] }); break;
+      case 'overhand': if (pre) P({ sh: [0, -47], hd: [1, -56], eB: [-3, -53], gB: [-5, -61] }); else P({ hip: [2, -27], sh: [8, -44], hd: [10, -52], kF: [11, -14], eB: [16, -52], gB: [25, -46], eF: [9, -38], gF: [11, -45] }); break;
+      case 'backfist': if (pt < 0.08) P({ eF: [6, -40], gF: [3, -46] }); else if (pre) P({ sh: [1, -46], hd: [2, -55], eF: [-4, -44], gF: [-8, -47], eB: [4, -40], gB: [6, -46] }); else P({ sh: [5, -46], hd: [6, -55], eF: [17, -48], gF: [27, -50] }); break;
+      case 'superman': if (pre) P({ hip: [-1, -27], kB: [-12, -20], fB: [-20, -14], eB: [-2, -42], gB: [-4, -47], eF: [10, -42], gF: [13, -48] }); else P({ hip: [1, -28], sh: [6, -46], hd: [8, -54], kB: [-12, -20], fB: [-21, -14], kF: [8, -12], fF: [6, 0], eB: [15, -47], gB: [26, -49], eF: [6, -41], gF: [8, -47] }); break;
+      case 'teep': if (pre) P({ kF: [11, -26], fF: [9, -14], eF: [10, -41], gF: [14, -49] }); else P({ hip: [-2, -28], sh: [-5, -46], hd: [-4, -55], kF: [13, -29], fF: [26, -31], eF: [4, -41], gF: [8, -49], eB: [0, -39], gB: [3, -47] }); break;
+      case 'spin':
+        if (pt < 0.08) P({ kF: [6, -16], eF: [8, -41], gF: [10, -47] });
+        else if (pre) P({ hip: [0, -29], sh: [4, -44], hd: [7, -52], kB: [-9, -26], fB: [-5, -15], eF: [9, -38], gF: [12, -44] });
+        else P({ hip: [0, -30], sh: [7, -42], hd: [10, -50], kF: [4, -14], fF: [6, 0], kB: [-14, -34], fB: [-27, -38], eF: [11, -37], gF: [14, -43], eB: [8, -36], gB: [11, -42] });
+        break;
+      case 'knee': if (pre) P({ sh: [5, -46], hd: [7, -55], eF: [14, -48], gF: [22, -51], eB: [12, -46], gB: [20, -49] }); else P({ hip: [2, -30], sh: [5, -47], hd: [7, -56], kF: [17, -38], fF: [9, -26], kB: [-5, -15], fB: [-9, 0], eF: [14, -46], gF: [19, -42], eB: [12, -45], gB: [17, -41] }); break;
+      case 'flyknee': if (pt < 0.1) P(CROUCH); else P({ hip: [1, -29], sh: [3, -46], hd: [5, -55], kF: [15, -37], fF: [7, -25], kB: [-6, -17], fB: [-13, -6], eF: [-2, -41], gF: [-7, -45], eB: [-4, -40], gB: [-9, -44] }); break;
+      case 'elbow': if (pre) P({ eF: [6, -50], gF: [1, -47] }); else P({ hip: [1, -28], sh: [6, -46], hd: [7, -54], eF: [19, -49], gF: [10, -53], eB: [8, -40], gB: [11, -47] }); break;
+      case 'sweep': if (pre) P({ hip: [-1, -20], sh: [1, -35], hd: [3, -44], kB: [-8, -10], fB: [-7, 0], kF: [8, -6], fF: [14, -1], eF: [7, -27], gF: [11, -20], eB: [3, -26], gB: [6, -19] }); else P({ hip: [-2, -16], sh: [-1, -32], hd: [1, -41], kB: [-9, -8], fB: [-7, 0], kF: [12, -4], fF: [27, -2], eF: [6, -24], gF: [9, -14], eB: [1, -24], gB: [3, -15] }); break;
+      case 'drop': if (pt < 0.1) P(CROUCH); else if (pt >= 0.42) P(HIT); else P({ kF: [12, -22], fF: [25, -24], kB: [10, -18], fB: [23, -18], eF: [-4, -42], gF: [-9, -44], eB: [-6, -40], gB: [-11, -42] }); break;
+      case 'throw': if (pre) P({ hip: [1, -27], sh: [5, -45], hd: [7, -53], eF: [15, -44], gF: [24, -43], eB: [13, -42], gB: [22, -41] }); else P({ hip: [-1, -27], sh: [-2, -46], hd: [-1, -55], eF: [10, -58], gF: [16, -66], eB: [8, -56], gB: [14, -64], kF: [10, -14], fF: [13, 0] }); break;
+      case 'combo3': P(pt < 0.12 ? JAB : pt < 0.22 ? CROSS : HOOK); break;
+      case 'flurry': {
+        const w = (Math.floor(pt / 0.12) % 3) - 1;
+        if (Math.floor(pt / 0.06) % 2) P({ hip: [1, -28], sh: [5, -46], hd: [7, -54], eB: [14, -45 + w], gB: [25, -47 + w], eF: [9, -41], gF: [12, -48] });
+        else P({ sh: [4, -46], hd: [6, -55], eF: [15, -46 - w], gF: [25, -49 - w], eB: [7, -40], gB: [10, -46] });
+        break;
+      }
+      case 'bomb': if (pre) P({ hip: [-2, -28], sh: [-3, -46], hd: [-2, -55], kB: [-10, -13], fB: [-14, 0], eB: [-9, -42], gB: [-15, -48], eF: [8, -42], gF: [12, -49] }); else P({ hip: [2, -28], sh: [8, -45], hd: [10, -53], kF: [13, -14], fF: [16, 0], eB: [17, -47], gB: [28, -49], eF: [8, -39], gF: [10, -46] }); break;
+      case 'rising': if (pre) P({ hip: [-1, -23], sh: [1, -41], hd: [3, -50], kB: [-9, -11], kF: [7, -11], eB: [6, -34], gB: [10, -40] }); else P({ hip: [1, -29], sh: [4, -47], hd: [5, -56], kF: [9, -18], fF: [7, -6], eB: [10, -62], gB: [12, -74], eF: [8, -41], gF: [11, -48] }); break;
+      case 'taunt': { const w = Math.floor(pt * 10) % 2; P({ hip: [-1, -28], sh: [0, -46], hd: [1, -55], eF: [14, -44], gF: [22, -46 - w * 2], eB: [-4, -38], gB: [-2, -31] }); break; }
+      case 'ultra': if (pt < 0.95) P({ eF: [8, -58], gF: [10, -68], eB: [-2, -58], gB: [-3, -68] }); break;
       case 'block': P({ hip: [-1, -28], sh: [0, -46], hd: [1, -54], eF: [9, -45], gF: [9, -53], eB: [7, -44], gB: [6, -52] }); break;
       case 'duck': P({ hip: [-1, -20], sh: [3, -34], hd: [6, -42], kF: [10, -10], kB: [-8, -10], eF: [12, -29], gF: [15, -36], eB: [8, -28], gB: [11, -35] }); break;
-      case 'hit': case 'ko': P({ hip: [-2, -28], sh: [-4, -46], hd: [-6, -54], eF: [3, -41], gF: [6, -51], eB: [-2, -40], gB: [1, -52], kF: [6, -14] }); break;
+      case 'hit': case 'ko': case 'air': case 'down': case 'getup': P(HIT); break;
+      case 'hitb': P({ hip: [-2, -26], sh: [3, -40], hd: [6, -46], eF: [6, -35], gF: [9, -32], eB: [3, -34], gB: [6, -31], kF: [7, -13] }); break;
+      case 'dizzy': { const w = Math.round(Math.sin(T * 7) * 2); P({ hip: [Math.round(w / 2), -28], sh: [w, -46], hd: [w * 2, -55], eF: [8 + w, -37], gF: [11 + w, -33], eB: [4 + w, -37], gB: [6 + w, -32] }); break; }
       case 'win': {
         const j = Math.round(Math.abs(Math.sin(T * 5)) * 4);
         for (const k in J) J[k] = [J[k][0], J[k][1] - j];
         P({ eF: [8, -58 - j], gF: [10, -68 - j], eB: [-2, -58 - j], gB: [-3, -68 - j] });
         break;
       }
+      // poses das cenas do intervalo e do juiz
+      case 'rope': P({ kF: [2, -14], fF: [3, 0], kB: [-2, -14], fB: [-1, 0], eF: [7, -38], gF: [9, -31], eB: [0, -38], gB: [-3, -31] }); break;
+      case 'run': { const a = Math.sin(pt * 13), u = Math.round(Math.abs(Math.cos(pt * 13)) * 2); P({ hip: [1, -28 - u], sh: [6, -45 - u], hd: [8, -54 - u], kF: [3 + a * 7, -14 - Math.max(0, a) * 4 - u], fF: [a * 10, -Math.max(0, a) * 6], kB: [3 - a * 7, -14 - Math.max(0, -a) * 4 - u], fB: [-a * 10, -Math.max(0, -a) * 6], eF: [5 - a * 5, -38 - u], gF: [10 - a * 7, -44 - u], eB: [5 + a * 5, -38 - u], gB: [10 + a * 7, -44 - u] }); break; }
+      case 'pushup': { const d = 5 - Math.round((f.u || 0) * 5); P({ fB: [-22, 0], fF: [-21, 0], kB: [-13, -3 - d * 0.6], kF: [-12, -3 - d * 0.6], hip: [-4, -7 - d], sh: [11, -9 - d * 1.6], hd: [17, -11 - d * 1.6], eF: [7 + d, -6 - d * 0.8], gF: [13, -2], eB: [6 + d, -6 - d * 0.8], gB: [12, -2] }); break; }
+      case 'sit': P({ hip: [0, -17], sh: [0, -35], hd: [2, -44], kF: [10, -17], fF: [11, 0], kB: [8, -16], fB: [8, 0], eF: [-5, -31], gF: [-10, -33], eB: [-6, -30], gB: [-11, -32] }); break;
+      case 'talk': { const g = Math.sin(pt * 7); P({ eF: [11, -42 + Math.round(g * 2)], gF: [17, -49 + Math.round(g * 4)], eB: [5, -38], gB: [8, -44], hd: [4 + (g > 0.6 ? 1 : 0), -55] }); break; }
+      case 'listen': P({ eF: [9, -40], gF: [3, -42], eB: [7, -41], gB: [1, -43] }); break;
+      case 'wave': { const g = Math.round(Math.sin(pt * 8) * 3); P({ eF: [7, -57], gF: [9 + g, -67], eB: [-2, -57], gB: [-4 - g, -67] }); break; }
+      case 'flex': P({ sh: [2, -47], eF: [13, -49], gF: [10, -59], eB: [-8, -49], gB: [-5, -59] }); break;
+      case 'stare': P({ sh: [5, -46], hd: [9, -54], eF: [10, -36], gF: [14, -42], eB: [6, -36], gB: [10, -41] }); break;
+      case 'mitts': P({ eF: [10, -46], gF: [15, -52], eB: [8, -41], gB: [14, -45] }); break;
+      case 'fan': { const g = Math.round(Math.sin(pt * 16) * 4); P({ eF: [8, -54], gF: [10 + g, -64], eB: [3, -38], gB: [5, -31] }); break; }
+      case 'ref': P({ eF: [4, -36], gF: [5, -29], eB: [1, -36], gB: [0, -29] }); break;
+      case 'refcount': { const g = pt % 0.4 < 0.12 ? 6 : 0; P({ hip: [-1, -26], sh: [2, -43], hd: [4, -52], eF: [11, -44 + g], gF: [16, -50 + g], eB: [1, -34], gB: [2, -28] }); break; }
+      case 'refraise': P({ eF: [7, -58], gF: [9, -68], eB: [1, -36], gB: [0, -29] }); break;
+      case 'refsep': P({ eF: [11, -44], gF: [19, -45], eB: [-5, -44], gB: [-13, -45] }); break;
     }
     return J;
   }
+
+  // ----- intervalo: cenas de treino, sala de golpes, torcida e palpite -----
+  act(k, x, facing, pose, o) { return Object.assign({ k, x, kx: 0, facing, pose: pose || 'idle', pt: 0, flash: 0, fall: 0, phase: k === 'A' ? 0 : 1.7, ay: 0, rot: 0, hit: false, i: 0, wait: 0.4, hn: 0 }, o || {}); }
+  toggleMontagem() {
+    this.montagem = !this.montagem;
+    if (this.montagem && this.vista !== 'cena') { this.vista = 'cena'; this.autoDemo = false; this.setScene(DAYS[this.dia][2]); }
+    this.push(true);
+  }
+  setDia(i, manter) {
+    this.dia = Math.max(0, Math.min(DAYS.length - 1, i));
+    if (!manter) this.montagem = false;
+    this.vista = 'cena'; this.autoDemo = false;
+    this.setScene(DAYS[this.dia][2]);
+    this.push(true);
+  }
+  voltarCena() { this.vista = 'cena'; this.autoDemo = false; this.setScene(DAYS[this.dia][2]); this.push(true); }
+  setScene(id) {
+    const S2 = this.SC = { id, T: 0, a: {}, n: { A: 0, B: 0 }, fl: [], k: -1 }, at = S2.a, a = (k, x, f, p, o) => this.act(k, x, f, p, o), E = this.E;
+    E.parts = []; E.floats = []; E.callouts = [];
+    switch (id) {
+      case 'corner': at.cA = a('C', 17, 1, 'fan', { pal: 'CH' }); at.cB = a('C', 303, -1, 'fan', { pal: 'CH', pt: 0.4 }); at.A = a('A', 36, 1, 'sit'); at.B = a('B', 284, -1, 'sit'); break;
+      case 'coletiva': at.A = a('A', 92, 1, 'talk'); at.B = a('B', 228, -1, 'listen'); break;
+      case 'saco': at.A = a('A', 84, 1); at.B = a('B', 236, -1, 'idle', { wait: 0.9, i: 4 }); S2.bag = { A: { a: 0, v: 0, x: 110 }, B: { a: 0, v: 0, x: 210 } }; break;
+      case 'corda': at.A = a('A', 80, 1, 'rope'); at.B = a('B', 240, -1, 'rope'); break;
+      case 'comicio': at.A = a('A', 80, 1, 'wave', { by: 116 }); at.B = a('B', 240, -1, 'wave', { by: 116, pt: 1 }); S2.crowd = this.mkFans(); break;
+      case 'corrida': at.B = a('B', 164, 1, 'run', { by: 127, pt: 0.3 }); at.A = a('A', 156, 1, 'run'); break;
+      case 'debate': at.A = a('A', 84, 1, 'talk'); at.B = a('B', 236, -1, 'listen'); break;
+      case 'flexao': at.A = a('A', 76, 1, 'pushup'); at.B = a('B', 244, -1, 'pushup', { ph: 1.3 }); break;
+      case 'manopla': at.cA = a('C', 104, -1, 'mitts'); at.cB = a('C', 216, 1, 'mitts'); at.A = a('A', 64, 1); at.B = a('B', 256, -1, 'idle', { wait: 0.8, i: 3 }); break;
+      case 'sombra': at.A = a('A', 84, 1); at.B = a('B', 236, -1, 'idle', { wait: 0.7, i: 7 }); break;
+      case 'pesagem': at.A = a('A', 70, 1); at.B = a('B', 250, -1); break;
+      case 'vespera': at.A = a('A', 96, 1, 'idle', { by: 121, fall: 1, eyes: 'z' }); at.B = a('B', 224, -1, 'idle', { by: 121, fall: 1, eyes: 'z', zt: 0.7 }); break;
+      case 'encarada': at.R = a('R', 160, 1, 'refsep', { pal: 'R' }); at.A = a('A', 145, 1, 'stare'); at.B = a('B', 175, -1, 'stare'); break;
+    }
+  }
+  mkFans() {
+    const r = [];
+    let seed = 11; const rnd = () => { seed = (seed * 16807) % 2147483647; return seed / 2147483647; };
+    for (let row = 0; row < 3; row++) for (let x = 4 + row * 3; x < 316; x += 6 + Math.floor(rnd() * 3)) r.push({ x, y: 132 + row * 6, k: x < 160 ? 'A' : 'B', flag: rnd() < 0.3, ph: rnd() * 6.28, head: ['#7A5A44', '#6A4C3A', '#8A6A50', '#5A4030'][Math.floor(rnd() * 4)] });
+    return r;
+  }
+  // sequência de golpes de treino (saco, manopla, sombra): bate, espera um pouco, próximo golpe da lista
+  seq(a, list, gap, dt, onHit, onStart) {
+    const M = MV[a.pose];
+    if (M) {
+      const h = M.hit != null ? M.hit : M.hits[0];
+      if (!a.hit && a.pt >= h) { a.hit = true; if (onHit) onHit(); }
+      if (a.pt >= M.end) { a.pose = 'idle'; a.pt = 0; a.wait = gap * (0.6 + Math.random() * 0.8); }
+    } else if ((a.wait -= dt) <= 0) { const mv = list[a.i++ % list.length]; a.pose = mv; a.pt = 0; a.hit = false; if (onStart) onStart(mv); }
+  }
+  stepScene(dt) {
+    const S2 = this.SC, E = this.E, F = this.FLOOR;
+    if (!S2) return;
+    const at = S2.a, T = (S2.T += dt);
+    if (this.montagem && T > 9) { this.setDia((this.dia + 1) % DAYS.length, true); return; }
+    for (const k in at) { const a = at[k]; a.pt += dt; a.flash = Math.max(0, a.flash - dt); a.kx *= Math.exp(-dt * 8); }
+    S2.fl.forEach((f) => (f.life -= dt)); S2.fl = S2.fl.filter((f) => f.life > 0);
+    const P = (x, y, col, n, sp) => { for (let i = 0; i < n; i++) E.parts.push({ x, y, vx: (Math.random() - 0.5) * sp, vy: -Math.random() * sp * 0.8, life: 0.25 + Math.random() * 0.25, col, sz: 1 }); };
+    switch (S2.id) {
+      case 'corner':
+        if (Math.random() < dt * 0.7) for (const k of ['A', 'B']) { const c = at['c' + k]; for (let i = 0; i < 8; i++) E.parts.push({ x: c.x + c.facing * 8, y: F - 52, vx: c.facing * (40 + Math.random() * 30), vy: -20 + Math.random() * 20, life: 0.35, col: i % 2 ? '#BFD8FF' : '#FFFFFF', sz: 1, g: 120 }); }
+        break;
+      case 'coletiva': case 'debate': {
+        const per = S2.id === 'debate' ? 4 : 3, turn = Math.floor(T / per), sp = turn % 2 ? 'B' : 'A';
+        if (turn !== S2.k) { S2.k = turn; this.sfx('ding'); S2.line = FALAS[(turn * 3 + (S2.id === 'debate' ? 1 : 0) + this.dia) % FALAS.length]; S2.both = S2.id === 'debate' && turn % 3 === 2; }
+        for (const k of ['A', 'B']) { const a = at[k], want = k === sp || S2.both ? 'talk' : 'listen'; if (a.pose !== want) { a.pose = want; a.pt = 0; } }
+        if (S2.id === 'coletiva' && Math.random() < dt * 6) S2.fl.push({ x: 8 + Math.random() * 304, y: 134 + Math.random() * 6, life: 0.08 });
+        break;
+      }
+      case 'saco':
+        for (const k of ['A', 'B']) {
+          const a = at[k], g = S2.bag[k];
+          this.seq(a, ['jab', 'jab', 'cross', 'hook', 'body', 'upper', 'combo3', 'jab', 'cross', 'flurry', 'overhand'], 0.35, dt, () => { g.v += a.facing * (MV[a.pose].big ? 2.2 : 1.2); g.hit = 0.08; P(g.x - a.facing * 6, F - 46, '#D8CDB8', 4, 60); this.sfx('hit'); });
+          g.v += (-g.a * 40 - g.v * 2.2) * dt; g.a += g.v * dt; g.hit = Math.max(0, (g.hit || 0) - dt);
+        }
+        break;
+      case 'corda': ['A', 'B'].forEach((k, i) => { const a = at[k], ph = T * 8.2 + i * 0.9; a.rp = ph; a.ay = Math.round(Math.max(0, -Math.cos(ph)) * 6); if (Math.random() < dt * 1.5) P(a.x + (Math.random() - 0.5) * 6, F - 58, '#BFD8FF', 1, 30); }); break;
+      case 'comicio':
+        ['A', 'B'].forEach((k, i) => {
+          const a = at[k], want = Math.floor((T + i * 1.5) / 3) % 2 ? 'talk' : 'wave';
+          if (a.pose !== want) { a.pose = want; a.pt = 0; }
+          if (Math.random() < dt * 22) { const c = [this.cor[k], '#F5C842', '#F2EDE4']; E.parts.push({ x: (k === 'A' ? 10 : 170) + Math.random() * 140, y: -2, vx: (Math.random() - 0.5) * 20, vy: 18 + Math.random() * 20, g: 0, life: 4, col: c[Math.floor(Math.random() * 3)], sz: 1 }); }
+        });
+        E.cheer.A = E.cheer.B = 1;
+        break;
+      case 'corrida': {
+        at.A.x = 156 + Math.sin(T * 0.55) * 32; at.B.x = 164 + Math.sin(T * 0.55 + 2.8) * 32;
+        const ld = at.A.x > at.B.x ? 'A' : 'B';
+        if (ld !== S2.ld) { if (S2.ld) this.sfx('virada'); S2.ld = ld; }
+        break;
+      }
+      case 'flexao': for (const k of ['A', 'B']) { const a = at[k], u = (1 - Math.cos(T * 3.2 + (a.ph || 0))) / 2; if (u > 0.97 && !a.dn) { a.dn = 1; S2.n[k]++; this.float(a.x + a.facing * 4, F - 34, String(S2.n[k]), this.cor[k]); } if (u < 0.5) a.dn = 0; a.u = u; } break;
+      case 'manopla':
+        for (const k of ['A', 'B']) { const a = at[k], c = at['c' + k]; this.seq(a, ['jab', 'cross', 'hook', 'jab', 'jab', 'upper', 'elbow', 'combo3', 'cross', 'overhand'], 0.3, dt, () => { c.flash = 0.05; c.kx = -c.facing * 2; P(c.x + c.facing * 14, F - 50, '#F5C842', 6, 90); this.float(c.x + c.facing * 10, F - 62, 'PÁ!', '#F2EDE4'); this.sfx('hit'); }); }
+        break;
+      case 'sombra': for (const k of ['A', 'B']) { const a = at[k]; this.seq(a, SOMBRA, 0.45, dt, null, (mv) => E.callouts.push({ k, x: a.x, txt: MVN[mv], age: 0, sz: 6 })); } break;
+      case 'pesagem': {
+        const p = T % 7.5, D = { A: [70, 112], B: [250, 208] };
+        for (const k of ['A', 'B']) {
+          const a = at[k], x0 = D[k][0], x1 = D[k][1];
+          let pose;
+          if (p < 1.3) { a.x = x0 + (x1 - x0) * (p / 1.3); pose = 'run'; a.by = F; }
+          else { a.x = x1; a.by = F - 4; pose = p < 2.8 ? 'idle' : p < 5.6 ? 'flex' : 'wave'; }
+          if (a.pose !== pose) { a.pose = pose; a.pt = 0; if (pose === 'flex' && k === 'A') this.sfx('ding'); }
+        }
+        S2.disp = p < 1.3 ? '' : p < 2.8 ? String(10 + Math.floor(Math.random() * 89)) : null;
+        if (p > 2.8 && p < 5.6 && Math.random() < dt * 7) S2.fl.push({ x: 20 + Math.random() * 280, y: 70 + Math.random() * 40, life: 0.08 });
+        break;
+      }
+      case 'vespera': for (const k of ['A', 'B']) { const a = at[k]; a.zt = (a.zt || 0) + dt; if (a.zt > 1.4) { a.zt = 0; this.float(a.x - a.facing * 52, a.by - 12, 'Z', '#A39B90'); } } break;
+      case 'encarada':
+        at.A.ox = Math.random() < 0.1 ? (Math.random() < 0.5 ? -1 : 1) : 0; at.B.ox = Math.random() < 0.1 ? (Math.random() < 0.5 ? -1 : 1) : 0;
+        E.cheer.A = E.cheer.B = 0.5;
+        if (Math.random() < dt * 5) E.flashes.push({ x: 14 + Math.random() * 292, y: 86 + Math.random() * 14, life: 0.07 });
+        break;
+    }
+  }
+  enterTreino() {
+    if (this.vista === 'treino') return;
+    this.vista = 'treino'; this.montagem = false;
+    const E = this.E;
+    E.parts = []; E.floats = []; E.callouts = []; E.banners = []; E.proj = []; E.drops = []; E.center = 160;
+    for (const x of ['A', 'B']) Object.assign(E.f[x], { pose: 'idle', pt: 0, kx: 0, ay: 0, avy: 0, avx: 0, fall: 0, rot: 0, q: null });
+  }
+  // sala de golpes: k mostra o golpe mv no ringue
+  demo(k, mv, auto) {
+    if (!auto) this.autoDemo = false;
+    this.enterTreino();
+    const E = this.E, a = E.f[k], d = E.f[this.oth(k)];
+    if (mv === 'duck') { if (this.canAct(a)) { a.pose = 'duck'; a.pt = 0; a.holdT = 0.45; } this.push(false); return; }
+    if (mv === 'punch') { mv = a.alt ? 'cross' : 'jab'; a.alt ^= 1; }
+    if (mv === 'special' || mv === 'ultra') a.sup = 100;
+    if (!this.canAct(a)) { a.q = { mv, in: 0.05 }; this.push(false); return; }
+    if (d.pose === 'block' || d.pose === 'duck') this.toIdle(d);
+    this.startAtk(a, mv, true); this.push(false);
+  }
+  stepDemo(dt) {
+    this.adT = (this.adT || 0) - dt;
+    if (this.adT > 0) return;
+    const E = this.E, i = (this.adI || 0) % DEMO.length, k = i % 2 ? 'B' : 'A', mv = DEMO[i];
+    if (!this.canAct(E.f[k]) || E.f[this.oth(k)].pose !== 'idle') { this.adT = 0.15; return; }
+    this.adI = i + 1; this.demo(k, mv, true);
+    this.adT = MV[mv].end + (MV[mv].launch || mv === 'ultra' || mv === 'sweep' ? 1.6 : 0.5);
+  }
+  toggleAuto() { this.autoDemo = !this.autoDemo; if (this.autoDemo) { this.enterTreino(); this.adI = 0; this.adT = 0.2; } this.push(true); }
+  setDemoK(k) { this.demoK = k; UI.guardar(); this.push(true); }
+  torcer(k) {
+    const E = this.E, c = [this.cor[k], '#F5C842', '#F2EDE4'], x0 = this.modo === 'espera' && this.vista === 'cena' ? (k === 'A' ? 80 : 240) : E.f[k].x;
+    for (let i = 0; i < 40; i++) E.parts.push({ x: x0 + (Math.random() - 0.5) * 60, y: 150, vx: (Math.random() - 0.5) * 80, vy: -120 - Math.random() * 90, g: 160, life: 1.1 + Math.random() * 0.5, col: c[i % 3], sz: Math.random() < 0.3 ? 2 : 1 });
+    E.cheer[k] = Math.max(E.cheer[k], 2.5);
+    this.float(x0, 40, 'VAI ' + this.nk(k).toUpperCase() + '!', this.cor[k]);
+    this.sfx('cheer'); this.buzz(15); this.push(false);
+  }
+  setPalpite(n) { this.palpite = this.palpite === n ? null : n; UI.guardar(); this.push(true); }
 
   buildBG() {
     const W = this.W, H = this.H;
@@ -1258,6 +1873,47 @@ class Luta {
     });
     this.crowd = cr;
   }
+  // academia (saco, corda, flexão, sombra, véspera), com os cartazes dos dois
+  buildGym() {
+    const W = this.W, H = this.H, c = document.createElement('canvas'); c.width = W; c.height = H;
+    const g = c.getContext('2d'), R = (x, y, w, h, col) => { g.fillStyle = col; g.fillRect(x, y, w, h); };
+    R(0, 0, W, 128, '#1A1512');
+    for (let y = 0; y < 128; y += 6) { R(0, y, W, 1, '#14100D'); for (let x = (y / 6) % 2 ? 8 : 0; x < W; x += 16) R(x, y, 1, 6, '#14100D'); }
+    [40, 120, 200, 280].forEach((wx) => { R(wx - 15, 12, 30, 24, '#0B0A09'); R(wx - 13, 14, 26, 20, '#1C2233'); R(wx - 13, 14, 26, 2, '#2A3346'); R(wx - 1, 14, 2, 20, '#0B0A09'); R(wx - 13, 23, 26, 2, '#0B0A09'); });
+    for (const [k, x] of [['A', 28], ['B', 266]]) {
+      R(x, 44, 26, 32, this.cor[k]); R(x, 44, 26, 2, '#F5C842'); R(x, 76, 4, 3, this.cor[k]); R(x + 22, 76, 4, 3, this.cor[k]);
+      this.pxText(g, this.num(k), x + 2, 53, '#0F0E0D', 3);
+    }
+    R(0, 124, W, 4, '#120F0D'); R(0, 128, W, 22, '#3A2C21'); R(0, 128, W, 1, '#4C3A2B');
+    for (let y = 134; y < 150; y += 6) R(0, y, W, 1, '#33271D');
+    for (let x = 0; x < W; x += 24) R(x + ((x / 24) % 2) * 12, 129, 1, 21, '#2E231A');
+    R(159, 0, 2, 124, '#0B0A09');
+    this.gym = c;
+  }
+  // estúdio (coletiva, debate, pesagem)
+  buildStudio() {
+    const W = this.W, H = this.H, c = document.createElement('canvas'); c.width = W; c.height = H;
+    const g = c.getContext('2d'), R = (x, y, w, h, col) => { g.fillStyle = col; g.fillRect(x, y, w, h); };
+    R(0, 0, W, 128, '#121010');
+    for (let x = 0; x < W; x += 32) R(x, 0, 1, 124, '#1A1715');
+    R(0, 4, W, 3, '#2A2622'); for (let x = 20; x < W; x += 40) { R(x - 3, 7, 7, 3, '#1A1714'); R(x - 2, 10, 5, 1, '#F5C842'); }
+    R(118, 18, 84, 40, '#0B0A09'); R(120, 20, 80, 36, '#161216'); for (let y = 21; y < 56; y += 2) R(120, y, 80, 1, '#1A161A');
+    R(159, 20, 2, 36, '#F5C842'); this.pxText(g, this.nA, 133, 30, this.cor.A, 2); this.pxText(g, this.nB, 173, 30, this.cor.B, 2);
+    R(0, 124, W, 4, '#0B0A09'); R(0, 128, W, 22, '#1E1A17'); R(0, 128, W, 1, '#3A342E');
+    for (let y = 132; y < 150; y += 4) R(0, y, W, 1, '#221E1B');
+    this.studio = c;
+  }
+  // números em pixel art (3×5)
+  pxText(g, str, x, y, col, s) {
+    g.fillStyle = col;
+    let cx = x;
+    for (const ch of String(str)) { const p = DIG[ch]; if (p) for (let i = 0; i < 15; i++) if (p[i] === '1') g.fillRect(cx + (i % 3) * s, y + Math.floor(i / 3) * s, s, s); cx += 4 * s; }
+  }
+  line(b, a, c, col) {
+    b.fillStyle = col;
+    const n = Math.max(1, Math.ceil(Math.max(Math.abs(c[0] - a[0]), Math.abs(c[1] - a[1]))));
+    for (let i = 0; i <= n; i++) b.fillRect(Math.round(a[0] + ((c[0] - a[0]) * i) / n), Math.round(a[1] + ((c[1] - a[1]) * i) / n), 1, 1);
+  }
 
   drawCrowd(b) {
     const E = this.E, T = E.T;
@@ -1271,44 +1927,48 @@ class Luta {
     for (const f of E.flashes) { b.fillStyle = '#FFFFFF'; b.fillRect(f.x - 1, f.y, 3, 1); b.fillRect(f.x, f.y - 1, 1, 3); }
   }
   drawF(b, f) {
-    const E = this.E, P = this.P[f.k], s = f.facing, X = Math.round(f.x + f.kx), Y = this.FLOOR;
-    const J = this.joints(f, E.T);
-    const th = (f.fall * Math.PI) / 2, cs = Math.cos(th), sn = Math.sin(th);
-    const C = (col) => (f.flash > 0 ? '#FFFFFF' : col);
-    const tr = (p) => [X + (p[0] * cs + p[1] * sn) * s, Y + (-p[0] * sn + p[1] * cs)];
+    const E = this.E, P = PALX[f.pal || f.k] || this.P[f.k], fx = this.pfx(f), s = f.facing * (fx.flip ? -1 : 1), base = f.by || this.FLOOR, ay = (f.ay || 0) + fx.ay;
+    const X = Math.round(f.x + (f.kx || 0) + (f.ox || 0)), Y = Math.round(base - ay), J = this.joints(f, E.T);
+    const fall = Math.min(1, (f.fall || 0) + fx.fall), rot = (f.rot || 0) + fx.rot, th = (fall * Math.PI) / 2 + rot, cs = Math.cos(th), sn = Math.sin(th), pv = rot ? -28 : 0;
+    const C = (col) => f.sil || (f.flash > 0 ? '#FFFFFF' : col);
+    const tr = (p) => [X + (p[0] * cs + (p[1] - pv) * sn) * s, Y + pv + (-p[0] * sn + (p[1] - pv) * cs)];
     const ln = (p1, p2, w, col) => {
       const a = tr(p1), c = tr(p2), n = Math.max(1, Math.ceil(Math.max(Math.abs(c[0] - a[0]), Math.abs(c[1] - a[1])))), o = Math.floor(w / 2);
       b.fillStyle = C(col);
       for (let i = 0; i <= n; i++) b.fillRect(Math.round(a[0] + ((c[0] - a[0]) * i) / n) - o, Math.round(a[1] + ((c[1] - a[1]) * i) / n) - o, w, w);
     };
     const rc = (x0, y0, w, h, col) => {
-      b.fillStyle = C(col);
+      x0 = Math.round(x0); y0 = Math.round(y0); b.fillStyle = C(col);
       if (th === 0) { b.fillRect(s > 0 ? X + x0 : X - x0 - w + 1, Y + y0, w, h); return; }
       for (let i = 0; i < w; i++) for (let j = 0; j < h; j++) { const q = tr([x0 + i, y0 + j]); b.fillRect(Math.round(q[0]), Math.round(q[1]), 2, 2); }
     };
     const ad = (p, dx, dy) => [p[0] + dx, p[1] + dy];
-    const sw = 26 + f.fall * 34;
-    b.fillStyle = 'rgba(0,0,0,.45)'; b.fillRect(Math.round(X - sw / 2 - s * f.fall * 26), Y, Math.round(sw), 2);
-    ln(ad(J.hip, -2, 0), J.kB, 5, P.skinD); ln(J.kB, J.fB, 5, P.skinD); rc(J.fB[0] - 3, J.fB[1] - 3, 7, 3, P.shoe);
+    if (!f.sil && !f.noSh) { const sw = Math.max(8, 26 + fall * 34 - ay); b.fillStyle = 'rgba(0,0,0,.45)'; b.fillRect(Math.round(X - sw / 2 - s * fall * 26), base, Math.round(sw), 2); }
+    const lg = P.leg || P.skin, lgD = P.legD || P.skinD;
+    ln(ad(J.hip, -2, 0), J.kB, 5, lgD); ln(J.kB, J.fB, 5, lgD); rc(J.fB[0] - 3, J.fB[1] - 3, 7, 3, P.shoe);
     const shB = ad(J.sh, -2, 2), shF = ad(J.sh, 2, 2);
-    ln(shB, J.eB, 3, P.skinD); ln(J.eB, J.gB, 3, P.skinD); rc(J.gB[0] - 2, J.gB[1] - 2, 5, 5, P.gloveD);
-    ln(ad(J.hip, 2, 0), J.kF, 5, P.skin); ln(J.kF, J.fF, 5, P.skin); rc(J.fF[0] - 3, J.fF[1] - 3, 7, 3, P.shoe);
+    ln(shB, J.eB, 3, P.skinD); ln(J.eB, J.gB, 3, P.skinD);
+    if (P.hand) rc(J.gB[0] - 1, J.gB[1] - 1, 3, 3, P.skinD); else rc(J.gB[0] - 2, J.gB[1] - 2, 5, 5, P.gloveD);
+    ln(ad(J.hip, 2, 0), J.kF, 5, lg); ln(J.kF, J.fF, 5, lg); rc(J.fF[0] - 3, J.fF[1] - 3, 7, 3, P.shoe);
     ln(J.hip, J.sh, 9, P.shirt); ln(ad(J.hip, -3, 0), ad(J.sh, -3, 0), 2, P.shirtD);
-    ln(ad(J.hip, 0, -1), ad(J.hip, 0, 4), 11, P.shorts); ln(ad(J.hip, -5, -2), ad(J.hip, 5, -2), 1, P.glove);
+    ln(ad(J.hip, 0, -1), ad(J.hip, 0, 4), 11, P.shorts); ln(ad(J.hip, -5, -2), ad(J.hip, 5, -2), 1, P.belt || P.glove);
     const h = J.hd;
     rc(h[0] - 2, h[1] + 4, 4, 3, P.skinD);
     rc(h[0] - 5, h[1] - 6, 11, 12, P.skin);
     rc(h[0] + 6, h[1] - 1, 1, 2, P.skin);
     rc(h[0] - 5, h[1] - 6, 11, 3, P.hair); rc(h[0] - 5, h[1] - 3, 3, 5, P.hair);
     if (P.beard) { rc(h[0] - 2, h[1] + 1, 8, 5, P.hair); rc(h[0] + 2, h[1] + 2, 3, 1, P.skinD); }
-    rc(h[0] + 2, h[1] - 3, 3, 1, P.brow); rc(h[0] + 3, h[1] - 2, 1, 1, f.pose === 'ko' ? '#F2EDE4' : '#14110F');
+    rc(h[0] + 2, h[1] - 3, 3, 1, P.brow); rc(h[0] + 3, h[1] - 2, 1, 1, f.eyes === 'z' ? P.skinD : f.pose === 'ko' ? '#F2EDE4' : '#14110F');
     rc(h[0] - 1, h[1] - 1, 2, 2, P.skinD);
-    ln(shF, J.eF, 3, P.skin); ln(J.eF, J.gF, 3, P.skin); rc(J.gF[0] - 2, J.gF[1] - 3, 6, 6, P.glove); rc(J.gF[0] - 2, J.gF[1] - 3, 6, 1, '#FFFFFF');
+    if (P.tie) rc(h[0] - 1, h[1] + 7, 3, 2, '#0F0E0D');
+    ln(shF, J.eF, 3, P.skin); ln(J.eF, J.gF, 3, P.skin);
+    if (P.hand) rc(J.gF[0] - 1, J.gF[1] - 1, 3, 3, P.skin); else { rc(J.gF[0] - 2, J.gF[1] - 3, 6, 6, P.glove); rc(J.gF[0] - 2, J.gF[1] - 3, 6, 1, '#FFFFFF'); }
+    if (f.pose === 'dizzy' && !f.sil) for (let i = 0; i < 3; i++) { const an = E.T * 6 + i * 2.09, q = tr([h[0] + Math.cos(an) * 7, h[1] - 9 + Math.sin(an) * 2]); b.fillStyle = i ? '#F5C842' : '#FFFFFF'; b.fillRect(Math.round(q[0]), Math.round(q[1]), 2, 2); }
   }
   drawProj(b, p) {
     const x = Math.round(p.x), y = Math.round(p.y), s = Math.sign(p.vx) || 1, c = this.cor[p.k];
     const R = (dx, dy, w, h, col) => { b.fillStyle = col; b.fillRect(s > 0 ? x + dx : x - dx - w + 1, y + dy, w, h); };
-    if (!FOGUETE[p.k === 'A' ? this.nA : this.nB]) { // estrela
+    if (!this.foguete(p.k)) { // estrela
       R(-9, -1, 4, 3, c); R(-4, 0, 9, 1, '#F5C842'); R(0, -4, 1, 9, '#F5C842'); R(-2, -2, 5, 5, '#F5C842'); R(-1, -1, 3, 3, '#FFFFFF');
       if (Math.floor(p.age * 20) % 2) { R(-3, -3, 1, 1, '#F5C842'); R(3, -3, 1, 1, '#F5C842'); R(-3, 3, 1, 1, '#F5C842'); R(3, 3, 1, 1, '#F5C842'); }
     } else { // foguete
@@ -1318,16 +1978,195 @@ class Luta {
       R(-5, -1, 8, 3, c); R(-5, -1, 8, 1, shade(c, 0.35)); R(3, -1, 1, 3, '#FFFFFF'); R(4, 0, 1, 1, '#FFFFFF');
     }
   }
+  // ultra: estrelas ou foguetes caindo do céu
+  drawDrop(b, p) {
+    const x = Math.round(p.x), y = Math.round(p.y), c = this.cor[p.k], R = (dx, dy, w, h, col) => { b.fillStyle = col; b.fillRect(x + dx, y + dy, w, h); };
+    if (!this.foguete(p.k)) { R(-1, -10, 3, 5, c); R(-4, 0, 9, 1, '#F5C842'); R(0, -4, 1, 9, '#F5C842'); R(-2, -2, 5, 5, '#F5C842'); R(-1, -1, 3, 3, '#FFFFFF'); }
+    else { const fl = Math.floor(p.age * 24) % 2; R(-1, -11 - fl, 3, 3 + fl, '#F5C842'); R(-2, -7, 1, 3, shade(c, -0.25)); R(2, -7, 1, 3, shade(c, -0.25)); R(-1, -7, 3, 9, c); R(-1, -7, 1, 9, shade(c, 0.35)); R(-1, 2, 3, 1, '#FFFFFF'); R(0, 3, 1, 1, '#FFFFFF'); }
+  }
+  drawStage(b, T) {
+    const R = (x, y, w, h, c) => { b.fillStyle = c; b.fillRect(x, y, w, h); }, W = this.W;
+    R(0, 0, W, 150, '#0D0B0A'); for (let i = 0; i < 30; i++) R((i * 73) % W, (i * 37) % 60, 1, 1, '#4A4239');
+    ['A', 'B'].forEach((k, i) => {
+      const x0 = i ? 168 : 8, c = this.cor[k], cd = this.TONS[k][0], cx = x0 + 72;
+      for (let y = 24; y < 116; y++) { const hw = Math.round(4 + (y - 24) * 0.28); for (let x = cx - hw + (y % 2); x <= cx + hw; x += 2) R(x, y, 1, 1, cd); }
+      R(x0, 18, 144, 3, '#3A342E'); for (let x = x0; x < x0 + 144; x += 6) R(x, 19, 3, 1, '#4A4038');
+      R(x0 + 2, 21, 3, 95, '#2A2622'); R(x0 + 139, 21, 3, 95, '#2A2622');
+      [x0 + 24, x0 + 72, x0 + 120].forEach((lx, j) => { R(lx - 2, 21, 5, 3, '#1A1714'); R(lx - 1, 24, 3, 1, (Math.floor(T * 4) + j) % 3 ? '#F5C842' : c); });
+      R(x0 + 52, 30, 40, 22, '#0B0A09'); R(x0 + 53, 31, 38, 20, cd); this.pxText(b, this.num(k), x0 + 62, 34, c, 3);
+      R(x0 + 6, 92, 10, 24, '#0F0E0D'); R(x0 + 128, 92, 10, 24, '#0F0E0D');
+      [[x0 + 11, 98], [x0 + 11, 108], [x0 + 133, 98], [x0 + 133, 108]].forEach(([sx, sy]) => { R(sx - 3, sy - 3, 7, 7, '#2A2622'); R(sx - 1, sy - 1, 3, 3, '#3A342E'); });
+      R(x0, 116, 144, 3, '#4A4038'); R(x0, 119, 144, 31, '#161412');
+    });
+  }
+  drawFans(b, cr, T) {
+    for (const p of cr) {
+      const y = p.y - Math.round(Math.abs(Math.sin(T * 9 + p.ph)) * 2), c = this.cor[p.k];
+      b.fillStyle = this.TONS[p.k][2]; b.fillRect(p.x - 3, y, 7, 12);
+      b.fillStyle = p.head; b.fillRect(p.x - 2, y - 5, 5, 5);
+      if (p.flag) { const w = Math.floor(T * 6 + p.ph) % 2; b.fillStyle = '#6A5E52'; b.fillRect(p.x + 3, y - 16, 1, 14); b.fillStyle = c; b.fillRect(p.x + 4, y - 16 + w, 7, 4); b.fillStyle = '#F5C842'; b.fillRect(p.x + 4, y - 16 + w, 7, 1); }
+      else { b.fillRect(p.x - 4, y - 8, 1, 4); b.fillRect(p.x + 4, y - 8, 1, 4); }
+    }
+  }
+  drawStreet(b, T) {
+    const R = (x, y, w, h, c) => { b.fillStyle = c; b.fillRect(Math.round(x), y, w, h); }, W = this.W;
+    ['#0D0B0A', '#110E0C', '#15110E', '#1A1511', '#201913', '#271E16'].forEach((c, i) => R(0, i * 12, W, 12, c));
+    R(0, 72, W, 52, '#271E16');
+    const s1 = T * 10, o1 = s1 % 32, b0 = Math.floor(s1 / 32);
+    for (let i = -1; i < 12; i++) {
+      const id = i + b0, bx = i * 32 - o1, hgt = 34 + (Math.abs(id * 7919) % 7) * 8;
+      R(bx, 124 - hgt, 30, hgt, '#1A1511');
+      for (let r = 0; r < Math.floor(hgt / 8) - 1; r++) for (let q = 0; q < 4; q++) R(bx + 4 + q * 6, 124 - hgt + 5 + r * 8, 3, 3, Math.abs(id * 31 + r * 7 + q * 13) % 5 === 0 ? '#6B5A2E' : '#221B15');
+    }
+    const o2 = (T * 45) % 80; for (let i = -1; i < 6; i++) { const x = i * 80 - o2; R(x, 84, 1, 40, '#3A342E'); R(x - 2, 82, 5, 2, '#4A4038'); R(x - 1, 84, 3, 1, '#F5C842'); }
+    R(0, 124, W, 7, '#2A2622'); const o3 = (T * 90) % 16; for (let x = -o3; x < W; x += 16) R(x, 124, 1, 7, '#221E1B');
+    R(0, 131, W, 1, '#4A4038'); R(0, 132, W, 18, '#1A1714');
+    const o4 = (T * 90) % 24; for (let x = -o4; x < W; x += 24) R(x, 141, 10, 1, '#6A625A');
+  }
+  bubble(ctx, sc, x, y, t, col) {
+    ctx.font = `700 ${Math.round(6 * sc)}px Silkscreen, monospace`;
+    const w = ctx.measureText(t).width / sc + 10, X = Math.max(4, Math.min(this.W - 4 - w, x - w / 2));
+    ctx.fillStyle = '#F2EDE4'; ctx.fillRect(X * sc, (y - 7) * sc, w * sc, 14 * sc); ctx.fillRect((x - 2) * sc, (y + 7) * sc, 4 * sc, 3 * sc);
+    ctx.fillStyle = col; ctx.fillRect(X * sc, (y + 6) * sc, w * sc, sc);
+    ctx.fillStyle = '#0F0E0D'; ctx.textAlign = 'center'; ctx.fillText(t, (X + w / 2) * sc, y * sc);
+  }
+  drawScene(b) {
+    const S2 = this.SC, at = S2.a, E = this.E, W = this.W, H = this.H, T = S2.T, F = this.FLOOR;
+    const R = (x, y, w, h, c) => { b.fillStyle = c; b.fillRect(Math.round(x), Math.round(y), w, h); }, D = (f) => this.drawF(b, f);
+    const flash = () => S2.fl.forEach((f) => { R(f.x - 3, f.y, 7, 1, '#FFFFFF'); R(f.x, f.y - 3, 1, 7, '#FFFFFF'); R(f.x - 1, f.y - 1, 3, 3, '#FFFFFF'); });
+    const ring = () => { b.drawImage(this.bg, 0, 0); this.drawCrowd(b); };
+    switch (S2.id) {
+      case 'corner':
+        ring(); D(at.cA); D(at.cB); b.drawImage(this.ropes, 0, 0);
+        for (const k of ['A', 'B']) {
+          const a = at[k], c = at['c' + k], bx = a.x - a.facing * 13;
+          R(bx - 3, F - 8, 7, 8, '#3A342E'); R(bx - 3, F - 8, 7, 1, '#6A5E52');
+          R(a.x - 6, F - 17, 13, 2, '#6A5E52'); R(a.x - 5, F - 15, 2, 15, '#4A4038'); R(a.x + 4, F - 15, 2, 15, '#4A4038');
+          D(a);
+          const g = this.joints(c, E.T).gF, tx = c.x + g[0] * c.facing, ty = F + g[1], w = Math.round(Math.sin(c.pt * 16) * 2), x0 = c.facing > 0 ? tx : tx - 6;
+          R(x0, ty - 1 + w, 7, 5, '#F2EDE4'); R(x0, ty + 4 + w, 7, 1, '#BDB6AA');
+        }
+        break;
+      case 'coletiva':
+        b.drawImage(this.studio, 0, 0);
+        for (const k of ['A', 'B']) {
+          const a = at[k], x0 = a.x - 30;
+          D(a);
+          R(x0, 104, 60, 2, '#4A4038'); R(x0, 106, 60, 26, '#26211D'); R(x0, 106, 60, 2, this.cor[k]);
+          this.pxText(b, this.num(k), a.x - 7, 114, '#F2EDE4', 2);
+          ['#E5383B', '#3B7BF0', '#F5C842', '#2FA65A', '#E8833A'].forEach((c, i) => { const mx = a.x + a.facing * (7 + i * 3), hh = i % 2 ? 9 : 6; R(mx, 104 - hh, 1, hh, '#0F0E0D'); R(mx - 1, 102 - hh, 3, 3, c); });
+        }
+        for (let x = 4; x < W; x += 18) { R(x, 139, 9, 11, '#0B0A09'); R(x + 2, 135, 5, 4, '#0B0A09'); R(x + 7, 137, 6, 4, '#1A1714'); R(x + 12, 138, 2, 2, '#3A342E'); }
+        flash(); break;
+      case 'saco':
+        b.drawImage(this.gym, 0, 0);
+        for (const k of ['A', 'B']) {
+          const g = S2.bag[k], dx = Math.sin(g.a) * 24, bx = Math.round(g.x + dx);
+          for (let y = 0; y < 78; y += 2) R(g.x + (dx * y) / 78, y, 1, 1, '#6A625A');
+          R(bx - 4, 78, 9, 2, '#2A2622'); R(bx - 6, 80, 13, 38, g.hit > 0 ? '#7A5440' : '#5A3E2E'); R(bx - 5, 81, 2, 36, '#6E4C38'); R(bx - 6, 83, 13, 2, '#3E2A1F'); R(bx - 6, 112, 13, 2, '#3E2A1F');
+          D(at[k]);
+        }
+        break;
+      case 'corda':
+        b.drawImage(this.gym, 0, 0);
+        for (const k of ['A', 'B']) {
+          const a = at[k], ph = a.rp || 0, s = a.facing, Y = F - a.ay, cx = a.x + 2 * s, cy = Y - 33;
+          D(a);
+          const J = this.joints(a, E.T), pts = [[a.x + J.gB[0] * s, Y + J.gB[1]]];
+          for (let j = -6; j <= 6; j++) { const q = ph + j * 0.16; pts.push([cx + Math.sin(q) * 15 * s, cy - Math.cos(q) * 36]); }
+          pts.push([a.x + J.gF[0] * s, Y + J.gF[1]]);
+          for (let j = 1; j < pts.length; j++) this.line(b, pts[j - 1], pts[j], '#D8CDB8');
+        }
+        break;
+      case 'comicio':
+        this.drawStage(b, T);
+        for (const k of ['A', 'B']) { const a = at[k], mx = a.x + a.facing * 14; D(a); R(mx, a.by - 40, 1, 40, '#3A342E'); R(mx - 1, a.by - 42, 3, 3, '#0F0E0D'); }
+        this.drawFans(b, S2.crowd, T); break;
+      case 'corrida': this.drawStreet(b, T); D(at.B); D(at.A); break;
+      case 'debate': {
+        b.drawImage(this.studio, 0, 0);
+        const per = 4, rem = 1 - (T % per) / per, sp = Math.floor(T / per) % 2 ? 'B' : 'A';
+        for (const k of ['A', 'B']) {
+          const a = at[k], px = a.x + a.facing * 7, cd = this.TONS[k][1];
+          for (let y = 12; y < 128; y++) { const hw = Math.round(3 + (y - 12) * 0.16); for (let x = a.x - hw + (y % 2); x <= a.x + hw; x += 2) R(x, y, 1, 1, cd); }
+          D(a);
+          R(px - 10, 98, 21, 2, '#4A4038'); R(px - 9, 100, 19, 32, '#26211D'); R(px - 7, 104, 15, 11, this.cor[k]); this.pxText(b, this.num(k), px - 3, 107, '#0F0E0D', 1);
+          this.line(b, [px, 98], [a.x + a.facing * 9, F - 50], '#0F0E0D'); R(a.x + a.facing * 9 - 1, F - 51, 2, 2, '#3A342E');
+        }
+        R(128, 62, 64, 6, '#0B0A09'); R(130, 64, Math.round(60 * rem), 2, this.cor[sp]);
+        break;
+      }
+      case 'flexao':
+        b.drawImage(this.gym, 0, 0);
+        for (const k of ['A', 'B']) { const a = at[k], x0 = a.facing > 0 ? a.x - 26 : a.x - 20; R(x0, F - 1, 46, 2, '#3A342E'); R(x0, F - 1, 46, 1, this.cor[k]); D(a); }
+        break;
+      case 'manopla': ring(); b.drawImage(this.ropes, 0, 0); D(at.cA); D(at.cB); D(at.A); D(at.B); break;
+      case 'sombra':
+        b.drawImage(this.gym, 0, 0);
+        for (const k of ['A', 'B']) { const a = at[k]; this.drawF(b, { ...a, sil: '#0E0B09', ox: -a.facing * 9, by: F - 7, noSh: 1, flash: 0 }); D(a); }
+        break;
+      case 'pesagem':
+        b.drawImage(this.studio, 0, 0);
+        for (const [k, sx] of [['A', 112], ['B', 208]]) {
+          const a = at[k], px = sx + (k === 'A' ? 16 : -16), t = S2.disp === null ? this.num(k) : S2.disp;
+          R(px, 92, 2, 36, '#6A625A'); R(px - 7, 83, 16, 10, '#0B0A09'); R(px - 7, 83, 16, 1, '#3A342E');
+          if (t) this.pxText(b, t, px - 3, 85, S2.disp === null ? '#2FA65A' : '#1E6E3B', 1);
+          R(sx - 12, F - 4, 25, 4, '#9A9086'); R(sx - 12, F - 4, 25, 1, '#C9C0B4');
+          D(a);
+        }
+        flash(); break;
+      case 'vespera':
+        b.drawImage(this.gym, 0, 0);
+        R(150, 40, 20, 18, '#E9E4DA'); R(150, 40, 20, 4, '#E5383B'); this.pxText(b, '24', 154, 47, '#0F0E0D', 1);
+        for (const k of ['A', 'B']) {
+          const a = at[k], x0 = k === 'A' ? 36 : 218;
+          R(x0, 121, 66, 4, '#4A4038'); R(x0, 121, 66, 1, '#6A5E52'); R(x0 + 2, 125, 2, 7, '#2A2622'); R(x0 + 62, 125, 2, 7, '#2A2622');
+          R(k === 'A' ? x0 + 2 : x0 + 50, 116, 14, 5, '#E9E4DA');
+          D(a);
+          R(k === 'A' ? x0 + 18 : x0 + 2, 114, 46, 7, this.P[k].shorts); R(k === 'A' ? x0 + 18 : x0 + 2, 114, 46, 1, this.cor[k]);
+        }
+        b.fillStyle = 'rgba(6,6,12,.6)'; b.fillRect(0, 0, W, H);
+        R(32, 17, 5, 5, '#D8CDB8'); R(34, 17, 3, 1, '#0B0A09');
+        break;
+      case 'encarada': ring(); b.drawImage(this.ropes, 0, 0); D(at.R); D(at.A); D(at.B); break;
+    }
+  }
+  overScene(txt, ctx, sc) {
+    const S2 = this.SC, d = DAYS[this.dia], W = this.W, falta = 25 - d[0];
+    txt(String(d[0]).padStart(2, '0') + '/10 · ' + d[1], 8, 10, 6, '#A39B90', 'left');
+    txt(d[3].toUpperCase(), 8, 21, 8, '#F5C842', 'left');
+    txt(falta > 0 ? 'FALTAM ' + falta + (falta > 1 ? ' DIAS' : ' DIA') : 'HOJE TEM LUTA', W - 8, 10, 6, '#F2EDE4', 'right');
+    switch (S2.id) {
+      case 'debate': case 'coletiva':
+        if (S2.line) {
+          const k = Math.floor(S2.T / (S2.id === 'debate' ? 4 : 3)) % 2 ? 'B' : 'A', a = S2.a[k];
+          this.bubble(ctx, sc, a.x + a.facing * 10, this.FLOOR - 76, S2.line, this.cor[k]);
+          if (S2.both) { const o = S2.a[this.oth(k)]; this.bubble(ctx, sc, o.x + o.facing * 10, this.FLOOR - 76, '!!!', this.cor[o.k]); }
+        }
+        if (S2.id === 'debate') txt('TEMPO', W / 2, 56, 6, '#A39B90');
+        break;
+      case 'corrida': if (S2.ld) txt(this.nk(S2.ld).toUpperCase() + ' NA FRENTE', W / 2, 36, 7, this.cor[S2.ld]); break;
+      case 'flexao': for (const k of ['A', 'B']) txt(S2.n[k] + ' FLEXÕES', S2.a[k].x, 60, 7, this.cor[k]); break;
+      case 'encarada': { const k = 1 + Math.sin(S2.T * 10) * 0.06; txt('VS', W / 2, 44, 22 * k, '#F5C842'); txt(this.nk('A').toUpperCase(), 64, 60, 10, this.cor.A); txt(this.nk('B').toUpperCase(), 256, 60, 10, this.cor.B); break; }
+      case 'pesagem': txt('PESAGEM OFICIAL', W / 2, 66, 7, '#F2EDE4'); break;
+    }
+    if (this.montagem) { ctx.fillStyle = '#F5C842'; ctx.fillRect(0, ctx.canvas.height - 2 * sc, ctx.canvas.width * Math.min(1, S2.T / 9), 2 * sc); }
+  }
 
-  draw() {
+  draw(cena) {
     const c = this.cv;
     if (!c || !this.bg || !c.clientWidth) return;
     const E = this.E, W = this.W, H = this.H, b = this.buf;
     const dpr = Math.min(2, window.devicePixelRatio || 1), cw = Math.max(1, Math.round(c.clientWidth * dpr)), ch = Math.max(1, Math.round((cw * H) / W));
     if (c.width !== cw || c.height !== ch) { c.width = cw; c.height = ch; }
-    b.drawImage(this.bg, 0, 0); this.drawCrowd(b); b.drawImage(this.ropes, 0, 0);
-    ['A', 'B'].sort((x, y) => (this.isAtk(E.f[x]) ? 1 : 0) - (this.isAtk(E.f[y]) ? 1 : 0)).forEach((k) => this.drawF(b, E.f[k]));
-    for (const p of E.proj) this.drawProj(b, p);
+    if (cena) this.drawScene(b);
+    else {
+      b.drawImage(this.bg, 0, 0); this.drawCrowd(b); b.drawImage(this.ropes, 0, 0);
+      this.drawF(b, E.ref);
+      ['A', 'B'].sort((x, y) => (this.isAtk(E.f[x]) ? 1 : 0) - (this.isAtk(E.f[y]) ? 1 : 0)).forEach((k) => this.drawF(b, E.f[k]));
+      for (const p of E.proj) this.drawProj(b, p);
+      for (const p of E.drops) this.drawDrop(b, p);
+    }
     for (const p of E.parts) {
       const x = Math.round(p.x), y = Math.round(p.y);
       if (p.star) { const r = p.star; b.fillStyle = '#F5C842'; b.fillRect(x - r, y, r * 2 + 1, 1); b.fillRect(x, y - r, 1, r * 2 + 1); b.fillStyle = '#FFFFFF'; b.fillRect(x - 2, y - 2, 5, 5); }
@@ -1342,25 +2181,35 @@ class Luta {
     ctx.textBaseline = 'middle'; ctx.lineJoin = 'round'; ctx.strokeStyle = '#0F0E0D';
     const txt = (t, x, y, size, col, al) => { ctx.textAlign = al || 'center'; ctx.font = `700 ${Math.round(size * sc)}px Silkscreen, monospace`; ctx.lineWidth = Math.max(3, size * 0.26 * sc); ctx.strokeText(t, x * sc, y * sc); ctx.fillStyle = col; ctx.fillText(t, x * sc, y * sc); };
     for (const f of E.floats) { ctx.globalAlpha = Math.max(0, 1 - Math.max(0, (f.age - 0.5) / 0.4)); txt(f.txt, f.x, f.y - f.age * 16, 7, f.col); }
-    for (const co of E.callouts) { ctx.globalAlpha = co.age > 0.8 ? Math.max(0, (1.1 - co.age) / 0.3) : 1; const k = co.age < 0.1 ? 1.5 - 5 * co.age : 1; txt(co.txt, Math.max(40, Math.min(280, E.f[co.k].x)), this.FLOOR - 76 - co.age * 6, 9 * k, '#F5C842'); }
-    ctx.globalAlpha = 1;
-    for (const k of ['A', 'B']) {
-      const f = E.f[k];
-      if (f.combo < 2 || f.comboT > 1.3) continue;
-      const x = k === 'A' ? 10 : W - 10, al = k === 'A' ? 'left' : 'right';
-      txt(f.combo + ' HITS', x, 16, 11, this.cor[k], al); txt('COMBO!', x, 28, 6, '#F5C842', al);
+    for (const co of E.callouts) {
+      const life = co.sz ? 0.8 : 1.1, x0 = co.x != null ? co.x : E.f[co.k].x + E.f[co.k].kx;
+      ctx.globalAlpha = co.age > life - 0.3 ? Math.max(0, (life - co.age) / 0.3) : 1;
+      const k = co.age < 0.1 ? 1.5 - 5 * co.age : 1;
+      txt(co.txt, Math.max(40, Math.min(280, x0)), this.FLOOR - (co.sz ? 72 : 76) - co.age * (co.sz ? 10 : 6), (co.sz || 9) * k, co.sz ? '#F2EDE4' : '#F5C842');
     }
-    const b0 = E.banners[0];
-    if (b0) {
-      const k = b0.age < 0.16 ? 1.7 - 0.7 * (b0.age / 0.16) : 1;
-      ctx.globalAlpha = b0.dur && b0.age > b0.dur - 0.25 ? Math.max(0, (b0.dur - b0.age) / 0.25) : 1;
-      const y = ch * 0.3;
-      ctx.fillStyle = 'rgba(11,10,9,.6)'; ctx.fillRect(0, y - 22 * sc, cw, (b0.sub ? 44 : 34) * sc);
-      ctx.textAlign = 'center'; ctx.font = `700 ${Math.round(26 * sc * k)}px Silkscreen, monospace`;
-      ctx.lineWidth = 3.2 * sc;
-      ctx.fillStyle = '#B02428'; ctx.fillText(b0.text, cw / 2 + 1.5 * sc, y - 3.5 * sc);
-      ctx.strokeText(b0.text, cw / 2, y - 5 * sc); ctx.fillStyle = '#F5C842'; ctx.fillText(b0.text, cw / 2, y - 5 * sc);
-      if (b0.sub) { ctx.font = `700 ${Math.round(6.5 * sc)}px Silkscreen, monospace`; ctx.fillStyle = '#F2EDE4'; ctx.fillText(b0.sub, cw / 2, y + 13 * sc); }
+    ctx.globalAlpha = 1;
+    if (cena) this.overScene(txt, ctx, sc);
+    else {
+      if (E.refN) txt(String(E.refN), E.ref.x, this.FLOOR - 84, 14, '#F5C842');
+      for (const k of ['A', 'B']) {
+        const f = E.f[k];
+        if (f.combo < 2 || f.comboT > 1.3) continue;
+        const x = k === 'A' ? 10 : W - 10, al = k === 'A' ? 'left' : 'right';
+        txt(f.combo + ' HITS', x, 16, 11, this.cor[k], al); txt('COMBO!', x, 28, 6, '#F5C842', al);
+      }
+      if (this.modo === 'espera') { txt('SALA DE GOLPES', 8, H - 8, 6, '#A39B90', 'left'); txt(this.autoDemo ? 'DEMO AUTOMÁTICA' : 'TOQUE NUM GOLPE', W - 8, H - 8, 6, this.autoDemo ? '#F5C842' : '#A39B90', 'right'); }
+      const b0 = E.banners[0];
+      if (b0) {
+        const k = b0.age < 0.16 ? 1.7 - 0.7 * (b0.age / 0.16) : 1;
+        ctx.globalAlpha = b0.dur && b0.age > b0.dur - 0.25 ? Math.max(0, (b0.dur - b0.age) / 0.25) : 1;
+        const y = ch * 0.3;
+        ctx.fillStyle = 'rgba(11,10,9,.6)'; ctx.fillRect(0, y - 22 * sc, cw, (b0.sub ? 44 : 34) * sc);
+        ctx.textAlign = 'center'; ctx.font = `700 ${Math.round(26 * sc * k)}px Silkscreen, monospace`;
+        ctx.lineWidth = 3.2 * sc;
+        ctx.fillStyle = '#B02428'; ctx.fillText(b0.text, cw / 2 + 1.5 * sc, y - 3.5 * sc);
+        ctx.strokeText(b0.text, cw / 2, y - 5 * sc); ctx.fillStyle = '#F5C842'; ctx.fillText(b0.text, cw / 2, y - 5 * sc);
+        if (b0.sub) { ctx.font = `700 ${Math.round(6.5 * sc)}px Silkscreen, monospace`; ctx.fillStyle = '#F2EDE4'; ctx.fillText(b0.sub, cw / 2, y + 13 * sc); }
+      }
     }
     ctx.globalAlpha = 1;
   }
@@ -1490,6 +2339,7 @@ const fmtP = (p, exato) => (exato ? Math.round(p * 100) + '%' : p >= 0.995 ? '>9
 const curto = (v) => (v >= 1e6 ? (v / 1e6).toLocaleString('pt-BR', { maximumFractionDigits: 1 }) + ' mi' : v >= 1000 ? Math.round(v / 1000) + ' mil' : String(Math.round(v)));
 
 // ---------- interface ----------
+const STATS = [['Golpes certos', 'g'], ['Defesas', 'd'], ['Esquivas', 'e'], ['Quedas aplicadas', 'q'], ['Especiais', 's'], ['Maior combo', 'c']];
 const UI = {
   mob: null, aba: 'previsao', mapa: 'lead', pvck: '', pvRows: {}, arrastando: false, tiles: {}, regs: {},
   // só mexe no DOM quando o valor muda (cada nó guarda o último valor em _c)
@@ -1528,8 +2378,17 @@ const UI = {
     for (const id of ['supA', 'supB', 'mSupA', 'mSupB']) $(id).innerHTML = '<i></i>'.repeat(10);
     // estatísticas
     $('stats').innerHTML = '<div class="sth"><span id="stA">LULA</span><span></span><span id="stB">FLÁVIO</span></div>'
-      + [['Golpes certos', 'g'], ['Defesas', 'd'], ['Esquivas', 'e'], ['Especiais', 's'], ['Maior combo', 'c']]
-        .map(([l, k]) => `<div class="st"><b id="st${k}A">0</b><span>${l}</span><b id="st${k}B">0</b></div>`).join('');
+      + STATS.map(([l, k]) => `<div class="st"><b id="st${k}A">0</b><span>${l}</span><b id="st${k}B">0</b></div>`).join('');
+    // botões de golpe: no computador, por grupo e com a tecla; no celular, os principais grandes e o resto numa faixa
+    const bt = (mv, attr, tecla) => `<button type="button" class="golpe${mv === 'special' || mv === 'ultra' ? ' esp' : ''}" ${attr}="${mv}"><span>${esc(GL[mv])}</span>${tecla ? `<kbd>${KEYF[mv]}</kbd>` : ''}</button>`;
+    const defesa = (id) => `<button type="button" class="golpe def" id="${id}"><span>DEFESA</span><kbd>E</kbd></button>`;
+    $('padD').innerHTML = `<div class="grupos">${GOLPES.map(([tit, it]) => `<div class="grupo"><span>${esc(tit)}</span><div>${it.map(([mv]) => bt(mv, 'data-mv', 1)).join('')}</div></div>`).join('')}</div><div class="defl">${defesa('bDefD')}</div>`;
+    const todos = GOLPES.flatMap((x) => x[1].map((y) => y[0]));
+    $('padM').innerHTML = `<div class="pmain">${MAIN.map((mv) => bt(mv, 'data-mv')).join('')}${defesa('bDefM')}</div><div class="pextra">${todos.filter((mv) => !MAIN.includes(mv)).map((mv) => bt(mv, 'data-mv')).join('')}</div>`;
+    $('golpes').innerHTML = GOLPES.map(([tit, it]) => `<div class="grupo"><span>${esc(tit)}</span><div>${it.map(([mv]) => bt(mv, 'data-golpe', 1)).join('')}</div></div>`).join('');
+    $('salaN').textContent = String(N_GOLPES);
+    // calendário do intervalo
+    $('dias').innerHTML = DAYS.map((d, i) => `<button type="button" data-i="${i}" title="${String(d[0]).padStart(2, '0')}/10 · ${esc(d[3])}"><i>${d[1]}</i><b>${String(d[0]).padStart(2, '0')}</b><u></u></button>`).join('');
     const salvo = ler('apuracao-luta-v2') || {};
     if (salvo.mapa === 'count') this.mapa = 'count';
     if (['previsao', 'estados', 'lances', 'regioes', 'luta'].includes(salvo.aba)) this.aba = salvo.aba;
@@ -1545,7 +2404,7 @@ const UI = {
   },
   // painel de previsão (só refaz as contas quando o ponto, os dados ou a área mudam)
   previsao(L, i) {
-    if (this.mob && this.aba !== 'previsao') return;
+    if (this.mob && L.modo === 'luta' && this.aba !== 'previsao') return;
     const ck = Prev.preparar(L, i) + '|' + L.scope + '|' + (this.mob ? 1 : 0);
     if (ck === this.pvck) return;
     this.pvck = ck;
@@ -1645,18 +2504,20 @@ const UI = {
     }
     return svg;
   },
-  guardar() { gravar('apuracao-luta-v2', { scope: luta.scope, mapa: this.mapa, aba: this.aba }); },
+  guardar() { gravar('apuracao-luta-v2', { scope: luta.scope, mapa: this.mapa, aba: this.aba, palpite: luta.palpite, demo: luta.demoK }); },
 
-  // computador ou celular (mesma regra do design): as peças compartilhadas mudam de lugar
-  layout() {
-    const vw = window.innerWidth, vh = window.innerHeight, mob = vw < 720 || vh < 500;
+  // computador ou celular (mesma regra do design), luta ou intervalo: as peças compartilhadas mudam de lugar
+  layout(modo) {
+    const vw = window.innerWidth, vh = window.innerHeight, mob = vw < 720 || vh < 500, m = modo || this.modo || 'luta';
     this.on($('mTopo'), 'fixo', vh >= 560 && vh > vw * 1.1);
-    if (mob === this.mob) return false;
-    this.mob = mob;
-    document.documentElement.classList.toggle('mob', mob);
+    const ck = (mob ? 'm' : 'd') + m;
+    if (ck === this.lk) return false;
+    this.lk = ck; this.mob = mob; this.modo = m;
+    const html = document.documentElement;
+    html.classList.toggle('mob', mob); html.classList.toggle('espera', m === 'espera');
     const raiz = $(mob ? 'mob' : 'desk');
     for (const p of document.querySelectorAll('[data-peca]')) {
-      const slot = raiz.querySelector(`[data-slot="${p.dataset.peca}"]`);
+      const slot = [...raiz.querySelectorAll(`[data-slot="${p.dataset.peca}"]`)].find((s) => !s.dataset.modo || s.dataset.modo === m);
       if (slot && p.parentNode !== slot) slot.appendChild(p);
     }
     return true;
@@ -1666,30 +2527,97 @@ const UI = {
     const st = document.documentElement.style;
     st.setProperty('--cA', L.cor.A); st.setProperty('--cB', L.cor.B);
     for (const [k, n, p] of [['A', L.nA, 'P1'], ['B', L.nB, 'P2']]) {
-      const c = S.cand[n] || {}, nm = L.nome(n).toUpperCase();
-      this.t($('num' + k), n); this.t($('mNum' + k), n);
-      this.t($('tag' + k), p + (c.partido ? ' · ' + partido(c.partido).toUpperCase() : ''));
-      this.t($('nome' + k), nm); this.t($('mNome' + k), nm);
+      const c = S.cand[n] || {}, nm = L.nome(n).toUpperCase(), tag = p + (c.partido ? ' · ' + partido(c.partido).toUpperCase() : '');
+      for (const id of ['num', 'mNum', 'cNum', 'mcNum']) this.t($(id + k), n);
+      for (const id of ['nome', 'mNome', 'cNome', 'mcNome', 'ctrl', 'st', 'demo', 'pal']) this.t($(id + k), nm);
+      this.t($('tag' + k), tag); this.t($('cTag' + k), tag);
       this.t($('cheio' + k), L.cheio(n) || ' ');
-      this.t($('ctrl' + k), nm); this.t($('st' + k), nm);
+      this.t($('tor' + k), 'VAI ' + nm);
       this.t($('l' + k + 'n'), L.nome(n));
       L.LID[k].forEach((c2, i) => this.s($('l' + k + i), 'background', c2));
     }
+    this.t($('ledeE'), `O 1º turno acabou sem nocaute. ${L.nome(L.nA)} e ${L.nome(L.nB)} voltam ao ringue em 25 de outubro. Até lá, cada dia tem um treino diferente, e a sala de golpes já está aberta.`);
+  },
+
+  // contagem regressiva para as urnas do 2º turno fecharem (a cada segundo, no intervalo)
+  contagem() {
+    const t2 = S.turnos.find((x) => x.turno === 2), ms = ((t2 && t2.inicio) || FECHA2) - Date.now(), p2 = (n) => String(n).padStart(2, '0');
+    if (ms <= 0) { this.t($('cdD'), '0'); this.t($('cdL'), 'URNAS FECHADAS'); this.t($('cdH'), '00:00:00'); this.t($('mCd'), 'É HOJE'); return; }
+    const s = Math.floor(ms / 1000), d = Math.floor(s / 86400), hms = [Math.floor(s / 3600) % 24, Math.floor(s / 60) % 60, s % 60].map(p2).join(':');
+    this.t($('cdD'), String(d)); this.t($('cdL'), d === 1 ? 'DIA' : 'DIAS'); this.t($('cdH'), hms); this.t($('mCd'), `${d}D ${hms}`);
+  },
+
+  // o intervalo: resultado do 1º turno, calendário de treinos, sala de golpes, palpite
+  espera(L) {
+    const br = L.area(Math.max(0, S.hist.length - 1), 'br'), nA = L.nome(L.nA), nB = L.nome(L.nB);
+    const ra = br.has ? pc1(br.ap) : '—', rb = br.has ? pc1(br.bp) : '—';
+    this.t($('r1'), br.has ? `${nA} ${ra} × ${rb} ${nB}` : '—');
+    this.t($('cR1A'), '1º turno: ' + ra); this.t($('cR1B'), '1º turno: ' + rb); this.t($('mR1A'), ra); this.t($('mR1B'), rb);
+    this.contagem();
+    const d = DAYS[L.dia], hoje = diaIdx(), falta = 25 - d[0], treino = L.vista === 'treino', p2 = (n) => String(n).padStart(2, '0');
+    this.t($('diaK'), `${p2(d[0])}/10 · ${WDN[d[1]]} · ${falta > 0 ? 'faltam ' + falta + (falta > 1 ? ' dias' : ' dia') : 'dia da luta'}`.toUpperCase());
+    this.t($('diaT'), d[3]); this.t($('diaX'), d[4]);
+    [...$('dias').children].forEach((b, i) => {
+      const fd = i === DAYS.length - 1, td = i === hoje;
+      this.on(b, 'sel', i === L.dia && !treino); this.on(b, 'luta', fd); this.on(b, 'hoje', td && !fd); this.on(b, 'passou', i < hoje);
+      this.t(b.lastChild, td ? 'HOJE' : fd ? 'LUTA' : '');
+    });
+    for (const b of document.querySelectorAll('[data-mont]')) this.t(b, L.montagem ? 'PAUSAR MONTAGEM' : 'MONTAGEM DE TREINO');
+    const t2 = S.turnos.find((x) => x.turno === 2), pronto = !!(t2 && t2.disponivel);
+    for (const b of document.querySelectorAll('[data-luta2]')) {
+      this.vis(b, L.dia === DAYS.length - 1);
+      this.t(b, pronto ? 'ASSISTIR A APURAÇÃO DO 2º TURNO' : 'A APURAÇÃO COMEÇA ÀS 17H DE 25/10');
+      if (b.disabled !== !pronto) b.disabled = !pronto;
+    }
+    // sala de golpes
+    for (const b of $('demoOpts').children) {
+      const k = b.dataset.demo, sel = L.demoK === k;
+      this.s(b, 'background', sel ? L.cor[k] : ''); this.s(b, 'color', sel ? '#0F0E0D' : '');
+    }
+    for (const b of $('golpes').querySelectorAll('.esp')) this.t(b.firstChild, (b.dataset.golpe === 'ultra' ? L.ULT : L.ESP)[L.demoK].replace('!', ''));
+    this.t($('bAuto'), L.autoDemo ? 'PARAR DEMO' : 'VER TODOS OS GOLPES');
+    this.vis($('bVolta'), treino);
+    // palpite
+    for (const b of $('palpite').querySelectorAll('[data-pal]')) {
+      const k = b.dataset.pal, sel = L.palpite === L.num(k);
+      this.s(b, 'background', sel ? L.cor[k] : ''); this.s(b, 'color', sel ? '#0F0E0D' : '');
+    }
+    this.t($('palTxt'), L.palpite === L.nA || L.palpite === L.nB
+      ? `Palpite salvo: ${L.nome(L.palpite)}. No fim da apuração do 2º turno, o placar avisa se você acertou.`
+      : 'Quem vence o 2º turno? O palpite fica salvo só neste aparelho.');
   },
 
   render(L) {
-    const E = L.E, v = L.view(E.idx), p = v.p, live = E.mode === 'live', T2 = S.turno === 2, A = ALL[L.scope];
+    this.layout(L.modo);
+    const E = L.E, v = L.view(E.idx), p = v.p, live = E.mode === 'live', T2 = S.turno === 2, A = ALL[L.scope], esp = L.modo === 'espera';
     const tem = L.temReplay(), fim = !!(S.atual && S.atual.finalizado), r = E.ended ? L.desfecho(E.idx) : null;
     const nA = L.nome(L.nA), nB = L.nome(L.nB);
 
     // topo
     const on = S.online == null ? '—' : num(S.online);
     this.t($('onD'), on); this.t($('onM'), on);
-    this.t($('sub'), T2 ? 'Presidente · 2º turno' : 'Presidente · 1º turno');
+    this.t($('onL'), esp ? 'no treino agora' : 'assistindo agora');
+    this.t($('sub'), esp ? 'Presidente · intervalo até o 2º turno' : T2 ? 'Presidente · 2º turno' : 'Presidente · 1º turno');
     const semDados = !S.hist.length;
-    const modo = semDados ? (S.erro ? 'SEM CONEXÃO' : S.atual === null && S.carregou ? 'AGUARDANDO O TSE' : 'CONECTANDO')
+    const modo = esp ? 'INTERVALO' : semDados ? (S.erro ? 'SEM CONEXÃO' : S.atual === null && S.carregou ? 'AGUARDANDO O TSE' : 'CONECTANDO')
       : live ? (S.erro ? 'RECONECTANDO' : fim ? 'TOTALIZADO' : 'AO VIVO') : 'REPLAY ' + hm(v.t);
-    this.h($('modo'), (live && !semDados && !S.erro && !fim ? '<span class="dot"></span>' : '') + esc(modo));
+    this.h($('modo'), (!esp && live && !semDados && !S.erro && !fim ? '<span class="dot"></span>' : '') + esc(modo));
+    this.t($('atalhos'), esp ? 'Atalhos: Espaço liga/pausa a montagem · ← → troca o dia · letras nos botões = golpes' : 'Atalhos: Espaço play/pausa · R reinicia · letras nos botões = golpes · E defesa');
+    for (const b of document.querySelectorAll('[data-som]')) { this.t(b, L.snd ? 'SOM ON' : 'SOM OFF'); this.on(b, 'on', L.snd); }
+    if (S.fonte) for (const a of document.querySelectorAll('a.fonte')) if (a.getAttribute('href') !== S.fonte) a.setAttribute('href', S.fonte);
+
+    // turnos: intervalo (se houve 2º turno), 1º e 2º
+    const t2 = S.turnos.find((x) => x.turno === 2);
+    for (const b of $('turnos').children) {
+      if (b.dataset.turno === 'espera') { this.vis(b, S.has2); this.on(b, 'on', esp); continue; }
+      const n = Number(b.dataset.turno), t = S.turnos.find((x) => x.turno === n), dis = n !== S.turno && !(t && t.disponivel);
+      this.on(b, 'on', !esp && n === S.turno);
+      if (b.disabled !== dis) b.disabled = dis;
+      const res = n === 2 && S.turno === 1 ? L.resultado() : null;
+      b.title = dis ? (res && res.tipo === 'ko' ? 'Houve nocaute no 1º turno' : 'A apuração do 2º turno começa em 25 de outubro, às 17h') : '';
+    }
+
+    if (esp) { this.espera(L); this.previsao(L, E.idx); return; }
 
     // placar
     const pa = v.has ? pc(v.ap) : '0,00%', pb = v.has ? pc(v.bp) : '0,00%';
@@ -1728,13 +2656,6 @@ const UI = {
     this.h($('extras'), ex.map(([k, x]) => `<span>${k} <b>${x}</b></span>`).join(''));
 
     // escopo
-    for (const b of $('turnos').children) {
-      const n = Number(b.dataset.turno), t = S.turnos.find((x) => x.turno === n), dis = n !== S.turno && !(t && t.disponivel);
-      this.on(b, 'on', n === S.turno);
-      if (b.disabled !== dis) b.disabled = dis;
-      const res = n === 2 && S.turno === 1 ? L.resultado() : null;
-      b.title = dis ? (res && res.tipo === 'ko' ? 'Houve nocaute no 1º turno' : 'A apuração do 2º turno começa em 25 de outubro, às 17h') : '';
-    }
     if ($('escolha').value !== L.scope) $('escolha').value = L.scope;
     const br = L.area(E.idx, 'br');
     this.vis($('brline'), L.scope !== 'br');
@@ -1745,7 +2666,7 @@ const UI = {
     for (const id of ['bPlay', 'mPlay']) { this.t($(id), playTxt); $(id).disabled = !tem; }
     this.vis($('bReini'), !live);
     for (const id of ['bVivo', 'mVivo']) this.on($(id), 'on', live);
-    const t2 = S.turnos.find((x) => x.turno === 2), irR2 = S.turno === 1 && !!(t2 && t2.disponivel) && !!(L.resultado() || {}).ns;
+    const irR2 = S.turno === 1 && !!(t2 && t2.disponivel) && !!(L.resultado() || {}).ns;
     this.vis($('bR2'), irR2); this.vis($('mR2'), irR2);
     const [t0, t1] = L.faixa(), sc = $('scrub');
     sc.disabled = !tem;
@@ -1757,7 +2678,6 @@ const UI = {
     this.h($('marcas'), tem ? ev.filter((e) => e.virada && e.t >= t0).map((e) => `<i style="left:${(((e.t - t0) / Math.max(1, t1 - t0)) * 100).toFixed(2)}%" title="${hm(e.t)} · ${esc(e.txt)}"></i>`).join('') : '');
     for (const b of $('vel').children) this.on(b, 'on', Number(b.dataset.v) === E.speed);
     this.t($('mVel'), E.speed + '×');
-    for (const b of document.querySelectorAll('[data-som]')) { this.t(b, L.snd ? 'SOM ON' : 'SOM OFF'); this.on(b, 'on', L.snd); }
 
     // entre no ringue
     for (const b of $('ctrlopts').children) {
@@ -1766,9 +2686,9 @@ const UI = {
       this.s(b, 'background', sel && k ? L.cor[k] : '');
       this.s(b, 'color', sel && k ? '#0F0E0D' : '');
     }
-    this.vis($('pad'), !!L.ctrl);
+    this.vis($('padD'), !!L.ctrl); this.vis($('padM'), !!L.ctrl);
     const fc = L.ctrl ? E.f[L.ctrl] : null, pronto = !!(fc && fc.sup >= 100);
-    this.on($('bEsp'), 'pronto', pronto); this.t($('bEspT'), pronto ? 'ESPECIAL PRONTO' : 'ESPECIAL');
+    if (fc) for (const b of document.querySelectorAll('#padD .esp,#padM .esp')) { this.on(b, 'pronto', pronto); this.t(b.firstChild, GL[b.dataset.mv] + (pronto ? ' PRONTO' : '')); }
     this.t($('ajudaD'), L.ctrl ? 'Segure E (ou o botão) para defender. O especial carrega com os votos e com golpes certos. Seus golpes não mudam a apuração: o placar continua decidindo quem vence.'
       : 'Escolha um candidato para lutar com ele pelo teclado ou pelos botões, ao vivo ou no replay.');
     this.vis($('ajudaM'), !!L.ctrl);
@@ -1823,21 +2743,26 @@ const UI = {
       || '<div class="vazio">Aguardando o primeiro boletim do TSE.</div>');
 
     // estatísticas
-    for (const k of ['g', 'd', 'e', 's', 'c']) { this.t($('st' + k + 'A'), String(E.f.A.st[k])); this.t($('st' + k + 'B'), String(E.f.B.st[k])); }
+    for (const [, k] of STATS) { this.t($('st' + k + 'A'), String(E.f.A.st[k])); this.t($('st' + k + 'B'), String(E.f.B.st[k])); }
 
     this.previsao(L, E.idx);
 
     // abas do celular
     for (const b of $('abas').children) this.on(b, 'on', b.dataset.aba === this.aba);
     for (const d of document.querySelectorAll('[data-painel]')) this.vis(d, d.dataset.painel === this.aba);
-    if (S.fonte) for (const a of document.querySelectorAll('a.fonte')) if (a.getAttribute('href') !== S.fonte) a.setAttribute('href', S.fonte);
   },
 };
 
+const pedido = new URLSearchParams(location.search), TURNO_URL = Number(pedido.get('turno'));
 const salvo = UI.montar();
-UI.layout();
+// até o 2º turno a página abre no intervalo (treino do dia); a resposta do servidor confirma se houve 2º turno ou desfaz isso
+const MODO0 = !(TURNO_URL === 1 || TURNO_URL === 2) && Date.now() < FECHA2 + 864e5 ? 'espera' : 'luta';
+UI.layout(MODO0);
 const luta = new Luta($('cv'));
+luta.modo = MODO0;
 if (salvo.scope && ALL[salvo.scope]) luta.scope = salvo.scope;
+if (typeof salvo.palpite === 'string' && /^\d{1,3}$/.test(salvo.palpite)) luta.palpite = salvo.palpite;
+if (salvo.demo === 'A' || salvo.demo === 'B') luta.demoK = salvo.demo;
 
 // ---------- coleta ----------
 // id aleatório deste navegador, guardado para o F5 e as outras abas não contarem como gente nova:
@@ -1847,7 +2772,6 @@ if (typeof ID !== 'string' || !/^[A-Za-z0-9]{8,32}$/.test(ID)) {
   ID = Array.from(crypto.getRandomValues(new Uint8Array(12)), (x) => 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'[x % 62]).join('');
   gravar('apuracao-id', ID);
 }
-const pedido = new URLSearchParams(location.search), TURNO_URL = Number(pedido.get('turno'));
 if (TURNO_URL === 1 || TURNO_URL === 2) { S.turno = TURNO_URL; S.escolheu = true; }
 let timer = null, geracao = 0;
 async function buscar() {
@@ -1864,12 +2788,10 @@ async function buscar() {
     if (typeof d.fonte === 'string' && d.fonte.startsWith('https://resultados.tse.jus.br/')) S.fonte = d.fonte;
     if (r.status === 429) espera = Math.max(espera, (Number(r.headers.get('Retry-After')) || 30) * 1000); // limite do servidor
     if (!r.ok) throw new Error(d.erro || 'HTTP ' + r.status);
-    if (!S.escolheu) {
-      // depois que o 2º turno começa, a página abre nele
-      S.escolheu = true;
-      const t2 = S.turnos.find((x) => x.turno === 2);
-      if (S.turno === 1 && t2 && t2.disponivel) return trocarTurno(2);
-    }
+    // depois que o 2º turno começa, a página vai para ele: ao abrir, ou se estava no intervalo
+    const t2 = S.turnos.find((x) => x.turno === 2), t2ok = !!(t2 && t2.disponivel);
+    if (S.turno === 1 && t2ok && (!S.escolheu || (luta.modo === 'espera' && !S.fixouEspera))) return irPara('2');
+    S.escolheu = true;
     if (d.inicio) S.inicio = d.inicio;
     S.atual = d.atual || null; S.carregou = true;
     S.cand = {};
@@ -1877,6 +2799,10 @@ async function buscar() {
     // a resposta traz todos os pontos depois de `desde`; o último ponto do servidor pode ter andado no tempo
     const novos = (d.hist || []).filter((p) => p.t > desde);
     if (novos.length || !desde) S.hist = h.filter((p) => p.t <= desde).concat(novos);
+    // tem intervalo se o 1º turno terminou sem nocaute (ou se o 2º já começou)
+    if (t2ok) S.has2 = true;
+    else if (S.turno === 1) { const res = luta.resultado(); S.has2 = !!(res && res.tipo === 'r2'); }
+    if (luta.modo === 'espera' && !S.has2) { luta.modo = 'luta'; luta.vista = 'cena'; luta.autoDemo = false; }
     S.ver++; S.erro = null;
     luta.dados(antes);
   } catch (e) {
@@ -1894,6 +2820,20 @@ function trocarTurno(n) {
   luta.novoTurno();
   buscar();
 }
+// botões de turno, IR PARA O 2º TURNO e o do dia da luta: 'espera' (intervalo), '1' ou '2'
+function irPara(x) {
+  S.escolheu = true;
+  if (x === 'espera') {
+    const t2 = S.turnos.find((t) => t.turno === 2);
+    S.fixouEspera = !!(t2 && t2.disponivel); // já com o 2º turno no ar, quem volta ao intervalo fica nele
+    if (S.turno !== 1) trocarTurno(1);
+    return luta.entrarEspera();
+  }
+  const n = Number(x);
+  if (n === S.turno) { if (luta.modo === 'espera') luta.entrarLuta(); return; }
+  luta.modo = 'luta'; luta.vista = 'cena'; luta.autoDemo = false;
+  trocarTurno(n);
+}
 document.addEventListener('visibilitychange', () => { if (!document.hidden) buscar(); });
 
 // ---------- controles ----------
@@ -1901,11 +2841,13 @@ const clique = (id, fn) => $(id).addEventListener('click', fn);
 for (const id of ['bPlay', 'mPlay']) clique(id, () => luta.toggle());
 clique('bReini', () => luta.restart());
 for (const id of ['bVivo', 'mVivo']) clique(id, () => { if (luta.E.mode !== 'live') luta.aoVivo(false); });
-for (const id of ['bR2', 'mR2']) clique(id, () => trocarTurno(2));
+for (const id of ['bR2', 'mR2']) clique(id, () => irPara('2'));
 clique('verBR', () => luta.setScope('br'));
-clique('turnos', (e) => { const b = e.target.closest('[data-turno]'); if (b && !b.disabled) trocarTurno(Number(b.dataset.turno)); });
+clique('turnos', (e) => { const b = e.target.closest('[data-turno]'); if (b && !b.disabled) irPara(b.dataset.turno); });
 $('escolha').addEventListener('change', (e) => { luta.setScope(e.target.value); e.target.blur(); });
-for (const id of ['grade', 'regioes', 'pvTab']) clique(id, (e) => { const b = e.target.closest('[data-sc]'); if (b) luta.setScope(b.dataset.sc); });
+for (const id of ['grade', 'regioes']) clique(id, (e) => { const b = e.target.closest('[data-sc]'); if (b) luta.setScope(b.dataset.sc); });
+// na previsão, tocar de novo na região escolhida volta ao Brasil (no intervalo não há seletor de área)
+clique('pvTab', (e) => { const b = e.target.closest('[data-sc]'); if (b) luta.setScope(b.dataset.sc === luta.scope ? 'br' : b.dataset.sc); });
 clique('apertada', (e) => luta.setScope(e.currentTarget.dataset.sc));
 clique('modos', (e) => { const b = e.target.closest('[data-modo]'); if (b) { UI.mapa = b.dataset.modo; UI.guardar(); luta.push(true); } });
 clique('abas', (e) => { const b = e.target.closest('[data-aba]'); if (b) { UI.aba = b.dataset.aba; UI.guardar(); luta.push(true); } });
@@ -1913,19 +2855,38 @@ clique('vel', (e) => { const b = e.target.closest('[data-v]'); if (b) luta.setSp
 clique('mVel', () => luta.setSpeed({ 1: 2, 2: 4, 4: 8, 8: 1 }[luta.E.speed] || 1));
 for (const b of document.querySelectorAll('[data-som]')) b.addEventListener('click', () => luta.toggleSound());
 clique('ctrlopts', (e) => { const b = e.target.closest('[data-ctrl]'); if (b) luta.setCtrl(b.dataset.ctrl); });
-clique('pad', (e) => { const b = e.target.closest('[data-mv]'); if (b) luta.pmove(b.dataset.mv); });
-const def = $('bDef'), solta = () => luta.blockHold(false);
-def.addEventListener('pointerdown', (e) => { e.preventDefault(); luta.blockHold(true); });
-for (const t of ['pointerup', 'pointerleave', 'pointercancel']) def.addEventListener(t, solta);
-def.addEventListener('contextmenu', (e) => e.preventDefault());
+for (const id of ['padD', 'padM']) clique(id, (e) => { const b = e.target.closest('[data-mv]'); if (b) luta.pmove(b.dataset.mv); });
+const solta = () => luta.blockHold(false);
+for (const id of ['bDefD', 'bDefM']) {
+  const def = $(id);
+  def.addEventListener('pointerdown', (e) => { e.preventDefault(); luta.blockHold(true); });
+  for (const t of ['pointerup', 'pointerleave', 'pointercancel']) def.addEventListener(t, solta);
+  def.addEventListener('contextmenu', (e) => e.preventDefault());
+}
 window.addEventListener('pointerup', solta);
+// intervalo: calendário, montagem, torcida, palpite e sala de golpes (os botões existem nos dois layouts)
+document.addEventListener('click', (e) => {
+  const b = e.target.closest('button');
+  if (!b || b.disabled) return;
+  const d = b.dataset;
+  if (d.dia) luta.setDia(luta.dia + Number(d.dia));
+  else if ('mont' in d) luta.toggleMontagem();
+  else if ('luta2' in d) irPara('2');
+  else if (d.i != null && b.parentNode.id === 'dias') luta.setDia(Number(d.i));
+  else if (d.torce) luta.torcer(d.torce);
+  else if (d.pal) luta.setPalpite(luta.num(d.pal));
+  else if (d.golpe) luta.demo(luta.demoK, d.golpe);
+  else if (d.demo) luta.setDemoK(d.demo);
+});
+clique('bAuto', () => luta.toggleAuto());
+clique('bVolta', () => luta.voltarCena());
 const scrub = $('scrub');
 scrub.addEventListener('input', () => { UI.arrastando = true; luta.seek(Number(scrub.value) / 1000); });
 scrub.addEventListener('change', () => { UI.arrastando = false; luta.seek(Number(scrub.value) / 1000); });
 window.addEventListener('keydown', (e) => luta.onKey(e, true));
 window.addEventListener('keyup', (e) => luta.onKey(e, false));
 let rz = null;
-window.addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => { UI.layout(); luta.push(true); }, 120); });
+window.addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => { UI.layout(luta.modo); luta.push(true); }, 120); });
 
 luta.push(true);
 buscar();
