@@ -1001,12 +1001,12 @@ class Luta {
     const a = S.atual;
     if (!a || !(a.definido || a.finalizado) || !(a.cands || []).length) return null;
     const cs = a.cands, vv = a.vv || 0, pct = (c) => (vv ? (c.votos / vv) * 100 : 0);
-    const el = cs.find((c) => c.eleito);
+    // a situação do candidato manda: com a totalização finalizada, o TSE marca como "eleito" (e = "s") também quem vai
+    // ao 2º turno, com situação "2º turno"; então 2º turno primeiro, e eleito só sem "turno" na situação
+    const r2 = cs.filter((c) => /2º|2o|segundo/i.test(c.situacao || ''));
+    if (a.definido === 'S' || r2.length >= 2) return { tipo: 'r2', ns: (r2.length >= 2 ? r2 : cs).slice(0, 2).map((c) => c.n) };
+    const el = cs.find((c) => c.eleito && !/turno/i.test(c.situacao || ''));
     if (a.definido === 'E' || el) { const w = el || cs[0]; return { tipo: 'ko', n: w.n, pct: pct(w) }; }
-    if (a.definido === 'S') {
-      const r2 = cs.filter((c) => /2º|2o|segundo/i.test(c.situacao));
-      return { tipo: 'r2', ns: (r2.length >= 2 ? r2 : cs).slice(0, 2).map((c) => c.n) };
-    }
     return pct(cs[0]) > 50 ? { tipo: 'ko', n: cs[0].n, pct: pct(cs[0]) } : { tipo: 'r2', ns: cs.slice(0, 2).map((c) => c.n) };
   }
   // como a luta da área atual termina no ponto i (null se ainda não terminou)

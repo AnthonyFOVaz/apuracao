@@ -10,6 +10,8 @@ No ar: https://apuracaox1doscria.duckdns.org (o endereço antigo, https://apurac
 - `oficial/comum/config/ele-c.json`: lista de eleições. 6257 = 1º turno (04/10/2026), 6258 = 2º turno (25/10/2026).
 - `oficial/ele2026/<eleição>/dados/<uf>/<uf>-c0001-e00<eleição>-u.json`: resultado de presidente para `br`, cada UF e `zz` (exterior).
 - Situação final pelos campos do próprio TSE: `md` = `E` (matematicamente eleito) ou `S` (2º turno); `tf` = `S` (totalização finalizada).
+  Com a totalização finalizada, o TSE **tira o `md`** do arquivo e marca `e = "s"` também em quem vai ao 2º turno
+  (`st = "2º turno"`); aí o resultado sai da situação (`st`) dos candidatos: eleito é só quem tem `st = "Eleito"`.
 
 ## Back (`server.js`, Node 20, sem dependências)
 
@@ -95,6 +97,7 @@ PORT=3100 node server.js
 
 ## Histórico
 
+- 05/10/2026: corrigido "Flávio eleito no 1º turno" depois da totalização (o TSE passou a marcar os dois do 2º turno como `e = "s"`).
 - 04/10/2026: front v3: intervalo até o 2º turno (calendário de treinos, contagem, sala de golpes, palpite, torcida),
   25 golpes, quedas e juiz no ringue.
 - 04/10/2026: coletor do TSE, API e página v1 publicados; histórico deduplicado por atualização nacional.

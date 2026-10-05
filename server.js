@@ -58,17 +58,22 @@ function ler(j) {
   for (const a of carg.agr || []) {
     for (const p of a.par || []) {
       for (const c of p.cand || []) {
+        // depois da totalização o TSE marca e = "s" também em quem vai ao 2º turno (st = "2º turno"): eleito é só st = "Eleito"
+        const st = c.st || '', turno2 = /2º turno|2o turno|segundo turno/i.test(st);
         cands.push({
           n: String(c.n), nome: c.nmu || c.nm, completo: c.nm, partido: p.sg,
-          votos: num(c.vap), eleito: c.e === 's', situacao: c.st || '', destino: c.dvt || '',
+          votos: num(c.vap), eleito: c.e === 's' && !turno2, situacao: st, destino: c.dvt || '',
         });
       }
     }
   }
   const s = j.s || {}, e = j.e || {}, v = j.v || {};
+  // md: "N" indefinido, "E" matematicamente eleito, "S" matematicamente 2º turno (como no app do TSE).
+  // Com a totalização finalizada, o TSE tira o md do arquivo: aí o resultado sai da situação dos candidatos.
+  let md = String(j.md || '').toUpperCase();
+  if (!md) md = cands.some((c) => /2º turno|2o turno|segundo turno/i.test(c.situacao)) ? 'S' : cands.some((c) => c.eleito) ? 'E' : 'N';
   return {
-    // md: "N" indefinido, "E" matematicamente eleito, "S" matematicamente 2º turno (como no app do TSE)
-    dg: j.dg, hg: j.hg, dt: j.dt, ht: j.ht, md: String(j.md || 'N').toUpperCase(), tf: String(j.tf || 'N').toUpperCase(),
+    dg: j.dg, hg: j.hg, dt: j.dt, ht: j.ht, md, tf: String(j.tf || 'N').toUpperCase(),
     ts: num(s.ts), st: num(s.st), pst: num(s.pstn),
     comparecimento: num(e.c), abstencao: num(e.a),
     vv: num(v.vv), brancos: num(v.vb), nulos: num(v.tvn), cands,
