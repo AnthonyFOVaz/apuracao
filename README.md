@@ -41,6 +41,8 @@ Port de `design/Apuracao Luta v3.dc.html` para HTML/JS puro, ligado a `/api/esta
   confete e o painel de previsão do 1º turno com a conta do 2º. Quando o 2º turno começa, a página vai sozinha para ele.
 - Brasil, região, UF ou exterior (seletor, mapa de quadradinhos, regiões clicáveis, "disputa mais apertada"); 1º/2º turno.
 - Ao vivo e replay do histórico (1×, 2×, 4×, 8×), com marcas de virada na linha do tempo; lance a lance por área.
+  A linha do tempo de cada área vai até ela chegar a 100% das urnas apuradas (no 1º turno, o Brasil às 02:59 de 05/10;
+  a totalização oficial do TSE só saiu às 12:51, sem mudar votos); depois disso, a página mostra o resultado final.
 - Fim de luta: Brasil pelo resultado oficial do TSE (`md`/`tf`); estado ou região quando chega a 100% das seções.
 - Modo jogável com 25 golpes (socos, chutes, joelhadas, aéreos, arremesso, especial e ultra, provocação, esquiva) pelo
   teclado ou pelos botões; especial carregado pelos votos e por golpes certos. Quedas, tontura, contra-golpes e juiz
@@ -98,6 +100,7 @@ PORT=3100 node server.js
 
 ## Histórico
 
+- 05/10/2026: replay só até 100% das urnas apuradas (antes ia até a totalização oficial, às 12:51).
 - 05/10/2026: o treino do intervalo segue a data (sem escolher dia nem montagem).
 - 05/10/2026: corrigido "Flávio eleito no 1º turno" depois da totalização (o TSE passou a marcar os dois do 2º turno como `e = "s"`).
 - 04/10/2026: front v3: intervalo até o 2º turno (calendário de treinos, contagem, sala de golpes, palpite, torcida),

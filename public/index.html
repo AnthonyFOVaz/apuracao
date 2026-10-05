@@ -960,16 +960,19 @@ class Luta {
     return v;
   }
 
-  // [início, fim, índice do primeiro ponto com votos] da linha do tempo da área atual
+  // [início, fim, índice do primeiro ponto com votos] da linha do tempo da área atual. Ela termina quando a área chega a
+  // 100% das urnas apuradas: depois disso o TSE ainda publica arquivos (a totalização oficial saiu ~10 h depois, sem mudar
+  // nenhum voto), e o replay ficaria parado nesse trecho
   faixa() {
     const ck = S.ver + '|' + this.key + '|' + this.scope;
     if (this._fx && this._fx.ck === ck) return this._fx.r;
     const h = S.hist;
     let r = [0, 1, -1];
     if (h.length) {
-      let i0 = -1;
+      let i0 = -1, i1 = h.length - 1;
       for (let j = 0; j < h.length; j++) if (this.area(j, this.scope).has) { i0 = j; break; }
-      const t1 = h[h.length - 1].t, t0 = i0 > 0 ? h[i0].t - 1 : h[0].t;
+      if (i0 >= 0) for (let j = i0; j < h.length; j++) if (this.area(j, this.scope).fim) { i1 = j; break; }
+      const t1 = h[i1].t, t0 = i0 > 0 ? h[i0].t - 1 : h[0].t;
       r = [Math.min(t0, t1), t1, i0];
     }
     this._fx = { ck, r };
@@ -2654,7 +2657,7 @@ const UI = {
     this.t($('mClock'), semDados ? modo : live ? (S.erro ? 'RECONECTANDO' : (fim ? 'TOTALIZADO ' : 'AO VIVO ') + (p.ht || '').slice(0, 5)) : 'REPLAY ' + hm(v.t));
     if (!this.arrastando) sc.value = String(live ? 1000 : Math.round(((E.tau - t0) / Math.max(1, t1 - t0)) * 1000));
     const ev = S.hist.length ? L.eventos() : [];
-    this.h($('marcas'), tem ? ev.filter((e) => e.virada && e.t >= t0).map((e) => `<i style="left:${(((e.t - t0) / Math.max(1, t1 - t0)) * 100).toFixed(2)}%" title="${hm(e.t)} · ${esc(e.txt)}"></i>`).join('') : '');
+    this.h($('marcas'), tem ? ev.filter((e) => e.virada && e.t >= t0 && e.t <= t1).map((e) => `<i style="left:${(((e.t - t0) / Math.max(1, t1 - t0)) * 100).toFixed(2)}%" title="${hm(e.t)} · ${esc(e.txt)}"></i>`).join('') : '');
     for (const b of $('vel').children) this.on(b, 'on', Number(b.dataset.v) === E.speed);
     this.t($('mVel'), E.speed + '×');
 
