@@ -281,6 +281,174 @@ footer{font-size:12px;color:var(--mut);line-height:1.6;border-top:1px solid var(
 .pvr .b i{position:absolute;left:0;top:0;bottom:0}
 .pvr .b u{position:absolute;left:50%;top:-2px;bottom:-2px;width:2px;margin-left:-1px;background:var(--gold)}
 
+/* vitória garantida (matematicamente eleito) */
+#mdban{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px;background:var(--gold);color:var(--bg);padding:10px 14px;margin-top:4px}
+#mdban b{font-family:'Silkscreen',monospace;font-weight:700;font-size:13px}
+#mdban span{flex:1 1 320px;font-size:14px;line-height:1.4;text-wrap:pretty}
+/* abas do computador */
+.dtabs{display:flex}
+#dtabs button{padding:0 16px}
+.geral{display:grid;gap:22px}
+
+/* entenda a apuração */
+.entenda{background:var(--card);border:1px solid var(--line);padding:20px}
+#entenda{display:grid;gap:20px}
+#entenda p{margin:0}
+.en-top{display:grid;gap:8px}
+#enHead{font-weight:800;font-stretch:110%;font-size:clamp(20px,2.6vw,28px);line-height:1.15;text-wrap:balance;max-width:900px}
+#enSub{font-size:15px;line-height:1.5;color:#C9C1B6;max-width:800px;text-wrap:pretty}
+.en-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:12px}
+.en-card{background:var(--bg);border:1px solid var(--line);padding:14px 16px;display:grid;gap:6px;align-content:start}
+.en-card b{font-weight:800;font-stretch:112%;font-size:28px;line-height:1;font-variant-numeric:tabular-nums}
+.en-card span{font-size:13px;line-height:1.45;color:var(--mut);text-wrap:pretty}
+.en-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:24px 32px;align-items:start}
+.en-dir{display:grid;gap:22px}
+.en-bloco{display:grid;gap:8px}
+.en-k{font-family:'Silkscreen',monospace;font-size:11px;color:var(--mut)}
+.en-s{font-size:13px;color:var(--mut)}
+.en-p{font-size:14px;line-height:1.45;text-wrap:pretty}
+.waf{display:grid;grid-template-columns:repeat(20,minmax(0,1fr));gap:3px;max-width:440px}
+.waf i{display:block;aspect-ratio:1}
+.wleg{display:grid;gap:5px}
+.wleg>span{display:flex;align-items:center;gap:8px;font-size:14px}
+.wleg>span>i{flex:none;width:11px;height:11px}
+.wleg b{font-weight:800;font-variant-numeric:tabular-nums}
+.restbar{display:flex;height:20px;gap:2px}
+.restbar i{display:block;min-width:3px}
+.restleg{display:grid;gap:3px}
+.restleg>span{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--mut)}
+.restleg i{flex:none;width:10px;height:10px}
+.restleg em{font-style:normal;color:var(--fg)}
+.restleg u{text-decoration:none;margin-left:auto;text-align:right;font-variant-numeric:tabular-nums}
+.tops{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.top1{display:grid;gap:8px;align-content:start}
+.top1>b{font-size:13px;font-weight:700}
+.toprow{display:grid;gap:3px}
+.toprow>span{display:flex;justify-content:space-between;gap:8px;font-size:12px}
+.toprow u{text-decoration:none;color:var(--mut);font-variant-numeric:tabular-nums}
+.toprow>i{display:block;height:5px;background:var(--line)}
+.toprow>i>i{display:block;height:100%}
+
+/* dados: gráficos e tabela */
+#dadosD{padding-top:10px}
+#dados{display:grid;gap:40px}
+#dados p{margin:0}
+#dados .dh{display:grid;gap:16px;padding-bottom:20px;border-bottom:1px solid var(--line2)}
+#dados .dht{display:grid;gap:6px}
+#dados .kick{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
+#dados .dh h2{font-family:'Archivo',system-ui,sans-serif;font-weight:700;font-size:clamp(26px,3.6vw,36px);line-height:1.08;letter-spacing:-.015em;text-wrap:balance}
+#dados .dht p{max-width:680px;font-size:14px;line-height:1.5;color:var(--mut);text-wrap:pretty}
+#dados .dctl{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px}
+#dados .hora{font-size:13px;font-weight:600;font-variant-numeric:tabular-nums}
+.dbtn{justify-self:start;font-family:inherit;font-weight:600;font-size:13px;min-height:44px;padding:0 14px;background:transparent;color:var(--fg);border:1px solid var(--line2);border-radius:3px;cursor:pointer;touch-action:manipulation}
+.dbtn:hover{border-color:var(--fg)}
+.dbtn.cheio{min-width:110px;background:var(--fg);color:var(--bg);border-color:var(--fg)}
+#dados .dgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr));gap:52px 44px;align-items:start}
+#dados .art{display:grid;gap:16px;min-width:0;border-top:2px solid var(--fg);padding-top:12px}
+#dados .art.larga{grid-column:1/-1}
+#dados .arth{display:grid;gap:4px}
+#dados .tbh{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:10px 16px}
+#dados .tbh>div{display:grid;gap:4px;min-width:0;flex:1 1 320px}
+#dados h3{margin:0;font-weight:700;font-size:20px;line-height:1.2}
+#dados .dek{max-width:680px;font-size:14px;line-height:1.5;color:var(--mut);text-wrap:pretty}
+#dados .nt{font-size:12px;line-height:1.5;color:var(--mut);text-wrap:pretty}
+#dados .lst .nt{margin-top:8px}
+#dados .tx{font-size:14px;line-height:1.5;text-wrap:pretty}
+#dados .cleg{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:12px;color:var(--mut)}
+#dados .cleg>span{display:flex;align-items:center;gap:6px}
+#dados .cleg .ln{width:16px;height:3px}
+#dados .cleg .ln.tr{height:0;border-top:1px dashed var(--mut)}
+#dados .cleg .vt{width:1px;height:12px;background:var(--gold)}
+#dados .cleg .anel{width:10px;height:10px;border-radius:50%;border:2px solid var(--mut)}
+#dados .cleg .bola{width:10px;height:10px;border-radius:50%;background:var(--fg)}
+#dados .ch{display:grid;grid-template-columns:36px minmax(0,1fr);gap:0 10px}
+#dados .ya{position:relative}
+#dados .ya span{position:absolute;right:0;transform:translateY(-50%);font-size:11px;color:var(--mut);font-variant-numeric:tabular-nums}
+#dados .pl{position:relative}
+#dados .pl.alto{height:clamp(220px,28vw,320px)}
+#dados .pl.medio{height:clamp(170px,20vw,220px)}
+#dados .gl{position:absolute;left:0;right:0;border-top:1px solid var(--line)}
+#dados .gl.m50{border-top:1px dashed var(--mut)}
+#dados .gl.base{border-top-color:var(--line2)}
+#dados .vl{position:absolute;top:0;bottom:0;width:1px;background:var(--gold)}
+#dados .agora{position:absolute;top:0;bottom:0;width:1px;background:#5A534B}
+#dados .pl svg{position:absolute;left:0;top:0;width:100%;height:100%;overflow:visible}
+#dados .pl path{fill:none;stroke-width:2.5px;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+#dados .pl.medio path{stroke-width:2px}
+#dados .pt{position:absolute;width:9px;height:9px;margin:-4.5px 0 0 -4.5px;border-radius:50%;box-shadow:0 0 0 2px var(--bg)}
+#dados .ptl{position:absolute;font-size:13px;font-weight:700;white-space:nowrap;font-variant-numeric:tabular-nums;text-shadow:0 0 4px var(--bg),0 0 4px var(--bg)}
+#dados .xa{position:relative;height:18px;margin-top:6px;font-size:11px;color:var(--mut);font-variant-numeric:tabular-nums}
+#dados .xa span{position:absolute;transform:translateX(-50%);white-space:nowrap}
+#dados .lst{display:grid}
+#dados .lh,#dados .lr{display:grid;gap:10px;align-items:center}
+#dados .lh{padding-bottom:6px;font-size:11px;color:var(--mut);letter-spacing:.04em;text-transform:uppercase}
+#dados .lh.sd,#dados .lh.cp{text-transform:none;letter-spacing:0}
+#dados .lr{width:100%;min-height:40px;padding:6px 0;margin:0;border:0;border-top:1px solid var(--line);background:transparent;color:var(--fg);font-family:inherit;font-size:13px;text-align:left}
+#dados button.lr{cursor:pointer;touch-action:manipulation}
+#dados button.lr:hover{background:#1A1715}
+#dados .lr.fino{min-height:26px;padding:2px 0;border-top:0;font-size:12px}
+#dados .lr.tmr{min-height:0;padding:8px 0;font-variant-numeric:tabular-nums}
+#dados .sel{background:#221E1B}
+#dados .sel .el{font-weight:700}
+#dados .el{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#dados .r{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+#dados .mut{color:var(--mut)}
+#dados .qf{grid-template-columns:minmax(80px,120px) minmax(0,1fr) 70px 86px}
+#dados .rt{grid-template-columns:14px minmax(0,1fr) 62px 70px 86px}
+#dados .sd,#dados .cp{grid-template-columns:minmax(80px,130px) minmax(0,1fr) 92px}
+#dados .dp{grid-template-columns:22px minmax(0,1fr) 88px 70px 58px;gap:8px}
+#dados .cm{grid-template-columns:minmax(80px,130px) minmax(0,1fr) 56px}
+#dados .tmr{grid-template-columns:minmax(0,1fr) 72px 64px}
+#dados .rt .ln{width:14px;height:3px}
+#dados .lado2{display:flex;justify-content:space-between;gap:8px}
+#dados .bar0{height:10px;background:#1E1B18;display:flex}
+#dados .bar0 i{display:block;height:100%}
+#dados .bar2,#dados .dot2{position:relative;height:14px}
+#dados .dot2{height:16px}
+#dados .bar2 u,#dados .dot2 u{position:absolute;left:50%;top:-4px;bottom:-4px;width:1px;background:var(--line2)}
+#dados .bar2 i{position:absolute;top:0;bottom:0}
+#dados .dot2 .trilho2{position:absolute;top:7px;height:2px;background:#5A534B}
+#dados .dot2 .anel,#dados .dot2 .bola{position:absolute;top:3px;width:10px;height:10px;margin-left:-5px;border-radius:50%}
+#dados .dot2 .anel{border:2px solid var(--mut)}
+#dados .vrow{display:grid;grid-template-columns:52px minmax(0,1fr);gap:12px;padding:8px 0;border-top:1px solid var(--line);font-size:13px;line-height:1.45}
+#dados .vrow span:first-child{color:var(--mut);font-variant-numeric:tabular-nums}
+#dados .dois{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+#dados .num1{display:grid;gap:2px;align-content:start}
+#dados .num1 span{font-size:12px;line-height:1.4;color:var(--mut)}
+#dados .num1 b{font-weight:700;font-size:clamp(26px,3.2vw,34px);line-height:1.1;font-variant-numeric:tabular-nums}
+#dados .cpbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px}
+#dados .cpbar .seg{border-radius:3px}
+#dados .cpbar .seg button{font-family:inherit;font-weight:600;font-size:13px;padding:0 12px;min-height:40px}
+#dados .cmbar{display:flex;height:22px;background:#1E1B18}
+#dados .cmbar i{display:block}
+#dados .cells{display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));gap:14px 16px}
+#dados .cell{display:grid;gap:2px;align-content:start}
+#dados .cell span:first-child{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--mut)}
+#dados .cell span i{width:10px;height:10px}
+#dados .cell b{font-weight:700;font-size:22px;line-height:1.15;font-variant-numeric:tabular-nums}
+#dados .cell span:last-child{font-size:11px;line-height:1.35;color:var(--mut)}
+#dados .tmw{display:flex;flex-wrap:wrap;gap:24px 36px;align-items:flex-start}
+#dados .tm{flex:2 1 420px;min-width:0;max-width:760px;position:relative;aspect-ratio:5/4}
+#dados .tm button{position:absolute;border:1px solid var(--bg);margin:0;padding:3px 4px;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:1px;overflow:hidden;font-family:inherit;text-align:left;cursor:pointer;touch-action:manipulation}
+#dados .tm b{font-size:12px;font-weight:700;line-height:1}
+#dados .tm span{font-size:11px;line-height:1;font-variant-numeric:tabular-nums}
+#dados .tm>i{position:absolute;border:3px solid var(--bg);pointer-events:none}
+#dados .tmlado{flex:1 1 240px;min-width:0;display:grid;gap:18px}
+#dados .legenda{margin-top:0}
+#dados .tbw{overflow-x:auto}
+#dados .tb{display:grid}
+#dados .thr,#dados .tr{display:grid;grid-template-columns:var(--cols)}
+#dados .thr{border-bottom:1px solid var(--line2)}
+#dados .tr{border-bottom:1px solid var(--line)}
+#dados .tr.tot{border-top:1px solid var(--fg);border-bottom:0}
+#dados .thr button{min-height:40px;padding:0 8px;border:0;background:var(--bg);color:var(--mut);font-family:inherit;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;cursor:pointer}
+#dados .thr button.on{color:var(--fg)}
+#dados .tr span{padding:9px 8px;font-size:13px;font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#dados .tr.tot span{padding:10px 8px;font-weight:700}
+#dados .tl{text-align:left}
+#dados .fix{position:sticky;left:0;z-index:1;background:var(--bg)}
+#dados .tr.sel .fix{background:#221E1B}
+
 /* ---------- celular ---------- */
 #mob{min-height:100vh;padding-bottom:28px}
 .mtopo{position:relative;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
@@ -378,8 +546,8 @@ html:not(.mob) .so-desk{display:inline}
 .mob #ctrlopts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
 .mob #ctrlopts button{font-size:11px;padding:0 4px}
 .mjogar p{margin:0;font-size:12px;line-height:1.5;color:var(--mut);text-wrap:pretty}
-.mabas{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));margin-top:4px}
-.mabas button{font-size:10px;min-height:44px;padding:0 2px}
+.mabas{flex-wrap:wrap;margin-top:4px}
+.mabas button{flex:1 1 23%;font-size:11px;min-height:44px;padding:0 2px}
 .mob .pvr{width:100%;margin:0;padding:10px 4px}
 .maba{display:grid;gap:12px}
 .mmodos{display:flex;justify-content:flex-end}
@@ -399,6 +567,39 @@ html:not(.mob) .so-desk{display:inline}
 .mob .st b{font-size:22px}
 .mob .nota{margin-top:10px}
 .mrodape{font-size:11px;color:var(--mut);line-height:1.6;border-top:1px solid var(--line);padding-top:14px;margin-top:8px}
+.mob .extras{gap:4px 14px;font-size:11px}
+.mob #mdban{display:grid;gap:4px;padding:10px 12px;margin-top:0}
+.mob #mdban b{font-size:11px}
+.mob #mdban span{font-size:13px}
+.mob #entenda{gap:16px}
+.mob .en-top{gap:6px}
+.mob .en-top h2{font-size:11px;letter-spacing:0;color:var(--mut)}
+.mob #enHead{font-stretch:108%;font-size:20px;line-height:1.2}
+.mob #enSub{font-size:14px}
+.mob .en-cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.mob .en-card{background:var(--card);padding:12px;gap:5px}
+.mob .en-card b{font-stretch:108%;font-size:20px;line-height:1.05}
+.mob .en-card span{font-size:12px;line-height:1.4}
+.mob .en-cols,.mob .en-dir{gap:16px}
+.mob .en-k{font-size:10px}
+.mob .en-s{font-size:12px}
+.mob .en-p{font-size:13px}
+.mob .waf{gap:2px;max-width:none}
+.mob .wleg{gap:4px}
+.mob .wleg>span{font-size:13px}
+.mob .wleg>span>i{width:10px;height:10px}
+.mob .restbar{height:16px}
+.mob .tops{gap:12px}
+.mob #dados{gap:32px}
+.mob #dados .dh{padding-bottom:16px}
+.mob #dados .dgrid{gap:40px}
+.mob #dados .lh,.mob #dados .lr{gap:8px}
+.mob #dados .lr{font-size:12px}
+.mob #dados .qf{grid-template-columns:minmax(70px,96px) minmax(0,1fr) 58px 80px}
+.mob #dados .rt{grid-template-columns:12px minmax(0,1fr) 54px 58px 80px}
+.mob #dados .sd,.mob #dados .cp{grid-template-columns:minmax(70px,104px) minmax(0,1fr) 84px}
+.mob #dados .dp{grid-template-columns:18px minmax(0,1fr) 80px 62px 50px}
+.mob #dados .cm{grid-template-columns:minmax(70px,104px) minmax(0,1fr) 50px}
 @media (prefers-reduced-motion:reduce){.fundo i,.mfundo i{transition:none}.modo .dot,.vivo{animation:none}}
 </style>
 </head>
@@ -461,7 +662,8 @@ html:not(.mob) .so-desk{display:inline}
       </div>
       <div class="linha"><span>Votos válidos apurados</span><span class="px" style="color:var(--gold)">50% + 1 = NOCAUTE</span></div>
       <div data-slot="outros"></div>
-      <div class="extras" id="extras"></div>
+      <div data-slot="extras"></div>
+      <div data-slot="mdban"></div>
     </section>
 
     <section class="contagem so-espera" aria-label="Contagem para o 2º turno">
@@ -507,13 +709,18 @@ html:not(.mob) .so-desk{display:inline}
       </div>
     </section>
 
-    <section class="jogar so-luta" aria-label="Entre no ringue">
+    <div class="dtabs so-luta"><div class="seg" id="dtabs" role="tablist" aria-label="Visão"><button type="button" data-dtab="geral" class="on">VISÃO GERAL</button><button type="button" data-dtab="dados">DADOS</button></div></div>
+
+    <div class="geral so-luta" id="geral">
+    <section class="entenda" data-slot="entenda" aria-label="Entenda a apuração"></section>
+
+    <section class="jogar" aria-label="Entre no ringue">
       <div class="jh"><h2>ENTRE NO RINGUE</h2><div data-slot="ctrlopts"></div></div>
       <div id="padD" hidden></div>
       <p class="ajuda" id="ajudaD">Escolha um candidato para lutar com ele pelo teclado ou pelos botões, ao vivo ou no replay.</p>
     </section>
 
-    <section class="paineis so-luta">
+    <section class="paineis">
       <div class="painel cheio2" data-slot="previsao" data-modo="luta"></div>
       <div class="painel cheio2">
         <div class="ph"><h2>ESTADOS</h2><div data-slot="modos"></div></div>
@@ -533,6 +740,9 @@ html:not(.mob) .so-desk{display:inline}
         <p class="nota">Os golpes são encenação. Quem lidera a apuração ataca mais; quem está atrás defende mais.</p>
       </div>
     </section>
+    </div>
+
+    <section class="so-luta" id="dadosD" aria-label="Dados da apuração" hidden><div data-slot="dados"></div></section>
 
     <section class="cal so-espera" aria-label="Calendário até o 2º turno">
       <div class="calh">
@@ -625,19 +835,23 @@ html:not(.mob) .so-desk{display:inline}
       <div data-slot="escolha" style="display:flex;min-width:0"></div>
       <div data-slot="brline"></div>
       <div data-slot="outros"></div>
+      <div data-slot="extras"></div>
+      <div data-slot="mdban"></div>
       <div class="mjogar">
         <span>ENTRE NO RINGUE</span>
         <div data-slot="ctrlopts"></div>
         <p id="ajudaM" hidden>Os botões ficam embaixo do ringue. Segure DEFESA para bloquear. Seus golpes não mudam a apuração.</p>
       </div>
       <div class="seg mabas" id="abas">
-        <button type="button" data-aba="previsao" class="on">PREVISÃO</button><button type="button" data-aba="estados">ESTADOS</button><button type="button" data-aba="lances">LANCES</button><button type="button" data-aba="regioes">REGIÕES</button><button type="button" data-aba="luta">LUTA</button>
+        <button type="button" data-aba="resumo" class="on">RESUMO</button><button type="button" data-aba="previsao">PREVISÃO</button><button type="button" data-aba="estados">ESTADOS</button><button type="button" data-aba="lances">LANCES</button><button type="button" data-aba="regioes">REGIÕES</button><button type="button" data-aba="luta">LUTA</button><button type="button" data-aba="dados">DADOS</button>
       </div>
-      <div class="maba" data-painel="previsao"><div data-slot="previsao" data-modo="luta"></div></div>
+      <div class="maba" data-painel="resumo"><div data-slot="entenda"></div></div>
+      <div class="maba" data-painel="previsao" hidden><div data-slot="previsao" data-modo="luta"></div></div>
       <div class="maba" data-painel="estados" hidden><div class="mmodos" data-slot="modos"></div><div data-slot="mapa"></div></div>
       <div class="maba" data-painel="lances" hidden><div data-slot="feed"></div></div>
       <div class="maba" data-painel="regioes" hidden><div data-slot="regioes"></div></div>
       <div class="maba" data-painel="luta" hidden><div><div data-slot="stats"></div><p class="nota">Os golpes são encenação. Quem lidera a apuração ataca mais; quem está atrás defende mais.</p></div></div>
+      <div class="maba" data-painel="dados" hidden><div data-slot="dados"></div></div>
     </div>
     <div class="mrodape">Dados oficiais do TSE, atualizados sozinhos. O placar do Brasil soma os arquivos dos estados, que saem antes do nacional. Resultados oficiais: <a class="fonte" href="https://resultados.tse.jus.br/oficial/app/index.html#/eleicao/6257/uf/br/cargo/1/vis/nominal/resultados" target="_blank" rel="noopener">TSE</a></div>
   </div>
@@ -650,6 +864,10 @@ html:not(.mob) .so-desk{display:inline}
   <select id="escolha" data-peca="escolha" aria-label="Escolher Brasil, região ou estado"></select>
   <div id="brline" data-peca="brline" hidden><span><span class="k">BRASIL </span><span class="v" id="brv"></span></span><button type="button" class="link" id="verBR">VER BRASIL</button></div>
   <div id="outros" data-peca="outros"></div>
+  <div class="extras" id="extras" data-peca="extras"></div>
+  <div id="mdban" data-peca="mdban" role="status" hidden><b id="mdT"></b><span id="mdX"></span></div>
+  <div id="entenda" data-peca="entenda"></div>
+  <div id="dados" data-peca="dados"></div>
   <div id="trk" data-peca="trk"><div id="marcas"></div><input type="range" id="scrub" min="0" max="1000" step="1" value="1000" aria-label="Linha do tempo da apuração"></div>
   <div class="seg" id="ctrlopts" data-peca="ctrlopts"><button type="button" data-ctrl="" class="on">ASSISTIR</button><button type="button" data-ctrl="A" id="ctrlA">LULA</button><button type="button" data-ctrl="B" id="ctrlB">FLÁVIO</button></div>
   <div class="seg" id="modos" data-peca="modos"><button type="button" data-modo="lead" class="on">LIDERANÇA</button><button type="button" data-modo="count">APURAÇÃO</button></div>
@@ -711,6 +929,8 @@ const pc = (v) => v.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumF
 const pc1 = (v) => v.toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + '%';
 const num = (v) => Math.round(v).toLocaleString('pt-BR');
 const short = (v) => v >= 1e6 ? (v / 1e6).toLocaleString('pt-BR', { maximumFractionDigits: 1 }) + ' MI' : v >= 1000 ? Math.round(v / 1000) + ' MIL' : String(Math.round(v));
+// votos em texto curto: 3,2 mi, 840 mil
+const mvS = (v) => { const a = Math.abs(v); return a >= 1e6 ? (a / 1e6).toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' mi' : a >= 1e3 ? Math.round(a / 1e3).toLocaleString('pt-BR') + ' mil' : String(Math.round(a)); };
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const PARTICULAS = new Set(['da', 'de', 'do', 'das', 'dos', 'e']);
 const titulo = (s) => String(s || '').toLocaleLowerCase('pt-BR').split(/\s+/).filter(Boolean)
@@ -790,10 +1010,12 @@ const SOMBRA = ['jab', 'cross', 'hook', 'upper', 'body', 'overhand', 'backfist',
 const FALAS = ['BLÁ BLÁ BLÁ', 'NÃO É BEM ASSIM!', 'OS NÚMEROS MOSTRAM...', 'VAMOS FALAR DE PROPOSTA', 'DIREITO DE RESPOSTA!', 'O POVO SABE', 'ISSO É FAKE!', 'DEIXA EU TERMINAR'];
 // figurantes: juiz, técnico (de luva) e técnico de mão livre
 const PALX = {
-  R: { skin: '#D19A74', skinD: '#A57352', hair: '#4A4038', brow: '#3A342E', beard: false, shirt: '#E9E4DA', shirtD: '#BDB6AA', shorts: '#1A1714', glove: '#D19A74', gloveD: '#A57352', shoe: '#1A1714', leg: '#1A1714', legD: '#100E0C', belt: '#3A342E', hand: 1, tie: 1 },
+  R: { skin: '#E3B794', skinD: '#B98A66', hair: '#E3B794', brow: '#1A1714', beard: false, bald: 1, shirt: '#16130F', shirtD: '#0B0908', shorts: '#16130F', glove: '#E3B794', gloveD: '#B98A66', shoe: '#1A1714', leg: '#1A1714', legD: '#100E0C', belt: '#16130F', hand: 1, tie: '#F2EDE4' },
   C: { skin: '#A87454', skinD: '#80553C', hair: '#1A1714', brow: '#1A1714', beard: false, shirt: '#3A342E', shirtD: '#2A2622', shorts: '#2A2622', glove: '#E8833A', gloveD: '#A85E28', shoe: '#1A1714', leg: '#2A2622', legD: '#1E1B18', belt: '#4A4038' },
 };
 PALX.CH = { ...PALX.C, glove: PALX.C.skin, gloveD: PALX.C.skinD, hand: 1 };
+// super cenas: tom claro e escuro de cada candidato
+const CLARO = { 13: '#FF9A8F', 22: '#9CC2FF' }, ESCURO = { 13: '#5E0F12', 22: '#102A63' };
 // tons de cena por candidato: [palco, púlpito, torcedor]
 const TONS = { 13: ['#3A1C1D', '#2A1C1D', '#4E2224'], 22: ['#1C2A48', '#1C2436', '#1E2E58'] };
 const DIG = { 0: '111101101101111', 1: '010110010010111', 2: '111001111100111', 3: '111001011001111', 4: '101101111001001', 5: '111100111001111', 6: '111100111101111', 7: '111001001001001', 8: '111101111101111', 9: '111101111001111' };
@@ -857,7 +1079,7 @@ const pelo = (s) => s.replace(/^no /, 'pelo ').replace(/^na /, 'pela ').replace(
 
 // ---------- estado vindo do servidor ----------
 const T1 = Date.parse('2026-10-04T17:00:00-03:00');
-const S = { turno: 1, turnos: [], hist: [], atual: null, inicio: T1, cand: {}, erro: null, ver: 0, online: null, fonte: '', escolheu: false };
+const S = { turno: 1, turnos: [], hist: [], atual: null, inicio: T1, cand: {}, erro: null, ver: 0, online: null, fonte: '', escolheu: false, ele: {}, t1: null };
 const ZP = { t: 0, ht: '', def: 0, fim: 0, d: {} };
 const ZE = { st: 0, ts: 0, pst: 0, vv: 0, c: 0, ab: 0, b: 0, nu: 0, votos: {}, A: 0, B: 0, ap: 0, bp: 0, has: false, tot: 0, fim: false, sem: true };
 
@@ -998,21 +1220,67 @@ class Luta {
     if (a.definido === 'E' || el) { const w = el || cs[0]; return { tipo: 'ko', n: w.n, pct: pct(w) }; }
     return pct(cs[0]) > 50 ? { tipo: 'ko', n: cs[0].n, pct: pct(cs[0]) } : { tipo: 'r2', ns: cs.slice(0, 2).map((c) => c.n) };
   }
-  // como a luta da área atual termina no ponto i (null se ainda não terminou)
+  // como a luta da área atual termina no ponto i (null se ainda não terminou): com 100% das urnas apuradas
+  // (no Brasil, também quando o TSE encerra a totalização). Antes disso, o "eleito" do TSE é anúncio (ver md()).
   desfecho(i) {
+    const s = this.view(i);
     if (this.scope === 'br') {
       const p = S.hist[i];
-      if (!p || !(p.def || p.fim)) return null;
-      const r = this.resultado();
-      if (r && r.tipo === 'ko') { const s = this.view(i); if (s.vv) r.pct = ((s.votos[r.n] || 0) / s.vv) * 100; }
+      if (!p || !(p.fim || s.fim)) return null;
+      const r = this.resultado() || this.porVotos(s);
+      if (r && r.tipo === 'ko') { if (s.vv) r.pct = ((s.votos[r.n] || 0) / s.vv) * 100; }
       return r;
     }
-    const s = this.view(i);
-    if (!s.fim) return null; // estado ou região: termina com 100% das seções apuradas
+    if (!s.fim) return null;
     const w = topo(s.votos);
     if (!w.n) return null;
     const pct = s.vv ? (w.v / s.vv) * 100 : 0;
     return { tipo: pct > 50 ? 'ko' : 'pts', n: w.n, pct };
+  }
+  // Brasil com 100% das urnas e sem a palavra do TSE ainda: pelos votos
+  porVotos(s) {
+    const ord = Object.keys(s.votos).sort((a, b) => s.votos[b] - s.votos[a]);
+    if (!ord.length || !s.vv) return null;
+    const pct = (s.votos[ord[0]] / s.vv) * 100;
+    return pct > 50 || S.turno === 2 ? { tipo: 'ko', n: ord[0], pct } : { tipo: 'r2', ns: ord.slice(0, 2) };
+  }
+  // resultado oficial já anunciado pelo TSE no ponto i (Brasil): eleito ou 2º turno, mesmo antes dos 100%
+  oficial(i) {
+    const p = S.hist[i];
+    if (this.scope !== 'br' || !p || !(p.def || p.fim)) return null;
+    const r = this.resultado();
+    if (r && r.tipo === 'ko') { const s = this.view(i); if (s.vv) r.pct = ((s.votos[r.n] || 0) / s.vv) * 100; }
+    return r;
+  }
+  // ----- vitória garantida antes do fim -----
+  // Eleitores que ainda faltam apurar = eleitorado total da área menos comparecimento e abstenção das seções já apuradas.
+  // 2º turno: garantida quando a vantagem passa desse número. 1º turno: quando o líder já tem mais da metade de todos os
+  // votos válidos possíveis (os apurados mais todos esses eleitores). No Brasil vale também o "eleito" do TSE.
+  resta(a, id) { const te = S.ele[id]; return te && a.c ? Math.max(0, te - a.c - a.ab) : null; }
+  md() {
+    const ck = S.ver + '|' + this.key + '|' + this.scope + '|' + Object.keys(S.ele).length;
+    if (this._md && this._md.ck === ck) return this._md.r;
+    const sc = this.scope, T2 = S.turno === 2, h = S.hist, res = sc === 'br' ? this.resultado() : null;
+    let r = null;
+    for (let i = 0; i < h.length && !r; i++) {
+      const a = this.area(i, sc);
+      if (a.fim) break; // chegou a 100% sem vitória garantida antes: é o fim normal da luta
+      if (!a.has) continue;
+      const k = a.A >= a.B ? 'A' : 'B', V = a[k], O = a[this.oth(k)], R = this.resta(a, sc);
+      const conta = R != null && (T2 ? V - O > R : 2 * V > a.vv + R);
+      const tse = sc === 'br' && h[i].def === 'E' && res && res.tipo === 'ko' && res.n === this.num(k);
+      if (conta || tse) r = { i, t: h[i].t, k, V, O, R, urnas: a.pst, conta };
+    }
+    this._md = { ck, r };
+    return r;
+  }
+  mdTexto(m) {
+    const A = ALL[this.scope], nm = this.nk(m.k), T2 = S.turno === 2, br = this.scope === 'br';
+    if (!m.conta) return `O TSE já declarou ${nm} matematicamente eleito${T2 ? ' presidente' : ' no 1º turno'}, com ${pc1(m.urnas)} das urnas apuradas.`;
+    if (T2) return br ? `${nm} está matematicamente eleito presidente: a vantagem de ${mvS(m.V - m.O)} de votos já é maior que os ${mvS(m.R)} de eleitores que faltam apurar.`
+      : `Vitória garantida para ${nm} ${A.em}: a vantagem de ${mvS(m.V - m.O)} de votos é maior que os ${mvS(m.R)} de eleitores que faltam apurar.`;
+    return br ? `${nm} está matematicamente eleito no 1º turno: já tem ${mvS(m.V)} de votos, mais da metade de todos os votos válidos possíveis, com ${pc1(m.urnas)} das urnas apuradas.`
+      : `${nm} já tem mais da metade de todos os votos válidos possíveis ${A.em}, com ${pc1(m.urnas)} apurado. A vitória está garantida.`;
   }
   finalEm(i) { return !!this.desfecho(i); }
 
@@ -1047,11 +1315,13 @@ class Luta {
     if (this.ev && this.ev.sc === this.scope) return this.ev.l;
     const h = S.hist, sc = this.scope, A = ALL[sc], T2 = S.turno === 2, nm = (k) => this.nk(k), subs = SUBS[sc] || [];
     const ev = [{ t: S.inicio, tag: T2 ? 'ROUND 2' : '', txt: T2 ? `Começa a apuração do 2º turno ${A.em}. Só ${nm('A')} e ${nm('B')} no ringue.` : `Urnas fechadas. Começa a apuração do 1º turno ${A.em}.` }];
-    let lead = null, prev = -1, mi = 0, fin = false;
-    const done = {};
+    let lead = null, prev = -1, mi = 0, fin = false, conf2 = false;
+    const done = {}, md = this.md();
     for (let i = 0; i < h.length; i++) {
       const s = this.view(i);
       if (!s.has) { prev = i; continue; }
+      if (md && md.i === i) ev.push({ t: s.t, tag: sc === 'br' ? 'ELEITO' : 'GARANTIDO', md: md.k, txt: this.mdTexto(md) });
+      if (sc === 'br' && !T2 && !conf2 && h[i].def === 'S' && !s.fim) { conf2 = true; ev.push({ t: s.t, tag: '2º TURNO', txt: 'O TSE confirma: ninguém consegue mais passar de 50% dos votos válidos. Vai haver 2º turno.' }); }
       const m = s.ap - s.bp;
       if (lead === null) {
         lead = m >= 0 ? 'A' : 'B';
@@ -1090,6 +1360,8 @@ class Luta {
   resetPoses() {
     const E = this.E, v = this.view(E.idx);
     E.ended = false; E.floats = []; E.proj = []; E.drops = []; E.callouts = []; E.cheer.A = 0; E.cheer.B = 0; E.koW = null; E.koT = 0; E.slow = 0; E.refN = null;
+    const md = this.modo === 'luta' ? this.md() : null;
+    E.cut = null; E.dipl = 0; E.aura = md && E.idx >= md.i ? md.k : null;
     E.banners = E.banners.filter((b) => b.intro);
     E.center = 160 + (this.modo === 'luta' ? lim60((v.has ? v.ap - v.bp : 0) * 5) : 0);
     for (const k of ['A', 'B']) {
@@ -1118,8 +1390,9 @@ class Luta {
       return this.push(true);
     }
     if (E.mode === 'live') {
+      const de = E.idx;
       E.idx = ult;
-      if (antes && antes.key === this.key && antes.sc === this.scope && !E.ended) this.boletim(antes, this.view(ult));
+      if (antes && antes.key === this.key && antes.sc === this.scope && !E.ended) { this.boletim(antes, this.view(ult)); this.garantiu(de, ult); }
       const intro = E.banners[0] && E.banners[0].intro;
       if (!E.ended && !intro && this.finalEm(E.idx)) this.finish(false);
     } else if (E.idx > ult) E.idx = ult;
@@ -1141,6 +1414,7 @@ class Luta {
     if (to < from) return;
     let vir = null;
     for (const e of this.eventos()) if (e.virada && e.t > a.t && e.t <= b.t) vir = e.virada;
+    if (!E.ended) this.garantiu(from, to);
     if (vir && !E.ended) this.virada(vir);
     else if (b.has && !E.ended) {
       const k = b.A - a.A >= b.B - a.B ? 'A' : 'B', f = E.f[k];
@@ -1150,6 +1424,12 @@ class Luta {
     if (!E.ended && this.finalEm(to)) this.finish(false);
   }
 
+  // passou do ponto da vitória garantida entre os pontos de e para: super cena (ou só a aura)
+  garantiu(de, para) {
+    const md = this.md();
+    if (!md || md.i <= de || md.i > para || this.E.aura) return;
+    if (this.cutOn()) this.startCut('md', md.k); else { this.E.aura = md.k; this.sfx('fanfare'); }
+  }
   finish(instant) {
     const E = this.E, r = this.desfecho(E.idx);
     if (!r) return;
@@ -1167,7 +1447,7 @@ class Luta {
       let sub = this.scope === 'br' ? (S.turno === 2 ? `${N} ELEITO PRESIDENTE` : `${N} ELEITO NO 1º TURNO`) : `${N} VENCE ${EM}`;
       if (this.scope === 'br' && S.turno === 2 && this.palpite) sub += this.palpite === r.n ? ' · PALPITE CERTO' : ' · PALPITE ERRADO';
       E.banners = [{ text: 'K.O.!', sub, dur: 0, age }];
-      if (!instant) this.sfx('ko');
+      if (!instant) { if (w && this.cutOn()) this.startCut('ko', w); else this.sfx('ko'); }
     } else {
       E.banners = [r.tipo === 'r2' ? { text: 'ROUND 2', sub: '2º TURNO · 25 DE OUTUBRO', dur: 0, age } : { text: 'SEM NOCAUTE', sub: `${N} VENCE POR PONTOS ${EM}`, dur: 0, age }];
       if (!instant) this.sfx('bell');
@@ -1262,6 +1542,7 @@ class Luta {
     const tg = e.target && e.target.tagName;
     if (tg === 'SELECT' || tg === 'TEXTAREA' || (tg === 'INPUT' && e.target.type !== 'range') || e.metaKey || e.ctrlKey || e.altKey) return;
     const k = (e.key || '').toLowerCase();
+    if (this.E.cut) { if (k === ' ' || k === 'escape' || k === 'enter') { e.preventDefault(); if (down && !e.repeat) this.endCut(); } return; }
     if (k === ' ' && this.modo === 'luta') {
       e.preventDefault();
       if (down && !e.repeat) { if (document.activeElement && document.activeElement.blur) document.activeElement.blur(); this.toggle(); }
@@ -1313,6 +1594,13 @@ class Luta {
       case 'bell': tone(1320, 1300, 0.9, 'sine', 0.14); tone(2640, 2600, 0.6, 'sine', 0.05); break;
       case 'ding': tone(1568, 1560, 0.3, 'sine', 0.07); break;
       case 'cheer': noise(0.45, 0.12, 1400, 'bandpass'); break;
+      case 'charge2': tone(110, 880, 1.1, 'sawtooth', 0.05); tone(220, 1760, 1.1, 'square', 0.025); noise(1.1, 0.08, 2000, 'bandpass'); break;
+      case 'boom': noise(0.9, 0.9, 500); tone(110, 28, 0.9, 'square', 0.22); tone(70, 30, 1.2, 'sine', 0.3); break;
+      case 'whoosh': noise(0.35, 0.45, 2200, 'bandpass'); break;
+      case 'slash': noise(0.18, 0.5, 3500, 'bandpass'); tone(1800, 300, 0.2, 'sawtooth', 0.04); break;
+      case 'glass': noise(0.4, 0.5, 5000, 'highpass'); tone(2200, 1800, 0.25, 'triangle', 0.05); tone(3100, 2500, 0.2, 'triangle', 0.04, 0.05); break;
+      case 'fanfare': [523, 659, 784, 1047].forEach((f, i) => tone(f, f, i === 3 ? 0.5 : 0.14, 'square', 0.06, i * 0.11)); break;
+      case 'urna': [1568, 1760, 1568, 1760, 2093].forEach((f, i) => tone(f, f, 0.07, 'square', 0.05, i * 0.075)); break;
       case 'virada': tone(392, 392, 0.1, 'square', 0.07); tone(523, 523, 0.1, 'square', 0.07, 0.1); tone(784, 784, 0.2, 'square', 0.07, 0.2); break;
     }
   }
@@ -1337,6 +1625,7 @@ class Luta {
   frame(now) {
     const E = this.E, rdt = Math.min(0.05, Math.max(0, (now - this.last) / 1000));
     this.last = now;
+    if (E.cut) { this.stepCut(rdt); this.draw(false); return; }
     let dt = rdt;
     if (E.slow > 0) { E.slow -= rdt; dt = rdt * 0.35; }
     E.T += dt;
@@ -1507,7 +1796,7 @@ class Luta {
       E.koT += dt;
       const w = E.f[E.koW], l = E.f[this.oth(E.koW)];
       if (E.koT < 2.4) { tx = l.x + l.kx; pose = 'refcount'; n = Math.min(10, 1 + Math.floor(E.koT / 0.22)); }
-      else { tx = w.x - w.facing * 13; pose = 'refraise'; }
+      else { tx = w.x - w.facing * 13; pose = 'refraise'; if (!E.dipl) { E.dipl = 1; E.callouts.push({ txt: this.scope === 'br' ? 'DIPLOMADO!' : 'VENCEU!', x: R.x, age: 0 }); } }
     } else if (dn) { tx = dn.x + dn.kx - dn.facing * 6; pose = 'refcount'; if (dn.pose === 'down') n = 1 + Math.floor(dn.pt / 0.4); }
     else tx = E.center + (E.center <= 160 ? 1 : -1) * 64;
     tx = Math.max(20, Math.min(300, tx));
@@ -1640,6 +1929,7 @@ class Luta {
         break;
       }
       // poses das cenas do intervalo e do juiz
+      case 'lie': { const br = Math.sin(T * 2 + (f.phase || 0)) > 0 ? 1 : 0; P({ hip: [0, -28], sh: [br, -46], hd: [br, -55], kF: [0, -14], fF: [0, 0], kB: [1, -14], fB: [1, 0], eF: [2 + br, -38], gF: [3, -30], eB: [1 + br, -38], gB: [2, -30] }); break; }
       case 'rope': P({ kF: [2, -14], fF: [3, 0], kB: [-2, -14], fB: [-1, 0], eF: [7, -38], gF: [9, -31], eB: [0, -38], gB: [-3, -31] }); break;
       case 'run': { const a = Math.sin(pt * 13), u = Math.round(Math.abs(Math.cos(pt * 13)) * 2); P({ hip: [1, -28 - u], sh: [6, -45 - u], hd: [8, -54 - u], kF: [3 + a * 7, -14 - Math.max(0, a) * 4 - u], fF: [a * 10, -Math.max(0, a) * 6], kB: [3 - a * 7, -14 - Math.max(0, -a) * 4 - u], fB: [-a * 10, -Math.max(0, -a) * 6], eF: [5 - a * 5, -38 - u], gF: [10 - a * 7, -44 - u], eB: [5 + a * 5, -38 - u], gB: [10 + a * 7, -44 - u] }); break; }
       case 'pushup': { const d = 5 - Math.round((f.u || 0) * 5); P({ fB: [-22, 0], fF: [-21, 0], kB: [-13, -3 - d * 0.6], kF: [-12, -3 - d * 0.6], hip: [-4, -7 - d], sh: [11, -9 - d * 1.6], hd: [17, -11 - d * 1.6], eF: [7 + d, -6 - d * 0.8], gF: [13, -2], eB: [6 + d, -6 - d * 0.8], gB: [12, -2] }); break; }
@@ -1685,8 +1975,8 @@ class Luta {
       case 'manopla': at.cA = a('C', 104, -1, 'mitts'); at.cB = a('C', 216, 1, 'mitts'); at.A = a('A', 64, 1); at.B = a('B', 256, -1, 'idle', { wait: 0.8, i: 3 }); break;
       case 'sombra': at.A = a('A', 84, 1); at.B = a('B', 236, -1, 'idle', { wait: 0.7, i: 7 }); break;
       case 'pesagem': at.A = a('A', 70, 1); at.B = a('B', 250, -1); break;
-      case 'vespera': at.A = a('A', 96, 1, 'idle', { by: 121, fall: 1, eyes: 'z' }); at.B = a('B', 224, -1, 'idle', { by: 121, fall: 1, eyes: 'z', zt: 0.7 }); break;
-      case 'encarada': at.R = a('R', 160, 1, 'refsep', { pal: 'R' }); at.A = a('A', 145, 1, 'stare'); at.B = a('B', 175, -1, 'stare'); break;
+      case 'vespera': at.A = a('A', 96, 1, 'lie', { by: 121, fall: 1, eyes: 'z' }); at.B = a('B', 224, -1, 'lie', { by: 121, fall: 1, eyes: 'z', zt: 0.7 }); break;
+      case 'encarada': at.R = a('R', 160, 1, 'refsep', { pal: 'R' }); at.A = a('A', 141, 1, 'stare'); at.B = a('B', 179, -1, 'stare'); break;
     }
   }
   mkFans() {
@@ -1944,7 +2234,8 @@ class Luta {
     if (P.beard) { rc(h[0] - 2, h[1] + 1, 8, 5, P.hair); rc(h[0] + 2, h[1] + 2, 3, 1, P.skinD); }
     rc(h[0] + 2, h[1] - 3, 3, 1, P.brow); rc(h[0] + 3, h[1] - 2, 1, 1, f.eyes === 'z' ? P.skinD : f.pose === 'ko' ? '#F2EDE4' : '#14110F');
     rc(h[0] - 1, h[1] - 1, 2, 2, P.skinD);
-    if (P.tie) rc(h[0] - 1, h[1] + 7, 3, 2, '#0F0E0D');
+    if (P.tie) rc(h[0] - 2, h[1] + 7, 5, 2, P.tie === 1 ? '#0F0E0D' : P.tie);
+    if (P.bald) { rc(h[0] - 2, h[1] - 6, 3, 1, '#F7DDC4'); rc(h[0] + 1, h[1] - 4, 4, 1, P.brow); }
     ln(shF, J.eF, 3, P.skin); ln(J.eF, J.gF, 3, P.skin);
     if (P.hand) rc(J.gF[0] - 1, J.gF[1] - 1, 3, 3, P.skin); else { rc(J.gF[0] - 2, J.gF[1] - 3, 6, 6, P.glove); rc(J.gF[0] - 2, J.gF[1] - 3, 6, 1, '#FFFFFF'); }
     if (f.pose === 'dizzy' && !f.sil) for (let i = 0; i < 3; i++) { const an = E.T * 6 + i * 2.09, q = tr([h[0] + Math.cos(an) * 7, h[1] - 9 + Math.sin(an) * 2]); b.fillStyle = i ? '#F5C842' : '#FFFFFF'; b.fillRect(Math.round(q[0]), Math.round(q[1]), 2, 2); }
@@ -2007,9 +2298,9 @@ class Luta {
     R(0, 131, W, 1, '#4A4038'); R(0, 132, W, 18, '#1A1714');
     const o4 = (T * 90) % 24; for (let x = -o4; x < W; x += 24) R(x, 141, 10, 1, '#6A625A');
   }
-  bubble(ctx, sc, x, y, t, col) {
+  bubble(ctx, sc, x, y, t, col, lo, hi) {
     ctx.font = `700 ${Math.round(6 * sc)}px Silkscreen, monospace`;
-    const w = ctx.measureText(t).width / sc + 10, X = Math.max(4, Math.min(this.W - 4 - w, x - w / 2));
+    const w = ctx.measureText(t).width / sc + 10, X = Math.max(lo == null ? 4 : lo, Math.min((hi == null ? this.W - 4 : hi) - w, x - w / 2));
     ctx.fillStyle = '#F2EDE4'; ctx.fillRect(X * sc, (y - 7) * sc, w * sc, 14 * sc); ctx.fillRect((x - 2) * sc, (y + 7) * sc, 4 * sc, 3 * sc);
     ctx.fillStyle = col; ctx.fillRect(X * sc, (y + 6) * sc, w * sc, sc);
     ctx.fillStyle = '#0F0E0D'; ctx.textAlign = 'center'; ctx.fillText(t, (X + w / 2) * sc, y * sc);
@@ -2077,7 +2368,7 @@ class Luta {
           R(px - 10, 98, 21, 2, '#4A4038'); R(px - 9, 100, 19, 32, '#26211D'); R(px - 7, 104, 15, 11, this.cor[k]); this.pxText(b, this.num(k), px - 3, 107, '#0F0E0D', 1);
           this.line(b, [px, 98], [a.x + a.facing * 9, F - 50], '#0F0E0D'); R(a.x + a.facing * 9 - 1, F - 51, 2, 2, '#3A342E');
         }
-        R(128, 62, 64, 6, '#0B0A09'); R(130, 64, Math.round(60 * rem), 2, this.cor[sp]);
+        R(130, 46, 60, 5, '#0B0A09'); R(131, 47, Math.round(58 * rem), 3, this.cor[sp]);
         break;
       }
       case 'flexao':
@@ -2107,7 +2398,7 @@ class Luta {
           R(x0, 121, 66, 4, '#4A4038'); R(x0, 121, 66, 1, '#6A5E52'); R(x0 + 2, 125, 2, 7, '#2A2622'); R(x0 + 62, 125, 2, 7, '#2A2622');
           R(k === 'A' ? x0 + 2 : x0 + 50, 116, 14, 5, '#E9E4DA');
           D(a);
-          R(k === 'A' ? x0 + 18 : x0 + 2, 114, 46, 7, this.P[k].shorts); R(k === 'A' ? x0 + 18 : x0 + 2, 114, 46, 1, this.cor[k]);
+          R(k === 'A' ? x0 + 18 : x0 + 2, 113, 46, 10, this.P[k].shorts); R(k === 'A' ? x0 + 18 : x0 + 2, 113, 46, 1, this.cor[k]);
         }
         b.fillStyle = 'rgba(6,6,12,.6)'; b.fillRect(0, 0, W, H);
         R(32, 17, 5, 5, '#D8CDB8'); R(34, 17, 3, 1, '#0B0A09');
@@ -2123,16 +2414,15 @@ class Luta {
     switch (S2.id) {
       case 'debate': case 'coletiva':
         if (S2.line) {
-          const k = Math.floor(S2.T / (S2.id === 'debate' ? 4 : 3)) % 2 ? 'B' : 'A', a = S2.a[k];
-          this.bubble(ctx, sc, a.x + a.facing * 10, this.FLOOR - 76, S2.line, this.cor[k]);
-          if (S2.both) { const o = S2.a[this.oth(k)]; this.bubble(ctx, sc, o.x + o.facing * 10, this.FLOOR - 76, '!!!', this.cor[o.k]); }
+          const db = S2.id === 'debate', bl = (q) => (db ? (q === 'A' ? [4, 116] : [204, W - 4]) : [null, null]);
+          const k = Math.floor(S2.T / (db ? 4 : 3)) % 2 ? 'B' : 'A', a = S2.a[k], b1 = bl(k);
+          this.bubble(ctx, sc, a.x + a.facing * 10, this.FLOOR - 76, S2.line, this.cor[k], b1[0], b1[1]);
+          if (S2.both) { const o = S2.a[this.oth(k)], b2 = bl(o.k); this.bubble(ctx, sc, o.x + o.facing * 10, this.FLOOR - 76, '!!!', this.cor[o.k], b2[0], b2[1]); }
         }
-        if (S2.id === 'debate') txt('TEMPO', W / 2, 56, 6, '#A39B90');
         break;
       case 'corrida': if (S2.ld) txt(this.nk(S2.ld).toUpperCase() + ' NA FRENTE', W / 2, 36, 7, this.cor[S2.ld]); break;
-      case 'flexao': for (const k of ['A', 'B']) txt(S2.n[k] + ' FLEXÕES', S2.a[k].x, 60, 7, this.cor[k]); break;
+      case 'flexao': for (const k of ['A', 'B']) txt(S2.n[k] + ' FLEXÕES', S2.a[k].x, 96, 7, this.cor[k]); break;
       case 'encarada': { const k = 1 + Math.sin(S2.T * 10) * 0.06; txt('VS', W / 2, 44, 22 * k, '#F5C842'); txt(this.nk('A').toUpperCase(), 64, 60, 10, this.cor.A); txt(this.nk('B').toUpperCase(), 256, 60, 10, this.cor.B); break; }
-      case 'pesagem': txt('PESAGEM OFICIAL', W / 2, 66, 7, '#F2EDE4'); break;
     }
   }
 
@@ -2144,8 +2434,9 @@ class Luta {
     if (c.width !== cw || c.height !== ch) { c.width = cw; c.height = ch; }
     if (cena) this.drawScene(b);
     else {
-      b.drawImage(this.bg, 0, 0); this.drawCrowd(b); b.drawImage(this.ropes, 0, 0);
+      b.drawImage(this.bg, 0, 0); this.drawEggsBack(b); this.drawCrowd(b); b.drawImage(this.ropes, 0, 0); this.drawEggsFront(b);
       this.drawF(b, E.ref);
+      if (E.aura) this.drawAura(b);
       ['A', 'B'].sort((x, y) => (this.isAtk(E.f[x]) ? 1 : 0) - (this.isAtk(E.f[y]) ? 1 : 0)).forEach((k) => this.drawF(b, E.f[k]));
       for (const p of E.proj) this.drawProj(b, p);
       for (const p of E.drops) this.drawDrop(b, p);
@@ -2174,6 +2465,9 @@ class Luta {
     if (cena) this.overScene(txt, ctx, sc);
     else {
       if (E.refN) txt(String(E.refN), E.ref.x, this.FLOOR - 84, 14, '#F5C842');
+      this.eggTxt(ctx, sc);
+      const md = this.modo === 'luta' ? this.md() : null;
+      if (md && E.idx >= md.i && !E.ended && !E.cut) { txt(this.scope === 'br' ? 'MATEMATICAMENTE ELEITO' : 'VITÓRIA GARANTIDA', 160, 9, 6, '#F5C842'); txt(this.nk(md.k).toUpperCase(), 160, 18, 5.5, '#F2EDE4'); }
       for (const k of ['A', 'B']) {
         const f = E.f[k];
         if (f.combo < 2 || f.comboT > 1.3) continue;
@@ -2182,7 +2476,7 @@ class Luta {
       }
       if (this.modo === 'espera') { txt('SALA DE GOLPES', 8, H - 8, 6, '#A39B90', 'left'); txt(this.autoDemo ? 'DEMO AUTOMÁTICA' : 'TOQUE NUM GOLPE', W - 8, H - 8, 6, this.autoDemo ? '#F5C842' : '#A39B90', 'right'); }
       const b0 = E.banners[0];
-      if (b0) {
+      if (b0 && !E.cut) {
         const k = b0.age < 0.16 ? 1.7 - 0.7 * (b0.age / 0.16) : 1;
         ctx.globalAlpha = b0.dur && b0.age > b0.dur - 0.25 ? Math.max(0, (b0.dur - b0.age) / 0.25) : 1;
         const y = ch * 0.3;
@@ -2195,6 +2489,349 @@ class Luta {
       }
     }
     ctx.globalAlpha = 1;
+    if (E.cut) { ctx.save(); this.drawCut(ctx, sc, cw, ch); ctx.restore(); }
+  }
+  // ---------- super cenas: vitória garantida durante a apuração e nocaute com 100% das urnas ----------
+  // Só com a luta na tela (aba visível, sem "reduzir movimento"); espaço, Esc, Enter ou um toque no ringue pulam.
+  cutOn() { return this.modo === 'luta' && !REDUZ && !document.hidden; }
+  claro(k) { return CLARO[this.num(k)] || shade(this.cor[k], 0.45); }
+  escuro(k) { return ESCURO[this.num(k)] || shade(this.cor[k], -0.65); }
+  startCut(id, k) {
+    if (!this.cutOn()) return;
+    const E = this.E, sc = this.scope, s = this.view(E.idx), o = this.oth(k), md = id === 'md' ? this.md() : null, certo = !!(md && md.R != null);
+    E.cut = { id, k, T: 0, dur: id === 'ko' ? 6.4 : 7.4, br: sc === 'br', T2: S.turno === 2, A: ALL[sc], V: s[k], O: s[o],
+      R: certo ? md.R : Math.max(0, s.tot - s.vv), tot: certo ? s.vv + md.R : s.tot, urnas: s.urnas, pct: k === 'A' ? s.ap : s.bp, parts: [], acc: 0 };
+    if (id === 'md') {
+      // cada golpe da sequência mostra um estado onde o vencedor abriu vantagem, do maior saldo para o menor
+      const C = E.cut, ids = sc === 'br' ? UF_IDS.filter((u) => u !== 'zz') : ALL[sc].tipo === 'reg' ? ALL[sc].ufs : [];
+      const lbl = ids.map((u) => { const a = this.area(E.idx, u); return { u, d: k === 'A' ? a.A - a.B : a.B - a.A }; })
+        .filter((x) => x.d > 0).sort((a, b) => b.d - a.d).map((x) => `${ALL[x.u].sigla} +${mvS(x.d).toUpperCase()}`);
+      C.mov = [[0.45, 'jab'], [0.6, 'cross'], [0.78, 'hook'], [0.98, 'body'], [1.15, 'upper'], [1.38, 'knee'], [1.56, 'elbow'], [1.74, 'flurry'], [2.25, 'spin'], [2.55, 'high']];
+      C.hits = [];
+      C.mov.forEach(([st, mv]) => { const M = MV[mv]; (M.hits || [M.hit]).forEach((h, i) => C.hits.push({ t: st + h, high: !!M.high, low: !!M.low, body: M.react === 'hitb', big: !!M.big || (!!M.hits && i === M.hits.length - 1) })); });
+      C.hits.push({ t: 2.99, high: true, big: true }, { t: 3.59, high: true, big: true });
+      C.hits.forEach((h, i) => { h.lbl = lbl[i] || null; });
+      C.labels = []; C.combo = 0; C.comboT = 0; C.sh = 0;
+    }
+    E.floats = []; E.callouts = []; E.proj = []; E.drops = []; E.shake = 0;
+    this.sfx(id === 'ko' ? 'whoosh' : 'slash'); this.buzz(id === 'ko' ? 80 : 30);
+    this.push(true);
+  }
+  endCut() {
+    const E = this.E, C = E && E.cut; if (!C) return;
+    E.cut = null; E.aura = C.k; E.shake = C.id === 'ko' ? .4 : .25;
+    if (C.id === 'md') E.f[C.k].sup = 100;
+    this.push(true);
+  }
+  stepCut(dt) {
+    const E = this.E, C = E.cut, p = C.T; C.T += dt;
+    const T = C.T, at = x => p < x && T >= x, R = Math.random, lt = this.claro(C.k), cols = ['#F5C842', '#FFFFFF', lt, this.cor[C.k]];
+        if (C.id === 'md') {
+      const sd = C.k === 'A' ? 1 : -1, mxm = x => sd > 0 ? x : 320 - x;
+      if (at(.06)) this.sfx('slash');
+      for (const h of C.hits) if (at(h.t)) {
+        const P = this.mdPose(C, h.t), cx = P.xl - sd * 8, cy = 134 - P.ayL - (h.high ? 88 : h.low ? 24 : 62);
+        h.cx = cx; h.cy = cy; C.combo++; C.comboT = T; C.sh = Math.max(C.sh || 0, h.big ? .2 : .09);
+        this.sfx(h.big ? 'big' : 'hit'); this.buzz(h.big ? 25 : 10);
+        for (let i = 0; i < (h.big ? 18 : 9); i++) { const a = R() * 6.283, v = 60 + R() * 200; C.parts.push({ x: cx, y: cy, vx: Math.cos(a) * v + sd * 60, vy: Math.sin(a) * v, g: 220, age: 0, life: .25 + R() * .3, sz: 1.2 + R() * 1.8, c: cols[Math.floor(R() * 2)] }); }
+        if (h.lbl) C.labels.push({ txt: h.lbl, x: cx + sd * (14 + (C.combo % 3) * 22), y: Math.max(32, cy - 6 - (C.combo % 3) * 11), age: 0 });
+      }
+      if (at(2.99)) this.sfx('whoosh');
+      if (at(3.72)) { this.sfx('boom'); this.buzz([80, 30, 120]); C.sh = .5; const P = this.mdPose(C, 3.72); for (let i = 0; i < 44; i++) C.parts.push({ x: P.xl + (R() - .5) * 30, y: 132, vx: (R() - .5) * 420, vy: -20 - R() * 120, g: 280, age: 0, life: .5 + R() * .5, sz: 1.5 + R() * 2.5, c: ['#C9C0B4', '#8A8178', '#F5C842'][Math.floor(R() * 3)] }); }
+      if (at(3.9)) C.parts = [];
+      if (at(4.05)) { this.sfx('big'); C.sh = .2; }
+      if (at(4.3)) { this.sfx('boom'); this.buzz(70); C.sh = .45; }
+      if (at(4.55)) this.sfx('fanfare');
+      if (at(5.5)) this.sfx('urna');
+      if (at(6.7)) { this.sfx('glass'); this.buzz(40); for (let i = 0; i < 80; i++) { const a = R() * 6.283, v = 80 + R() * 280; C.parts.push({ x: mxm(80), y: 70, vx: Math.cos(a) * v, vy: Math.sin(a) * v, g: 140, age: 0, life: .6 + R() * .6, sz: 1.5 + R() * 2.2, c: cols[Math.floor(R() * 4)] }); } }
+      if (T > 3.9 && T < 6.7) { C.acc += dt * 70; while (C.acc >= 1) { C.acc--; C.parts.push({ x: mxm(80) + (R() - .5) * 84, y: 152 + R() * 10, vx: (R() - .5) * 10, vy: -(50 + R() * 80), g: 0, age: 0, life: 1.2 + R() * 1.2, sz: 1 + R() * 2.4, c: cols[Math.floor(R() * 3)] }); } }
+      C.labels = C.labels.filter(l => (l.age += dt) < .85);
+      C.sh = Math.max(0, (C.sh || 0) - dt);
+    } else {
+      if (at(.35)) this.sfx('charge2'); if (at(1.55)) this.sfx('whoosh'); if (at(1.62)) { this.sfx('boom'); this.buzz([90, 40, 160]); } if (at(2.15)) { this.sfx('ko'); this.sfx('boom'); } if (at(3.45)) this.sfx('fanfare'); if (at(3.6)) this.sfx('cheer');
+      if (T > .45 && T < 1.55) { C.acc += dt * 90; while (C.acc >= 1) { C.acc--; C.parts.push({ sp: 1, a: R() * 6.283, r: 50 + R() * 50, va: 3 + R() * 3, vr: 55 + R() * 45, age: 0, life: 9, sz: 1 + R() * 1.8, c: cols[Math.floor(R() * 3)] }); } }
+      if (at(1.55)) C.parts = [];
+      if (at(2.15)) for (let i = 0; i < 90; i++) { const a = R() * 6.283, v = 90 + R() * 330; C.parts.push({ x: 160, y: 78, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 40, g: 260, age: 0, life: .7 + R() * .9, sz: 1.5 + R() * 3, c: cols[Math.floor(R() * 4)] }); }
+      if (at(3.45)) for (let i = 0; i < 130; i++) C.parts.push({ cf: 1, x: R() * 320, y: -10 - R() * 90, vx: (R() - .5) * 20, vy: 28 + R() * 36, g: 0, age: 0, life: 9, sz: 2 + R() * 2, rot: R() * 6.28, vrot: 4 + R() * 8, c: cols[Math.floor(R() * 4)] });
+    }
+    C.parts = C.parts.filter(q => { q.age += dt; if (q.sp) { q.a += q.va * dt; q.r -= q.vr * dt; return q.r > 2; } q.vy += (q.g || 0) * dt; q.x += q.vx * dt; q.y += q.vy * dt; if (q.cf) q.rot += q.vrot * dt; return q.age < q.life && q.y < 170; });
+    if (T >= C.dur) this.endCut();
+  }
+  mdPose(C, T) {
+    const sd = C.k === 'A' ? 1 : -1, sg = (a, b) => Math.max(0, Math.min(1, (T - a) / (b - a))), eo = x => 1 - (1 - x) * (1 - x);
+    let poseW = 'idle', ptW = 0;
+    for (const [st, mv] of C.mov) if (T >= st) { poseW = mv; ptW = T - st; }
+    const M = MV[poseW]; if (M && ptW > M.end) { poseW = 'idle'; ptW = 0; }
+    let kb = 0, last = null; for (const h of C.hits) if (h.t <= T) { kb += 9 * Math.exp(-(T - h.t) * 9); last = h; }
+    let xw = 160 - 38 * sd, ayW = 0, ayL = 0, rotL = 0, fallL = 0, poseL = 'block', ptL = 0;
+    const since = last ? T - last.t : 9;
+    if (T < 2.99) poseL = since < .14 ? (last.body ? 'hitb' : 'hit') : T > 1.7 ? 'dizzy' : 'block';
+    else if (T < 3.59) { ayL = 74 * eo(sg(2.99, 3.45)) + (T > 3.45 ? Math.sin((T - 3.45) * 20) * 1.5 : 0); poseL = 'air'; rotL = (T - 2.99) * 6; }
+    else if (T < 3.72) { ayL = 74 * (1 - sg(3.59, 3.72)); poseL = 'air'; rotL = 3.6 + (T - 3.59) * 8; }
+    else { poseL = 'down'; fallL = 1; ptL = .5; }
+    if (T >= 2.85 && T < 3.35) { poseW = 'rising'; ptW = T - 2.85; ayW = 40 * eo(sg(2.85, 3.35)); }
+    else if (T >= 3.35 && T < 3.85) { poseW = 'drop'; ptW = Math.min(.4, T - 3.35); ayW = T < 3.59 ? 40 + 32 * eo(sg(3.35, 3.59)) : 72 * (1 - sg(3.59, 3.85) * sg(3.59, 3.85)); xw += sd * 26 * sg(3.35, 3.59); }
+    else if (T >= 3.85) { poseW = 'win'; xw += sd * 26; }
+    return { xw, xl: 160 + 36 * sd + kb * sd, ayW, ayL, rotL, fallL, poseW, ptW, poseL, ptL };
+  }
+  drawAura(b) {
+    const E = this.E, f = E.f[E.aura]; if (!f || f.pose === 'ko') return;
+    const X = f.x + (f.kx || 0), base = this.FLOOR - (f.ay || 0), T = E.T, c = this.cor[E.aura];
+    for (let i = 0; i < 16; i++) {
+      const ph = (T * .8 + i * .137) % 1, sx = Math.sin(i * 12.9898) * 43758.5453, rx = sx - Math.floor(sx) - .5;
+      b.globalAlpha = (1 - ph) * .9; b.fillStyle = i % 3 ? '#F5C842' : i % 2 ? '#FFFFFF' : c;
+      b.fillRect(Math.round(X + rx * 30 + Math.sin(T * 3 + i) * 2), Math.round(base - 4 - ph * 66), i % 4 ? 1 : 2, i % 4 ? 2 : 3);
+    }
+    b.globalAlpha = 1;
+  }
+  drawCut(ctx, U, cw, ch) {
+    const E = this.E, C = E.cut, T = C.T, k = C.k, o = this.oth(k), col = this.cor[k], dk = this.escuro(k), lt = this.claro(k), sd = k === 'A' ? 1 : -1, NM = this.nk(k).toUpperCase();
+    const cl = (x, a, b) => Math.max(a, Math.min(b, x)), sg = (a, b) => cl((T - a) / (b - a), 0, 1), ez = x => 1 - Math.pow(1 - x, 3), eio = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2, bk = x => 1 + 2.70158 * Math.pow(x - 1, 3) + 1.70158 * Math.pow(x - 1, 2);
+    const mx = x => sd > 0 ? x : 320 - x, ARC = 'Archivo, system-ui, sans-serif', PIX = 'Silkscreen, monospace';
+    const Lc = this.cutC || (this.cutC = document.createElement('canvas')); if (Lc.width !== cw || Lc.height !== ch) { Lc.width = cw; Lc.height = ch; }
+    const g = Lc.getContext('2d');
+    g.setTransform(1, 0, 0, 1, 0, 0); g.globalAlpha = 1; g.globalCompositeOperation = 'source-over'; g.shadowBlur = 0; g.clearRect(0, 0, cw, ch); g.imageSmoothingEnabled = false; g.lineJoin = 'round'; g.textBaseline = 'alphabetic'; g.textAlign = 'left';
+    ctx.imageSmoothingEnabled = false;
+    const F = (c2, w, sz, fam, st) => { c2.font = `${w} ${Math.max(1, Math.round(sz * U * 10) / 10)}px ${fam}`; if ('fontStretch' in c2) c2.fontStretch = st || 'normal'; };
+    const fit = (c2, t, w, sz, fam, st, max) => { F(c2, w, sz, fam, st); const m = c2.measureText(t).width; if (m > max * U) F(c2, w, sz * max * U / m, fam, st); };
+    const R = (x, y, w, h, c) => { g.fillStyle = c; g.fillRect(x * U, y * U, w * U, h * U); };
+    const poly = (c2, pts) => { c2.beginPath(); pts.forEach((p, i) => i ? c2.lineTo(p[0] * U, p[1] * U) : c2.moveTo(p[0] * U, p[1] * U)); c2.closePath(); };
+    const say = (t, x, y, fill, sw, shc, sh) => { if (shc) { g.fillStyle = shc; g.fillText(t, (x + sh) * U, (y + sh) * U); } if (sw) { g.lineWidth = sw * U; g.strokeStyle = '#0F0E0D'; g.strokeText(t, x * U, y * U); } g.fillStyle = fill; g.fillText(t, x * U, y * U); };
+    const desat = (c2, a, dark) => { if (a <= 0) return; c2.save(); c2.globalAlpha = a; c2.globalCompositeOperation = 'saturation'; c2.fillStyle = '#808080'; c2.fillRect(0, 0, cw, ch); c2.globalCompositeOperation = 'source-over'; c2.fillStyle = `rgba(0,0,0,${dark == null ? .5 : dark})`; c2.fillRect(0, 0, cw, ch); c2.restore(); };
+    const star = (x, y, r, c) => { g.fillStyle = c; poly(g, [[x, y - r], [x + r * .16, y], [x, y + r], [x - r * .16, y]]); g.fill(); poly(g, [[x - r, y], [x, y + r * .16], [x + r, y], [x, y - r * .16]]); g.fill(); };
+    const spr = (kk, pose, pt, x, y, s, op) => {
+      const c2 = this.sprC || (this.sprC = document.createElement('canvas')); c2.width = 180; c2.height = 120;
+      const b = c2.getContext('2d'), f = this.act(kk, 90, (op && op.facing) || (kk === 'A' ? 1 : -1), pose, Object.assign({ by: 110, noSh: true, pt: pt || 0 }, op || {}));
+      const t0 = E.T; E.T = T; this.drawF(b, f); const J = this.joints(f, T); E.T = t0;
+      const dx = (x - 90 * s) * U, dy = (y - 110 * s) * U, w = 180 * s * U, h = 120 * s * U;
+      if (op && op.glow) { g.save(); g.shadowColor = op.glow; g.shadowBlur = (op.gb || 14) * U; g.drawImage(c2, dx, dy, w, h); g.restore(); }
+      g.drawImage(c2, dx, dy, w, h);
+      return { at: q => [x + q[0] * f.facing * s, y + q[1] * s], J };
+    };
+    const parts = (c2, filt) => {
+      for (const q of C.parts) {
+        if (filt && !filt(q)) continue;
+        c2.globalAlpha = q.cf ? 1 : cl(1 - q.age / q.life, 0, 1); c2.fillStyle = q.c;
+        if (q.sp) { if (!C.fist) continue; c2.fillRect((C.fist[0] + Math.cos(q.a) * q.r) * U, (C.fist[1] + Math.sin(q.a) * q.r) * U, q.sz * U, q.sz * U); }
+        else if (q.cf) { const w = Math.max(.5, q.sz * Math.abs(Math.cos(q.rot))); c2.fillRect((q.x - w / 2) * U, q.y * U, w * U, q.sz * 1.5 * U); }
+        else c2.fillRect(q.x * U, q.y * U, q.sz * U, q.sz * (q.vy < -30 && !q.g ? 2 : 1) * U);
+      }
+      c2.globalAlpha = 1;
+    };
+    let ox = 0, oy = 0;
+
+        if (C.id === 'md') {
+      const s = 1.75, P = this.mdPose(C, T), rush = T < 3.9, camY = rush ? Math.max(P.ayL, T < 3.72 ? P.ayW : 0) * .85 : 0, fx = mx(80), fy = 70;
+      desat(ctx, sg(0, .12) * (1 - sg(6.9, 7.4)));
+      if (rush) {
+        const gr = g.createRadialGradient(160 * U, 70 * U, 6 * U, 160 * U, 70 * U, 260 * U); gr.addColorStop(0, lt); gr.addColorStop(.25, col); gr.addColorStop(1, dk); g.fillStyle = gr; g.fillRect(0, 0, cw, ch);
+        g.fillStyle = 'rgba(255,255,255,.17)';
+        for (let i = 0; i < 48; i++) { const y = (i * 37) % 128 + 6, len = 24 + (i * 13) % 56, x = (((i * 97 - T * 560 * sd) % 420) + 420) % 420 - 50; g.fillRect(x * U, y * U, len * U, (i % 3 ? .8 : 1.6) * U); }
+        g.save(); g.translate(0, camY * U);
+        R(0, 134, 320, 40, '#0B0A09'); R(0, 133.4, 320, 1.2, '#F5C842');
+        for (let j = 0; j < 14; j++) { const x = (((j * 26 - T * 300 * sd) % 364) + 364) % 364 - 22; g.fillStyle = '#2A2622'; poly(g, [[x, 134.6], [x + 1.4, 134.6], [x + 1.4 - sd * 22, 150], [x - sd * 22, 150]]); g.fill(); }
+        g.fillStyle = 'rgba(0,0,0,.45)'; g.fillRect((P.xw - 22) * U, 133 * U, 44 * U, 2.4 * U); g.fillRect((P.xl - 22) * U, 133 * U, 44 * U, 2.4 * U);
+        const lastH = C.hits.filter(h => h.t <= T).pop(), flL = lastH && lastH.big && T - lastH.t < .05 ? 1 : 0;
+        spr(o, P.poseL, P.ptL, P.xl, 134 - P.ayL, s, { facing: -sd, rot: P.rotL, fall: P.fallL, flash: flL });
+        [[.075, .14], [.04, .3]].forEach(([d, a]) => { const Q = this.mdPose(C, Math.max(0, T - d)); g.globalAlpha = a; spr(k, Q.poseW, Q.ptW, Q.xw - sd * d * 60, 134 - Q.ayW, s, { sil: lt }); }); g.globalAlpha = 1;
+        spr(k, P.poseW, P.ptW, P.xw, 134 - P.ayW, s, {});
+        for (const h of C.hits) { if (h.cx == null) continue; const a = T - h.t; if (a < 0 || a > .2) continue; const q = 1 - a / .2, r = (h.big ? 18 : 11) * q + 3; star(h.cx, h.cy, r * 1.4, '#FFFFFF'); star(h.cx, h.cy, r * .6, '#F5C842'); g.strokeStyle = `rgba(255,255,255,${q.toFixed(3)})`; g.lineWidth = 1.6 * q * U; g.beginPath(); g.arc(h.cx * U, h.cy * U, (6 + (1 - q) * 26) * U, 0, Math.PI * 2); g.stroke(); }
+        parts(g);
+        g.restore();
+        if (C.combo > 0 && T < 3.75) { const pop = 1 + .5 * (1 - sg(C.comboT, C.comboT + .12)), hx = sd > 0 ? 14 : 306; g.save(); g.textAlign = sd > 0 ? 'left' : 'right'; F(g, 700, 6, PIX); say('COMBO', hx, 24, '#F5C842', 2.4); g.translate(hx * U, 41 * U); g.scale(pop, pop); F(g, 900, 14, ARC, 'expanded'); g.lineWidth = 3.4 * U; g.strokeStyle = '#0F0E0D'; g.strokeText(C.combo + ' HITS', 0, 0); g.fillStyle = '#FFFFFF'; g.fillText(C.combo + ' HITS', 0, 0); g.restore(); }
+        for (const l of C.labels) { const a = l.age, al = a > .55 ? Math.max(0, 1 - (a - .55) / .3) : 1, pp = a < .08 ? 1.6 - 7.5 * a : 1; g.save(); g.globalAlpha = al; g.translate(l.x * U, (l.y + camY - a * 20) * U); g.scale(pp, pp); F(g, 700, 7.5, PIX); g.textAlign = 'center'; g.lineWidth = 2.6 * U; g.strokeStyle = '#0F0E0D'; g.strokeText(l.txt, 0, 0); g.fillStyle = '#F5C842'; g.fillText(l.txt, 0, 0); g.restore(); }
+        const wq = 1 - sg(3.72, 3.84); if (wq > 0 && T >= 3.72) { g.fillStyle = `rgba(255,255,255,${(wq * .85).toFixed(3)})`; g.fillRect(0, 0, cw, ch); }
+        const pq = sg(3.72, 3.8);
+        if (pq > 0) { const t1 = C.T2 ? `VANTAGEM ${mvS(C.V - C.O).toUpperCase()} > FALTAM ${mvS(C.R).toUpperCase()}` : `${mvS(C.V).toUpperCase()} DE VOTOS > METADE DOS VÁLIDOS`, sc2 = 1 + .8 * (1 - ez(pq)); g.save(); g.translate(160 * U, 30 * U); g.scale(sc2, sc2); fit(g, t1, 900, 15, ARC, 'expanded', 276); g.textAlign = 'center'; g.textBaseline = 'middle'; g.lineWidth = 3.4 * U; g.strokeStyle = '#0F0E0D'; g.strokeText(t1, 0, 0); g.fillStyle = '#FFFFFF'; g.fillText(t1, 0, 0); g.restore(); }
+      } else {
+        const tx = sd > 0 ? 150 : 12, TW = 158;
+        const gr = g.createRadialGradient(fx * U, fy * U, 4 * U, fx * U, fy * U, 300 * U); gr.addColorStop(0, lt); gr.addColorStop(.2, col); gr.addColorStop(1, dk); g.fillStyle = gr; g.fillRect(0, 0, cw, ch);
+        g.fillStyle = 'rgba(255,255,255,.14)'; g.beginPath();
+        for (let i = 0; i < 64; i++) { const a = i / 64 * 6.283 + T * .12 + Math.sin(i * 7.3) * .05, w = .01 + (Math.sin(i * 3.1) * .5 + .5) * .028, r0 = 40 + (Math.sin(i * 5.7) * .5 + .5) * 46; g.moveTo((fx + Math.cos(a) * r0) * U, (fy + Math.sin(a) * r0) * U); g.lineTo((fx + Math.cos(a - w) * 420) * U, (fy + Math.sin(a - w) * 420) * U); g.lineTo((fx + Math.cos(a + w) * 420) * U, (fy + Math.sin(a + w) * 420) * U); g.closePath(); }
+        g.fill();
+        g.fillStyle = 'rgba(0,0,0,.26)'; g.beginPath();
+        for (let yy = 3; yy < 150; yy += 6) for (let xx = 3; xx < 175; xx += 6) { const d = xx / 175, r = .15 + d * d * 2.4, px = mx(145 + xx); g.moveTo((px + r) * U, yy * U); g.arc(px * U, yy * U, r * U, 0, 6.283); }
+        g.fill();
+        for (let i = 0; i < 3; i++) { const q = ((T - 3.9) * 1.1 + i / 3) % 1, r = 150 * (1 - q) + 8; g.strokeStyle = `rgba(245,200,66,${(q * .7).toFixed(3)})`; g.lineWidth = (1 + q * 3) * U; g.beginPath(); g.arc(fx * U, (fy - 4) * U, r * U, 0, 6.283); g.stroke(); }
+        parts(g);
+        const pin = ez(sg(3.9, 4.2)), px = fx - sd * (1 - pin) * 70;
+        spr(k, 'win', 0, px + 1.6, 166, 2.2, { sil: '#F5C842', glow: '#F5C842', gb: 16 }); spr(k, 'win', 0, px - 1.6, 165, 2.2, { sil: '#F5C842' }); spr(k, 'win', 0, px, 166, 2.2, {});
+        const kq = ez(sg(3.95, 4.2));
+        if (kq > 0) { const kt = C.br ? `${C.T2 ? '2º TURNO' : '1º TURNO'} · ${pc1(C.urnas)} DAS URNAS` : `${C.A.nome.toUpperCase()} · ${pc1(C.urnas)} APURADO`; fit(g, kt, 700, 6.5, PIX, null, TW - 8); const kw = g.measureText(kt).width / U + 8; g.save(); g.beginPath(); g.rect(tx * U, 19 * U, kw * kq * U, 11 * U); g.clip(); R(tx, 19, kw, 11, '#0F0E0D'); g.textBaseline = 'middle'; g.fillStyle = '#F5C842'; g.fillText(kt, (tx + 4) * U, 24.8 * U); g.restore(); }
+        const q1 = sg(4.05, 4.3);
+        if (q1 > 0) { const t = C.br ? 'MATEMATICAMENTE' : 'VITÓRIA', s2 = 2.6 - 1.6 * bk(q1); fit(g, t, 900, 20, ARC, 'expanded', TW); const w = g.measureText(t).width / U; g.save(); g.globalAlpha = Math.min(1, q1 * 3); g.translate((tx + w / 2) * U, 50 * U); g.transform(1, 0, -.14, 1, 0, 0); g.scale(s2, s2); g.textAlign = 'center'; g.fillStyle = dk; g.fillText(t, 2.2 * U, 2.2 * U); g.lineWidth = 3.2 * U; g.strokeStyle = '#0F0E0D'; g.strokeText(t, 0, 0); g.fillStyle = '#FFFFFF'; g.fillText(t, 0, 0); g.restore(); }
+        const q2 = sg(4.3, 4.55);
+        if (q2 > 0) { const t = C.br ? 'ELEITO' : 'GARANTIDA', s2 = 3 - 2 * bk(q2); fit(g, t, 900, 54, ARC, 'expanded', TW); const w = g.measureText(t).width / U, d = (8 * (1 - ez(q2)) + 1.4) * U; g.save(); g.globalAlpha = Math.min(1, q2 * 3); g.translate((tx + w / 2) * U, 94 * U); g.transform(1, 0, -.14, 1, 0, 0); g.scale(s2, s2); g.textAlign = 'center'; g.globalAlpha = .9; g.fillStyle = '#E5383B'; g.fillText(t, -d, 0); g.fillStyle = '#3B7BF0'; g.fillText(t, d, 0); g.globalAlpha = 1; g.lineWidth = 5 * U; g.strokeStyle = '#0F0E0D'; g.strokeText(t, 0, 0); const lg = g.createLinearGradient(0, -40 * U, 0, 4 * U); lg.addColorStop(0, '#FFF3B0'); lg.addColorStop(.55, '#F5C842'); lg.addColorStop(1, '#E8833A'); g.fillStyle = lg; g.fillText(t, 0, 0); g.restore(); }
+        const q3 = ez(sg(4.55, 4.8));
+        if (q3 > 0) { const nt = `${NM} · ${C.br ? (C.T2 ? 'PRESIDENTE' : 'VENCE NO 1º TURNO') : C.A.nome.toUpperCase()}`; fit(g, nt, 700, 7.5, PIX, null, TW - 8); const nw = g.measureText(nt).width / U + 8; g.save(); g.beginPath(); g.rect(tx * U, 100 * U, nw * q3 * U, 12 * U); g.clip(); R(tx, 100, nw, 12, col); R(tx, 111, nw, 1, '#0F0E0D'); g.textBaseline = 'middle'; g.lineWidth = 2.2 * U; g.strokeStyle = '#0F0E0D'; g.strokeText(nt, (tx + 4) * U, 106.3 * U); g.fillStyle = '#FFFFFF'; g.fillText(nt, (tx + 4) * U, 106.3 * U); g.restore(); }
+        const mq = sg(4.8, 5.4), me = eio(mq), bw = TW - 46;
+        if (mq > 0) {
+          g.save(); g.globalAlpha = Math.min(1, mq * 4);
+          if (!C.T2) { const f = cl(C.V / Math.max(1, C.tot), 0, 1), fv = f * me; R(tx, 117, bw, 6, 'rgba(15,14,13,.85)'); R(tx, 117, bw * Math.min(fv, .5), 6, '#F2EDE4'); if (fv > .5) R(tx + bw * .5, 117, bw * (fv - .5), 6, '#F5C842'); R(tx + bw * .5 - .7, 114.5, 1.4, 11, '#F5C842'); }
+          else { const lead = Math.max(0, C.V - C.O), mxv = Math.max(lead, C.R, 1); R(tx, 116, bw, 4, 'rgba(15,14,13,.85)'); R(tx, 116, bw * lead / mxv * me, 4, '#F2EDE4'); R(tx, 121.5, bw, 4, 'rgba(15,14,13,.85)'); R(tx, 121.5, bw * C.R / mxv * me, 4, '#8A8178'); }
+          g.restore();
+        }
+        const dq = sg(5.1, 5.4);
+        if (dq > 0) { const t2 = C.T2 ? `vantagem de ${mvS(C.V - C.O)} > ${mvS(C.R)} que faltam` : `${mvS(C.V)} de votos: mais da metade de todos os válidos`; g.save(); g.globalAlpha = dq; fit(g, t2, 700, 7, ARC, null, bw); g.textAlign = 'left'; say(t2, tx, 134, '#FFFFFF', 2.4); g.restore(); }
+        const uq = ez(sg(5.45, 5.7));
+        if (uq > 0) {
+          const x = tx + TW - 40, y = 104 + (1 - uq) * 40; g.save(); g.globalAlpha = uq;
+          R(x, y + 2, 40, 30, '#9C917A'); R(x, y, 40, 29, '#E2D8C0'); R(x, y + 27, 40, 2, '#BDB29A');
+          R(x + 3, y + 3, 19, 14, '#3A342E'); R(x + 4, y + 4, 17, 12, '#F4F1E6');
+          F(g, 700, 6.5, PIX); g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillStyle = '#0F0E0D'; g.fillText('FIM', (x + 12.5) * U, (y + 10.4) * U);
+          for (let r = 0; r < 4; r++) for (let c = 0; c < 3; c++) R(x + 25 + c * 4.6, y + 3 + r * 4.3, 3.4, 3.2, '#1A1714');
+          R(x + 3, y + 20, 6, 4.5, '#F4F1E6'); R(x + 10.5, y + 20, 6, 4.5, '#E8833A'); R(x + 18, y + 20, 7, 4.5, '#2FA65A');
+          g.restore(); g.textAlign = 'left'; g.textBaseline = 'alphabetic';
+        }
+        const wq = 1 - sg(3.9, 4.05); if (wq > 0) { g.fillStyle = `rgba(255,255,255,${wq.toFixed(3)})`; g.fillRect(0, 0, cw, ch); }
+      }
+      const shk = (C.sh || 0) * 22 + (T > 6 && T < 6.7 ? (T - 6) * 3 : 0);
+      if (shk > 0) { ox = (Math.random() * 2 - 1) * shk * U; oy = (Math.random() * 2 - 1) * shk * U; }
+      if (T < .38) {
+        const e0 = -70 + 470 * ez(sg(.04, .38)), pn = [[-40, 0], [e0 + 28, 0], [e0 - 28, 150], [-40, 150]].map(q => [mx(q[0]), q[1]]);
+        ctx.save(); poly(ctx, pn); ctx.clip(); ctx.drawImage(Lc, ox, oy); ctx.restore();
+        ctx.fillStyle = '#F5C842'; poly(ctx, [[e0 + 28, 0], [e0 + 40, 0], [e0 - 16, 150], [e0 - 28, 150]].map(q => [mx(q[0]), q[1]])); ctx.fill();
+        ctx.fillStyle = '#FFFFFF'; poly(ctx, [[e0 + 40, 0], [e0 + 44, 0], [e0 - 12, 150], [e0 - 16, 150]].map(q => [mx(q[0]), q[1]])); ctx.fill();
+      } else if (T < 6.7) ctx.drawImage(Lc, ox, oy);
+      else {
+        if (!C.shards) {
+          const nc = 8, nr = 4, PP = [], S2 = [];
+          for (let j = 0; j <= nr; j++) { PP[j] = []; for (let i = 0; i <= nc; i++) { const ex = i === 0 || i === nc, ey = j === 0 || j === nr; PP[j][i] = [i * 320 / nc + (ex ? 0 : (Math.random() - .5) * 26), j * 150 / nr + (ey ? 0 : (Math.random() - .5) * 22)]; } }
+          for (let j = 0; j < nr; j++) for (let i = 0; i < nc; i++) { const a = PP[j][i], b = PP[j][i + 1], c = PP[j + 1][i + 1], d = PP[j + 1][i]; [[a, b, c], [a, c, d]].forEach(tri => { const cx2 = (tri[0][0] + tri[1][0] + tri[2][0]) / 3, cy2 = (tri[0][1] + tri[1][1] + tri[2][1]) / 3, dx = cx2 - fx, dy = cy2 - fy, dd = Math.hypot(dx, dy) || 1, v = 120 + Math.random() * 260; S2.push({ tri, cx: cx2, cy: cy2, vx: dx / dd * v, vy: dy / dd * v - 40, vr: (Math.random() - .5) * 8, dl: dd / 900 }); }); }
+          C.shards = S2;
+        }
+        const st = T - 6.7;
+        for (const s2 of C.shards) {
+          const t2 = Math.max(0, st - s2.dl), a = 1 - t2 / .65; if (a <= 0) continue;
+          ctx.save(); ctx.globalAlpha = a; ctx.translate((s2.cx + s2.vx * t2) * U, (s2.cy + s2.vy * t2 + 180 * t2 * t2) * U); ctx.rotate(s2.vr * t2); ctx.translate(-s2.cx * U, -s2.cy * U);
+          ctx.beginPath(); ctx.moveTo(s2.tri[0][0] * U, s2.tri[0][1] * U); ctx.lineTo(s2.tri[1][0] * U, s2.tri[1][1] * U); ctx.lineTo(s2.tri[2][0] * U, s2.tri[2][1] * U); ctx.closePath(); ctx.clip();
+          ctx.drawImage(Lc, 0, 0); ctx.strokeStyle = 'rgba(255,255,255,.75)'; ctx.lineWidth = 1.4 * U; ctx.stroke(); ctx.restore();
+        }
+        parts(ctx);
+        const wf = 1 - sg(6.7, 6.9); if (wf > 0) { ctx.fillStyle = `rgba(255,255,255,${wf.toFixed(3)})`; ctx.fillRect(0, 0, cw, ch); }
+      }
+    } else {
+      const wf = E.f[k], cxR = wf.x + (wf.kx || 0), cyR = this.FLOOR - 40;
+      if (T < .75) { const z = 1 + .55 * eio(sg(0, .75)), sw = 320 / z, sh = 150 / z, sx = cl(cxR - sw / 2, 0, 320 - sw), sy = cl(cyR - sh / 2, 0, 150 - sh); ctx.fillStyle = '#0B0A09'; ctx.fillRect(0, 0, cw, ch); ctx.drawImage(this.bufC, sx, sy, sw, sh, 0, 0, cw, ch); desat(ctx, sg(.05, .35)); }
+      if (T >= .3 && T < 1.55) {
+        const sx = mx(100) + (Math.random() - .5) * 1.2 * sg(.6, 1.5), sy = 196, s = 2.5, tx = sd > 0 ? 180 : 14, TW = 126;
+        g.fillStyle = '#060505'; g.fillRect(0, 0, cw, ch);
+        const fj = this.joints(this.act(k, 0, sd, 'bomb', { pt: .1 }), T).gB, fx = sx + fj[0] * sd * s, fy = sy + fj[1] * s; C.fist = [fx, fy];
+        const gr = g.createRadialGradient(fx * U, fy * U, 2 * U, fx * U, fy * U, 210 * U); gr.addColorStop(0, col); gr.addColorStop(.4, dk); gr.addColorStop(1, 'rgba(6,5,5,0)'); g.fillStyle = gr; g.fillRect(0, 0, cw, ch);
+        F(g, 900, 96, ARC, 'expanded'); g.textAlign = 'center'; g.textBaseline = 'middle'; g.lineWidth = 1.2 * U; g.strokeStyle = 'rgba(255,255,255,.13)'; g.strokeText('100%', 160 * U, 80 * U); g.textBaseline = 'alphabetic'; g.textAlign = 'left';
+        g.strokeStyle = 'rgba(255,255,255,.5)'; g.lineWidth = .8 * U; g.beginPath();
+        for (let i = 0; i < 60; i++) { const a = i * 2.39996, ph = (T * 1.7 + (i * .618) % 1) % 1, r1 = 30 + 270 * (1 - ph), r2 = r1 + 18 + (i % 5) * 7; g.moveTo((fx + Math.cos(a) * r1) * U, (fy + Math.sin(a) * r1) * U); g.lineTo((fx + Math.cos(a) * r2) * U, (fy + Math.sin(a) * r2) * U); }
+        g.stroke();
+        spr(k, 'bomb', .1, sx + 1.6, sy, s, { sil: '#F5C842', glow: col, gb: 22 }); spr(k, 'bomb', .1, sx - 1.6, sy, s, { sil: '#F5C842' }); spr(k, 'bomb', .1, sx, sy, s, {});
+        const cq = sg(.45, 1.55), rr = (8 + 10 * cq) * (1 + .12 * Math.sin(T * 40)), fg = g.createRadialGradient(fx * U, fy * U, 0, fx * U, fy * U, rr * U); fg.addColorStop(0, '#FFFFFF'); fg.addColorStop(.35, '#F5C842'); fg.addColorStop(1, 'rgba(245,200,66,0)'); g.fillStyle = fg; g.beginPath(); g.arc(fx * U, fy * U, rr * U, 0, 6.283); g.fill();
+        parts(g);
+        const q1 = ez(sg(.5, .78));
+        if (q1 > 0) { g.save(); g.globalAlpha = q1; fit(g, 'ULTRA FINAL', 900, 24, ARC, 'expanded', TW); g.translate((tx + sd * (1 - q1) * 24) * U, 46 * U); g.transform(1, 0, -.16, 1, 0, 0); g.fillStyle = dk; g.fillText('ULTRA FINAL', 2.4 * U, 2.4 * U); g.lineWidth = 3.4 * U; g.strokeStyle = '#0F0E0D'; g.strokeText('ULTRA FINAL', 0, 0); g.fillStyle = '#F5C842'; g.fillText('ULTRA FINAL', 0, 0); g.restore(); }
+        const q2 = sg(.62, 1.35), v = 99 + eio(q2), done = q2 >= 1;
+        if (q2 > 0) { const t2 = pc(Math.min(100, v)), pop = done ? 1 + .22 * (1 - sg(1.35, 1.5)) : 1; g.save(); fit(g, '100,00%', 800, 30, ARC, 'expanded', TW); g.translate(tx * U, 78 * U); g.scale(pop, pop); g.lineWidth = 3 * U; g.strokeStyle = '#0F0E0D'; g.strokeText(t2, 0, 0); g.fillStyle = done ? '#F5C842' : '#FFFFFF'; g.fillText(t2, 0, 0); g.restore(); F(g, 700, 6.5, PIX); say('DAS URNAS APURADAS', tx, 91, '#F2EDE4', 2.4); }
+        const q3 = sg(.9, 1.2);
+        if (q3 > 0) { const t3 = C.br ? `${NM} · ${pc1(C.pct)} DOS VÁLIDOS` : `${NM} · ${C.A.nome.toUpperCase()}`; g.save(); g.globalAlpha = q3; fit(g, t3, 700, 6.5, PIX, null, TW); say(t3, tx, 106, lt, 2.4); g.restore(); }
+      }
+      if (T >= 1.55 && T < 1.62) { g.fillStyle = '#FFFFFF'; g.fillRect(0, 0, cw, ch); }
+      if (T >= 1.62 && T < 2.15) {
+        const fr = Math.floor((T - 1.62) / .055) % 3, bgc = ['#FFFFFF', '#050404', col][fr], fgc = ['#050404', '#FFFFFF', '#050404'][fr], ix = 160, iy = 70, s3 = 1.9, fy3 = iy + 49 * s3, wx = ix - 28 * sd * s3, lx = ix + 16 * sd;
+        g.fillStyle = bgc; g.fillRect(0, 0, cw, ch);
+        g.fillStyle = fgc; g.beginPath();
+        for (let i = 0; i < 28; i++) { const a = i / 28 * 6.283 + Math.sin(i * 9.1) * .1, w = .025 + (i % 3) * .014, r0 = 26 + (i % 4) * 10; g.moveTo((ix + Math.cos(a) * r0) * U, (iy + Math.sin(a) * r0) * U); g.lineTo((ix + Math.cos(a - w) * 420) * U, (iy + Math.sin(a - w) * 420) * U); g.lineTo((ix + Math.cos(a + w) * 420) * U, (iy + Math.sin(a + w) * 420) * U); g.closePath(); }
+        g.fill();
+        const both = (c, dx) => { spr(o, 'hit', 0, lx + dx, fy3, s3, { sil: c, facing: -sd, rot: .3 }); spr(k, 'bomb', .36, wx + dx, fy3, s3, { sil: c }); };
+        if (fr === 1) { both('#E5383B', -2.2); both('#3B7BF0', 2.2); }
+        both(fgc, 0);
+        star(ix, iy, 26 + 8 * Math.sin(T * 60), fr === 2 ? '#FFFFFF' : '#F5C842');
+      }
+      if (T >= 2.15) {
+        const lf = E.f[o], z = 1.3 + .12 * sg(2.15, 6.2), lxR = lf.x + (lf.kx || 0), sw = 320 / z, sh = 150 / z, sx = cl(lxR - sw / 2, 0, 320 - sw), sy = cl(this.FLOOR - 40 - sh / 2, 0, 150 - sh), ix = 160, iy = 78;
+        g.drawImage(this.bufC, sx, sy, sw, sh, 0, 0, cw, ch); desat(g, 1, .55);
+        g.globalAlpha = .22; g.fillStyle = col; g.fillRect(0, 0, cw, ch); g.globalAlpha = 1;
+        if (!C.cracks) { C.cracks = []; for (let i = 0; i < 11; i++) { let a = i / 11 * 6.283 + (Math.random() - .5) * .4, x = ix, y = iy; const pts = [[x, y]]; for (let j = 0; j < 6; j++) { a += (Math.random() - .5) * .7; const l = 10 + Math.random() * 26; x += Math.cos(a) * l; y += Math.sin(a) * l; pts.push([x, y]); } C.cracks.push(pts); } }
+        const cq = ez(sg(2.15, 2.32)) * (1 - sg(5.0, 5.6));
+        if (cq > 0) [[3.6, '#0F0E0D'], [1.3, 'rgba(255,255,255,.9)']].forEach(([lw, c]) => { g.strokeStyle = c; g.lineWidth = lw * U; g.beginPath(); C.cracks.forEach(pts => { const n = Math.max(1, Math.floor(cq * (pts.length - 1))); g.moveTo(pts[0][0] * U, pts[0][1] * U); for (let j = 1; j <= n; j++) g.lineTo(pts[j][0] * U, pts[j][1] * U); }); g.stroke(); });
+        for (let i = 0; i < 3; i++) { const q = (T - 2.15 - i * .09) / .65; if (q <= 0 || q >= 1) continue; g.strokeStyle = i ? `rgba(245,200,66,${(1 - q).toFixed(3)})` : `rgba(255,255,255,${(1 - q).toFixed(3)})`; g.lineWidth = 7 * (1 - q) * U; g.beginPath(); g.arc(ix * U, iy * U, (16 + q * 300) * U, 0, 6.283); g.stroke(); }
+        parts(g, q => !q.cf);
+        const vq = ez(sg(3.4, 3.85));
+        if (vq > 0) {
+          g.save(); g.translate(0, (1 - vq) * 80 * U);
+          const band = [[-10, 84], [330, 78], [330, 150], [-10, 150]];
+          poly(g, band); g.fillStyle = col; g.fill();
+          g.save(); poly(g, band); g.clip(); g.fillStyle = 'rgba(0,0,0,.2)'; g.beginPath(); for (let yy = 88; yy < 150; yy += 5) for (let xx = 2; xx < 320; xx += 5) { const d = sd > 0 ? xx / 320 : 1 - xx / 320, r = .1 + d * 1.5; g.moveTo((xx + r) * U, yy * U); g.arc(xx * U, yy * U, r * U, 0, 6.283); } g.fill(); g.restore();
+          poly(g, [[-10, 84], [330, 78], [330, 80.5], [-10, 86.5]]); g.fillStyle = '#F5C842'; g.fill();
+          spr(k, 'win', 0, mx(56), 140, 1.6, { glow: '#F5C842', gb: 12 });
+          const tx = sd > 0 ? 100 : 14, TW = 206;
+          fit(g, NM, 900, 24, ARC, 'expanded', TW); g.textAlign = 'left'; say(NM, tx, 104, '#FFFFFF', 3, dk, 2);
+          const vt = C.br ? (C.T2 ? 'ELEITO PRESIDENTE' : 'ELEITO NO 1º TURNO') : 'VENCE ' + C.A.em.toUpperCase();
+          fit(g, vt, 700, 8, PIX, null, TW - 8); const vw = g.measureText(vt).width / U + 8; R(tx, 109, vw, 12, '#0F0E0D'); g.textBaseline = 'middle'; g.fillStyle = '#F5C842'; g.fillText(vt, (tx + 4) * U, 115.3 * U); g.textBaseline = 'alphabetic';
+          if (C.br && C.T2 && this.palpite) { const ok = this.palpite === this.num(k), pt2 = ok ? 'PALPITE CERTO' : 'PALPITE ERRADO'; F(g, 700, 6, PIX); const pw = g.measureText(pt2).width / U + 8; if (vw + pw + 4 <= TW) { R(tx + vw + 4, 109, pw, 12, ok ? '#2FA65A' : '#3A342E'); g.textBaseline = 'middle'; g.fillStyle = '#F2EDE4'; g.fillText(pt2, (tx + vw + 8) * U, 115.3 * U); g.textBaseline = 'alphabetic'; } }
+          const dt3 = `${pc1(C.pct)} dos votos válidos · ${mvS(C.V)} de votos`; fit(g, dt3, 700, 7.5, ARC, null, TW); say(dt3, tx, 132, '#FFFFFF', 2.4);
+          g.restore();
+        }
+        const kq = sg(2.15, 2.45), up = eio(sg(3.3, 3.75));
+        if (kq > 0) {
+          const ks = (3.4 - 2.4 * bk(kq)) * (1 - .4 * up), ky = 80 - 38 * up, rt = -.14 + .09 * bk(kq);
+          g.save(); g.translate(160 * U, ky * U); g.rotate(rt); g.scale(ks, ks); F(g, 900, 70, ARC, 'expanded'); g.textAlign = 'center'; g.textBaseline = 'middle';
+          const d = (7 * (1 - ez(kq)) + 1.6) * U;
+          g.globalAlpha = .9; g.fillStyle = '#E5383B'; g.fillText('K.O.', -d, 0); g.fillStyle = '#3B7BF0'; g.fillText('K.O.', d, 0); g.globalAlpha = 1;
+          g.lineWidth = 6 * U; g.strokeStyle = '#0F0E0D'; g.strokeText('K.O.', 0, 0);
+          const lg = g.createLinearGradient(0, -26 * U, 0, 26 * U); lg.addColorStop(0, '#FFF3B0'); lg.addColorStop(.5, '#F5C842'); lg.addColorStop(1, '#E8833A'); g.fillStyle = lg; g.fillText('K.O.', 0, 0);
+          g.restore(); g.textAlign = 'left'; g.textBaseline = 'alphabetic';
+        }
+        parts(g, q => !!q.cf);
+        const wq = 1 - sg(2.15, 2.32); if (wq > 0) { g.fillStyle = `rgba(255,255,255,${wq.toFixed(3)})`; g.fillRect(0, 0, cw, ch); }
+      }
+      if (T > 1.62 && T < 2.9) { const a = 4.5 * (1 - sg(1.62, 2.9)); ox = (Math.random() * 2 - 1) * a * U; oy = (Math.random() * 2 - 1) * a * U; }
+      if (T >= .3 && T < .6) { const r = 400 * ez(sg(.3, .6)), ix2 = mx(130), iy2 = 80; ctx.save(); ctx.beginPath(); ctx.arc(ix2 * U, iy2 * U, r * U, 0, 6.283); ctx.clip(); ctx.drawImage(Lc, 0, 0); ctx.restore(); ctx.strokeStyle = '#F5C842'; ctx.lineWidth = 2.5 * U; ctx.beginPath(); ctx.arc(ix2 * U, iy2 * U, r * U, 0, 6.283); ctx.stroke(); }
+      else if (T >= .6 && T < 5.65) ctx.drawImage(Lc, ox, oy);
+      else if (T >= 5.65) { const r = 400 * eio(sg(5.65, 6.25)); ctx.save(); ctx.beginPath(); ctx.rect(0, 0, cw, ch); ctx.arc(cxR * U, cyR * U, r * U, 0, Math.PI * 2, true); ctx.clip(); ctx.drawImage(Lc, 0, 0); ctx.restore(); if (r > 1) { ctx.strokeStyle = '#F5C842'; ctx.lineWidth = 2.5 * U; ctx.beginPath(); ctx.arc(cxR * U, cyR * U, r * U, 0, 6.283); ctx.stroke(); } }
+    }
+    const lb = 13 * ez(sg(0, .25)) * (1 - ez(sg(C.dur - .5, C.dur)));
+    if (lb > .1) {
+      ctx.globalAlpha = 1; ctx.fillStyle = '#000'; ctx.fillRect(0, 0, cw, lb * U); ctx.fillRect(0, ch - lb * U, cw, lb * U);
+      if (T > .6 && T < C.dur - .6) { ctx.font = `700 ${Math.round(6 * U)}px Silkscreen, monospace`; ctx.textBaseline = 'middle'; ctx.textAlign = 'left'; ctx.fillStyle = '#F5C842'; ctx.fillText(C.id === 'ko' ? 'ULTRA FINAL' : 'SUPER', 6 * U, lb * U / 2); ctx.textAlign = 'right'; ctx.fillStyle = '#A39B90'; ctx.fillText(UI.mob ? 'TOQUE PARA PULAR' : 'ESPAÇO PARA PULAR', cw - 6 * U, ch - lb * U / 2); }
+    }
+    const f0 = 1 - sg(0, .2); if (f0 > 0) { ctx.fillStyle = `rgba(255,255,255,${(f0 * .9).toFixed(3)})`; ctx.fillRect(0, 0, cw, ch); }
+  }
+  // easter eggs no fundo do ringue: estrela cadente, ET de Varginha (1996), placas da torcida, vira-lata caramelo e capivara
+  drawEggsBack(b) {
+    const T = this.E.T, R = (x, y, w, h, c) => { b.fillStyle = c; b.fillRect(Math.round(x), Math.round(y), w, h); };
+    const s1 = (T % 17) / 17; if (s1 < .06) { const q = s1 / .06, x = 30 + q * 120, y = 8 + q * 22; R(x, y, 2, 1, '#FFFFFF'); for (let i = 1; i < 6; i++) { b.globalAlpha = (1 - i / 6) * .7; R(x - i * 3, y - i * 1.1, 2, 1, '#FFFFFF'); } b.globalAlpha = 1; }
+    const u = (T + 9) % 41;
+    if (u < 7) {
+      const x = -20 + u / 7 * 360, y = 14 + Math.sin(T * 3) * 2;
+      if (Math.abs(x - 160) < 24) { b.fillStyle = 'rgba(140,255,170,.2)'; b.beginPath(); b.moveTo(x - 3, y + 2); b.lineTo(x + 3, y + 2); b.lineTo(x + 14, 84); b.lineTo(x - 14, 84); b.fill(); }
+      R(x - 3, y - 3, 6, 2, '#9BE7B0'); R(x - 2, y - 4, 4, 1, '#CFF5D9'); R(x - 1, y - 3, 1, 1, '#1A1714'); R(x + 1, y - 3, 1, 1, '#1A1714');
+      R(x - 8, y - 1, 16, 2, '#9AA0AA'); R(x - 6, y + 1, 12, 1, '#5A5F68');
+      for (let i = 0; i < 4; i++) R(x - 6 + i * 4, y, 1, 1, Math.floor(T * 8 + i) % 2 ? '#F5C842' : '#E5383B');
+    }
+  }
+  drawEggsFront(b) {
+    const T = this.E.T, R = (x, y, w, h, c) => { b.fillStyle = c; b.fillRect(Math.round(x), Math.round(y), w, h); };
+    [[38, 0], [252, 1]].forEach(([x, i]) => { const y = 82 + Math.round(Math.abs(Math.sin(T * 4 + i * 2)) * 1.5); R(x + 14, y + 9, 1, 6, '#6A5A44'); R(x, y, 30, 9, '#F2EDE4'); R(x, y + 8, 30, 1, '#BDB6AA'); });
+    const P = (x, y, dr) => (dx, dy, w, h, c) => R(dr > 0 ? x + dx : x - dx - w + 1, y + dy, w, h, c);
+    const d = (T + 3) % 29;
+    if (d < 8) {
+      const dr = Math.floor((T + 3) / 29) % 2 ? -1 : 1, x = dr > 0 ? -14 + d / 8 * 348 : 334 - d / 8 * 348, st = Math.floor(T * 10) % 2, p = P(x, 148, dr), c = '#C98A3E', lc = '#E0B070';
+      p(1, -2, 1, 2, c); p(3 + st, -2, 1, 2, c); p(7, -2, 1, 2, c); p(9 - st, -2, 1, 2, c);
+      p(0, -6, 10, 4, c); p(1, -3, 8, 1, lc); p(9, -9, 4, 4, c); p(12, -7, 2, 2, lc); p(13, -7, 1, 1, '#1A1714'); p(9, -10, 1, 2, '#8A5A28'); p(11, -8, 1, 1, '#1A1714'); p(-1, -8 - st, 1, 3, c); if (st) p(12, -5, 1, 1, '#E5585B');
+    }
+    const cp = (T + 30) % 53;
+    if (cp < 16) {
+      const x = 334 - cp / 16 * 352, st = Math.floor(T * 4) % 2, p = P(x, 148, -1), c = '#7A5A3C', dc = '#5E4430';
+      p(1, -2, 2, 2, dc); p(4 + st, -2, 2, 2, dc); p(10, -2, 2, 2, dc); p(13 - st, -2, 2, 2, dc);
+      p(0, -8, 15, 6, c); p(1, -3, 13, 1, dc); p(13, -10, 6, 6, c); p(17, -8, 2, 3, dc); p(15, -9, 1, 1, '#1A1714'); p(14, -11, 1, 1, dc);
+      p(6, -10, 3, 2, '#F2EDE4'); p(9, -10, 1, 1, '#F5C842'); p(6, -11, 1, 1, '#F2EDE4');
+    }
+  }
+  eggTxt(ctx, sc) {
+    const T = this.E.T, PR = [['BISCOITO', 'BOLACHA'], ['CADÊ O PIX?', 'JÁ CAIU'], ['1 x 7', 'NUNCA MAIS'], ['É PENTA!', '2002'], ['O ET', 'DE VARGINHA']], pr = PR[Math.floor(T / 9) % PR.length];
+    [[38, 0], [252, 1]].forEach(([x, i]) => {
+      const y = 82 + Math.round(Math.abs(Math.sin(T * 4 + i * 2)) * 1.5), t = pr[i];
+      ctx.font = `700 ${Math.max(1, Math.round(4.2 * sc))}px Silkscreen, monospace`; const w = ctx.measureText(t).width; if (w > 27 * sc) ctx.font = `700 ${Math.max(1, Math.round(4.2 * sc * 27 * sc / w))}px Silkscreen, monospace`;
+      ctx.textAlign = 'center'; ctx.fillStyle = '#0F0E0D'; ctx.fillText(t, (x + 15) * sc, (y + 4.4) * sc);
+    });
   }
 }
 
@@ -2321,10 +2958,21 @@ const Prev = {
 const fmtP = (p, exato) => (exato ? Math.round(p * 100) + '%' : p >= 0.995 ? '>99%' : p <= 0.005 ? '<1%' : Math.round(p * 100) + '%');
 const curto = (v) => (v >= 1e6 ? (v / 1e6).toLocaleString('pt-BR', { maximumFractionDigits: 1 }) + ' mi' : v >= 1000 ? Math.round(v / 1000) + ' mil' : String(Math.round(v)));
 
+// ---------- dados de 2022 (conferidos com os dados abertos do TSE) ----------
+// 2º turno de 2022 (TSE, dados abertos: votacao_partido_munzona_2022_BR): [votos de Lula, votos válidos] por UF e exterior
+const L22 = { ac: [121566, 409316], al: [976831, 1664658], am: [1004991, 1966732], ap: [189918, 390465], ba: [6097815, 8454843], ce: [3807891, 5442368], df: [729295, 1770626], es: [926767, 2208912], go: [1542115, 3735156], ma: [2668425, 3751174], mg: [6190960, 12332270], ms: [599547, 1480153], mt: [652786, 1869516], pa: [2509084, 4582979], pb: [1601953, 2404455], pe: [3640933, 5439765], pi: [1551383, 2018448], pr: [2506605, 6665948], rj: [4156217, 9560111], rn: [1326785, 2038166], ro: [262904, 896140], rr: [67128, 280646], rs: [2891851, 6625036], sc: [1351918, 4399548], se: [862951, 1284037], sp: [11519882, 25736469], to: [434593, 846247], zz: [152905, 298169] };
+// 2022, Brasil: [abstenção % do eleitorado, brancos % do comparecimento, nulos % do comparecimento] (detalhe_votacao_munzona_2022_BR)
+const C22 = { 1: [20.95, 1.59, 2.82], 2: [20.58, 1.42, 3.16] };
+const L22T = Object.values(L22).reduce((t, x) => [t[0] + x[0], t[1] + x[1]], [0, 0]); // Brasil: 50,90% (60.345.999 votos)
+const l22 = (ids) => { const t = ids.reduce((a, id) => (L22[id] ? [a[0] + L22[id][0], a[1] + L22[id][1]] : a), [0, 0]); return t[1] ? (t[0] / t[1]) * 100 : null; };
+const ufsDe = (sc) => (sc === 'br' ? UF_IDS : ALL[sc].tipo === 'reg' ? ALL[sc].ufs : [sc]);
+const VOTOS = (v) => mvS(v) + (Math.abs(v) >= 1e6 ? ' de votos' : ' votos');
+const f1 = (v) => v.toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+
 // ---------- interface ----------
 const STATS = [['Golpes certos', 'g'], ['Defesas', 'd'], ['Esquivas', 'e'], ['Quedas aplicadas', 'q'], ['Especiais', 's'], ['Maior combo', 'c']];
 const UI = {
-  mob: null, aba: 'previsao', mapa: 'lead', pvck: '', pvRows: {}, arrastando: false, tiles: {}, regs: {},
+  mob: null, aba: 'resumo', dtab: 'geral', cmpRef: 't1', tSort: { k: 'ele', d: -1 }, enck: '', dck: '', mapa: 'lead', pvck: '', pvRows: {}, arrastando: false, tiles: {}, regs: {},
   // só mexe no DOM quando o valor muda (cada nó guarda o último valor em _c)
   t(el, v) { if (el._t !== v) { el._t = v; el.textContent = v; } },
   h(el, v) { if (el._h !== v) { el._h = v; el.innerHTML = v; } },
@@ -2374,7 +3022,8 @@ const UI = {
     $('dias').innerHTML = DAYS.map((d) => `<span><i>${d[1]}</i><b>${String(d[0]).padStart(2, '0')}</b><u></u></span>`).join('');
     const salvo = ler('apuracao-luta-v2') || {};
     if (salvo.mapa === 'count') this.mapa = 'count';
-    if (['previsao', 'estados', 'lances', 'regioes', 'luta'].includes(salvo.aba)) this.aba = salvo.aba;
+    if (['resumo', 'previsao', 'estados', 'lances', 'regioes', 'luta', 'dados'].includes(salvo.aba)) this.aba = salvo.aba;
+    if (salvo.dtab === 'dados') this.dtab = 'dados';
     // linhas da projeção por região
     for (const id of [...REGIOES.map((g) => g.id), 'zz']) {
       const b = document.createElement('button');
@@ -2387,13 +3036,13 @@ const UI = {
   },
   // painel de previsão (só refaz as contas quando o ponto, os dados ou a área mudam)
   previsao(L, i) {
-    if (this.mob && L.modo === 'luta' && this.aba !== 'previsao') return;
+    if (L.modo === 'luta' && (this.mob ? this.aba !== 'previsao' : this.dtab === 'dados')) return;
     const ck = Prev.preparar(L, i) + '|' + L.scope + '|' + (this.mob ? 1 : 0);
     if (ck === this.pvck) return;
     this.pvck = ck;
     const sc = L.scope, A = ALL[sc], T2 = S.turno === 2, br1 = sc === 'br' && !T2;
     const nm = (n) => L.nome(n), cor = (n) => (n === L.nA ? L.cor.A : n === L.nB ? L.cor.B : '#8A8178');
-    const r = S.hist.length ? Prev.simular(L, i, sc, PREV.sims) : null, oficial = sc === 'br' ? L.desfecho(i) : null;
+    const r = S.hist.length ? Prev.simular(L, i, sc, PREV.sims) : null, oficial = L.oficial(i);
     this.t($('pvT'), 'PREVISÃO · ' + A.nome.toUpperCase());
     let linhas = [], exato = !!oficial || !!(r && r.R < 1), chave = 'MAIS PROVÁVEL';
     if (oficial) {
@@ -2487,7 +3136,7 @@ const UI = {
     }
     return svg;
   },
-  guardar() { gravar('apuracao-luta-v2', { scope: luta.scope, mapa: this.mapa, aba: this.aba, palpite: luta.palpite, demo: luta.demoK }); },
+  guardar() { gravar('apuracao-luta-v2', { scope: luta.scope, mapa: this.mapa, aba: this.aba, dtab: this.dtab, palpite: luta.palpite, demo: luta.demoK }); },
 
   // computador ou celular (mesma regra do design), luta ou intervalo: as peças compartilhadas mudam de lugar
   layout(modo) {
@@ -2569,6 +3218,321 @@ const UI = {
       : 'Quem vence o 2º turno? O palpite fica salvo só neste aparelho.');
   },
 
+  // votos válidos que ainda faltam numa área no ponto i: pelas seções que faltam; onde a apuração nem começou,
+  // pelo eleitorado e pela proporção de válidos por eleitor no Brasil
+  resto(L, i, id) {
+    const a = L.area(i, id);
+    if (a.st > 0) return Math.max(0, a.tot - a.vv);
+    const br = L.area(i, 'br');
+    return S.ele[id] && br.c ? (S.ele[id] * br.vv) / (br.c + br.ab) : 0;
+  },
+
+  // ----- ENTENDA A APURAÇÃO: o momento em texto, cartões, 100 eleitores e onde estão os votos que faltam -----
+  entenda(L, i) {
+    const sc = L.scope, A = ALL[sc], s = L.view(i), T2 = S.turno === 2, C = L.cor, h = S.hist, nm = (k) => esc(L.nk(k));
+    const tit = 'ENTENDA A APURAÇÃO · ' + A.nome.toUpperCase();
+    const topo2 = (head, sub) => `<div class="en-top"><h2>${esc(tit)}</h2><p id="enHead">${head}</p><p id="enSub">${sub}</p></div>`;
+    if (!s.has) return topo2(`A apuração ainda não começou ${A.em}.`, 'Os primeiros números saem logo depois que as urnas fecham, às 17h de Brasília.');
+    const ld = s.A >= s.B ? 'A' : 'B', tr = L.oth(ld), lead = Math.abs(s.A - s.B), R = Math.max(0, s.tot - s.vv);
+    const fim = L.desfecho(i), md = L.md(), mdOn = md && i >= md.i && !fim, wp = ld === 'A' ? s.ap : s.bp, br1 = sc === 'br' && !T2;
+    const head = fim ? `${nm(ld)} terminou ${VOTOS(lead)} à frente ${A.em}.` : `${nm(ld)} está ${VOTOS(lead)} à frente ${A.em}, com ${pc1(s.urnas)} das urnas apuradas.`;
+    const j0 = Math.min(i, L.idxAt(s.t - 20 * 60e3)), s0 = L.view(j0), dA = s.A - s0.A, dB = s.B - s0.B, dV = s.vv - s0.vv;
+    let sub = '';
+    if (fim) sub = br1 ? (fim.tipo === 'ko' ? `Com ${pc1(wp)} dos votos válidos, venceu no 1º turno.` : `Ninguém passou de 50% dos votos válidos. ${nm(ld)} e ${nm(tr)} disputam o 2º turno em 25 de outubro.`)
+      : sc === 'br' ? `Com ${pc1(wp)} dos votos válidos, ${nm(ld)} foi eleito presidente.` : `${nm(ld)} teve ${pc1(wp)} dos votos válidos.`;
+    else if (mdOn) sub = esc(L.mdTexto(md));
+    else if (R >= 1) {
+      sub = `Faltam cerca de ${VOTOS(R)} válidos. `;
+      if (T2) {
+        const x = 50 + (lead / R) * 50;
+        sub += x > 100 ? `${nm(tr)} não vira nem com todos eles.` : `Para virar, ${nm(tr)} precisa de ${pc1(x)} deles.`;
+        if (dV > s.tot * 0.002 && dA + dB > 0) sub += ` Nas últimas urnas apuradas, fez ${pc1(((tr === 'A' ? dA : dB) / (dA + dB)) * 100)}.`;
+      } else {
+        const g = (lead / R) * 100;
+        sub += g > 100 ? `${nm(tr)} não alcança mais ${nm(ld)} ${A.em}.` : `Para virar, ${nm(tr)} precisaria de ${Math.max(1, Math.ceil(g))} votos a mais que ${nm(ld)} a cada 100 que faltam.`;
+        if (dV > s.tot * 0.002) { const r = ((dA - dB) / dV) * 100; sub += ` Nas últimas urnas, ${nm(r >= 0 ? 'A' : 'B')} fez ${Math.max(1, Math.round(Math.abs(r)))} a mais a cada 100.`; }
+        if (br1 && h[i].def === 'S') sub += ' O TSE já confirmou: ninguém consegue mais passar de 50%, então vai haver 2º turno.';
+      }
+    }
+    // cartões
+    const cards = [], m = Math.abs(s.ap - s.bp), N = Math.max(2, Math.round(100 / Math.max(m, 0.01)));
+    const ate = fim ? '' : ' até agora';
+    cards.push(m < 5 ? [`1 a cada ${N.toLocaleString('pt-BR')}`, `votos válidos ${fim ? 'separaram' : 'separa'} ${nm(ld)} de ${nm(tr)}${ate}.`, 'var(--fg)'] : [`${Math.round(m)} a cada 100`, `votos válidos ${fim ? 'foi' : 'é'} a vantagem de ${nm(ld)} sobre ${nm(tr)}${ate}.`, 'var(--fg)']);
+    const mc = lead / 78838; // capacidade do Maracanã
+    cards.push(mc >= 1 ? [`${mc >= 10 ? Math.round(mc).toLocaleString('pt-BR') : f1(mc)} Maracanãs`, `lotados (78.838 lugares cada) cabem na vantagem de ${num(lead)} votos.`, C[ld]]
+      : [`${Math.max(1, Math.round(mc * 100))}% do Maracanã`, `lotado: é o tamanho da vantagem, ${num(lead)} votos.`, C[ld]]);
+    if (s.fim || s.urnas >= 99.995) {
+      let jf = i; for (let j = 0; j <= i; j++) if (L.area(j, sc).fim) { jf = j; break; }
+      cards.push([hm(h[jf].t), 'foi a hora em que a apuração chegou a 100% das urnas.', 'var(--fg)']);
+    } else {
+      const dt = s.t - s0.t, rate = dt > 0 ? (s.urnas - s0.urnas) / dt : 0;
+      cards.push(rate > 0 ? ['~' + hm(s.t + (100 - s.urnas) / rate), 'é a hora prevista para chegar a 100% das urnas, no ritmo dos últimos 20 minutos.', 'var(--fg)'] : ['—', 'ainda não dá para prever quando a apuração termina.', 'var(--fg)']);
+    }
+    if (A.tipo !== 'uf') {
+      const ok = ufsDe(sc).filter((u) => u !== 'zz' && L.area(i, u).has), comA = ok.filter((u) => { const a = L.area(i, u); return a.A >= a.B; });
+      const nB = ok.length - comA.length, bk = comA.length >= nB ? 'A' : 'B', grp = bk === 'A' ? comA : ok.filter((u) => !comA.includes(u));
+      const eT = ok.reduce((t, u) => t + (S.ele[u] || 0), 0), eB = grp.reduce((t, u) => t + (S.ele[u] || 0), 0);
+      cards.push([`${comA.length} × ${nB}`, `estados com ${nm('A')} e com ${nm('B')} na frente.` + (eT ? ` Os de ${nm(bk)} reúnem ${pc1((eB / eT) * 100)} dos eleitores.` : ''), 'var(--fg)']);
+    } else if (L22[sc] && (L.nA === '13' || L.nB === '13')) {
+      const k13 = L.nA === '13' ? 'A' : 'B';
+      cards.push([pc1((L22[sc][0] / L22[sc][1]) * 100), `foi o resultado de Lula ${A.em} no 2º turno de 2022. Agora ele tem ${pc1(k13 === 'A' ? s.ap : s.bp)}.`, C[k13]]);
+    }
+    let html = topo2(head, sub) + `<div class="en-cards">${cards.map(([b, t, c]) => `<div class="en-card"><b style="color:${c}">${b}</b><span>${t}</span></div>`).join('')}</div>`;
+    // se fossem 100 eleitores (das seções já apuradas)
+    let esq = '';
+    if (s.c > 0) {
+      const apt = s.c + s.ab, fl = [['A', s.A], ['B', s.B], ['O', Math.max(0, s.vv - s.A - s.B)], ['BN', s.b + s.nu], ['AB', s.ab]].map(([k, v]) => { const x = (v / apt) * 100; return [k, Math.floor(x), x - Math.floor(x)]; });
+      let rem = 100 - fl.reduce((t, x) => t + x[1], 0);
+      fl.slice().sort((a, b) => b[2] - a[2]).forEach((x) => { if (rem > 0) { x[1]++; rem--; } });
+      const ST = { A: [C.A, '', `votaram em ${nm('A')}`], B: [C.B, '', `votaram em ${nm('B')}`], O: ['#8A8178', '', 'votaram em outros candidatos'], BN: ['#D9D2C5', '', 'votaram em branco ou anularam'], AB: ['transparent', 'box-shadow:inset 0 0 0 1px #6A625A;', 'não foram votar'] };
+      const waf = fl.map(([k, n]) => `<i style="background:${ST[k][0]};${ST[k][1]}"></i>`.repeat(n)).join('');
+      const leg = fl.filter((x) => x[1] > 0).map(([k, n]) => `<span><i style="background:${ST[k][0]};${ST[k][1]}"></i><span><b>${n}</b> ${ST[k][2]}</span></span>`).join('');
+      esq = `<div class="en-bloco"><span class="en-k">SE FOSSEM 100 ELEITORES</span><span class="en-s">Nas urnas já apuradas ${A.em}, de cada 100 eleitores:</span><div class="waf">${waf}</div><div class="wleg">${leg}</div></div>`;
+    }
+    // onde estão os votos que faltam e onde cada um ganhou mais
+    let dir = '';
+    const subs = SUBS[sc] || [];
+    if (R >= 1 && subs.length && !fim) {
+      const todos = subs.map((id) => ({ id, a: L.area(i, id), r: this.resto(L, i, id) })), tot = todos.reduce((t, x) => t + x.r, 0);
+      const rs = todos.filter((x) => x.r >= 1).sort((a, b) => b.r - a.r).slice(0, 6), t0 = rs[0];
+      if (t0 && tot) {
+        const lk = t0.a.A >= t0.a.B ? 'A' : 'B';
+        const txt = `${Math.round((t0.r / tot) * 100)}% dos votos que faltam estão ${ALL[t0.id].em}` + (t0.a.has ? `, onde ${nm(lk)} tem ${pc1(lk === 'A' ? t0.a.ap : t0.a.bp)} dos votos válidos.` : ', onde a apuração ainda não começou.');
+        const cor = (x) => (x.a.has ? C[x.a.A >= x.a.B ? 'A' : 'B'] : '#5A534B');
+        dir += `<div class="en-bloco"><span class="en-k">ONDE ESTÃO OS VOTOS QUE FALTAM</span><p class="en-p">${txt}</p><div class="restbar">${rs.map((x) => `<i style="flex:${Math.max(1, Math.round((x.r / tot) * 1000))} 1 0;background:${cor(x)}"></i>`).join('')}</div>`
+          + `<div class="restleg">${rs.map((x) => `<span><i style="background:${cor(x)}"></i><em>${esc(ALL[x.id].nome)}</em><u>${mvS(x.r)} · ${x.a.has ? `${nm(x.a.A >= x.a.B ? 'A' : 'B')} +${f1(Math.abs(x.a.ap - x.a.bp))} pts` : 'não começou'}</u></span>`).join('')}</div></div>`;
+      }
+    }
+    if (A.tipo !== 'uf') {
+      const sd = ufsDe(sc).filter((u) => u !== 'zz' && L.area(i, u).has).map((u) => { const a = L.area(i, u); return { u, d: a.A - a.B }; });
+      if (sd.length > 1) {
+        const mx = Math.max(1, ...sd.map((x) => Math.abs(x.d)));
+        const col = (k) => { const it = sd.filter((x) => (k === 'A' ? x.d > 0 : x.d < 0)).sort((a, b) => Math.abs(b.d) - Math.abs(a.d)).slice(0, 3);
+          return `<div class="top1"><b style="color:${C[k]}">Para ${nm(k)}</b>${it.map((x) => `<span class="toprow"><span><span>${esc(ALL[x.u].nome)}</span><u>+${mvS(Math.abs(x.d))}</u></span><i><i style="width:${((Math.abs(x.d) / mx) * 100).toFixed(1)}%;background:${C[k]}"></i></i></span>`).join('') || '<span class="en-s">Não está na frente em nenhum estado.</span>'}</div>`; };
+        dir += `<div class="en-bloco"><span class="en-k">ONDE CADA UM GANHOU MAIS VOTOS</span><div class="tops">${col('A')}${col('B')}</div></div>`;
+      }
+    }
+    if (esq || dir) html += `<div class="en-cols">${esq}<div class="en-dir">${dir}</div></div>`;
+    return html;
+  },
+
+  // ----- DADOS: gráficos e tabela da área escolhida, no momento da linha do tempo -----
+  // mapa de quadradinhos proporcional ao eleitorado (Norte, Centro-Oeste e Sul à esquerda; Nordeste e Sudeste à direita)
+  tmLayout() {
+    const ck = Object.keys(S.ele).length && UF_IDS.every((u) => u === 'zz' || S.ele[u]) ? 'ok' + S.ele.br : '';
+    if (!ck) return null;
+    if (this._tm && this._tm.ck === ck) return this._tm;
+    const W = 125, H = 100, ufs = UF_IDS.filter((u) => u !== 'zz'), tot = ufs.reduce((t, u) => t + S.ele[u], 0);
+    const regDe = {}; for (const g of REGIOES) for (const u of g.ufs) regDe[u] = g.id;
+    const sh = (id) => ALL[id].ufs.reduce((t, u) => t + S.ele[u], 0) / tot, out = [], regs = [];
+    const bsplit = (it, x, y, w, h2) => {
+      if (it.length === 1) return out.push({ id: it[0].id, x, y, w, h: h2 });
+      const t = it.reduce((a, o) => a + o.a, 0);
+      let acc = it[0].a, k = 1;
+      while (k < it.length - 1 && acc + it[k].a <= t / 2) acc += it[k++].a;
+      const f = acc / t;
+      if (w >= h2) { bsplit(it.slice(0, k), x, y, w * f, h2); bsplit(it.slice(k), x + w * f, y, w * (1 - f), h2); }
+      else { bsplit(it.slice(0, k), x, y, w, h2 * f); bsplit(it.slice(k), x, y + h2 * f, w, h2 * (1 - f)); }
+    };
+    const col = (ids, x, w) => { const t = ids.reduce((a, id) => a + sh(id), 0); let y = 0; for (const id of ids) { const h2 = (sh(id) / t) * H; regs.push({ id, x, y, w, h: h2 }); bsplit(ALL[id].ufs.slice().sort((a, b) => S.ele[b] - S.ele[a]).map((u) => ({ id: u, a: S.ele[u] })), x, y, w, h2); y += h2; } };
+    const esq = ['r:N', 'r:CO', 'r:S'], lw = esq.reduce((t, id) => t + sh(id), 0) * W;
+    col(esq, 0, lw); col(['r:NE', 'r:SE'], lw, W - lw);
+    const pc2 = (o) => ({ l: (o.x / W) * 100, t: (o.y / H) * 100, w: (o.w / W) * 100, h: (o.h / H) * 100 });
+    this._tm = { ck, tot, regs: regs.map(pc2), tiles: Object.fromEntries(out.map((o) => [o.id, pc2(o)])), regDe };
+    return this._tm;
+  },
+
+  dados(L, i) {
+    const sc = L.scope, A = ALL[sc], s = L.view(i), T2 = S.turno === 2, C = L.cor, E = L.E, nm = (k) => esc(L.nk(k)), nA = nm('A'), nB = nm('B');
+    const has = s.has, ld = s.A >= s.B ? 'A' : 'B', tr = L.oth(ld), m = has ? s.ap - s.bp : 0;
+    const mg = (v) => `${v >= 0 ? nA : nB} +${f1(Math.abs(v))}`, mc = (v) => C[v >= 0 ? 'A' : 'B'];
+    const uf = A.tipo === 'uf' && sc !== 'zz' ? sc : null, reg = A.tipo === 'reg' ? sc : uf ? REGIOES.find((g) => g.ufs.includes(uf)).id : null;
+    const ESTADOS = UF_IDS.filter((u) => u !== 'zz'), lista = reg ? ALL[reg].ufs : ESTADOS, sel = (u) => u === uf;
+    const tem13 = L.nA === '13' || L.nB === '13', k13 = L.nA === '13' ? 'A' : 'B';
+    const RW = {};
+    for (const u of UF_IDS) { const a = L.area(i, u); RW[u] = { u, a, nome: ALL[u].nome, m: a.has ? a.ap - a.bp : 0, sd: a.A - a.B, r: this.resto(L, i, u) }; }
+    const nota = uf ? `<p class="nt">Estados ${de(ALL[reg].em)}, com ${esc(ALL[uf].nome)} em destaque.</p>` : '';
+    const art = (cls, tit, dek, corpo) => `<article class="art${cls ? ' ' + cls : ''}"><div class="arth"><h3>${tit}</h3>${dek ? `<p class="dek">${dek}</p>` : ''}</div>${corpo}</article>`;
+    const linhaSel = (u) => (sel(u) ? ' sel' : '');
+    let out = '';
+
+    // cabeçalho
+    const [t0] = L.faixa(), live = E.mode === 'live';
+    out += `<header class="dh"><div class="dht"><span class="kick">Dados da apuração · TSE</span><h2>${esc(A.nome)} · ${T2 ? '2º turno' : '1º turno'}</h2>`
+      + `<p>${has ? `${pc1(s.urnas)} das urnas apuradas ${A.em}. Tudo nesta aba acompanha o local escolhido e o momento da linha do tempo.` : 'Ainda não há urnas apuradas neste momento da linha do tempo.'}</p></div>`
+      + `<div class="dctl"><button type="button" class="dbtn cheio" data-dplay>${live ? 'Ver o replay' : E.playing ? 'Pausar' : 'Continuar'}</button>${live ? '' : '<button type="button" class="dbtn" data-dvivo>Ao vivo</button>'}<span class="hora">${live ? 'Ao vivo · ' : 'Replay · '}${s.t ? 'atualizado às ' + hm(s.t) : '--:--'}</span></div></header>`;
+
+    // curva da apuração (% dos válidos por % das urnas)
+    const pts = [];
+    for (let j = 0; j <= i; j++) { const a = L.area(j, sc); if (a.has) pts.push([a.pst, a.ap, a.bp, j]); }
+    let corpo = '';
+    if (pts.length) {
+      let lo = 50, hi = 50; for (const p of pts) { lo = Math.min(lo, p[1], p[2]); hi = Math.max(hi, p[1], p[2]); }
+      const st = hi - lo > 24 ? 10 : 5; lo = Math.floor((lo - 1) / st) * st; hi = Math.ceil((hi + 1) / st) * st;
+      const Y = (v) => ((hi - v) / (hi - lo)) * 300, passo = Math.max(1, Math.ceil(pts.length / 240));
+      const path = (k) => pts.filter((_, j) => j % passo === 0 || j === pts.length - 1).map((p, j) => (j ? 'L' : 'M') + (p[0] * 10).toFixed(1) + ' ' + Y(p[k]).toFixed(1)).join(' ');
+      const yt = []; for (let v = lo; v <= hi + 1e-9; v += st) yt.push(v);
+      const vir = L.eventos().filter((e) => e.virada && e.t <= s.t + 1).map((e) => { const a = L.area(L.idxAt(e.t), sc); return { x: a.pst, e }; });
+      const ult = pts[pts.length - 1], lado = ult[0] > 70 ? 'calc(-100% - 10px)' : '10px', cima = ult[1] >= ult[2];
+      corpo = `<div class="cleg"><span><i class="ln" style="background:${C.A}"></i>${nA}</span><span><i class="ln" style="background:${C.B}"></i>${nB}</span><span><i class="ln tr"></i>50% dos votos válidos</span><span><i class="vt"></i>virada</span></div>`
+        + `<div class="ch"><div class="ya">${yt.map((v) => `<span style="top:${(Y(v) / 3).toFixed(2)}%">${v}%</span>`).join('')}</div><div class="pl alto">`
+        + yt.map((v) => `<i class="gl${v === 50 ? ' m50' : ''}" style="top:${(Y(v) / 3).toFixed(2)}%"></i>`).join('')
+        + vir.map((v) => `<i class="vl" style="left:${v.x.toFixed(2)}%" title="${hm(v.e.t)} · ${esc(v.e.txt)}"></i>`).join('')
+        + `<svg viewBox="0 0 1000 300" preserveAspectRatio="none" aria-hidden="true"><path d="${path(2)}" stroke="${C.B}"/><path d="${path(1)}" stroke="${C.A}"/></svg>`
+        + [['A', ult[1], cima], ['B', ult[2], !cima]].map(([k, v, up]) => `<i class="pt" style="left:${ult[0].toFixed(2)}%;top:${(Y(v) / 3).toFixed(2)}%;background:${C[k]}"></i><span class="ptl" style="left:${ult[0].toFixed(2)}%;top:${(Y(v) / 3).toFixed(2)}%;transform:translate(${lado},${up ? 'calc(-100% - 2px)' : '2px'});color:${C[k]}">${nm(k)} ${pc1(v)}</span>`).join('')
+        + `</div><div></div><div class="xa"><span style="left:0;transform:none">0%</span><span style="left:25%">25%</span><span style="left:50%">50%</span><span style="left:75%">75%</span><span style="right:0;left:auto;transform:none">100% das urnas</span></div></div>`
+        + (vir.length ? `<div class="lst">${vir.map((v) => `<div class="vrow"><span>${hm(v.e.t)}</span><span>${esc(v.e.txt)} Com ${pc1(v.x)} das urnas apuradas.</span></div>`).join('')}</div>` : '');
+    }
+    out += '<div class="dgrid">' + art('larga', 'Curva da apuração', has ? `Com ${pc1(s.urnas)} das urnas apuradas ${A.em}, ${nm(ld)} lidera por ${f1(Math.abs(m))} pts. ${(() => { const n = L.eventos().filter((e) => e.virada && e.t <= s.t).length; return n ? n + (n > 1 ? ' viradas' : ' virada') + ' até aqui.' : 'Nenhuma virada até aqui.'; })()}` : 'Ainda não há urnas apuradas neste momento da linha do tempo.', corpo);
+
+    // quanto falta
+    const R = Math.max(0, s.tot - s.vv), Lv = s[ld], Tv = s[tr], notas = [];
+    let need = '—', needLbl = `Para ${nm(tr)} virar`, needSub = '', needC = C[tr];
+    if (!has) { needLbl = 'Para virar'; needSub = 'aguardando as primeiras urnas'; needC = 'var(--fg)'; }
+    else if (R < 1 || s.fim) { needLbl = 'Apuração'; need = 'Encerrada'; needSub = `${nm(ld)} termina na frente`; needC = C[ld]; }
+    else if (T2) { const x = 50 + ((Lv - Tv) / (2 * R)) * 100; if (x > 100) { need = 'Impossível'; needSub = 'nem com todos os votos que faltam'; } else { need = pc1(x); needSub = 'dos votos que faltam'; } }
+    else { const g = ((Lv - Tv) / R) * 100; if (g > 100) { need = 'Impossível'; needSub = `não alcança mais ${nm(ld)}`; } else { need = '+' + f1(g) + ' pts'; needSub = `de vantagem sobre ${nm(ld)} no que falta`; } }
+    if (has && R >= 1 && !s.fim) {
+      if (!T2) {
+        const x = ((0.5 * s.tot - Lv) / R) * 100;
+        notas.push(sc === 'br' && S.hist[i].def === 'S' ? 'O TSE já confirmou: ninguém consegue mais passar de 50% dos votos válidos. A disputa vai para o 2º turno.'
+          : x <= 0 ? `${nm(ld)} já passou de 50% dos votos válidos estimados ${A.em}.` : x > 100 ? `${nm(ld)} não consegue mais passar de 50% ${A.em}.` : `Para passar de 50% ${A.em}${sc === 'br' ? ' e vencer no 1º turno' : ''}, ${nm(ld)} precisa de ${pc1(x)} dos votos que faltam.`);
+      }
+      let pa = s.A, pb = s.B;
+      if (A.tipo === 'uf') { pa += (R * s.ap) / 100; pb += (R * s.bp) / 100; }
+      else for (const u of ufsDe(sc)) { const x = RW[u], src = x.a.has ? x.a : s; pa += (x.r * src.ap) / 100; pb += (x.r * src.bp) / 100; }
+      const tf = s.vv + (A.tipo === 'uf' ? R : ufsDe(sc).reduce((t, u) => t + RW[u].r, 0));
+      if (tf > 0) notas.push(`Se cada ${A.tipo === 'uf' ? 'seção que falta' : 'estado'} mantiver o resultado parcial, ${A.em} termina em ${nA} ${pc1((pa / tf) * 100)} × ${pc1((pb / tf) * 100)} ${nB}. É uma conta, não uma previsão (a previsão fica na visão geral).`);
+    }
+    const subU = (SUBS[sc] || []).map((id) => ({ id, a: L.area(i, id), r: this.resto(L, i, id) })), mxR = Math.max(1, ...subU.map((x) => x.r));
+    corpo = `<div class="dois"><div class="num1"><span>Faltam apurar</span><b>${has ? '~' + mvS(R) : '—'}</b><span>${has ? pc1(s.tot ? (R / s.tot) * 100 : 0) + ' dos votos válidos estimados' : ''}</span></div>`
+      + `<div class="num1"><span>${needLbl}</span><b style="color:${needC}">${need}</b><span>${needSub}</span></div></div>`
+      + notas.map((t) => `<p class="tx">${t}</p>`).join('')
+      + (subU.length ? `<div class="lst"><div class="lh qf"><span>${sc === 'br' ? 'Região' : 'Estado'}</span><span>Votos que faltam</span><span class="r">Faltam</span><span class="r">Lidera lá</span></div>`
+        + subU.slice().sort((a, b) => b.r - a.r).map((x) => `<button type="button" class="lr qf" data-sc="${x.id}"><span class="el">${esc(ALL[x.id].nome)}</span><span class="bar0"><i style="width:${((x.r / mxR) * 100).toFixed(1)}%;background:${x.a.has ? mc(x.a.ap - x.a.bp) : '#5A534B'}"></i></span><span class="r">${x.r < 1 ? '0' : mvS(x.r)}</span><span class="r" style="color:${x.a.has ? mc(x.a.ap - x.a.bp) : 'var(--mut)'}">${x.a.has ? mg(x.a.ap - x.a.bp) : '—'}</span></button>`).join('')
+        + '<p class="nt">Cor da barra: quem lidera nos votos já apurados de cada lugar. Onde a apuração não começou, o que falta sai do eleitorado.</p></div>' : '');
+    out += art('', 'Quanto falta', `Votos válidos ainda não apurados ${A.em} e o que ${has ? 'o 2º colocado' : 'quem está atrás'} precisa deles para virar.`, corpo);
+
+    // ritmo por região (% das urnas ao longo do tempo)
+    // o eixo vai das 17h até o Brasil chegar a 100% das urnas (a totalização oficial, horas depois, não muda a curva)
+    const RC = ['#F2EDE4', '#A39B90', '#E8833A', '#F5C842', '#2FA65A'], h = S.hist, ta = S.inicio;
+    let jb = h.length - 1; for (let j = 0; j < h.length; j++) if (L.area(j, 'br').fim) { jb = j; break; }
+    const tb = Math.max(h.length ? h[jb].t : ta, ta + 3600e3), jr = Math.min(i, Math.max(0, jb));
+    const X = (t) => (((Math.min(t, tb) - ta) / (tb - ta)) * 1000).toFixed(1), horas = [];
+    for (let t = Math.ceil(ta / 3600e3) * 3600e3; t <= tb; t += 3600e3 * (tb - ta > 10 * 3600e3 ? 3 : tb - ta > 5 * 3600e3 ? 2 : 1)) horas.push(t);
+    const rp = REGIOES.map((g) => { const q = []; for (let j = 0; j <= jr; j++) q.push((j ? 'L' : 'M') + X(h[j].t) + ' ' + ((100 - L.area(j, g.id).pst) * 3).toFixed(1)); return q.join(' '); });
+    const rg = REGIOES.map((g) => ({ g, a: L.area(i, g.id) }));
+    let rdek;
+    if (!rg.some((x) => x.a.has)) rdek = 'Sul e Sudeste costumam ser contados primeiro; Norte e Nordeste entram mais tarde.';
+    else if (rg.every((x) => x.a.fim)) rdek = 'As cinco regiões estão 100% apuradas.';
+    else {
+      const by = rg.slice().sort((a, b) => b.a.pst - a.a.pst), fa = by[0], sl = by[by.length - 1], big = rg.map((x) => ({ ...x, r: this.resto(L, i, x.g.id) })).sort((a, b) => b.r - a.r)[0], brA = L.area(i, 'br'), bl = brA.A >= brA.B ? 'A' : 'B';
+      rdek = `Neste momento, o ${fa.g.nome} tem ${pc1(fa.a.pst)} das urnas apuradas; o ${sl.g.nome}, ${pc1(sl.a.pst)}.`;
+      if (big.a.has) { const bk = big.a.A >= big.a.B ? 'A' : 'B'; rdek += ` A maior parte dos votos que faltam está ${big.g.em}, onde ${nm(bk)} lidera. ${bk !== bl ? `Isso favorece ${nm(bk)}, que está atrás no país, e explica viradas no fim da contagem.` : `Isso tende a ampliar a vantagem de ${nm(bk)} no país.`}`; }
+    }
+    corpo = `<div class="ch"><div class="ya"><span style="top:0">100%</span><span style="top:50%">50%</span><span style="top:100%">0%</span></div><div class="pl medio"><i class="gl" style="top:0"></i><i class="gl" style="top:50%"></i><i class="gl base" style="top:100%"></i>`
+      + `<i class="agora" style="left:${(X(s.t || ta) / 10).toFixed(2)}%"></i><svg viewBox="0 0 1000 300" preserveAspectRatio="none" aria-hidden="true">${rp.map((d, j) => `<path d="${d}" stroke="${RC[j]}" style="opacity:${reg && REGIOES[j].id !== reg ? 0.25 : 1}"/>`).join('')}</svg></div>`
+      + `<div></div><div class="xa">${horas.map((t) => `<span style="left:${(X(t) / 10).toFixed(2)}%">${hm(t).replace(/:00$/, 'h')}</span>`).join('')}</div></div>`
+      + `<div class="lst"><div class="lh rt"><span></span><span>Região</span><span class="r">Apurado</span><span class="r">Faltam</span><span class="r">Lidera</span></div>`
+      + REGIOES.map((g, j) => { const a = L.area(i, g.id), mm = a.ap - a.bp; return `<button type="button" class="lr rt" data-sc="${g.id}" style="opacity:${reg && g.id !== reg ? 0.55 : 1}"><i class="ln" style="background:${RC[j]}"></i><span>${esc(g.nome)}</span><span class="r">${pc1(a.pst)}</span><span class="r">${mvS(this.resto(L, i, g.id))}</span><span class="r" style="color:${a.has ? mc(mm) : 'var(--mut)'}">${a.has ? mg(mm) : '—'}</span></button>`; }).join('') + '</div>';
+    out += art('', 'Ritmo da apuração por região', rdek, corpo);
+
+    // saldo de votos por estado
+    const sdR = lista.map((u) => RW[u]).sort((a, b) => b.sd - a.sd), mxS = Math.max(1, ...sdR.map((x) => Math.abs(x.sd))), tA = sdR[0], tB = sdR[sdR.length - 1];
+    const sdek = !has ? 'Aguardando as primeiras urnas.' : `${nm(ld)} soma ${VOTOS(Math.abs(s.A - s.B))} a mais ${A.em}.` + (sdR.length > 1 && tA.sd > 0 ? ` O maior saldo de ${nA} vem ${de(ALL[tA.u].em)} (+${mvS(tA.sd)})` + (tB.sd < 0 ? `; o de ${nB}, ${de(ALL[tB.u].em)} (+${mvS(-tB.sd)}).` : '.') : '');
+    corpo = nota + `<div class="lst"><div class="lh sd"><span></span><span class="lado2"><span>← mais para ${nA}</span><span>mais para ${nB} →</span></span><span class="r">diferença</span></div>`
+      + sdR.map((x) => { const w = (Math.abs(x.sd) / mxS) * 50, ok = x.a.has; return `<button type="button" class="lr sd fino${linhaSel(x.u)}" data-sc="${x.u}"><span class="el">${esc(x.nome)}</span><span class="bar2"><u></u><i style="left:${(x.sd >= 0 ? 50 - w : 50).toFixed(2)}%;width:${w.toFixed(2)}%;background:${ok ? mc(x.sd) : '#5A534B'}"></i></span><span class="r" style="color:${ok ? mc(x.sd) : 'var(--mut)'}">${ok ? `${x.sd >= 0 ? nA : nB} +${mvS(x.sd)}` : '—'}</span></button>`; }).join('') + '</div>';
+    out += art('', 'Saldo de votos por estado', sdek, corpo);
+
+    // estados mais disputados
+    const dpR = lista.map((u) => RW[u]).filter((x) => x.a.has).sort((a, b) => Math.abs(a.m) - Math.abs(b.m)), dpN = dpR.filter((x) => Math.abs(x.m) < 5).length;
+    corpo = nota + (dpR.length ? `<div class="lst"><div class="lh dp"><span></span><span>Estado</span><span class="r">Margem</span><span class="r">Votos</span><span class="r">Apurado</span></div>`
+      + dpR.slice(0, sc === 'br' ? 10 : 99).map((x, j) => `<button type="button" class="lr dp${linhaSel(x.u)}" data-sc="${x.u}"><span class="mut">${j + 1}</span><span class="el">${esc(x.nome)}</span><span class="r" style="color:${mc(x.m)}">${mg(x.m)}</span><span class="r">${mvS(Math.abs(x.sd))}</span><span class="r mut">${pc1(x.a.pst)}</span></button>`).join('')
+      + '<p class="nt">Margem em pontos percentuais dos votos válidos. Votos: diferença entre os dois.</p></div>' : '');
+    out += art('', 'Estados mais disputados', dpR.length ? `${dpN} ${dpN === 1 ? 'estado tem' : 'estados têm'} diferença menor que 5 pts${reg ? ' ' + ALL[reg].em : ''} neste momento.${sc === 'br' ? ' Os dez mais apertados:' : ''}` : 'Aguardando as primeiras urnas.', corpo);
+
+    // quem ganhou e quem perdeu terreno (2º turno contra o fim do 1º turno ou contra 2022)
+    const t1d = S.t1 && S.t1.d, ref = this.cmpRef === '22' && tem13 ? '22' : 't1';
+    const ref1 = (id) => { const x = t1d && t1d[id]; if (!x || !x[2]) return null; return (((x[7][L.nA] || 0) - (x[7][L.nB] || 0)) / x[2]) * 100; };
+    const ref22 = (ids) => { const p = l22(ids); return p == null ? null : (k13 === 'A' ? 1 : -1) * (2 * p - 100); };
+    const refDe = (id) => (ref === '22' ? ref22([id]) : ref1(id));
+    let cdek, ccorpo = '';
+    const t2 = S.turnos.find((x) => x.turno === 2);
+    if (!T2) cdek = `A comparação usa o 2º turno, quando só os dois estão na disputa: mostra onde cada um cresceu em relação ao 1º turno${tem13 ? ' e a 2022' : ''}.` + (t2 && t2.disponivel ? '' : ' Ela aparece quando a apuração do 2º turno começar.');
+    else {
+      const cr = lista.map((u) => RW[u]).filter((x) => x.a.has && refDe(x.u) != null).map((x) => ({ x, r0: refDe(x.u), d: x.m - refDe(x.u) }));
+      const M = Math.max(20, Math.ceil(Math.max(0, ...cr.map((o) => Math.max(Math.abs(o.r0), Math.abs(o.x.m)))) / 10) * 10), P = (v) => 50 - (v / M) * 50;
+      const scRef = ref === '22' ? ref22(ufsDe(sc).filter((u) => L22[u])) : ref1(sc), gA = cr.filter((o) => o.d > 0).length;
+      cdek = !cr.length ? (t1d || ref === '22' ? 'Aguardando as primeiras urnas do 2º turno.' : 'Carregando o resultado do 1º turno.') : `${nA} ganhou terreno em ${gA} de ${cr.length} estados${reg ? ' ' + ALL[reg].em : ''}.` + (scRef != null ? ` ${esc(A.nome)}: a margem ${ref === '22' ? 'em 2022' : 'no 1º turno'} era ${mg(scRef)}; agora é ${mg(m)}.` : '');
+      ccorpo = `<div class="cpbar"><div class="seg">${[['t1', '1º turno 2026'], ...(tem13 ? [['22', '2º turno 2022']] : [])].map(([id, lb]) => `<button type="button" data-cmp="${id}"${ref === id ? ' class="on"' : ''}>${lb}</button>`).join('')}</div>`
+        + `<div class="cleg"><span><i class="anel"></i>${ref === '22' ? '2º turno 2022' : 'fim do 1º turno 2026'}</span><span><i class="bola"></i>2º turno 2026, agora</span></div></div>`
+        + (cr.length ? `<div class="lst"><div class="lh cp"><span></span><span class="lado2"><span>← ${nA} na frente</span><span>±${M} pts</span><span>${nB} na frente →</span></span><span class="r">ganhou terreno</span></div>`
+          + cr.sort((a, b) => b.d - a.d).map((o) => { const a = P(o.r0), b = P(o.x.m); return `<div class="lr cp fino${linhaSel(o.x.u)}"><span class="el">${esc(o.x.nome)}</span><span class="dot2"><u></u><i class="trilho2" style="left:${Math.min(a, b).toFixed(2)}%;width:${Math.abs(a - b).toFixed(2)}%"></i><i class="anel" style="left:${a.toFixed(2)}%"></i><i class="bola" style="left:${b.toFixed(2)}%;background:${mc(o.x.m)}"></i></span><span class="r" style="color:${mc(o.d)}">${mg(o.d)}</span></div>`; }).join('')
+          + `<p class="nt">${ref === '22' ? 'Referência: margem de Lula sobre Jair Bolsonaro no 2º turno de 2022 (TSE).' : 'Referência: margem entre os dois no fim do 1º turno de 2026, quando outros candidatos ainda dividiam os votos.'}</p></div>` : '');
+    }
+    out += art('', 'Quem ganhou e quem perdeu terreno', cdek, ccorpo + (!T2 && t2 && t2.disponivel ? '<button type="button" class="dbtn" data-ir2>Ver o 2º turno</button>' : ''));
+
+    // comparecimento (das seções já apuradas)
+    const pct = (a, b) => (b > 0 ? (a / b) * 100 : 0), apt = s.c + s.ab, okC = s.c > 0, abP = pct(s.ab, apt), refs = [];
+    if (T2 && t1d && t1d[sc] && t1d[sc][3]) { const x = t1d[sc]; refs.push(`No 1º turno de 2026, a abstenção ${A.em} foi de ${pc1(pct(x[4], x[3] + x[4]))}.`); }
+    if (sc === 'br') { const c = C22[T2 ? 2 : 1]; refs.push(`Em 2022, no ${T2 ? 2 : 1}º turno: abstenção de ${pc1(c[0])}, brancos ${pc1(c[1])} e nulos ${pc1(c[2])} (TSE).`); }
+    const cmS = (sc === 'br' ? REGIOES.map((g) => g.id) : lista).map((id) => { const a = L.area(i, id); return { id, ab: a.c ? pct(a.ab, a.c + a.ab) : null }; }).filter((o) => o.ab != null).sort((a, b) => b.ab - a.ab), mxA = Math.max(1, ...cmS.map((o) => o.ab));
+    corpo = `<div class="cmbar"><i style="width:${pct(s.vv, apt).toFixed(2)}%;background:#F2EDE4"></i><i style="width:${pct(s.b, apt).toFixed(2)}%;background:#A39B90"></i><i style="width:${pct(s.nu, apt).toFixed(2)}%;background:#6B645C"></i><i style="width:${abP.toFixed(2)}%;background:#3A342E"></i></div>`
+      + `<div class="cells">${[['Eleitorado', S.ele[sc] ? mvS(S.ele[sc]) : '—', 'aptos a votar', ''], ['Válidos', okC ? pc1(pct(s.vv, s.c)) : '—', 'dos votos', '#F2EDE4'], ['Brancos', okC ? pc1(pct(s.b, s.c)) : '—', 'dos votos', '#A39B90'], ['Nulos', okC ? pc1(pct(s.nu, s.c)) : '—', 'dos votos', '#6B645C'], ['Abstenção', okC ? pc1(abP) : '—', 'do eleitorado', '#3A342E']]
+        .map(([l, v, s2, sw]) => `<div class="cell"><span>${sw ? `<i style="background:${sw}"></i>` : ''}${l}</span><b>${v}</b><span>${s2}</span></div>`).join('')}</div>`
+      + refs.map((t) => `<p class="tx">${t}</p>`).join('')
+      + (cmS.length > 1 ? `<div class="lst"><div class="lh cm"><span>${sc === 'br' ? 'Região' : 'Estado'}</span><span>Abstenção</span><span></span></div>${cmS.map((o) => `<div class="lr cm fino${linhaSel(o.id)}"><span class="el">${esc(ALL[o.id].nome)}</span><span class="bar0"><i style="width:${((o.ab / mxA) * 100).toFixed(1)}%;background:#5A534B"></i></span><span class="r">${pc1(o.ab)}</span></div>`).join('')}</div>` : '')
+      + '<p class="nt">A barra divide o eleitorado das seções já apuradas. Brancos e nulos em % dos votos; abstenção em % do eleitorado, como o TSE divulga.</p>';
+    out += art('', 'Comparecimento', okC ? `${pc1(abP)} dos eleitores das seções já apuradas ${A.em} não foram votar.` : 'Aguardando as primeiras urnas.', corpo);
+
+    // peso do eleitorado
+    const tm = this.tmLayout(), escopoU = new Set(ufsDe(sc));
+    if (tm) {
+      const shR = (id) => ALL[id].ufs.reduce((t, u) => t + S.ele[u], 0);
+      corpo = `<div class="tmw"><div class="tm">${ESTADOS.map((u) => { const t = tm.tiles[u], a = RW[u].a, mm = RW[u].m, am = Math.abs(mm), ar = t.w * t.h; let bg = '#221E1B', fg = '#8A8178';
+        if (a.has) { const ii = am < 5 ? 0 : am < 15 ? 1 : 2; bg = L.LID[mm >= 0 ? 'A' : 'B'][ii]; fg = ii === 2 ? '#0F0E0D' : '#F2EDE4'; }
+        return `<button type="button" data-sc="${u}" title="${esc(ALL[u].nome)}: ${mvS(S.ele[u])} de eleitores (${pc1((S.ele[u] / tm.tot) * 100)})${a.has ? ` · ${mg(mm)} pts` : ''}" style="left:${t.l}%;top:${t.t}%;width:${t.w}%;height:${t.h}%;background:${bg};color:${fg};opacity:${escopoU.has(u) ? 1 : 0.3}"><b>${ar > 40 ? ALL[u].sigla : ''}</b><span>${ar > 120 && a.has ? Math.round(Math.max(a.ap, a.bp)) + '%' : ''}</span></button>`; }).join('')}`
+        + tm.regs.map((g) => `<i style="left:${g.l}%;top:${g.t}%;width:${g.w}%;height:${g.h}%"></i>`).join('') + '</div>'
+        + `<div class="tmlado"><div class="lst"><div class="lh tmr"><span>Região</span><span class="r">Eleitores</span><span class="r">Do total</span></div>${REGIOES.slice().sort((a, b) => shR(b.id) - shR(a.id)).map((g) => `<div class="lr tmr"><span>${esc(g.nome)}</span><span class="r">${mvS(shR(g.id))}</span><span class="r">${pc1((shR(g.id) / tm.tot) * 100)}</span></div>`).join('')}</div>`
+        + `<div class="legenda"><span><i style="background:${L.LID.A[0]}"></i><i style="background:${L.LID.A[1]}"></i><i style="background:${L.LID.A[2]}"></i><em>${nA}</em></span><span><i style="background:${L.LID.B[0]}"></i><i style="background:${L.LID.B[1]}"></i><i style="background:${L.LID.B[2]}"></i><em>${nB}</em></span><span>vantagem até 5 · 5 a 15 · 15+ pts</span></div></div></div>`;
+      out += art('larga', 'Peso do eleitorado', `Cada retângulo é um estado, com área proporcional ao eleitorado e agrupado por região, na posição aproximada do mapa. São Paulo sozinho reúne ${pc1((S.ele.sp / tm.tot) * 100)} dos eleitores; Norte e Centro-Oeste juntos, ${pc1(((shR('r:N') + shR('r:CO')) / tm.tot) * 100)}.`, corpo);
+    }
+
+    // tabela de todos os estados (e o exterior), com CSV
+    const lin = (sc === 'br' ? UF_IDS : lista).map((u) => {
+      const x = RW[u], a = x.a, rg2 = REGIOES.find((g) => g.ufs.includes(u)), l2 = L22[u] ? (L22[u][0] / L22[u][1]) * 100 : null, l13 = k13 === 'A' ? a.ap : a.bp;
+      return { nome: x.nome, uf: ALL[u].sigla, reg: rg2 ? rg2.nome : '—', ele: S.ele[u] || null, apu: a.pst, A: a.A, B: a.B, ap: a.has ? a.ap : null, bp: a.has ? a.bp : null, op: !T2 && a.has ? Math.max(0, 100 - a.ap - a.bp) : null, mg: a.has ? x.m : null, sd: a.has ? x.sd : null, ab: a.c ? pct(a.ab, a.c + a.ab) : null, l22: tem13 ? l2 : null, d22: tem13 && T2 && a.has && l2 != null ? l13 - l2 : null, sel: sel(u) };
+    });
+    const k = this.tSort.k, dir = this.tSort.d;
+    lin.sort((a, b) => { const va = a[k], vb = b[k]; if (va == null && vb == null) return 0; if (va == null) return 1; if (vb == null) return -1; return typeof va === 'string' ? dir * va.localeCompare(vb, 'pt-BR') : dir * (va - vb); });
+    const ak = reg ? reg : 'br', ag = L.area(i, ak), lt = l22(ak === 'br' ? Object.keys(L22) : ALL[ak].ufs), l13t = k13 === 'A' ? ag.ap : ag.bp;
+    const tot = { nome: 'Total · ' + ALL[ak].nome, uf: '', reg: '', ele: S.ele[ak] || null, apu: ag.pst, A: ag.A, B: ag.B, ap: ag.has ? ag.ap : null, bp: ag.has ? ag.bp : null, op: !T2 && ag.has ? Math.max(0, 100 - ag.ap - ag.bp) : null, mg: ag.has ? ag.ap - ag.bp : null, sd: ag.has ? ag.A - ag.B : null, ab: ag.c ? pct(ag.ab, ag.c + ag.ab) : null, l22: tem13 ? lt : null, d22: tem13 && T2 && ag.has && lt != null ? l13t - lt : null, tot: true };
+    this._csv = { lin: lin.concat([tot]), tem13, T2, nA: L.nk('A'), nB: L.nk('B') };
+    const COLS = [['nome', 'Estado'], ['reg', 'Região'], ['ele', 'Eleitorado'], ['apu', 'Apurado'], ['ap', nA], ['bp', nB], ...(T2 ? [] : [['op', 'Outros']]), ['mg', 'Margem'], ['sd', 'Saldo'], ['ab', 'Abstenção'], ...(tem13 ? [['l22', 'Lula 2022'], ...(T2 ? [['d22', 'Lula vs 22']] : [])] : [])];
+    const fmt = (key, v) => { if (v == null || v === '') return [v === '' ? '' : '—', 'var(--mut2)']; if (key === 'nome' || key === 'reg') return [esc(v)]; if (key === 'ele') return [mvS(v)]; if (key === 'mg') return [f1(Math.abs(v)), mc(v)]; if (key === 'sd') return [mvS(v), mc(v)]; if (key === 'd22') return [(v >= 0 ? '+' : '−') + f1(Math.abs(v))]; return [pc1(v)]; };
+    const cel = (r) => COLS.map(([key], j) => { const [v, c] = fmt(key, r[key]); return `<span class="${j < 2 ? 'tl' : 'r'}${j ? '' : ' fix'}"${c ? ` style="color:${c}"` : ''}>${v}</span>`; }).join('');
+    const gtc = `minmax(150px,1.6fr) 100px repeat(${COLS.length - 2},minmax(76px,1fr))`;
+    corpo = `<div class="tbw"><div class="tb" style="--cols:${gtc};min-width:${180 + 100 + (COLS.length - 2) * 82}px">`
+      + `<div class="thr">${COLS.map(([key, lb], j) => `<button type="button" data-sort="${key}" class="${j < 2 ? 'tl' : 'r'}${j ? '' : ' fix'}${k === key ? ' on' : ''}">${lb}${k === key ? (dir < 0 ? ' ↓' : ' ↑') : ''}</button>`).join('')}</div>`
+      + lin.map((r) => `<div class="tr${r.sel ? ' sel' : ''}">${cel(r)}</div>`).join('') + `<div class="tr tot">${cel(tot)}</div></div></div>`
+      + `<p class="nt">${tem13 ? 'Lula 2022: percentual de Lula contra Jair Bolsonaro no 2º turno de 2022 (TSE, dados abertos). ' : ''}Margem em pontos (cor de quem está na frente) e saldo em votos. O CSV usa ponto e vírgula e vírgula decimal, e abre direto no Excel.</p>`;
+    out += `<article class="art larga"><div class="arth tbh"><div><h3>${sc === 'br' ? 'Todos os estados' : 'Estados ' + de(ALL[reg].em)}</h3><p class="dek">Toque no título de uma coluna para ordenar.</p></div><button type="button" class="dbtn" data-csv>Baixar CSV</button></div>${corpo}</article>`;
+    return out + '</div>';
+  },
+  // CSV da tabela (ponto e vírgula e vírgula decimal, para abrir no Excel em português)
+  csv(L) {
+    const c = this._csv;
+    if (!c) return;
+    const q = (v) => (v == null ? '' : typeof v === 'number' ? (Number.isInteger(v) ? String(v) : v.toFixed(2).replace('.', ',')) : '"' + String(v).replace(/"/g, '""') + '"');
+    const H = ['Estado', 'UF', 'Região', 'Eleitorado', '% urnas apuradas', 'Votos ' + c.nA, 'Votos ' + c.nB, c.nA + ' % válidos', c.nB + ' % válidos', ...(c.T2 ? [] : ['Outros % válidos']), `Margem pts (+ ${c.nA})`, `Saldo de votos (${c.nA} - ${c.nB})`, 'Abstenção %', ...(c.tem13 ? ['Lula 2º turno 2022 %', ...(c.T2 ? ['Lula 2026 vs 2022 (pts)'] : [])] : [])];
+    const L2 = [H.map(q).join(';')].concat(c.lin.map((r) => [r.nome, r.uf, r.reg, r.ele, r.apu, r.A, r.B, r.ap, r.bp, ...(c.T2 ? [] : [r.op]), r.mg, r.sd, r.ab, ...(c.tem13 ? [r.l22, ...(c.T2 ? [r.d22] : [])] : [])].map(q).join(';')));
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob(['﻿' + L2.join('\r\n')], { type: 'text/csv;charset=utf-8' }));
+    a.download = `apuracao-2026-${S.turno}turno-${L.scope.replace(':', '-')}-${hm(L.view(L.E.idx).t).replace(':', 'h')}.csv`;
+    document.body.appendChild(a); a.click();
+    setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 800);
+  },
+
   render(L) {
     this.layout(L.modo);
     const E = L.E, v = L.view(E.idx), p = v.p, live = E.mode === 'live', T2 = S.turno === 2, A = ALL[L.scope], esp = L.modo === 'espera';
@@ -2607,7 +3571,8 @@ const UI = {
     this.t($('votosA'), num(v.A) + ' votos'); this.t($('votosB'), num(v.B) + ' votos');
     const wa = (v.has ? v.ap : 0) + '%', wb = (v.has ? v.bp : 0) + '%';
     this.s($('barA'), 'width', wa); this.s($('barB'), 'width', wb); this.s($('mBarA'), 'width', wa); this.s($('mBarB'), 'width', wb);
-    const round = r ? (r.tipo === 'ko' ? 'K.O.' : r.tipo === 'r2' ? 'FIM DO ROUND 1' : 'SEM NOCAUTE') : T2 ? 'ROUND 2' : 'ROUND 1';
+    const md = semDados ? null : L.md(), mdOn = !!md && E.idx >= md.i && !r;
+    const round = r ? (r.tipo === 'ko' ? 'K.O.' : r.tipo === 'r2' ? 'FIM DO ROUND 1' : 'SEM NOCAUTE') : mdOn ? (L.scope === 'br' ? 'ELEITO' : 'GARANTIDO') : T2 ? 'ROUND 2' : 'ROUND 1';
     this.t($('round'), round); this.t($('mRound'), round);
     const en = A.nome.toUpperCase();
     this.t($('escNome'), en); this.t($('mEsc'), en);
@@ -2636,6 +3601,12 @@ const UI = {
       ex.push(['Comparecimento', apto ? pc((v.c / apto) * 100) : '—'], ['Abstenção', apto ? pc(((v.ab || 0) / apto) * 100) : '—'], ['Brancos', pc(((v.b || 0) / v.c) * 100)], ['Nulos', pc(((v.nu || 0) / v.c) * 100)]);
     }
     this.h($('extras'), ex.map(([k, x]) => `<span>${k} <b>${x}</b></span>`).join(''));
+    // vitória garantida pela matemática, antes de a apuração terminar
+    this.vis($('mdban'), mdOn);
+    if (mdOn) {
+      this.t($('mdT'), L.scope === 'br' ? `${L.nk(md.k).toUpperCase()} ESTÁ MATEMATICAMENTE ELEITO` : `VITÓRIA GARANTIDA ${A.em.toUpperCase()}`);
+      this.t($('mdX'), L.mdTexto(md));
+    }
 
     // escopo
     if ($('escolha').value !== L.scope) $('escolha').value = L.scope;
@@ -2729,9 +3700,29 @@ const UI = {
 
     this.previsao(L, E.idx);
 
-    // abas do celular
+    // abas do celular e do computador
     for (const b of $('abas').children) this.on(b, 'on', b.dataset.aba === this.aba);
     for (const d of document.querySelectorAll('[data-painel]')) this.vis(d, d.dataset.painel === this.aba);
+    const dd = this.dtab === 'dados';
+    for (const b of $('dtabs').children) { this.on(b, 'on', b.dataset.dtab === this.dtab); b.setAttribute('aria-selected', String(b.dataset.dtab === this.dtab)); }
+    this.vis($('geral'), !dd); this.vis($('dadosD'), dd);
+
+    // entenda a apuração e dados: só quando estão na tela, e no replay no máximo umas 3 vezes por segundo
+    const base = `${S.ver}|${L.key}|${L.scope}|${E.idx}|${S.turno}|${Object.keys(S.ele).length}|${S.t1 ? 1 : 0}`;
+    const corre = E.mode === 'replay' && E.playing, agora = performance.now();
+    const quando = (ck, ultimo, fn) => {
+      if (ck === this[ultimo]) return;
+      if (corre && agora - (this[ultimo + 'T'] || 0) < 350) { if (!this.rtm) this.rtm = setTimeout(() => { this.rtm = null; L.push(true); }, 380); return; }
+      this[ultimo] = ck; this[ultimo + 'T'] = agora; fn();
+    };
+    if (this.mob ? this.aba === 'resumo' : !dd) quando(base + '|' + (this.mob ? 1 : 0), 'enck', () => this.h($('entenda'), this.entenda(L, E.idx)));
+    if (this.mob ? this.aba === 'dados' : dd) {
+      quando(`${base}|${this.cmpRef}|${this.tSort.k}${this.tSort.d}|${E.mode}${E.playing ? 1 : 0}`, 'dck', () => {
+        const tw = $('dados').querySelector('.tbw'), x = tw ? tw.scrollLeft : 0;
+        this.h($('dados'), this.dados(L, E.idx));
+        const tw2 = $('dados').querySelector('.tbw'); if (tw2 && x) tw2.scrollLeft = x;
+      });
+    }
   },
 };
 
@@ -2775,6 +3766,8 @@ async function buscar() {
     if (S.turno === 1 && t2ok && (!S.escolheu || (luta.modo === 'espera' && !S.fixouEspera))) return irPara('2');
     S.escolheu = true;
     if (d.inicio) S.inicio = d.inicio;
+    if (d.eleitorado && Object.keys(d.eleitorado).length) S.ele = d.eleitorado;
+    if (d.t1 && d.t1.d) S.t1 = d.t1;
     S.atual = d.atual || null; S.carregou = true;
     S.cand = {};
     for (const c of (S.atual && S.atual.cands) || []) S.cand[c.n] = c;
@@ -2797,7 +3790,7 @@ async function buscar() {
 function trocarTurno(n) {
   if (n === S.turno) return;
   S.escolheu = true;
-  S.turno = n; S.hist = []; S.atual = null; S.cand = {}; S.erro = null; S.carregou = false; S.ver++;
+  S.turno = n; S.hist = []; S.atual = null; S.cand = {}; S.erro = null; S.carregou = false; S.t1 = null; S.ver++;
   geracao++;
   luta.novoTurno();
   buscar();
@@ -2833,6 +3826,22 @@ clique('pvTab', (e) => { const b = e.target.closest('[data-sc]'); if (b) luta.se
 clique('apertada', (e) => luta.setScope(e.currentTarget.dataset.sc));
 clique('modos', (e) => { const b = e.target.closest('[data-modo]'); if (b) { UI.mapa = b.dataset.modo; UI.guardar(); luta.push(true); } });
 clique('abas', (e) => { const b = e.target.closest('[data-aba]'); if (b) { UI.aba = b.dataset.aba; UI.guardar(); luta.push(true); } });
+clique('dtabs', (e) => { const b = e.target.closest('[data-dtab]'); if (b) { UI.dtab = b.dataset.dtab; UI.guardar(); luta.push(true); } });
+// aba de dados: local, comparação, ordem da tabela, CSV e o replay
+clique('dados', (e) => {
+  const b = e.target.closest('button');
+  if (!b) return;
+  const d = b.dataset;
+  if (d.sc) luta.setScope(d.sc);
+  else if (d.cmp) { UI.cmpRef = d.cmp; luta.push(true); }
+  else if (d.sort) { const k = d.sort; UI.tSort = UI.tSort.k === k ? { k, d: -UI.tSort.d } : { k, d: k === 'nome' || k === 'reg' ? 1 : -1 }; luta.push(true); }
+  else if ('csv' in d) UI.csv(luta);
+  else if ('ir2' in d) irPara('2');
+  else if ('dplay' in d) luta.toggle();
+  else if ('dvivo' in d) luta.aoVivo(false);
+});
+// tocar no ringue pula a supercena
+clique('cv', () => { const C = luta.E.cut; if (C && C.T > 0.5) luta.endCut(); });
 clique('vel', (e) => { const b = e.target.closest('[data-v]'); if (b) luta.setSpeed(Number(b.dataset.v)); });
 clique('mVel', () => luta.setSpeed({ 1: 2, 2: 4, 4: 8, 8: 1 }[luta.E.speed] || 1));
 for (const b of document.querySelectorAll('[data-som]')) b.addEventListener('click', () => luta.toggleSound());

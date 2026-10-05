@@ -75,6 +75,7 @@ function ler(j) {
   return {
     dg: j.dg, hg: j.hg, dt: j.dt, ht: j.ht, md, tf: String(j.tf || 'N').toUpperCase(),
     ts: num(s.ts), st: num(s.st), pst: num(s.pstn),
+    eleitorado: num(e.te), // eleitorado total da abrangência (as seções não apuradas têm e.esnt eleitores)
     comparecimento: num(e.c), abstencao: num(e.a),
     vv: num(v.vv), brancos: num(v.vb), nulos: num(v.tvn), cands,
   };
@@ -202,6 +203,7 @@ async function ciclo(T) {
   if (!res.br) { T.coleta.erro = 'TSE indisponível no momento'; return; }
   T.coleta.erro = null;
   const br = res.br, nac = nacional(res), [st, ts, vv, , , , , votos] = nac.e;
+  T.eleitorado = eleitorado(res);
   T.atual = {
     t: nac.t, dg: br.dg, hg: br.hg, dt: dia(nac.t), ht: hora(nac.t), origem: nac.estados ? 'estados' : 'br',
     definido: br.md === 'E' || br.md === 'S' ? br.md : '', finalizado: br.tf === 'S',
@@ -221,6 +223,16 @@ async function ciclo(T) {
     u.t = Math.max(u.t, p.t); u.ht = hora(u.t); u.def = p.def; u.fim = p.fim; u.d = p.d;
   }
   salvar(T);
+}
+
+// eleitorado total por abrangência (não muda durante a apuração): a página usa para o peso de cada estado e para saber
+// quantos eleitores ainda faltam apurar (eleitorado menos comparecimento e abstenção das seções já apuradas)
+function eleitorado(res) {
+  const r = {};
+  for (const uf of UFS) if (res[uf] && res[uf].eleitorado) r[uf] = res[uf].eleitorado;
+  for (const R of REGIOES) if (R.ufs.every((uf) => r[uf])) r[R.id] = R.ufs.reduce((s, uf) => s + r[uf], 0);
+  if (res.br && res.br.eleitorado) r.br = res.br.eleitorado;
+  return r;
 }
 
 async function laco(T) {
@@ -367,7 +379,10 @@ function atender(req, res) {
       if (T.turno === 1 && !T.atual) return json(res, 503, { ...base, erro: T.coleta.erro || 'coletando os primeiros dados do TSE' });
       return json(res, 200, { ...base, atual: null, hist: [] });
     }
-    const cab = { ...base, atual: T.atual, coleta: { ultima: T.coleta.ultima, erro: T.coleta.erro, falhas: T.coleta.falhas } };
+    const cab = { ...base, atual: T.atual, eleitorado: T.eleitorado || {}, coleta: { ultima: T.coleta.ultima, erro: T.coleta.erro, falhas: T.coleta.falhas } };
+    // no 2º turno, a carga completa leva o fim do 1º turno por área (comparação entre os turnos na aba de dados)
+    const h1 = estados[0].hist;
+    if (T.turno === 2 && !desde && h1.length) cab.t1 = { t: h1[h1.length - 1].t, d: h1[h1.length - 1].d };
     if (!desde) return json(res, 200, comHist(cab, T.histJSON || (T.histJSON = JSON.stringify(T.hist))));
     // o último ponto vai sempre: ele pode ter sido atualizado no lugar
     return json(res, 200, { ...cab, hist: T.hist.filter((p, i) => p.t > desde || i === T.hist.length - 1) });

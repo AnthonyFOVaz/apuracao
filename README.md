@@ -25,12 +25,17 @@ No ar: https://apuracaox1doscria.duckdns.org (o endereço antigo, https://apurac
 - Histórico em `data/historico-<eleição>.json`. O 2º turno é consultado a cada 5 min até o TSE publicar os arquivos.
 - Público online: cada navegador guarda um id aleatório (F5 e outras abas não contam de novo) e o manda (`&id=`) nas
   consultas com a página visível; `online` = ids vistos nos últimos 40 s.
+- `eleitorado` na API: eleitorado total do TSE (`e.te`) por área (Brasil, regiões, UFs, exterior). A página usa para o
+  peso de cada estado e para saber quantos eleitores ainda faltam apurar (eleitorado menos comparecimento e abstenção
+  das seções já apuradas), que é a conta do "matematicamente eleito".
+- `t1` na API (só na carga completa do 2º turno): o último ponto do 1º turno por área, para comparar os turnos.
 - API: `GET /api/estado?v=2&turno=1|2&desde=<ms>&id=<aba>` (formato novo, com `online`), `GET /api/estado` (formato da página v1),
   `GET /api/versao` (commit em uso e falha do `caddy.sh`, se houver), `GET /health`.
 
 ## Front (`public/index.html`)
 
-Port de `design/Apuracao Luta v3.dc.html` para HTML/JS puro, ligado a `/api/estado?v=2` (consulta a cada 10 s).
+Port de `design/Apuracao Luta v5.dc.html` para HTML/JS puro, ligado a `/api/estado?v=2` (consulta a cada 10 s).
+Os desenhos anteriores (v1 a v4) ficam em `design/` como referência.
 
 - **Intervalo** entre os turnos (botão INTERVALO; é onde a página abre quando o 1º turno termina sem nocaute e o 2º
   ainda não começou): resultado do 1º turno, contagem regressiva até as urnas do 2º turno fecharem (horário vindo do
@@ -43,12 +48,33 @@ Port de `design/Apuracao Luta v3.dc.html` para HTML/JS puro, ligado a `/api/esta
 - Ao vivo e replay do histórico (1×, 2×, 4×, 8×), com marcas de virada na linha do tempo; lance a lance por área.
   A linha do tempo de cada área vai até ela chegar a 100% das urnas apuradas (no 1º turno, o Brasil às 02:59 de 05/10;
   a totalização oficial do TSE só saiu às 12:51, sem mudar votos); depois disso, a página mostra o resultado final.
-- Fim de luta: Brasil pelo resultado oficial do TSE (`md`/`tf`); estado ou região quando chega a 100% das seções.
+- Fim de luta quando a área chega a 100% das urnas apuradas (ou com a totalização do TSE). No Brasil, nocaute ou
+  2º turno vêm do resultado oficial (`md`/situação dos candidatos); nas outras áreas, dos votos. Quando o TSE confirma
+  o 2º turno antes disso, entra um lance "2º TURNO" no lance a lance.
+- **Matematicamente eleito / vitória garantida**: antes dos 100%, quando a conta já não deixa virar. No 2º turno, a
+  vantagem passa a ser maior que os eleitores que faltam apurar; no 1º, o líder já tem mais da metade de todos os votos
+  válidos possíveis (os que faltam contados como válidos). No Brasil vale também a declaração do TSE (`md = E`).
+  O selo do round vira ELEITO/GARANTIDO, aparece uma faixa amarela com a conta e o ringue ganha aura dourada.
+- **Supercenas** (7,4 s no "matematicamente eleito", 6,4 s no nocaute), com os estados onde o vencedor abriu
+  vantagem em cada golpe; Espaço, Esc, Enter ou um toque no ringue pulam. Desligadas para quem pede menos movimento.
+  No fundo do ringue, easter eggs: estrela cadente, ET de Varginha, placas da torcida, vira-lata caramelo e capivara.
+- **Entenda a apuração** (computador: visão geral; celular: aba RESUMO): o momento em uma frase, quanto o 2º colocado
+  precisa dos votos que faltam, cartões (vantagem a cada 100 votos, em Maracanãs, hora prevista para 100% no ritmo
+  dos últimos 20 min, estados de cada um e o eleitorado deles), "se fossem 100 eleitores", onde estão os votos que
+  faltam e onde cada um ganhou mais votos.
+- **Aba DADOS** (computador: botão ao lado de VISÃO GERAL; celular: última aba), sempre para o local e o momento da
+  linha do tempo: curva da apuração (% dos válidos por % das urnas, com as viradas), quanto falta e quanto o 2º
+  precisa, ritmo da apuração por região, saldo de votos por estado, estados mais disputados, quem ganhou terreno no
+  2º turno (contra o fim do 1º turno de 2026 ou o 2º turno de 2022), comparecimento (com 2022), peso do eleitorado
+  (mapa de retângulos proporcionais ao eleitorado) e a tabela de todos os estados, ordenável e com download em CSV
+  (ponto e vírgula e vírgula decimal, abre no Excel). Os números de 2022 foram conferidos com os dados abertos do TSE
+  (`votacao_partido_munzona_2022_BR` e `detalhe_votacao_munzona_2022_BR`). No replay, a aba se refaz no máximo ~3 vezes por segundo.
 - Modo jogável com 25 golpes (socos, chutes, joelhadas, aéreos, arremesso, especial e ultra, provocação, esquiva) pelo
   teclado ou pelos botões; especial carregado pelos votos e por golpes certos. Quedas, tontura, contra-golpes e juiz
   que conta as quedas e, no nocaute, conta até 10 e levanta o braço do vencedor. Estatísticas, som e vibração.
 - Público online no topo. Layout de celular (largura < 720 px ou altura < 500 px): placar e ringue fixos no topo,
-  golpes principais embaixo do ringue (os outros numa faixa que rola de lado) e abas Previsão / Estados / Lances / Regiões / Luta.
+  golpes principais embaixo do ringue (os outros numa faixa que rola de lado) e abas Resumo / Previsão / Estados /
+  Lances / Regiões / Luta / Dados.
 - Abre no 2º turno quando ele estiver disponível (antes disso, no intervalo); `?turno=1` força a luta do 1º turno.
 - **Previsão** (primeiro painel; no celular, aba PREVISÃO), refeita a cada ponto, também no replay e para cada área:
   - em cada UF, os votos que faltam (estimados pelas seções que faltam) se dividem como os das últimas urnas apuradas
@@ -100,6 +126,9 @@ PORT=3100 node server.js
 
 ## Histórico
 
+- 05/10/2026: front v5: Entenda a apuração, aba DADOS (gráficos, tabela e CSV), matematicamente eleito/vitória
+  garantida pelo eleitorado do TSE, supercenas, easter eggs, juiz novo e treinos redesenhados; a luta termina nos
+  100% das urnas. Back: `eleitorado` por área e `t1` (fim do 1º turno) no 2º turno.
 - 05/10/2026: replay só até 100% das urnas apuradas (antes ia até a totalização oficial, às 12:51).
 - 05/10/2026: o treino do intervalo segue a data (sem escolher dia nem montagem).
 - 05/10/2026: corrigido "Flávio eleito no 1º turno" depois da totalização (o TSE passou a marcar os dois do 2º turno como `e = "s"`).

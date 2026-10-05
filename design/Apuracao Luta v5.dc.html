@@ -17,6 +17,7 @@ html,body{margin:0;background:#0F0E0D;color:#F2EDE4}
 a{color:#F5C842}
 a:hover{color:#F2EDE4}
 @keyframes liveP{0%,100%{opacity:1}50%{opacity:.25}}
+@keyframes pisca{to{visibility:hidden}}
 </style>
 </helmet>
 <sc-if value="{{ isDesk }}" hint-placeholder-val="{{ true }}">
@@ -30,7 +31,7 @@ a:hover{color:#F2EDE4}
     <div style="display:flex;gap:10px 16px;align-items:center;flex-wrap:wrap;font-size:13px;color:#A39B90">
       <span title="Pessoas no site agora" style="display:flex;align-items:center;gap:7px">{{ liveDot }}<span style="color:#F2EDE4;font-weight:600;font-variant-numeric:tabular-nums">{{ viewers }}</span><span>{{ viewLbl }}</span></span>
       <span>{{ headerSub }}</span>
-      <span style="font-family:'Silkscreen',monospace;font-size:11px;color:#F2EDE4;border:1px solid #3A342E;padding:3px 6px">SIMULAÇÃO</span>
+      <span style="font-family:'Silkscreen',monospace;font-size:11px;color:#F2EDE4;border:1px solid #3A342E;padding:3px 6px;display:inline-flex;align-items:center;gap:6px;white-space:nowrap">{{ modoDot }}{{ modoTxt }}</span>
     </div>
   </header>
 
@@ -142,6 +143,15 @@ a:hover{color:#F2EDE4}
           </sc-for>
         </div>
       </sc-if>
+      <div style="display:flex;flex-wrap:wrap;gap:4px 16px;font-size:12px;color:#A39B90;font-variant-numeric:tabular-nums">
+        <sc-for list="{{ extras }}" as="x" hint-placeholder-count="0"><span style="white-space:nowrap">{{ x.k }} <span style="font-weight:600;color:#F2EDE4">{{ x.v }}</span></span></sc-for>
+      </div>
+      <sc-if value="{{ mdOn }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px;background:#F5C842;color:#0F0E0D;padding:10px 14px;margin-top:4px">
+          <span style="font-family:'Silkscreen',monospace;font-weight:700;font-size:13px">{{ mdTit }}</span>
+          <span style="font-size:14px;line-height:1.4;text-wrap:pretty;flex:1 1 320px">{{ mdTxt }}</span>
+        </div>
+      </sc-if>
     </section>
 
     </sc-if>
@@ -172,7 +182,7 @@ a:hover{color:#F2EDE4}
     </section>
     </sc-if>
     <section data-screen-label="Ringue" style="border:1px solid #2A2622;background:#0B0A09;line-height:0">
-      <canvas ref="{{ canvasRef }}" style="display:block;width:100%;aspect-ratio:320 / 150"></canvas>
+      <canvas ref="{{ canvasRef }}" onClick="{{ cvTap }}" style="display:block;width:100%;aspect-ratio:320 / 150"></canvas>
     </section>
 
     <sc-if value="{{ isLuta }}" hint-placeholder-val="{{ false }}">
@@ -214,6 +224,64 @@ a:hover{color:#F2EDE4}
       </div>
     </div>
     <sc-if value="{{ deskGeral }}" hint-placeholder-val="{{ true }}">
+    <sc-if value="{{ showRs }}" hint-placeholder-val="{{ false }}">
+    <section data-screen-label="Entenda" style="background:#161412;border:1px solid #2A2622;padding:20px;display:grid;gap:20px">
+      <div style="display:grid;gap:8px">
+        <h2 style="margin:0;font-family:'Silkscreen',monospace;font-weight:400;font-size:13px;letter-spacing:0.06em">{{ rs.h }}</h2>
+        <p style="margin:0;font-weight:800;font-stretch:110%;font-size:clamp(20px,2.6vw,28px);line-height:1.15;text-wrap:balance;max-width:900px">{{ rs.head }}</p>
+        <p style="margin:0;font-size:15px;line-height:1.5;color:#C9C1B6;max-width:800px;text-wrap:pretty">{{ rs.sub }}</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:12px">
+        <sc-for list="{{ rs.cards }}" as="cd" hint-placeholder-count="4">
+          <div style="background:#0F0E0D;border:1px solid #2A2622;padding:14px 16px;display:grid;gap:6px;align-content:start">
+            <span style="font-weight:800;font-stretch:112%;font-size:28px;line-height:1;font-variant-numeric:tabular-nums;color:{{ cd.c }}">{{ cd.big }}</span>
+            <span style="font-size:13px;line-height:1.45;color:#A39B90;text-wrap:pretty">{{ cd.txt }}</span>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:24px 32px;align-items:start">
+        <div style="display:grid;gap:10px">
+          <span style="font-family:'Silkscreen',monospace;font-size:11px;color:#A39B90">SE FOSSEM 100 ELEITORES</span>
+          <span style="font-size:13px;color:#A39B90">{{ rs.wsub }}</span>
+          <div style="display:grid;grid-template-columns:repeat(20,minmax(0,1fr));gap:3px;max-width:440px">
+            <sc-for list="{{ rs.waf }}" as="w" hint-placeholder-count="100"><span style="aspect-ratio:1;background:{{ w.bg }};box-shadow:{{ w.bd }}"></span></sc-for>
+          </div>
+          <div style="display:grid;gap:5px">
+            <sc-for list="{{ rs.wleg }}" as="l" hint-placeholder-count="5"><span style="display:flex;align-items:center;gap:8px;font-size:14px"><span style="flex:none;width:11px;height:11px;background:{{ l.bg }};box-shadow:{{ l.bd }}"></span><span><span style="font-weight:800;font-variant-numeric:tabular-nums">{{ l.n }}</span> {{ l.t }}</span></span></sc-for>
+          </div>
+        </div>
+        <div style="display:grid;gap:22px">
+          <sc-if value="{{ rs.hasRest }}" hint-placeholder-val="{{ false }}">
+            <div style="display:grid;gap:8px">
+              <span style="font-family:'Silkscreen',monospace;font-size:11px;color:#A39B90">ONDE ESTÃO OS VOTOS QUE FALTAM</span>
+              <p style="margin:0;font-size:14px;line-height:1.45;text-wrap:pretty">{{ rs.restTxt }}</p>
+              <div style="display:flex;height:20px;gap:2px">
+                <sc-for list="{{ rs.rest }}" as="r" hint-placeholder-count="5"><span style="flex:{{ r.f }} 1 0;min-width:3px;background:{{ r.bg }}"></span></sc-for>
+              </div>
+              <div style="display:grid;gap:3px">
+                <sc-for list="{{ rs.rest }}" as="r" hint-placeholder-count="5"><span style="display:flex;align-items:center;gap:8px;font-size:12px;color:#A39B90"><span style="flex:none;width:10px;height:10px;background:{{ r.bg }}"></span><span style="color:#F2EDE4">{{ r.nome }}</span><span style="margin-left:auto;font-variant-numeric:tabular-nums;text-align:right">{{ r.v }}</span></span></sc-for>
+              </div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ rs.hasTop }}" hint-placeholder-val="{{ false }}">
+            <div style="display:grid;gap:8px">
+              <span style="font-family:'Silkscreen',monospace;font-size:11px;color:#A39B90">ONDE CADA UM GANHOU MAIS VOTOS</span>
+              <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px">
+                <sc-for list="{{ rs.top }}" as="tp" hint-placeholder-count="2">
+                  <div style="display:grid;gap:8px;align-content:start">
+                    <span style="font-size:13px;font-weight:700;color:{{ tp.c }}">{{ tp.t }}</span>
+                    <sc-for list="{{ tp.rows }}" as="r" hint-placeholder-count="3">
+                      <span style="display:grid;gap:3px"><span style="display:flex;justify-content:space-between;gap:8px;font-size:12px"><span>{{ r.nome }}</span><span style="font-variant-numeric:tabular-nums;color:#A39B90">{{ r.v }}</span></span><span style="display:block;height:5px;background:#2A2622"><span style="display:block;height:100%;width:{{ r.w }};background:{{ tp.c }}"></span></span></span>
+                    </sc-for>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+    </section>
+    </sc-if>
     <section data-screen-label="Jogar" style="background:#161412;border:1px solid #2A2622;padding:16px 20px;display:grid;gap:14px">
       <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px">
         <h2 style="margin:0;font-family:'Silkscreen',monospace;font-weight:400;font-size:13px;letter-spacing:0.06em">ENTRE NO RINGUE</h2>
@@ -247,6 +315,76 @@ a:hover{color:#F2EDE4}
     </section>
 
     <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:20px;align-items:start">
+      <sc-if value="{{ showPv }}" hint-placeholder-val="{{ false }}">
+      <div data-screen-label="Previsão" style="background:#161412;border:1px solid #2A2622;padding:18px 20px">
+        <h2 style="margin:0;font-family:'Silkscreen',monospace;font-weight:400;font-size:13px;letter-spacing:0.06em">{{ pv.h }}</h2>
+        <div style="display:grid;gap:4px;margin:12px 0 8px">
+          <span style="font-family:'Silkscreen',monospace;font-size:10px;color:#A39B90">{{ pv.key }}</span>
+          <span style="font-weight:800;font-stretch:115%;font-size:24px;line-height:1.05;text-wrap:balance">{{ pv.tit }}</span>
+          <span style="font-size:13px;color:#A39B90">{{ pv.pct }}</span>
+        </div>
+        <div style="display:grid">
+          <sc-for list="{{ pv.lines }}" as="ln" hint-placeholder-count="3">
+            <div style="display:grid;grid-template-columns:minmax(0,1fr) 84px 42px;gap:10px;align-items:center;padding:5px 0;font-size:13px">
+              <span style="min-width:0">{{ ln.lbl }}</span>
+              <span style="display:block;height:8px;background:#2A2622"><span style="display:block;height:100%;width:{{ ln.w }};background:{{ ln.c }}"></span></span>
+              <span style="text-align:right;font-variant-numeric:tabular-nums;font-weight:700">{{ ln.p }}</span>
+            </div>
+          </sc-for>
+        </div>
+        <sc-if value="{{ pv.hasProj }}" hint-placeholder-val="{{ false }}">
+          <p style="margin:10px 0 0;font-size:13px;line-height:1.5;color:#A39B90;text-wrap:pretty;font-variant-numeric:tabular-nums">{{ pv.pLead }}<span style="color:#F2EDE4;font-weight:600">{{ pv.pA }}</span>{{ pv.fA }} · <span style="color:#F2EDE4;font-weight:600">{{ pv.pB }}</span>{{ pv.fB }}{{ pv.pO }}</p>
+        </sc-if>
+        <sc-if value="{{ pv.hasR2 }}" hint-placeholder-val="{{ false }}">
+          <p style="margin:10px 0 0;padding:6px 10px;border-left:3px solid #F5C842;background:#0F0E0D;font-size:13px;line-height:1.5;color:#A39B90;text-wrap:pretty;font-variant-numeric:tabular-nums">No 2º turno, decidem os <span style="color:#F2EDE4;font-weight:600">{{ pv.r2O }}</span> que votaram em outros candidatos (~{{ pv.r2V }} de votos): {{ pv.r2B }}; {{ pv.r2A }}. Com esses votos divididos ao acaso: <span style="color:#F2EDE4;font-weight:600">{{ pv.r2C }}</span>.</p>
+        </sc-if>
+        <div style="font-family:'Silkscreen',monospace;font-size:11px;color:#A39B90;margin:16px 0 8px">AO LONGO DA APURAÇÃO</div>
+        <sc-if value="{{ pv.noCh }}" hint-placeholder-val="{{ true }}">
+          <div style="height:150px;display:grid;place-items:center;font-size:12px;color:#A39B90;border:1px solid #2A2622">Aguardando os primeiros números</div>
+        </sc-if>
+        <sc-if value="{{ pv.hasCh }}" hint-placeholder-val="{{ false }}">
+          <div style="display:grid;grid-template-columns:30px minmax(0,1fr);gap:0 8px;padding-right:6px">
+            <div style="position:relative">
+              <sc-for list="{{ pv.yt }}" as="y" hint-placeholder-count="0"><span style="position:absolute;right:0;top:{{ y.top }};transform:translateY(-50%);font-size:10px;color:#A39B90;font-variant-numeric:tabular-nums">{{ y.lbl }}</span></sc-for>
+            </div>
+            <div style="position:relative;height:150px">
+              <sc-for list="{{ pv.yt }}" as="y" hint-placeholder-count="0"><div style="position:absolute;left:0;right:0;top:{{ y.top }};border-top:1px solid #2A2622"></div></sc-for>
+              <sc-if value="{{ pv.has50 }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;left:0;right:0;top:{{ pv.y50 }};border-top:1px dashed #F5C842"></div></sc-if>
+              <svg viewBox="0 0 1000 300" preserveAspectRatio="none" style="position:absolute;left:0;top:0;width:100%;height:100%;overflow:visible">
+                <path d="{{ pv.pjF }}" style="fill:none;stroke:#3B7BF0;stroke-width:1.6px;stroke-dasharray:4 3;vector-effect:non-scaling-stroke"></path>
+                <path d="{{ pv.pjL }}" style="fill:none;stroke:#E5383B;stroke-width:1.6px;stroke-dasharray:4 3;vector-effect:non-scaling-stroke"></path>
+                <path d="{{ pv.fp }}" style="fill:none;stroke:#3B7BF0;stroke-width:2px;stroke-linejoin:round;vector-effect:non-scaling-stroke"></path>
+                <path d="{{ pv.lp }}" style="fill:none;stroke:#E5383B;stroke-width:2px;stroke-linejoin:round;vector-effect:non-scaling-stroke"></path>
+              </svg>
+              <sc-for list="{{ pv.bands }}" as="d" hint-placeholder-count="0"><div style="position:absolute;left:100%;top:{{ d.top }};height:{{ d.h }};width:6px;margin-left:-3px;background:{{ d.c }};opacity:.35"></div></sc-for>
+              <sc-for list="{{ pv.dots }}" as="d" hint-placeholder-count="0"><div style="position:absolute;left:{{ d.left }};top:{{ d.top }};width:7px;height:7px;transform:translate(-50%,-50%);border-radius:50%;box-sizing:border-box;background:{{ d.bg }};border:{{ d.bd }}"></div></sc-for>
+            </div>
+            <div></div>
+            <div style="position:relative;height:16px;margin-top:4px;font-size:10px;color:#A39B90"><span style="position:absolute;left:0">0% das urnas</span><span style="position:absolute;left:50%;transform:translateX(-50%)">50%</span><span style="position:absolute;right:0">100%</span></div>
+          </div>
+        </sc-if>
+        <div style="display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12px;color:#A39B90;margin-top:6px">
+          <span style="display:flex;align-items:center;gap:6px"><span style="width:14px;height:3px;background:#E5383B"></span>Lula</span>
+          <span style="display:flex;align-items:center;gap:6px"><span style="width:14px;height:3px;background:#3B7BF0"></span>Flávio</span>
+          <span style="display:flex;align-items:center;gap:6px"><span style="width:14px;height:3px;background:repeating-linear-gradient(90deg,#A39B90 0 4px,transparent 4px 7px)"></span>projeção</span>
+        </div>
+        <div style="font-family:'Silkscreen',monospace;font-size:11px;color:#A39B90;margin:16px 0 6px">PROJEÇÃO POR REGIÃO · % APURADO · VOTOS QUE FALTAM</div>
+        <div style="display:grid">
+          <sc-for list="{{ pv.rows }}" as="rw" hint-placeholder-count="5">
+            <button onClick="{{ rw.on }}" style="width:calc(100% + 16px);margin:0 -8px;display:grid;grid-template-columns:minmax(0,1fr) auto auto auto;grid-template-areas:'n c p m' 's f f f' 'b b b b';gap:5px 8px;align-items:center;padding:10px 8px;border:0;border-top:1px solid #2A2622;background:{{ rw.bg }};color:#F2EDE4;font-family:inherit;text-align:left;cursor:pointer">
+              <span style="grid-area:n;font-size:14px;font-weight:600;min-width:0">{{ rw.nome }}</span>
+              <span style="grid-area:c;min-width:22px;height:20px;padding:0 3px;display:grid;place-items:center;font-family:'Silkscreen',monospace;font-size:11px;font-weight:700;color:#0F0E0D;background:{{ rw.cb }}">{{ rw.c }}</span>
+              <span style="grid-area:p;font-weight:700;font-variant-numeric:tabular-nums">{{ rw.p }}</span>
+              <span style="grid-area:m;font-size:12px;color:#A39B90;font-variant-numeric:tabular-nums;min-width:34px;text-align:right">{{ rw.m }}</span>
+              <span style="grid-area:s;font-size:12px;color:#A39B90;font-variant-numeric:tabular-nums">{{ rw.s }}</span>
+              <span style="grid-area:f;font-size:12px;text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap">{{ rw.f }}</span>
+              <span style="grid-area:b;position:relative;height:6px;background:#2A2622"><span style="position:absolute;left:0;top:0;bottom:0;width:{{ rw.w }};background:{{ rw.bc }}"></span><span style="position:absolute;left:50%;top:-2px;bottom:-2px;width:2px;margin-left:-1px;background:#F5C842"></span></span>
+            </button>
+          </sc-for>
+        </div>
+        <p style="margin:12px 0 0;font-size:12px;line-height:1.5;color:#A39B90;text-wrap:pretty">{{ pv.nota }}</p>
+      </div>
+      </sc-if>
       <div data-screen-label="Estados" style="background:#161412;border:1px solid #2A2622;padding:18px 20px">
         <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
           <h2 style="margin:0;font-family:'Silkscreen',monospace;font-weight:400;font-size:13px;letter-spacing:0.06em">ESTADOS</h2>
@@ -494,7 +632,7 @@ a:hover{color:#F2EDE4}
     </div>
     </sc-if>
     <div style="line-height:0;background:#0B0A09;display:flex;justify-content:center">
-      <canvas ref="{{ canvasRef }}" style="display:block;width:min(100%, calc((100vh - 170px) * 2.13));aspect-ratio:320 / 150"></canvas>
+      <canvas ref="{{ canvasRef }}" onClick="{{ cvTap }}" style="display:block;width:min(100%, calc((100vh - 170px) * 2.13));aspect-ratio:320 / 150"></canvas>
     </div>
     <sc-if value="{{ hasCtrl }}" hint-placeholder-val="{{ false }}">
       <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;padding:8px 10px 10px">
@@ -626,6 +764,15 @@ a:hover{color:#F2EDE4}
         </sc-for>
       </div>
     </sc-if>
+    <div style="display:flex;flex-wrap:wrap;gap:4px 14px;font-size:11px;color:#A39B90;font-variant-numeric:tabular-nums">
+      <sc-for list="{{ extras }}" as="x" hint-placeholder-count="0"><span style="white-space:nowrap">{{ x.k }} <span style="font-weight:600;color:#F2EDE4">{{ x.v }}</span></span></sc-for>
+    </div>
+    <sc-if value="{{ mdOn }}" hint-placeholder-val="{{ false }}">
+      <div style="display:grid;gap:4px;background:#F5C842;color:#0F0E0D;padding:10px 12px">
+        <span style="font-family:'Silkscreen',monospace;font-weight:700;font-size:11px">{{ mdTit }}</span>
+        <span style="font-size:13px;line-height:1.4;text-wrap:pretty">{{ mdTxt }}</span>
+      </div>
+    </sc-if>
     <div style="display:grid;gap:8px">
       <span style="font-family:'Silkscreen',monospace;font-size:11px;color:#A39B90">ENTRE NO RINGUE</span>
       <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:1px solid #3A342E;border-radius:4px;overflow:hidden">
@@ -638,13 +785,140 @@ a:hover{color:#F2EDE4}
       </sc-if>
     </div>
 
-    <div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border:1px solid #3A342E;border-radius:4px;overflow:hidden;margin-top:4px">
+    <div style="display:flex;flex-wrap:wrap;border:1px solid #3A342E;border-radius:4px;overflow:hidden;margin-top:4px">
       <sc-for list="{{ mobTabs }}" as="tb" hint-placeholder-count="4">
-        <button onClick="{{ tb.on }}" style="font-family:'Silkscreen',monospace;font-size:11px;min-height:44px;padding:0 2px;border:0;background:{{ tb.bg }};color:{{ tb.fg }};touch-action:manipulation">{{ tb.label }}</button>
+        <button onClick="{{ tb.on }}" style="flex:1 1 23%;font-family:'Silkscreen',monospace;font-size:11px;min-height:44px;padding:0 2px;border:0;background:{{ tb.bg }};color:{{ tb.fg }};touch-action:manipulation">{{ tb.label }}</button>
       </sc-for>
     </div>
 
-    <sc-if value="{{ tabEstados }}" hint-placeholder-val="{{ true }}">
+    <sc-if value="{{ showRs }}" hint-placeholder-val="{{ false }}">
+      <div data-screen-label="Entenda" style="display:grid;gap:16px">
+        <div style="display:grid;gap:6px">
+          <span style="font-family:'Silkscreen',monospace;font-size:11px;color:#A39B90">{{ rs.h }}</span>
+          <p style="margin:0;font-weight:800;font-stretch:108%;font-size:20px;line-height:1.2;text-wrap:balance">{{ rs.head }}</p>
+          <p style="margin:0;font-size:14px;line-height:1.5;color:#C9C1B6;text-wrap:pretty">{{ rs.sub }}</p>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px">
+          <sc-for list="{{ rs.cards }}" as="cd" hint-placeholder-count="4">
+            <div style="background:#161412;border:1px solid #2A2622;padding:12px;display:grid;gap:5px;align-content:start">
+              <span style="font-weight:800;font-stretch:108%;font-size:20px;line-height:1.05;font-variant-numeric:tabular-nums;color:{{ cd.c }}">{{ cd.big }}</span>
+              <span style="font-size:12px;line-height:1.4;color:#A39B90;text-wrap:pretty">{{ cd.txt }}</span>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:grid;gap:8px">
+          <span style="font-family:'Silkscreen',monospace;font-size:10px;color:#A39B90">SE FOSSEM 100 ELEITORES</span>
+          <span style="font-size:12px;color:#A39B90">{{ rs.wsub }}</span>
+          <div style="display:grid;grid-template-columns:repeat(20,minmax(0,1fr));gap:2px">
+            <sc-for list="{{ rs.waf }}" as="w" hint-placeholder-count="100"><span style="aspect-ratio:1;background:{{ w.bg }};box-shadow:{{ w.bd }}"></span></sc-for>
+          </div>
+          <div style="display:grid;gap:4px">
+            <sc-for list="{{ rs.wleg }}" as="l" hint-placeholder-count="5"><span style="display:flex;align-items:center;gap:8px;font-size:13px"><span style="flex:none;width:10px;height:10px;background:{{ l.bg }};box-shadow:{{ l.bd }}"></span><span><span style="font-weight:800;font-variant-numeric:tabular-nums">{{ l.n }}</span> {{ l.t }}</span></span></sc-for>
+          </div>
+        </div>
+        <sc-if value="{{ rs.hasRest }}" hint-placeholder-val="{{ false }}">
+          <div style="display:grid;gap:8px">
+            <span style="font-family:'Silkscreen',monospace;font-size:10px;color:#A39B90">ONDE ESTÃO OS VOTOS QUE FALTAM</span>
+            <p style="margin:0;font-size:13px;line-height:1.45;text-wrap:pretty">{{ rs.restTxt }}</p>
+            <div style="display:flex;height:16px;gap:2px">
+              <sc-for list="{{ rs.rest }}" as="r" hint-placeholder-count="5"><span style="flex:{{ r.f }} 1 0;min-width:3px;background:{{ r.bg }}"></span></sc-for>
+            </div>
+            <div style="display:grid;gap:3px">
+              <sc-for list="{{ rs.rest }}" as="r" hint-placeholder-count="5"><span style="display:flex;align-items:center;gap:8px;font-size:12px;color:#A39B90"><span style="flex:none;width:10px;height:10px;background:{{ r.bg }}"></span><span style="color:#F2EDE4">{{ r.nome }}</span><span style="margin-left:auto;font-variant-numeric:tabular-nums;text-align:right">{{ r.v }}</span></span></sc-for>
+            </div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ rs.hasTop }}" hint-placeholder-val="{{ false }}">
+          <div style="display:grid;gap:8px">
+            <span style="font-family:'Silkscreen',monospace;font-size:10px;color:#A39B90">ONDE CADA UM GANHOU MAIS VOTOS</span>
+            <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px">
+              <sc-for list="{{ rs.top }}" as="tp" hint-placeholder-count="2">
+                <div style="display:grid;gap:8px;align-content:start">
+                  <span style="font-size:13px;font-weight:700;color:{{ tp.c }}">{{ tp.t }}</span>
+                  <sc-for list="{{ tp.rows }}" as="r" hint-placeholder-count="3">
+                    <span style="display:grid;gap:3px"><span style="display:flex;justify-content:space-between;gap:6px;font-size:12px"><span style="min-width:0">{{ r.nome }}</span><span style="font-variant-numeric:tabular-nums;color:#A39B90">{{ r.v }}</span></span><span style="display:block;height:5px;background:#2A2622"><span style="display:block;height:100%;width:{{ r.w }};background:{{ tp.c }}"></span></span></span>
+                  </sc-for>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+    </sc-if>
+    <sc-if value="{{ tabPrev }}" hint-placeholder-val="{{ true }}">
+    <sc-if value="{{ showPv }}" hint-placeholder-val="{{ false }}">
+      <div data-screen-label="Previsão" style="display:grid">
+        <h2 style="margin:0;font-family:'Silkscreen',monospace;font-weight:400;font-size:12px;letter-spacing:0.04em">{{ pv.h }}</h2>
+        <div style="display:grid;gap:4px;margin:10px 0 8px">
+          <span style="font-family:'Silkscreen',monospace;font-size:10px;color:#A39B90">{{ pv.key }}</span>
+          <span style="font-weight:800;font-stretch:115%;font-size:22px;line-height:1.05;text-wrap:balance">{{ pv.tit }}</span>
+          <span style="font-size:13px;color:#A39B90">{{ pv.pct }}</span>
+        </div>
+        <div style="display:grid">
+          <sc-for list="{{ pv.lines }}" as="ln" hint-placeholder-count="3">
+            <div style="display:grid;grid-template-columns:minmax(0,1fr) 72px 40px;gap:10px;align-items:center;padding:5px 0;font-size:13px">
+              <span style="min-width:0">{{ ln.lbl }}</span>
+              <span style="display:block;height:8px;background:#2A2622"><span style="display:block;height:100%;width:{{ ln.w }};background:{{ ln.c }}"></span></span>
+              <span style="text-align:right;font-variant-numeric:tabular-nums;font-weight:700">{{ ln.p }}</span>
+            </div>
+          </sc-for>
+        </div>
+        <sc-if value="{{ pv.hasProj }}" hint-placeholder-val="{{ false }}">
+          <p style="margin:10px 0 0;font-size:13px;line-height:1.5;color:#A39B90;text-wrap:pretty;font-variant-numeric:tabular-nums">{{ pv.pLead }}<span style="color:#F2EDE4;font-weight:600">{{ pv.pA }}</span>{{ pv.fA }} · <span style="color:#F2EDE4;font-weight:600">{{ pv.pB }}</span>{{ pv.fB }}{{ pv.pO }}</p>
+        </sc-if>
+        <sc-if value="{{ pv.hasR2 }}" hint-placeholder-val="{{ false }}">
+          <p style="margin:10px 0 0;padding:6px 10px;border-left:3px solid #F5C842;background:#161412;font-size:13px;line-height:1.5;color:#A39B90;text-wrap:pretty;font-variant-numeric:tabular-nums">No 2º turno, decidem os <span style="color:#F2EDE4;font-weight:600">{{ pv.r2O }}</span> que votaram em outros candidatos (~{{ pv.r2V }} de votos): {{ pv.r2B }}; {{ pv.r2A }}. Com esses votos divididos ao acaso: <span style="color:#F2EDE4;font-weight:600">{{ pv.r2C }}</span>.</p>
+        </sc-if>
+        <div style="font-family:'Silkscreen',monospace;font-size:10px;color:#A39B90;margin:16px 0 8px">AO LONGO DA APURAÇÃO</div>
+        <sc-if value="{{ pv.noCh }}" hint-placeholder-val="{{ true }}">
+          <div style="height:140px;display:grid;place-items:center;font-size:12px;color:#A39B90;border:1px solid #2A2622">Aguardando os primeiros números</div>
+        </sc-if>
+        <sc-if value="{{ pv.hasCh }}" hint-placeholder-val="{{ false }}">
+          <div style="display:grid;grid-template-columns:28px minmax(0,1fr);gap:0 6px;padding-right:6px">
+            <div style="position:relative">
+              <sc-for list="{{ pv.yt }}" as="y" hint-placeholder-count="0"><span style="position:absolute;right:0;top:{{ y.top }};transform:translateY(-50%);font-size:10px;color:#A39B90;font-variant-numeric:tabular-nums">{{ y.lbl }}</span></sc-for>
+            </div>
+            <div style="position:relative;height:140px">
+              <sc-for list="{{ pv.yt }}" as="y" hint-placeholder-count="0"><div style="position:absolute;left:0;right:0;top:{{ y.top }};border-top:1px solid #2A2622"></div></sc-for>
+              <sc-if value="{{ pv.has50 }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;left:0;right:0;top:{{ pv.y50 }};border-top:1px dashed #F5C842"></div></sc-if>
+              <svg viewBox="0 0 1000 300" preserveAspectRatio="none" style="position:absolute;left:0;top:0;width:100%;height:100%;overflow:visible">
+                <path d="{{ pv.pjF }}" style="fill:none;stroke:#3B7BF0;stroke-width:1.6px;stroke-dasharray:4 3;vector-effect:non-scaling-stroke"></path>
+                <path d="{{ pv.pjL }}" style="fill:none;stroke:#E5383B;stroke-width:1.6px;stroke-dasharray:4 3;vector-effect:non-scaling-stroke"></path>
+                <path d="{{ pv.fp }}" style="fill:none;stroke:#3B7BF0;stroke-width:2px;stroke-linejoin:round;vector-effect:non-scaling-stroke"></path>
+                <path d="{{ pv.lp }}" style="fill:none;stroke:#E5383B;stroke-width:2px;stroke-linejoin:round;vector-effect:non-scaling-stroke"></path>
+              </svg>
+              <sc-for list="{{ pv.bands }}" as="d" hint-placeholder-count="0"><div style="position:absolute;left:100%;top:{{ d.top }};height:{{ d.h }};width:6px;margin-left:-3px;background:{{ d.c }};opacity:.35"></div></sc-for>
+              <sc-for list="{{ pv.dots }}" as="d" hint-placeholder-count="0"><div style="position:absolute;left:{{ d.left }};top:{{ d.top }};width:7px;height:7px;transform:translate(-50%,-50%);border-radius:50%;box-sizing:border-box;background:{{ d.bg }};border:{{ d.bd }}"></div></sc-for>
+            </div>
+            <div></div>
+            <div style="position:relative;height:16px;margin-top:4px;font-size:10px;color:#A39B90"><span style="position:absolute;left:0">0% das urnas</span><span style="position:absolute;left:50%;transform:translateX(-50%)">50%</span><span style="position:absolute;right:0">100%</span></div>
+          </div>
+        </sc-if>
+        <div style="display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12px;color:#A39B90;margin-top:6px">
+          <span style="display:flex;align-items:center;gap:6px"><span style="width:14px;height:3px;background:#E5383B"></span>Lula</span>
+          <span style="display:flex;align-items:center;gap:6px"><span style="width:14px;height:3px;background:#3B7BF0"></span>Flávio</span>
+          <span style="display:flex;align-items:center;gap:6px"><span style="width:14px;height:3px;background:repeating-linear-gradient(90deg,#A39B90 0 4px,transparent 4px 7px)"></span>projeção</span>
+        </div>
+        <div style="font-family:'Silkscreen',monospace;font-size:10px;color:#A39B90;margin:16px 0 6px">POR REGIÃO · % APURADO · O QUE FALTA</div>
+        <div style="display:grid">
+          <sc-for list="{{ pv.rows }}" as="rw" hint-placeholder-count="5">
+            <button onClick="{{ rw.on }}" style="width:100%;margin:0;display:grid;grid-template-columns:minmax(0,1fr) auto auto auto;grid-template-areas:'n c p m' 's f f f' 'b b b b';gap:5px 8px;align-items:center;padding:10px 4px;border:0;border-top:1px solid #2A2622;background:{{ rw.bg }};color:#F2EDE4;font-family:inherit;text-align:left;touch-action:manipulation">
+              <span style="grid-area:n;font-size:14px;font-weight:600;min-width:0">{{ rw.nome }}</span>
+              <span style="grid-area:c;min-width:22px;height:20px;padding:0 3px;display:grid;place-items:center;font-family:'Silkscreen',monospace;font-size:11px;font-weight:700;color:#0F0E0D;background:{{ rw.cb }}">{{ rw.c }}</span>
+              <span style="grid-area:p;font-weight:700;font-variant-numeric:tabular-nums">{{ rw.p }}</span>
+              <span style="grid-area:m;font-size:12px;color:#A39B90;font-variant-numeric:tabular-nums;min-width:34px;text-align:right">{{ rw.m }}</span>
+              <span style="grid-area:s;font-size:12px;color:#A39B90;font-variant-numeric:tabular-nums">{{ rw.s }}</span>
+              <span style="grid-area:f;font-size:12px;text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap">{{ rw.f }}</span>
+              <span style="grid-area:b;position:relative;height:6px;background:#2A2622"><span style="position:absolute;left:0;top:0;bottom:0;width:{{ rw.w }};background:{{ rw.bc }}"></span><span style="position:absolute;left:50%;top:-2px;bottom:-2px;width:2px;margin-left:-1px;background:#F5C842"></span></span>
+            </button>
+          </sc-for>
+        </div>
+        <p style="margin:12px 0 0;font-size:12px;line-height:1.5;color:#A39B90;text-wrap:pretty">{{ pv.nota }}</p>
+      </div>
+    </sc-if>
+    </sc-if>
+
+    <sc-if value="{{ tabEstados }}" hint-placeholder-val="{{ false }}">
       <div style="display:grid;gap:12px">
         <div style="display:flex;justify-content:flex-end">
           <div style="display:flex;border:1px solid #3A342E;border-radius:4px;overflow:hidden">
@@ -1086,12 +1360,12 @@ a:hover{color:#F2EDE4}
   </div>
 </footer>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;cenario&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Virada → 2º turno&quot;,&quot;Lula no 1º turno&quot;,&quot;Flávio no 1º turno&quot;],&quot;default&quot;:&quot;Virada → 2º turno&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Simulação&quot;},&quot;turno2&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Lula vence&quot;,&quot;Flávio vence&quot;],&quot;default&quot;:&quot;Lula vence&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Simulação&quot;},&quot;duracao&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;min&quot;:30,&quot;max&quot;:240,&quot;step&quot;:10,&quot;unit&quot;:&quot;s&quot;,&quot;default&quot;:90,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Simulação&quot;},&quot;tremor&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Efeitos&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;cenario&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Virada → 2º turno&quot;,&quot;Lula no 1º turno&quot;,&quot;Flávio no 1º turno&quot;],&quot;default&quot;:&quot;Virada → 2º turno&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Simulação&quot;},&quot;turno2&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Lula vence&quot;,&quot;Flávio vence&quot;],&quot;default&quot;:&quot;Lula vence&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Simulação&quot;},&quot;duracao&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;min&quot;:30,&quot;max&quot;:240,&quot;step&quot;:10,&quot;unit&quot;:&quot;s&quot;,&quot;default&quot;:90,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Simulação&quot;},&quot;tremor&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Efeitos&quot;},&quot;supercenas&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Efeitos&quot;}}">
 class Component extends DCLogic {
   state = { v: 0 };
   cv = React.createRef();
   W = 320; H = 150; FLOOR = 132;
-  scope = 'BR'; turno = 1; ctrl = null; mapMode = 'lead'; snd = false; mobTab = 'estados'; deskTab = 'geral'; cmpRef = 't1'; tSort = { k: 'ele', d: -1 };
+  scope = 'BR'; turno = 1; ctrl = null; mapMode = 'lead'; snd = false; mobTab = 'resumo'; deskTab = 'geral'; cmpRef = 't1'; tSort = { k: 'ele', d: -1 };
   R22 = { AC: 29.70, AL: 58.68, AP: 48.64, AM: 51.10, BA: 72.12, CE: 69.97, DF: 41.19, ES: 41.96, GO: 41.29, MA: 71.14, MT: 34.92, MS: 40.51, MG: 50.20, PA: 54.75, PB: 66.62, PR: 37.60, PE: 66.93, PI: 76.86, RJ: 43.47, RN: 65.10, RS: 43.65, RO: 29.34, RR: 23.92, SC: 30.73, SP: 44.76, SE: 67.21, TO: 51.36 };
   C22 = { 1: [20.95, 1.59, 2.82], 2: [20.59, 1.43, 3.16] };
   buzz(ms) { try { if (navigator.vibrate) navigator.vibrate(ms); } catch (e) {} }
@@ -1191,7 +1465,7 @@ class Component extends DCLogic {
   PAL = {
     L: { skin: '#C68A64', skinD: '#9A6748', hair: '#CFCAC2', brow: '#A9A39A', beard: true, shirt: '#E5383B', shirtD: '#A82226', shorts: '#6E1216', glove: '#EFE9DD', gloveD: '#B8AFA0', shoe: '#1A1714' },
     F: { skin: '#E2B18E', skinD: '#B58563', hair: '#2A1E17', brow: '#2A1E17', beard: false, shirt: '#3B7BF0', shirtD: '#2552B0', shorts: '#14306E', glove: '#F5C842', gloveD: '#B8921F', shoe: '#1A1714' },
-    R: { skin: '#D19A74', skinD: '#A57352', hair: '#4A4038', brow: '#3A342E', beard: false, shirt: '#E9E4DA', shirtD: '#BDB6AA', shorts: '#1A1714', glove: '#D19A74', gloveD: '#A57352', shoe: '#1A1714', leg: '#1A1714', legD: '#100E0C', belt: '#3A342E', hand: 1, tie: 1 },
+    R: { skin: '#E3B794', skinD: '#B98A66', hair: '#E3B794', brow: '#1A1714', beard: false, bald: 1, shirt: '#16130F', shirtD: '#0B0908', shorts: '#16130F', glove: '#E3B794', gloveD: '#B98A66', shoe: '#1A1714', leg: '#1A1714', legD: '#100E0C', belt: '#16130F', hand: 1, tie: '#F2EDE4' },
     C: { skin: '#A87454', skinD: '#80553C', hair: '#1A1714', brow: '#1A1714', beard: false, shirt: '#3A342E', shirtD: '#2A2622', shorts: '#2A2622', glove: '#E8833A', gloveD: '#A85E28', shoe: '#1A1714', leg: '#2A2622', legD: '#1E1B18', belt: '#4A4038' },
   };
 
@@ -1262,6 +1536,7 @@ class Component extends DCLogic {
     const de = s => s.replace(/^no /, 'do ').replace(/^na /, 'da ').replace(/^em /, 'de ');
     const subs = sc === 'BR' ? this.REG.map(g => g.id) : A.tipo === 'reg' ? this.REG.find(g => g.id === sc).ufs : [];
     const ev = [{ t: 0, tag: T2 ? 'ROUND 2' : '', txt: T2 ? `Começa a apuração do 2º turno ${A.em}. Só Lula e Flávio no ringue.` : `Urnas fechadas. Começa a apuração do 1º turno ${A.em}.` }];
+    this.mdT = null; this.mdK = null; this._pvc = null;
     let lead = null, lastVt = -1, prev = this.sample(0), mi = 0; const ms = [10, 25, 50, 75, 90], done = {};
     for (let i = 1; i <= N; i++) {
       const S = this.sample(i / N), s = S.e[sc], m = s.lp - s.fp;
@@ -1273,6 +1548,16 @@ class Component extends DCLogic {
           src = ` com os votos ${de(this.ALL[best.id].em)}`;
         }
         ev.push({ t: S.t, tag: 'VIRADA', virada: nl, txt: `${nm(nl)} passa ${nm(lead)}${src}.` }); lead = nl; lastVt = S.t;
+      }
+      if (this.mdT == null && s.cnt > 0 && s.r < .999) {
+        const kk = s.L >= s.F ? 'L' : 'F', V = s[kk], O = s[this.oth(kk)], Rm = s.tot - s.cnt, mvS = v => this.mvS(v);
+        if (T2 ? V - O > Rm : V > s.tot / 2) {
+          this.mdT = S.t; this.mdK = kk;
+          const txt = sc === 'BR'
+            ? (T2 ? `${nm(kk)} está matematicamente eleito presidente: a vantagem de ${mvS(V - O)} de votos já é maior que os ${mvS(Rm)} que faltam apurar.` : `${nm(kk)} está matematicamente eleito no 1º turno: já tem ${mvS(V)} de votos, mais da metade de todos os votos válidos, com ${p1(s.urnas)} das urnas apuradas.`)
+            : (T2 ? `Vitória garantida para ${nm(kk)} ${A.em}: a vantagem de ${mvS(V - O)} de votos é maior que os ${mvS(Rm)} que faltam.` : `${nm(kk)} já tem mais da metade dos votos válidos ${A.em}, com ${p1(s.urnas)} apurado. A vitória está garantida.`);
+          ev.push({ t: S.t, tag: sc === 'BR' ? 'ELEITO' : 'GARANTIDO', md: kk, txt });
+        }
       }
       while (mi < ms.length && s.urnas >= ms[mi]) { ev.push({ t: S.t, tag: '', txt: `${ms[mi]}% das urnas apuradas ${A.em}: Lula ${p1(s.lp)} × ${p1(s.fp)} Flávio.` }); mi++; }
       subs.forEach(id => {
@@ -1309,7 +1594,7 @@ class Component extends DCLogic {
     let t0 = 0;
     this.mode = this.has2 && Date.now() < this.CLOSE ? 'espera' : 'luta';
     if (this.mode === 'luta' && this.has2) this.turno = 2;
-    try { const o = JSON.parse(localStorage.getItem('apuracao-luta-v3') || '{}'); if (o.scope && this.ALL[o.scope]) this.scope = o.scope; if (o.turno === 2 && this.has2) this.turno = 2; if (o.turno === 1) this.turno = 1; if (o.t > 0 && o.t <= 1) t0 = o.t; if (o.mode === 'luta' || (o.mode === 'espera' && this.has2)) this.mode = o.mode; if (o.palpite === 'L' || o.palpite === 'F') this.palpite = o.palpite; } catch (e) {}
+    try { const o = JSON.parse(localStorage.getItem('apuracao-luta-v4') || '{}'); if (o.scope && this.ALL[o.scope]) this.scope = o.scope; if (o.turno === 2 && this.has2) this.turno = 2; if (o.turno === 1) this.turno = 1; if (o.t > 0 && o.t <= 1) t0 = o.t; if (o.mode === 'luta' || (o.mode === 'espera' && this.has2)) this.mode = o.mode; if (o.palpite === 'L' || o.palpite === 'F') this.palpite = o.palpite; } catch (e) {}
     if (this.mode === 'espera') t0 = 0;
     this.day = this.todayIdx(); this.setScene(this.DAYS[this.day][2]);
     this.viewers = Math.round(this.mode === 'espera' ? 8600 : 42000 + 150000 * t0); this.vSpike = 0; this.vT = 0;
@@ -1334,10 +1619,10 @@ class Component extends DCLogic {
     this.lpush = now; const E = this.E;
     this.snap = this.sample(E.t);
     this.setState(s => ({ v: s.v + 1 }));
-    try { localStorage.setItem('apuracao-luta-v3', JSON.stringify({ t: E.t, turno: this.turno, scope: this.scope, mode: this.mode, palpite: this.palpite })); } catch (e) {}
+    try { localStorage.setItem('apuracao-luta-v4', JSON.stringify({ t: E.t, turno: this.turno, scope: this.scope, mode: this.mode, palpite: this.palpite })); } catch (e) {}
   }
   seek(t) {
-    const E = this.E; E.t = Math.max(0, Math.min(1, t)); E.ended = false; E.banners = []; E.floats = []; E.proj = []; E.drops = []; E.callouts = []; E.koW = null; E.koT = 0; E.slow = 0;
+    const E = this.E; E.t = Math.max(0, Math.min(1, t)); E.ended = false; E.cut = null; E.dipl = 0; E.aura = this.mdT != null && E.t >= this.mdT ? this.mdK : null; E.banners = []; E.floats = []; E.proj = []; E.drops = []; E.callouts = []; E.koW = null; E.koT = 0; E.slow = 0;
     const s = this.sample(E.t).e[this.scope], m = s.cnt && this.mode === 'luta' ? s.lp - s.fp : 0;
     E.center = 160 + Math.max(-60, Math.min(60, m * 5));
     ['L', 'F'].forEach(k => Object.assign(E.f[k], { pose: E.f[k].ctrl && E.f[k].hold ? 'block' : 'idle', pt: 0, fall: 0, kx: 0, ay: 0, avy: 0, rot: 0, q: null, combo: 0, sup: 0, lastV: s[k], lastSV: s[k], st: this.st0() }));
@@ -1354,7 +1639,7 @@ class Component extends DCLogic {
       let sub = this.scope === 'BR' ? (this.turno === 2 ? `${N} ELEITO PRESIDENTE` : `${N} ELEITO NO 1º TURNO`) : `${N} VENCE ${A.em.toUpperCase()}`;
       if (this.scope === 'BR' && this.turno === 2 && this.palpite) sub += this.palpite === w ? ' · PALPITE CERTO' : ' · PALPITE ERRADO';
       E.banners = [{ text: 'K.O.!', sub, dur: 0, age }];
-      if (!instant) this.sfx('ko');
+      if (!instant) { if (this.cutOn()) this.startCut('ko', w); else this.sfx('ko'); }
     } else {
       E.banners = [this.scope === 'BR' && this.turno === 1 ? { text: 'ROUND 2', sub: '2º TURNO · 25 DE OUTUBRO', dur: 0, age } : { text: 'SEM NOCAUTE', sub: `${N} LIDERA ${A.em.toUpperCase()}`, dur: 0, age }];
       if (!instant) this.sfx('bell');
@@ -1394,6 +1679,7 @@ class Component extends DCLogic {
     const tg = e.target && e.target.tagName;
     if (tg === 'SELECT' || tg === 'TEXTAREA' || (tg === 'INPUT' && e.target.type !== 'range') || e.metaKey || e.ctrlKey || e.altKey) return;
     const k = (e.key || '').toLowerCase();
+    if (this.E && this.E.cut) { if (k === ' ' || k === 'escape' || k === 'enter') { e.preventDefault(); if (down && !e.repeat) this.endCut(); } return; }
     if (k === ' ') {
       e.preventDefault();
       if (down && !e.repeat) { if (document.activeElement && document.activeElement.blur) document.activeElement.blur(); if (this.mode === 'espera') this.toggleMontage(); else this.toggle(); }
@@ -1443,6 +1729,13 @@ class Component extends DCLogic {
       case 'bell': tone(1320, 1300, .9, 'sine', .14); tone(2640, 2600, .6, 'sine', .05); break;
       case 'ding': tone(1568, 1560, .3, 'sine', .07); break;
       case 'cheer': noise(.45, .12, 1400, 'bandpass'); break;
+      case 'charge2': tone(110, 880, 1.1, 'sawtooth', .05); tone(220, 1760, 1.1, 'square', .025); noise(1.1, .08, 2000, 'bandpass'); break;
+      case 'boom': noise(.9, .9, 500); tone(110, 28, .9, 'square', .22); tone(70, 30, 1.2, 'sine', .3); break;
+      case 'whoosh': noise(.35, .45, 2200, 'bandpass'); break;
+      case 'slash': noise(.18, .5, 3500, 'bandpass'); tone(1800, 300, .2, 'sawtooth', .04); break;
+      case 'glass': noise(.4, .5, 5000, 'highpass'); tone(2200, 1800, .25, 'triangle', .05); tone(3100, 2500, .2, 'triangle', .04, .05); break;
+      case 'fanfare': [523, 659, 784, 1047].forEach((f, i) => tone(f, f, i === 3 ? .5 : .14, 'square', .06, i * .11)); break;
+      case 'urna': [1568, 1760, 1568, 1760, 2093].forEach((f, i) => tone(f, f, .07, 'square', .05, i * .075)); break;
       case 'virada': tone(392, 392, .1, 'square', .07); tone(523, 523, .1, 'square', .07, .1); tone(784, 784, .2, 'square', .07, .2); break;
     }
   }
@@ -1456,6 +1749,7 @@ class Component extends DCLogic {
 
   frame(now) {
     const E = this.E, rdt = Math.min(.05, (now - this.last) / 1000); this.last = now;
+    if (E.cut) { this.stepCut(rdt); this.draw(false); return; }
     let dt = rdt; if (E.slow > 0) { E.slow -= rdt; dt = rdt * .35; }
     E.T += dt;
     const scn = this.mode === 'espera' && this.view === 'cena';
@@ -1466,6 +1760,7 @@ class Component extends DCLogic {
         const dur = Math.max(10, this.props.duracao || 90), pt = E.t;
         E.t = Math.min(1, E.t + dt * E.speed / dur);
         for (const ev of this.ev) if (ev.virada && ev.t > pt && ev.t <= E.t) this.virada(ev.virada);
+        for (const ev of this.ev) if (ev.md && ev.t > pt && ev.t <= E.t && ev.t < .995) this.startCut('md', ev.md);
         if (E.t >= 1) this.finish(false); else this.push(false);
       }
       this.cs = this.sample(E.t).e[this.scope];
@@ -1601,7 +1896,7 @@ class Component extends DCLogic {
     if (E.koW) {
       E.koT += dt; const w = E.f[E.koW], l = E.f[this.oth(E.koW)];
       if (E.koT < 2.4) { tx = l.x + l.kx; pose = 'refcount'; n = Math.min(10, 1 + Math.floor(E.koT / .22)); }
-      else { tx = w.x - w.facing * 13; pose = 'refraise'; }
+      else { tx = w.x - w.facing * 13; pose = 'refraise'; if (!E.dipl) { E.dipl = 1; E.callouts.push({ txt: this.scope === 'BR' ? 'DIPLOMADO!' : 'VENCEU!', x: R.x, age: 0 }); } }
     } else if (dn) { tx = dn.x + dn.kx - dn.facing * 6; pose = 'refcount'; if (dn.pose === 'down') n = 1 + Math.floor(dn.pt / .4); }
     else tx = E.center + (E.center <= 160 ? 1 : -1) * 64;
     tx = Math.max(20, Math.min(300, tx));
@@ -1960,7 +2255,8 @@ class Component extends DCLogic {
     if (P.beard) { rc(h[0] - 2, h[1] + 1, 8, 5, P.hair); rc(h[0] + 2, h[1] + 2, 3, 1, P.skinD); }
     rc(h[0] + 2, h[1] - 3, 3, 1, P.brow); rc(h[0] + 3, h[1] - 2, 1, 1, f.eyes === 'z' ? P.skinD : f.pose === 'ko' ? '#F2EDE4' : '#14110F');
     rc(h[0] - 1, h[1] - 1, 2, 2, P.skinD);
-    if (P.tie) rc(h[0] - 1, h[1] + 7, 3, 2, '#0F0E0D');
+    if (P.tie) rc(h[0] - 2, h[1] + 7, 5, 2, P.tie === 1 ? '#0F0E0D' : P.tie);
+    if (P.bald) { rc(h[0] - 2, h[1] - 6, 3, 1, '#F7DDC4'); rc(h[0] + 1, h[1] - 4, 4, 1, P.brow); }
     ln(shF, J.eF, 3, P.skin); ln(J.eF, J.gF, 3, P.skin);
     if (P.hand) rc(J.gF[0] - 1, J.gF[1] - 1, 3, 3, P.skin); else { rc(J.gF[0] - 2, J.gF[1] - 3, 6, 6, P.glove); rc(J.gF[0] - 2, J.gF[1] - 3, 6, 1, '#FFFFFF'); }
     if (f.pose === 'dizzy' && !f.sil) for (let i = 0; i < 3; i++) { const an = E.T * 6 + i * 2.09, q = tr([h[0] + Math.cos(an) * 7, h[1] - 9 + Math.sin(an) * 2]); b.fillStyle = i ? '#F5C842' : '#FFFFFF'; b.fillRect(Math.round(q[0]), Math.round(q[1]), 2, 2); }
@@ -2150,11 +2446,12 @@ class Component extends DCLogic {
     if (c.width !== cw || c.height !== ch) { c.width = cw; c.height = ch; }
     if (scn) this.drawScene(b);
     else {
-      b.drawImage(this.bg, 0, 0); this.drawCrowd(b); b.drawImage(this.ropes, 0, 0);
+      b.drawImage(this.bg, 0, 0); this.drawEggsBack(b); this.drawCrowd(b); b.drawImage(this.ropes, 0, 0); this.drawEggsFront(b);
       this.drawF(b, E.ref);
       ['L', 'F'].sort((x, y) => (this.isAtk(E.f[x]) ? 1 : 0) - (this.isAtk(E.f[y]) ? 1 : 0)).forEach(k => this.drawF(b, E.f[k]));
       for (const p of E.proj) this.drawProj(b, p);
       for (const p of E.drops) this.drawDrop(b, p);
+      if (E.aura) this.drawAura(b);
     }
     for (const p of E.parts) {
       const x = Math.round(p.x), y = Math.round(p.y);
@@ -2180,6 +2477,8 @@ class Component extends DCLogic {
     if (scn) this.overScene(txt, ctx, sc);
     else {
       if (E.refN) txt(String(E.refN), E.ref.x, this.FLOOR - 84, 14, '#F5C842');
+      this.eggTxt(ctx, sc);
+      if (this.mode === 'luta' && this.mdT != null && E.t >= this.mdT && E.t < 1 && !E.cut) { txt(this.scope === 'BR' ? 'MATEMATICAMENTE ELEITO' : 'VITÓRIA GARANTIDA', 160, 9, 6, '#F5C842'); txt(this.NOME[this.mdK].toUpperCase(), 160, 18, 5.5, '#F2EDE4'); }
       ['L', 'F'].forEach(k => {
         const f = E.f[k]; if (f.combo < 2 || f.comboT > 1.3) return;
         const x = k === 'L' ? 10 : W - 10, al = k === 'L' ? 'left' : 'right';
@@ -2187,7 +2486,7 @@ class Component extends DCLogic {
       });
       if (this.mode === 'espera') { txt('SALA DE GOLPES', 8, H - 8, 6, '#A39B90', 'left'); txt(this.autoDemo ? 'DEMO AUTOMÁTICA' : 'TOQUE NUM GOLPE', W - 8, H - 8, 6, this.autoDemo ? '#F5C842' : '#A39B90', 'right'); }
       const b0 = E.banners[0];
-      if (b0) {
+      if (b0 && !E.cut) {
         const k = b0.age < .16 ? 1.7 - .7 * (b0.age / .16) : 1;
         ctx.globalAlpha = b0.dur && b0.age > b0.dur - .25 ? Math.max(0, (b0.dur - b0.age) / .25) : 1;
         const y = ch * .3;
@@ -2200,6 +2499,512 @@ class Component extends DCLogic {
       }
     }
     ctx.globalAlpha = 1;
+    if (E.cut) { ctx.save(); this.drawCut(ctx, sc, cw, ch); ctx.restore(); }
+  }
+
+  // ---------- super cenas: matematicamente eleito e nocaute com 100% das urnas ----------
+  cutOn() { return this.props.supercenas !== false && this.mode === 'luta'; }
+  isMobV() { return typeof window !== 'undefined' && (window.innerWidth < 720 || window.innerHeight < 500); }
+  mvS(v) { const a = Math.abs(v); return a >= 1e6 ? (a / 1e6).toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' mi' : a >= 1e3 ? Math.round(a / 1e3).toLocaleString('pt-BR') + ' mil' : String(Math.round(a)); }
+  startCut(id, k) {
+    if (!this.cutOn() || !this.E) return;
+    const E = this.E, sc = this.scope, s = this.sample(E.t).e[sc], o = this.oth(k);
+    E.cut = { id, k, T: 0, dur: id === 'ko' ? 6.4 : 7.4, br: sc === 'BR', T2: this.turno === 2, A: this.ALL[sc], V: s[k], O: s[o], R: Math.max(0, s.tot - s.cnt), tot: s.tot, urnas: s.urnas, pct: k === 'L' ? s.lp : s.fp, parts: [], acc: 0 };
+    if (id === 'md') {
+      const C = E.cut, e = this.sample(E.t).e, ids = sc === 'BR' ? this.UF.map(u => u.id) : this.ALL[sc].tipo === 'reg' ? this.REG.find(g => g.id === sc).ufs : [];
+      const lbl = ids.map(id2 => ({ id: id2, d: k === 'L' ? e[id2].L - e[id2].F : e[id2].F - e[id2].L })).filter(x => x.d > 0).sort((a, b) => b.d - a.d).map(x => `${x.id} +${this.mvS(x.d).toUpperCase()}`);
+      C.mov = [[.45, 'jab'], [.6, 'cross'], [.78, 'hook'], [.98, 'body'], [1.15, 'upper'], [1.38, 'knee'], [1.56, 'elbow'], [1.74, 'flurry'], [2.25, 'spin'], [2.55, 'high']];
+      C.hits = []; C.mov.forEach(([st, mv]) => { const M = this.MV[mv]; (M.hits || [M.hit]).forEach((h, i) => C.hits.push({ t: st + h, high: !!M.high, low: !!M.low, body: M.react === 'hitb', big: !!M.big || (!!M.hits && i === M.hits.length - 1) })); });
+      C.hits.push({ t: 2.99, high: true, big: true }, { t: 3.59, high: true, big: true });
+      C.hits.forEach((h, i) => { h.lbl = lbl[i] || null; });
+      C.labels = []; C.combo = 0; C.comboT = 0; C.sh = 0;
+    }
+    E.floats = []; E.callouts = []; E.proj = []; E.drops = []; E.shake = 0;
+    this.sfx(id === 'ko' ? 'whoosh' : 'slash'); this.buzz(id === 'ko' ? 80 : 30); this.vSpike = Math.max(this.vSpike || 0, .25);
+    this.push(true);
+  }
+  endCut() {
+    const E = this.E, C = E && E.cut; if (!C) return;
+    E.cut = null; E.aura = C.k; E.shake = C.id === 'ko' ? .4 : .25;
+    if (C.id === 'md') E.f[C.k].sup = 100;
+    this.push(true);
+  }
+  stepCut(dt) {
+    const E = this.E, C = E.cut, p = C.T; C.T += dt;
+    const T = C.T, at = x => p < x && T >= x, R = Math.random, lt = C.k === 'L' ? '#FF9A8F' : '#9CC2FF', cols = ['#F5C842', '#FFFFFF', lt, this.COR[C.k]];
+    /*MDSTEP*/
+    if (C.id === 'md') {
+      const sd = C.k === 'L' ? 1 : -1, mxm = x => sd > 0 ? x : 320 - x;
+      if (at(.06)) this.sfx('slash');
+      for (const h of C.hits) if (at(h.t)) {
+        const P = this.mdPose(C, h.t), cx = P.xl - sd * 8, cy = 134 - P.ayL - (h.high ? 88 : h.low ? 24 : 62);
+        h.cx = cx; h.cy = cy; C.combo++; C.comboT = T; C.sh = Math.max(C.sh || 0, h.big ? .2 : .09);
+        this.sfx(h.big ? 'big' : 'hit'); this.buzz(h.big ? 25 : 10);
+        for (let i = 0; i < (h.big ? 18 : 9); i++) { const a = R() * 6.283, v = 60 + R() * 200; C.parts.push({ x: cx, y: cy, vx: Math.cos(a) * v + sd * 60, vy: Math.sin(a) * v, g: 220, age: 0, life: .25 + R() * .3, sz: 1.2 + R() * 1.8, c: cols[Math.floor(R() * 2)] }); }
+        if (h.lbl) C.labels.push({ txt: h.lbl, x: cx + sd * (14 + (C.combo % 3) * 22), y: Math.max(32, cy - 6 - (C.combo % 3) * 11), age: 0 });
+      }
+      if (at(2.99)) this.sfx('whoosh');
+      if (at(3.72)) { this.sfx('boom'); this.buzz([80, 30, 120]); C.sh = .5; const P = this.mdPose(C, 3.72); for (let i = 0; i < 44; i++) C.parts.push({ x: P.xl + (R() - .5) * 30, y: 132, vx: (R() - .5) * 420, vy: -20 - R() * 120, g: 280, age: 0, life: .5 + R() * .5, sz: 1.5 + R() * 2.5, c: ['#C9C0B4', '#8A8178', '#F5C842'][Math.floor(R() * 3)] }); }
+      if (at(3.9)) C.parts = [];
+      if (at(4.05)) { this.sfx('big'); C.sh = .2; }
+      if (at(4.3)) { this.sfx('boom'); this.buzz(70); C.sh = .45; }
+      if (at(4.55)) this.sfx('fanfare');
+      if (at(5.5)) this.sfx('urna');
+      if (at(6.7)) { this.sfx('glass'); this.buzz(40); for (let i = 0; i < 80; i++) { const a = R() * 6.283, v = 80 + R() * 280; C.parts.push({ x: mxm(80), y: 70, vx: Math.cos(a) * v, vy: Math.sin(a) * v, g: 140, age: 0, life: .6 + R() * .6, sz: 1.5 + R() * 2.2, c: cols[Math.floor(R() * 4)] }); } }
+      if (T > 3.9 && T < 6.7) { C.acc += dt * 70; while (C.acc >= 1) { C.acc--; C.parts.push({ x: mxm(80) + (R() - .5) * 84, y: 152 + R() * 10, vx: (R() - .5) * 10, vy: -(50 + R() * 80), g: 0, age: 0, life: 1.2 + R() * 1.2, sz: 1 + R() * 2.4, c: cols[Math.floor(R() * 3)] }); } }
+      C.labels = C.labels.filter(l => (l.age += dt) < .85);
+      C.sh = Math.max(0, (C.sh || 0) - dt);
+    } else {
+      if (at(.35)) this.sfx('charge2'); if (at(1.55)) this.sfx('whoosh'); if (at(1.62)) { this.sfx('boom'); this.buzz([90, 40, 160]); } if (at(2.15)) { this.sfx('ko'); this.sfx('boom'); } if (at(3.45)) this.sfx('fanfare'); if (at(3.6)) this.sfx('cheer');
+      if (T > .45 && T < 1.55) { C.acc += dt * 90; while (C.acc >= 1) { C.acc--; C.parts.push({ sp: 1, a: R() * 6.283, r: 50 + R() * 50, va: 3 + R() * 3, vr: 55 + R() * 45, age: 0, life: 9, sz: 1 + R() * 1.8, c: cols[Math.floor(R() * 3)] }); } }
+      if (at(1.55)) C.parts = [];
+      if (at(2.15)) for (let i = 0; i < 90; i++) { const a = R() * 6.283, v = 90 + R() * 330; C.parts.push({ x: 160, y: 78, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 40, g: 260, age: 0, life: .7 + R() * .9, sz: 1.5 + R() * 3, c: cols[Math.floor(R() * 4)] }); }
+      if (at(3.45)) for (let i = 0; i < 130; i++) C.parts.push({ cf: 1, x: R() * 320, y: -10 - R() * 90, vx: (R() - .5) * 20, vy: 28 + R() * 36, g: 0, age: 0, life: 9, sz: 2 + R() * 2, rot: R() * 6.28, vrot: 4 + R() * 8, c: cols[Math.floor(R() * 4)] });
+    }
+    C.parts = C.parts.filter(q => { q.age += dt; if (q.sp) { q.a += q.va * dt; q.r -= q.vr * dt; return q.r > 2; } q.vy += (q.g || 0) * dt; q.x += q.vx * dt; q.y += q.vy * dt; if (q.cf) q.rot += q.vrot * dt; return q.age < q.life && q.y < 170; });
+    if (T >= C.dur) this.endCut();
+  }
+  mdPose(C, T) {
+    const sd = C.k === 'L' ? 1 : -1, sg = (a, b) => Math.max(0, Math.min(1, (T - a) / (b - a))), eo = x => 1 - (1 - x) * (1 - x);
+    let poseW = 'idle', ptW = 0;
+    for (const [st, mv] of C.mov) if (T >= st) { poseW = mv; ptW = T - st; }
+    const M = this.MV[poseW]; if (M && ptW > M.end) { poseW = 'idle'; ptW = 0; }
+    let kb = 0, last = null; for (const h of C.hits) if (h.t <= T) { kb += 9 * Math.exp(-(T - h.t) * 9); last = h; }
+    let xw = 160 - 38 * sd, ayW = 0, ayL = 0, rotL = 0, fallL = 0, poseL = 'block', ptL = 0;
+    const since = last ? T - last.t : 9;
+    if (T < 2.99) poseL = since < .14 ? (last.body ? 'hitb' : 'hit') : T > 1.7 ? 'dizzy' : 'block';
+    else if (T < 3.59) { ayL = 74 * eo(sg(2.99, 3.45)) + (T > 3.45 ? Math.sin((T - 3.45) * 20) * 1.5 : 0); poseL = 'air'; rotL = (T - 2.99) * 6; }
+    else if (T < 3.72) { ayL = 74 * (1 - sg(3.59, 3.72)); poseL = 'air'; rotL = 3.6 + (T - 3.59) * 8; }
+    else { poseL = 'down'; fallL = 1; ptL = .5; }
+    if (T >= 2.85 && T < 3.35) { poseW = 'rising'; ptW = T - 2.85; ayW = 40 * eo(sg(2.85, 3.35)); }
+    else if (T >= 3.35 && T < 3.85) { poseW = 'drop'; ptW = Math.min(.4, T - 3.35); ayW = T < 3.59 ? 40 + 32 * eo(sg(3.35, 3.59)) : 72 * (1 - sg(3.59, 3.85) * sg(3.59, 3.85)); xw += sd * 26 * sg(3.35, 3.59); }
+    else if (T >= 3.85) { poseW = 'win'; xw += sd * 26; }
+    return { xw, xl: 160 + 36 * sd + kb * sd, ayW, ayL, rotL, fallL, poseW, ptW, poseL, ptL };
+  }
+  drawAura(b) {
+    const E = this.E, f = E.f[E.aura]; if (!f || f.pose === 'ko') return;
+    const X = f.x + (f.kx || 0), base = this.FLOOR - (f.ay || 0), T = E.T, c = this.COR[E.aura];
+    for (let i = 0; i < 16; i++) {
+      const ph = (T * .8 + i * .137) % 1, sx = Math.sin(i * 12.9898) * 43758.5453, rx = sx - Math.floor(sx) - .5;
+      b.globalAlpha = (1 - ph) * .9; b.fillStyle = i % 3 ? '#F5C842' : i % 2 ? '#FFFFFF' : c;
+      b.fillRect(Math.round(X + rx * 30 + Math.sin(T * 3 + i) * 2), Math.round(base - 4 - ph * 66), i % 4 ? 1 : 2, i % 4 ? 2 : 3);
+    }
+    b.globalAlpha = 1;
+  }
+  drawCut(ctx, U, cw, ch) {
+    const E = this.E, C = E.cut, T = C.T, k = C.k, o = this.oth(k), col = this.COR[k], dk = k === 'L' ? '#5E0F12' : '#102A63', lt = k === 'L' ? '#FF9A8F' : '#9CC2FF', sd = k === 'L' ? 1 : -1, NM = this.NOME[k].toUpperCase();
+    const cl = (x, a, b) => Math.max(a, Math.min(b, x)), sg = (a, b) => cl((T - a) / (b - a), 0, 1), ez = x => 1 - Math.pow(1 - x, 3), eio = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2, bk = x => 1 + 2.70158 * Math.pow(x - 1, 3) + 1.70158 * Math.pow(x - 1, 2);
+    const mx = x => sd > 0 ? x : 320 - x, ARC = 'Archivo, system-ui, sans-serif', PIX = 'Silkscreen, monospace';
+    const Lc = this.cutC || (this.cutC = document.createElement('canvas')); if (Lc.width !== cw || Lc.height !== ch) { Lc.width = cw; Lc.height = ch; }
+    const g = Lc.getContext('2d');
+    g.setTransform(1, 0, 0, 1, 0, 0); g.globalAlpha = 1; g.globalCompositeOperation = 'source-over'; g.shadowBlur = 0; g.clearRect(0, 0, cw, ch); g.imageSmoothingEnabled = false; g.lineJoin = 'round'; g.textBaseline = 'alphabetic'; g.textAlign = 'left';
+    ctx.imageSmoothingEnabled = false;
+    const F = (c2, w, sz, fam, st) => { c2.font = `${w} ${Math.max(1, Math.round(sz * U * 10) / 10)}px ${fam}`; if ('fontStretch' in c2) c2.fontStretch = st || 'normal'; };
+    const fit = (c2, t, w, sz, fam, st, max) => { F(c2, w, sz, fam, st); const m = c2.measureText(t).width; if (m > max * U) F(c2, w, sz * max * U / m, fam, st); };
+    const R = (x, y, w, h, c) => { g.fillStyle = c; g.fillRect(x * U, y * U, w * U, h * U); };
+    const poly = (c2, pts) => { c2.beginPath(); pts.forEach((p, i) => i ? c2.lineTo(p[0] * U, p[1] * U) : c2.moveTo(p[0] * U, p[1] * U)); c2.closePath(); };
+    const say = (t, x, y, fill, sw, shc, sh) => { if (shc) { g.fillStyle = shc; g.fillText(t, (x + sh) * U, (y + sh) * U); } if (sw) { g.lineWidth = sw * U; g.strokeStyle = '#0F0E0D'; g.strokeText(t, x * U, y * U); } g.fillStyle = fill; g.fillText(t, x * U, y * U); };
+    const desat = (c2, a, dark) => { if (a <= 0) return; c2.save(); c2.globalAlpha = a; c2.globalCompositeOperation = 'saturation'; c2.fillStyle = '#808080'; c2.fillRect(0, 0, cw, ch); c2.globalCompositeOperation = 'source-over'; c2.fillStyle = `rgba(0,0,0,${dark == null ? .5 : dark})`; c2.fillRect(0, 0, cw, ch); c2.restore(); };
+    const star = (x, y, r, c) => { g.fillStyle = c; poly(g, [[x, y - r], [x + r * .16, y], [x, y + r], [x - r * .16, y]]); g.fill(); poly(g, [[x - r, y], [x, y + r * .16], [x + r, y], [x, y - r * .16]]); g.fill(); };
+    const spr = (kk, pose, pt, x, y, s, op) => {
+      const c2 = this.sprC || (this.sprC = document.createElement('canvas')); c2.width = 180; c2.height = 120;
+      const b = c2.getContext('2d'), f = this.act(kk, 90, (op && op.facing) || (kk === 'L' ? 1 : -1), pose, Object.assign({ by: 110, noSh: true, pt: pt || 0 }, op || {}));
+      const t0 = E.T; E.T = T; this.drawF(b, f); const J = this.joints(f, T); E.T = t0;
+      const dx = (x - 90 * s) * U, dy = (y - 110 * s) * U, w = 180 * s * U, h = 120 * s * U;
+      if (op && op.glow) { g.save(); g.shadowColor = op.glow; g.shadowBlur = (op.gb || 14) * U; g.drawImage(c2, dx, dy, w, h); g.restore(); }
+      g.drawImage(c2, dx, dy, w, h);
+      return { at: q => [x + q[0] * f.facing * s, y + q[1] * s], J };
+    };
+    const parts = (c2, filt) => {
+      for (const q of C.parts) {
+        if (filt && !filt(q)) continue;
+        c2.globalAlpha = q.cf ? 1 : cl(1 - q.age / q.life, 0, 1); c2.fillStyle = q.c;
+        if (q.sp) { if (!C.fist) continue; c2.fillRect((C.fist[0] + Math.cos(q.a) * q.r) * U, (C.fist[1] + Math.sin(q.a) * q.r) * U, q.sz * U, q.sz * U); }
+        else if (q.cf) { const w = Math.max(.5, q.sz * Math.abs(Math.cos(q.rot))); c2.fillRect((q.x - w / 2) * U, q.y * U, w * U, q.sz * 1.5 * U); }
+        else c2.fillRect(q.x * U, q.y * U, q.sz * U, q.sz * (q.vy < -30 && !q.g ? 2 : 1) * U);
+      }
+      c2.globalAlpha = 1;
+    };
+    let ox = 0, oy = 0;
+
+    /*MDCUT*/
+    if (C.id === 'md') {
+      const s = 1.75, P = this.mdPose(C, T), rush = T < 3.9, camY = rush ? Math.max(P.ayL, T < 3.72 ? P.ayW : 0) * .85 : 0, fx = mx(80), fy = 70;
+      desat(ctx, sg(0, .12) * (1 - sg(6.9, 7.4)));
+      if (rush) {
+        const gr = g.createRadialGradient(160 * U, 70 * U, 6 * U, 160 * U, 70 * U, 260 * U); gr.addColorStop(0, lt); gr.addColorStop(.25, col); gr.addColorStop(1, dk); g.fillStyle = gr; g.fillRect(0, 0, cw, ch);
+        g.fillStyle = 'rgba(255,255,255,.17)';
+        for (let i = 0; i < 48; i++) { const y = (i * 37) % 128 + 6, len = 24 + (i * 13) % 56, x = (((i * 97 - T * 560 * sd) % 420) + 420) % 420 - 50; g.fillRect(x * U, y * U, len * U, (i % 3 ? .8 : 1.6) * U); }
+        g.save(); g.translate(0, camY * U);
+        R(0, 134, 320, 40, '#0B0A09'); R(0, 133.4, 320, 1.2, '#F5C842');
+        for (let j = 0; j < 14; j++) { const x = (((j * 26 - T * 300 * sd) % 364) + 364) % 364 - 22; g.fillStyle = '#2A2622'; poly(g, [[x, 134.6], [x + 1.4, 134.6], [x + 1.4 - sd * 22, 150], [x - sd * 22, 150]]); g.fill(); }
+        g.fillStyle = 'rgba(0,0,0,.45)'; g.fillRect((P.xw - 22) * U, 133 * U, 44 * U, 2.4 * U); g.fillRect((P.xl - 22) * U, 133 * U, 44 * U, 2.4 * U);
+        const lastH = C.hits.filter(h => h.t <= T).pop(), flL = lastH && lastH.big && T - lastH.t < .05 ? 1 : 0;
+        spr(o, P.poseL, P.ptL, P.xl, 134 - P.ayL, s, { facing: -sd, rot: P.rotL, fall: P.fallL, flash: flL });
+        [[.075, .14], [.04, .3]].forEach(([d, a]) => { const Q = this.mdPose(C, Math.max(0, T - d)); g.globalAlpha = a; spr(k, Q.poseW, Q.ptW, Q.xw - sd * d * 60, 134 - Q.ayW, s, { sil: lt }); }); g.globalAlpha = 1;
+        spr(k, P.poseW, P.ptW, P.xw, 134 - P.ayW, s, {});
+        for (const h of C.hits) { if (h.cx == null) continue; const a = T - h.t; if (a < 0 || a > .2) continue; const q = 1 - a / .2, r = (h.big ? 18 : 11) * q + 3; star(h.cx, h.cy, r * 1.4, '#FFFFFF'); star(h.cx, h.cy, r * .6, '#F5C842'); g.strokeStyle = `rgba(255,255,255,${q.toFixed(3)})`; g.lineWidth = 1.6 * q * U; g.beginPath(); g.arc(h.cx * U, h.cy * U, (6 + (1 - q) * 26) * U, 0, Math.PI * 2); g.stroke(); }
+        parts(g);
+        g.restore();
+        if (C.combo > 0 && T < 3.75) { const pop = 1 + .5 * (1 - sg(C.comboT, C.comboT + .12)), hx = sd > 0 ? 14 : 306; g.save(); g.textAlign = sd > 0 ? 'left' : 'right'; F(g, 700, 6, PIX); say('COMBO', hx, 24, '#F5C842', 2.4); g.translate(hx * U, 41 * U); g.scale(pop, pop); F(g, 900, 14, ARC, 'expanded'); g.lineWidth = 3.4 * U; g.strokeStyle = '#0F0E0D'; g.strokeText(C.combo + ' HITS', 0, 0); g.fillStyle = '#FFFFFF'; g.fillText(C.combo + ' HITS', 0, 0); g.restore(); }
+        for (const l of C.labels) { const a = l.age, al = a > .55 ? Math.max(0, 1 - (a - .55) / .3) : 1, pp = a < .08 ? 1.6 - 7.5 * a : 1; g.save(); g.globalAlpha = al; g.translate(l.x * U, (l.y + camY - a * 20) * U); g.scale(pp, pp); F(g, 700, 7.5, PIX); g.textAlign = 'center'; g.lineWidth = 2.6 * U; g.strokeStyle = '#0F0E0D'; g.strokeText(l.txt, 0, 0); g.fillStyle = '#F5C842'; g.fillText(l.txt, 0, 0); g.restore(); }
+        const wq = 1 - sg(3.72, 3.84); if (wq > 0 && T >= 3.72) { g.fillStyle = `rgba(255,255,255,${(wq * .85).toFixed(3)})`; g.fillRect(0, 0, cw, ch); }
+        const pq = sg(3.72, 3.8);
+        if (pq > 0) { const t1 = C.T2 ? `VANTAGEM ${this.mvS(C.V - C.O).toUpperCase()} > FALTAM ${this.mvS(C.R).toUpperCase()}` : `${this.mvS(C.V).toUpperCase()} DE VOTOS > METADE DOS VÁLIDOS`, sc2 = 1 + .8 * (1 - ez(pq)); g.save(); g.translate(160 * U, 30 * U); g.scale(sc2, sc2); fit(g, t1, 900, 15, ARC, 'expanded', 276); g.textAlign = 'center'; g.textBaseline = 'middle'; g.lineWidth = 3.4 * U; g.strokeStyle = '#0F0E0D'; g.strokeText(t1, 0, 0); g.fillStyle = '#FFFFFF'; g.fillText(t1, 0, 0); g.restore(); }
+      } else {
+        const tx = sd > 0 ? 150 : 12, TW = 158;
+        const gr = g.createRadialGradient(fx * U, fy * U, 4 * U, fx * U, fy * U, 300 * U); gr.addColorStop(0, lt); gr.addColorStop(.2, col); gr.addColorStop(1, dk); g.fillStyle = gr; g.fillRect(0, 0, cw, ch);
+        g.fillStyle = 'rgba(255,255,255,.14)'; g.beginPath();
+        for (let i = 0; i < 64; i++) { const a = i / 64 * 6.283 + T * .12 + Math.sin(i * 7.3) * .05, w = .01 + (Math.sin(i * 3.1) * .5 + .5) * .028, r0 = 40 + (Math.sin(i * 5.7) * .5 + .5) * 46; g.moveTo((fx + Math.cos(a) * r0) * U, (fy + Math.sin(a) * r0) * U); g.lineTo((fx + Math.cos(a - w) * 420) * U, (fy + Math.sin(a - w) * 420) * U); g.lineTo((fx + Math.cos(a + w) * 420) * U, (fy + Math.sin(a + w) * 420) * U); g.closePath(); }
+        g.fill();
+        g.fillStyle = 'rgba(0,0,0,.26)'; g.beginPath();
+        for (let yy = 3; yy < 150; yy += 6) for (let xx = 3; xx < 175; xx += 6) { const d = xx / 175, r = .15 + d * d * 2.4, px = mx(145 + xx); g.moveTo((px + r) * U, yy * U); g.arc(px * U, yy * U, r * U, 0, 6.283); }
+        g.fill();
+        for (let i = 0; i < 3; i++) { const q = ((T - 3.9) * 1.1 + i / 3) % 1, r = 150 * (1 - q) + 8; g.strokeStyle = `rgba(245,200,66,${(q * .7).toFixed(3)})`; g.lineWidth = (1 + q * 3) * U; g.beginPath(); g.arc(fx * U, (fy - 4) * U, r * U, 0, 6.283); g.stroke(); }
+        parts(g);
+        const pin = ez(sg(3.9, 4.2)), px = fx - sd * (1 - pin) * 70;
+        spr(k, 'win', 0, px + 1.6, 166, 2.2, { sil: '#F5C842', glow: '#F5C842', gb: 16 }); spr(k, 'win', 0, px - 1.6, 165, 2.2, { sil: '#F5C842' }); spr(k, 'win', 0, px, 166, 2.2, {});
+        const kq = ez(sg(3.95, 4.2));
+        if (kq > 0) { const kt = C.br ? `${C.T2 ? '2º TURNO' : '1º TURNO'} · ${this.pc1(C.urnas)} DAS URNAS` : `${C.A.nome.toUpperCase()} · ${this.pc1(C.urnas)} APURADO`; fit(g, kt, 700, 6.5, PIX, null, TW - 8); const kw = g.measureText(kt).width / U + 8; g.save(); g.beginPath(); g.rect(tx * U, 19 * U, kw * kq * U, 11 * U); g.clip(); R(tx, 19, kw, 11, '#0F0E0D'); g.textBaseline = 'middle'; g.fillStyle = '#F5C842'; g.fillText(kt, (tx + 4) * U, 24.8 * U); g.restore(); }
+        const q1 = sg(4.05, 4.3);
+        if (q1 > 0) { const t = C.br ? 'MATEMATICAMENTE' : 'VITÓRIA', s2 = 2.6 - 1.6 * bk(q1); fit(g, t, 900, 20, ARC, 'expanded', TW); const w = g.measureText(t).width / U; g.save(); g.globalAlpha = Math.min(1, q1 * 3); g.translate((tx + w / 2) * U, 50 * U); g.transform(1, 0, -.14, 1, 0, 0); g.scale(s2, s2); g.textAlign = 'center'; g.fillStyle = dk; g.fillText(t, 2.2 * U, 2.2 * U); g.lineWidth = 3.2 * U; g.strokeStyle = '#0F0E0D'; g.strokeText(t, 0, 0); g.fillStyle = '#FFFFFF'; g.fillText(t, 0, 0); g.restore(); }
+        const q2 = sg(4.3, 4.55);
+        if (q2 > 0) { const t = C.br ? 'ELEITO' : 'GARANTIDA', s2 = 3 - 2 * bk(q2); fit(g, t, 900, 54, ARC, 'expanded', TW); const w = g.measureText(t).width / U, d = (8 * (1 - ez(q2)) + 1.4) * U; g.save(); g.globalAlpha = Math.min(1, q2 * 3); g.translate((tx + w / 2) * U, 94 * U); g.transform(1, 0, -.14, 1, 0, 0); g.scale(s2, s2); g.textAlign = 'center'; g.globalAlpha = .9; g.fillStyle = '#E5383B'; g.fillText(t, -d, 0); g.fillStyle = '#3B7BF0'; g.fillText(t, d, 0); g.globalAlpha = 1; g.lineWidth = 5 * U; g.strokeStyle = '#0F0E0D'; g.strokeText(t, 0, 0); const lg = g.createLinearGradient(0, -40 * U, 0, 4 * U); lg.addColorStop(0, '#FFF3B0'); lg.addColorStop(.55, '#F5C842'); lg.addColorStop(1, '#E8833A'); g.fillStyle = lg; g.fillText(t, 0, 0); g.restore(); }
+        const q3 = ez(sg(4.55, 4.8));
+        if (q3 > 0) { const nt = `${NM} · ${C.br ? (C.T2 ? 'PRESIDENTE' : 'VENCE NO 1º TURNO') : C.A.nome.toUpperCase()}`; fit(g, nt, 700, 7.5, PIX, null, TW - 8); const nw = g.measureText(nt).width / U + 8; g.save(); g.beginPath(); g.rect(tx * U, 100 * U, nw * q3 * U, 12 * U); g.clip(); R(tx, 100, nw, 12, col); R(tx, 111, nw, 1, '#0F0E0D'); g.textBaseline = 'middle'; g.lineWidth = 2.2 * U; g.strokeStyle = '#0F0E0D'; g.strokeText(nt, (tx + 4) * U, 106.3 * U); g.fillStyle = '#FFFFFF'; g.fillText(nt, (tx + 4) * U, 106.3 * U); g.restore(); }
+        const mq = sg(4.8, 5.4), me = eio(mq), bw = TW - 46;
+        if (mq > 0) {
+          g.save(); g.globalAlpha = Math.min(1, mq * 4);
+          if (!C.T2) { const f = cl(C.V / Math.max(1, C.tot), 0, 1), fv = f * me; R(tx, 117, bw, 6, 'rgba(15,14,13,.85)'); R(tx, 117, bw * Math.min(fv, .5), 6, '#F2EDE4'); if (fv > .5) R(tx + bw * .5, 117, bw * (fv - .5), 6, '#F5C842'); R(tx + bw * .5 - .7, 114.5, 1.4, 11, '#F5C842'); }
+          else { const lead = Math.max(0, C.V - C.O), mxv = Math.max(lead, C.R, 1); R(tx, 116, bw, 4, 'rgba(15,14,13,.85)'); R(tx, 116, bw * lead / mxv * me, 4, '#F2EDE4'); R(tx, 121.5, bw, 4, 'rgba(15,14,13,.85)'); R(tx, 121.5, bw * C.R / mxv * me, 4, '#8A8178'); }
+          g.restore();
+        }
+        const dq = sg(5.1, 5.4);
+        if (dq > 0) { const t2 = C.T2 ? `vantagem de ${this.mvS(C.V - C.O)} > ${this.mvS(C.R)} que faltam` : `${this.mvS(C.V)} de votos: mais da metade de todos os válidos`; g.save(); g.globalAlpha = dq; fit(g, t2, 700, 7, ARC, null, bw); g.textAlign = 'left'; say(t2, tx, 134, '#FFFFFF', 2.4); g.restore(); }
+        const uq = ez(sg(5.45, 5.7));
+        if (uq > 0) {
+          const x = tx + TW - 40, y = 104 + (1 - uq) * 40; g.save(); g.globalAlpha = uq;
+          R(x, y + 2, 40, 30, '#9C917A'); R(x, y, 40, 29, '#E2D8C0'); R(x, y + 27, 40, 2, '#BDB29A');
+          R(x + 3, y + 3, 19, 14, '#3A342E'); R(x + 4, y + 4, 17, 12, '#F4F1E6');
+          F(g, 700, 6.5, PIX); g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillStyle = '#0F0E0D'; g.fillText('FIM', (x + 12.5) * U, (y + 10.4) * U);
+          for (let r = 0; r < 4; r++) for (let c = 0; c < 3; c++) R(x + 25 + c * 4.6, y + 3 + r * 4.3, 3.4, 3.2, '#1A1714');
+          R(x + 3, y + 20, 6, 4.5, '#F4F1E6'); R(x + 10.5, y + 20, 6, 4.5, '#E8833A'); R(x + 18, y + 20, 7, 4.5, '#2FA65A');
+          g.restore(); g.textAlign = 'left'; g.textBaseline = 'alphabetic';
+        }
+        const wq = 1 - sg(3.9, 4.05); if (wq > 0) { g.fillStyle = `rgba(255,255,255,${wq.toFixed(3)})`; g.fillRect(0, 0, cw, ch); }
+      }
+      const shk = (C.sh || 0) * 22 + (T > 6 && T < 6.7 ? (T - 6) * 3 : 0);
+      if (shk > 0) { ox = (Math.random() * 2 - 1) * shk * U; oy = (Math.random() * 2 - 1) * shk * U; }
+      if (T < .38) {
+        const e0 = -70 + 470 * ez(sg(.04, .38)), pn = [[-40, 0], [e0 + 28, 0], [e0 - 28, 150], [-40, 150]].map(q => [mx(q[0]), q[1]]);
+        ctx.save(); poly(ctx, pn); ctx.clip(); ctx.drawImage(Lc, ox, oy); ctx.restore();
+        ctx.fillStyle = '#F5C842'; poly(ctx, [[e0 + 28, 0], [e0 + 40, 0], [e0 - 16, 150], [e0 - 28, 150]].map(q => [mx(q[0]), q[1]])); ctx.fill();
+        ctx.fillStyle = '#FFFFFF'; poly(ctx, [[e0 + 40, 0], [e0 + 44, 0], [e0 - 12, 150], [e0 - 16, 150]].map(q => [mx(q[0]), q[1]])); ctx.fill();
+      } else if (T < 6.7) ctx.drawImage(Lc, ox, oy);
+      else {
+        if (!C.shards) {
+          const nc = 8, nr = 4, PP = [], S2 = [];
+          for (let j = 0; j <= nr; j++) { PP[j] = []; for (let i = 0; i <= nc; i++) { const ex = i === 0 || i === nc, ey = j === 0 || j === nr; PP[j][i] = [i * 320 / nc + (ex ? 0 : (Math.random() - .5) * 26), j * 150 / nr + (ey ? 0 : (Math.random() - .5) * 22)]; } }
+          for (let j = 0; j < nr; j++) for (let i = 0; i < nc; i++) { const a = PP[j][i], b = PP[j][i + 1], c = PP[j + 1][i + 1], d = PP[j + 1][i]; [[a, b, c], [a, c, d]].forEach(tri => { const cx2 = (tri[0][0] + tri[1][0] + tri[2][0]) / 3, cy2 = (tri[0][1] + tri[1][1] + tri[2][1]) / 3, dx = cx2 - fx, dy = cy2 - fy, dd = Math.hypot(dx, dy) || 1, v = 120 + Math.random() * 260; S2.push({ tri, cx: cx2, cy: cy2, vx: dx / dd * v, vy: dy / dd * v - 40, vr: (Math.random() - .5) * 8, dl: dd / 900 }); }); }
+          C.shards = S2;
+        }
+        const st = T - 6.7;
+        for (const s2 of C.shards) {
+          const t2 = Math.max(0, st - s2.dl), a = 1 - t2 / .65; if (a <= 0) continue;
+          ctx.save(); ctx.globalAlpha = a; ctx.translate((s2.cx + s2.vx * t2) * U, (s2.cy + s2.vy * t2 + 180 * t2 * t2) * U); ctx.rotate(s2.vr * t2); ctx.translate(-s2.cx * U, -s2.cy * U);
+          ctx.beginPath(); ctx.moveTo(s2.tri[0][0] * U, s2.tri[0][1] * U); ctx.lineTo(s2.tri[1][0] * U, s2.tri[1][1] * U); ctx.lineTo(s2.tri[2][0] * U, s2.tri[2][1] * U); ctx.closePath(); ctx.clip();
+          ctx.drawImage(Lc, 0, 0); ctx.strokeStyle = 'rgba(255,255,255,.75)'; ctx.lineWidth = 1.4 * U; ctx.stroke(); ctx.restore();
+        }
+        parts(ctx);
+        const wf = 1 - sg(6.7, 6.9); if (wf > 0) { ctx.fillStyle = `rgba(255,255,255,${wf.toFixed(3)})`; ctx.fillRect(0, 0, cw, ch); }
+      }
+    } else {
+      const wf = E.f[k], cxR = wf.x + (wf.kx || 0), cyR = this.FLOOR - 40;
+      if (T < .75) { const z = 1 + .55 * eio(sg(0, .75)), sw = 320 / z, sh = 150 / z, sx = cl(cxR - sw / 2, 0, 320 - sw), sy = cl(cyR - sh / 2, 0, 150 - sh); ctx.fillStyle = '#0B0A09'; ctx.fillRect(0, 0, cw, ch); ctx.drawImage(this.bufC, sx, sy, sw, sh, 0, 0, cw, ch); desat(ctx, sg(.05, .35)); }
+      if (T >= .3 && T < 1.55) {
+        const sx = mx(100) + (Math.random() - .5) * 1.2 * sg(.6, 1.5), sy = 196, s = 2.5, tx = sd > 0 ? 180 : 14, TW = 126;
+        g.fillStyle = '#060505'; g.fillRect(0, 0, cw, ch);
+        const fj = this.joints(this.act(k, 0, sd, 'bomb', { pt: .1 }), T).gB, fx = sx + fj[0] * sd * s, fy = sy + fj[1] * s; C.fist = [fx, fy];
+        const gr = g.createRadialGradient(fx * U, fy * U, 2 * U, fx * U, fy * U, 210 * U); gr.addColorStop(0, col); gr.addColorStop(.4, dk); gr.addColorStop(1, 'rgba(6,5,5,0)'); g.fillStyle = gr; g.fillRect(0, 0, cw, ch);
+        F(g, 900, 96, ARC, 'expanded'); g.textAlign = 'center'; g.textBaseline = 'middle'; g.lineWidth = 1.2 * U; g.strokeStyle = 'rgba(255,255,255,.13)'; g.strokeText('100%', 160 * U, 80 * U); g.textBaseline = 'alphabetic'; g.textAlign = 'left';
+        g.strokeStyle = 'rgba(255,255,255,.5)'; g.lineWidth = .8 * U; g.beginPath();
+        for (let i = 0; i < 60; i++) { const a = i * 2.39996, ph = (T * 1.7 + (i * .618) % 1) % 1, r1 = 30 + 270 * (1 - ph), r2 = r1 + 18 + (i % 5) * 7; g.moveTo((fx + Math.cos(a) * r1) * U, (fy + Math.sin(a) * r1) * U); g.lineTo((fx + Math.cos(a) * r2) * U, (fy + Math.sin(a) * r2) * U); }
+        g.stroke();
+        spr(k, 'bomb', .1, sx + 1.6, sy, s, { sil: '#F5C842', glow: col, gb: 22 }); spr(k, 'bomb', .1, sx - 1.6, sy, s, { sil: '#F5C842' }); spr(k, 'bomb', .1, sx, sy, s, {});
+        const cq = sg(.45, 1.55), rr = (8 + 10 * cq) * (1 + .12 * Math.sin(T * 40)), fg = g.createRadialGradient(fx * U, fy * U, 0, fx * U, fy * U, rr * U); fg.addColorStop(0, '#FFFFFF'); fg.addColorStop(.35, '#F5C842'); fg.addColorStop(1, 'rgba(245,200,66,0)'); g.fillStyle = fg; g.beginPath(); g.arc(fx * U, fy * U, rr * U, 0, 6.283); g.fill();
+        parts(g);
+        const q1 = ez(sg(.5, .78));
+        if (q1 > 0) { g.save(); g.globalAlpha = q1; fit(g, 'ULTRA FINAL', 900, 24, ARC, 'expanded', TW); g.translate((tx + sd * (1 - q1) * 24) * U, 46 * U); g.transform(1, 0, -.16, 1, 0, 0); g.fillStyle = dk; g.fillText('ULTRA FINAL', 2.4 * U, 2.4 * U); g.lineWidth = 3.4 * U; g.strokeStyle = '#0F0E0D'; g.strokeText('ULTRA FINAL', 0, 0); g.fillStyle = '#F5C842'; g.fillText('ULTRA FINAL', 0, 0); g.restore(); }
+        const q2 = sg(.62, 1.35), v = 99 + eio(q2), done = q2 >= 1;
+        if (q2 > 0) { const t2 = this.pc(Math.min(100, v)), pop = done ? 1 + .22 * (1 - sg(1.35, 1.5)) : 1; g.save(); fit(g, '100,00%', 800, 30, ARC, 'expanded', TW); g.translate(tx * U, 78 * U); g.scale(pop, pop); g.lineWidth = 3 * U; g.strokeStyle = '#0F0E0D'; g.strokeText(t2, 0, 0); g.fillStyle = done ? '#F5C842' : '#FFFFFF'; g.fillText(t2, 0, 0); g.restore(); F(g, 700, 6.5, PIX); say('DAS URNAS APURADAS', tx, 91, '#F2EDE4', 2.4); }
+        const q3 = sg(.9, 1.2);
+        if (q3 > 0) { const t3 = C.br ? `${NM} · ${this.pc1(C.pct)} DOS VÁLIDOS` : `${NM} · ${C.A.nome.toUpperCase()}`; g.save(); g.globalAlpha = q3; fit(g, t3, 700, 6.5, PIX, null, TW); say(t3, tx, 106, lt, 2.4); g.restore(); }
+      }
+      if (T >= 1.55 && T < 1.62) { g.fillStyle = '#FFFFFF'; g.fillRect(0, 0, cw, ch); }
+      if (T >= 1.62 && T < 2.15) {
+        const fr = Math.floor((T - 1.62) / .055) % 3, bgc = ['#FFFFFF', '#050404', col][fr], fgc = ['#050404', '#FFFFFF', '#050404'][fr], ix = 160, iy = 70, s3 = 1.9, fy3 = iy + 49 * s3, wx = ix - 28 * sd * s3, lx = ix + 16 * sd;
+        g.fillStyle = bgc; g.fillRect(0, 0, cw, ch);
+        g.fillStyle = fgc; g.beginPath();
+        for (let i = 0; i < 28; i++) { const a = i / 28 * 6.283 + Math.sin(i * 9.1) * .1, w = .025 + (i % 3) * .014, r0 = 26 + (i % 4) * 10; g.moveTo((ix + Math.cos(a) * r0) * U, (iy + Math.sin(a) * r0) * U); g.lineTo((ix + Math.cos(a - w) * 420) * U, (iy + Math.sin(a - w) * 420) * U); g.lineTo((ix + Math.cos(a + w) * 420) * U, (iy + Math.sin(a + w) * 420) * U); g.closePath(); }
+        g.fill();
+        const both = (c, dx) => { spr(o, 'hit', 0, lx + dx, fy3, s3, { sil: c, facing: -sd, rot: .3 }); spr(k, 'bomb', .36, wx + dx, fy3, s3, { sil: c }); };
+        if (fr === 1) { both('#E5383B', -2.2); both('#3B7BF0', 2.2); }
+        both(fgc, 0);
+        star(ix, iy, 26 + 8 * Math.sin(T * 60), fr === 2 ? '#FFFFFF' : '#F5C842');
+      }
+      if (T >= 2.15) {
+        const lf = E.f[o], z = 1.3 + .12 * sg(2.15, 6.2), lxR = lf.x + (lf.kx || 0), sw = 320 / z, sh = 150 / z, sx = cl(lxR - sw / 2, 0, 320 - sw), sy = cl(this.FLOOR - 40 - sh / 2, 0, 150 - sh), ix = 160, iy = 78;
+        g.drawImage(this.bufC, sx, sy, sw, sh, 0, 0, cw, ch); desat(g, 1, .55);
+        g.globalAlpha = .22; g.fillStyle = col; g.fillRect(0, 0, cw, ch); g.globalAlpha = 1;
+        if (!C.cracks) { C.cracks = []; for (let i = 0; i < 11; i++) { let a = i / 11 * 6.283 + (Math.random() - .5) * .4, x = ix, y = iy; const pts = [[x, y]]; for (let j = 0; j < 6; j++) { a += (Math.random() - .5) * .7; const l = 10 + Math.random() * 26; x += Math.cos(a) * l; y += Math.sin(a) * l; pts.push([x, y]); } C.cracks.push(pts); } }
+        const cq = ez(sg(2.15, 2.32)) * (1 - sg(5.0, 5.6));
+        if (cq > 0) [[3.6, '#0F0E0D'], [1.3, 'rgba(255,255,255,.9)']].forEach(([lw, c]) => { g.strokeStyle = c; g.lineWidth = lw * U; g.beginPath(); C.cracks.forEach(pts => { const n = Math.max(1, Math.floor(cq * (pts.length - 1))); g.moveTo(pts[0][0] * U, pts[0][1] * U); for (let j = 1; j <= n; j++) g.lineTo(pts[j][0] * U, pts[j][1] * U); }); g.stroke(); });
+        for (let i = 0; i < 3; i++) { const q = (T - 2.15 - i * .09) / .65; if (q <= 0 || q >= 1) continue; g.strokeStyle = i ? `rgba(245,200,66,${(1 - q).toFixed(3)})` : `rgba(255,255,255,${(1 - q).toFixed(3)})`; g.lineWidth = 7 * (1 - q) * U; g.beginPath(); g.arc(ix * U, iy * U, (16 + q * 300) * U, 0, 6.283); g.stroke(); }
+        parts(g, q => !q.cf);
+        const vq = ez(sg(3.4, 3.85));
+        if (vq > 0) {
+          g.save(); g.translate(0, (1 - vq) * 80 * U);
+          const band = [[-10, 84], [330, 78], [330, 150], [-10, 150]];
+          poly(g, band); g.fillStyle = col; g.fill();
+          g.save(); poly(g, band); g.clip(); g.fillStyle = 'rgba(0,0,0,.2)'; g.beginPath(); for (let yy = 88; yy < 150; yy += 5) for (let xx = 2; xx < 320; xx += 5) { const d = sd > 0 ? xx / 320 : 1 - xx / 320, r = .1 + d * 1.5; g.moveTo((xx + r) * U, yy * U); g.arc(xx * U, yy * U, r * U, 0, 6.283); } g.fill(); g.restore();
+          poly(g, [[-10, 84], [330, 78], [330, 80.5], [-10, 86.5]]); g.fillStyle = '#F5C842'; g.fill();
+          spr(k, 'win', 0, mx(56), 140, 1.6, { glow: '#F5C842', gb: 12 });
+          const tx = sd > 0 ? 100 : 14, TW = 206;
+          fit(g, NM, 900, 24, ARC, 'expanded', TW); g.textAlign = 'left'; say(NM, tx, 104, '#FFFFFF', 3, dk, 2);
+          const vt = C.br ? (C.T2 ? 'ELEITO PRESIDENTE' : 'ELEITO NO 1º TURNO') : 'VENCE ' + C.A.em.toUpperCase();
+          fit(g, vt, 700, 8, PIX, null, TW - 8); const vw = g.measureText(vt).width / U + 8; R(tx, 109, vw, 12, '#0F0E0D'); g.textBaseline = 'middle'; g.fillStyle = '#F5C842'; g.fillText(vt, (tx + 4) * U, 115.3 * U); g.textBaseline = 'alphabetic';
+          if (C.br && C.T2 && this.palpite) { const ok = this.palpite === k, pt2 = ok ? 'PALPITE CERTO' : 'PALPITE ERRADO'; F(g, 700, 6, PIX); const pw = g.measureText(pt2).width / U + 8; if (vw + pw + 4 <= TW) { R(tx + vw + 4, 109, pw, 12, ok ? '#2FA65A' : '#3A342E'); g.textBaseline = 'middle'; g.fillStyle = '#F2EDE4'; g.fillText(pt2, (tx + vw + 8) * U, 115.3 * U); g.textBaseline = 'alphabetic'; } }
+          const dt3 = `${this.pc1(C.pct)} dos votos válidos · ${this.mvS(C.V)} de votos`; fit(g, dt3, 700, 7.5, ARC, null, TW); say(dt3, tx, 132, '#FFFFFF', 2.4);
+          g.restore();
+        }
+        const kq = sg(2.15, 2.45), up = eio(sg(3.3, 3.75));
+        if (kq > 0) {
+          const ks = (3.4 - 2.4 * bk(kq)) * (1 - .4 * up), ky = 80 - 38 * up, rt = -.14 + .09 * bk(kq);
+          g.save(); g.translate(160 * U, ky * U); g.rotate(rt); g.scale(ks, ks); F(g, 900, 70, ARC, 'expanded'); g.textAlign = 'center'; g.textBaseline = 'middle';
+          const d = (7 * (1 - ez(kq)) + 1.6) * U;
+          g.globalAlpha = .9; g.fillStyle = '#E5383B'; g.fillText('K.O.', -d, 0); g.fillStyle = '#3B7BF0'; g.fillText('K.O.', d, 0); g.globalAlpha = 1;
+          g.lineWidth = 6 * U; g.strokeStyle = '#0F0E0D'; g.strokeText('K.O.', 0, 0);
+          const lg = g.createLinearGradient(0, -26 * U, 0, 26 * U); lg.addColorStop(0, '#FFF3B0'); lg.addColorStop(.5, '#F5C842'); lg.addColorStop(1, '#E8833A'); g.fillStyle = lg; g.fillText('K.O.', 0, 0);
+          g.restore(); g.textAlign = 'left'; g.textBaseline = 'alphabetic';
+        }
+        parts(g, q => !!q.cf);
+        const wq = 1 - sg(2.15, 2.32); if (wq > 0) { g.fillStyle = `rgba(255,255,255,${wq.toFixed(3)})`; g.fillRect(0, 0, cw, ch); }
+      }
+      if (T > 1.62 && T < 2.9) { const a = 4.5 * (1 - sg(1.62, 2.9)); ox = (Math.random() * 2 - 1) * a * U; oy = (Math.random() * 2 - 1) * a * U; }
+      if (T >= .3 && T < .6) { const r = 400 * ez(sg(.3, .6)), ix2 = mx(130), iy2 = 80; ctx.save(); ctx.beginPath(); ctx.arc(ix2 * U, iy2 * U, r * U, 0, 6.283); ctx.clip(); ctx.drawImage(Lc, 0, 0); ctx.restore(); ctx.strokeStyle = '#F5C842'; ctx.lineWidth = 2.5 * U; ctx.beginPath(); ctx.arc(ix2 * U, iy2 * U, r * U, 0, 6.283); ctx.stroke(); }
+      else if (T >= .6 && T < 5.65) ctx.drawImage(Lc, ox, oy);
+      else if (T >= 5.65) { const r = 400 * eio(sg(5.65, 6.25)); ctx.save(); ctx.beginPath(); ctx.rect(0, 0, cw, ch); ctx.arc(cxR * U, cyR * U, r * U, 0, Math.PI * 2, true); ctx.clip(); ctx.drawImage(Lc, 0, 0); ctx.restore(); if (r > 1) { ctx.strokeStyle = '#F5C842'; ctx.lineWidth = 2.5 * U; ctx.beginPath(); ctx.arc(cxR * U, cyR * U, r * U, 0, 6.283); ctx.stroke(); } }
+    }
+    const lb = 13 * ez(sg(0, .25)) * (1 - ez(sg(C.dur - .5, C.dur)));
+    if (lb > .1) {
+      ctx.globalAlpha = 1; ctx.fillStyle = '#000'; ctx.fillRect(0, 0, cw, lb * U); ctx.fillRect(0, ch - lb * U, cw, lb * U);
+      if (T > .6 && T < C.dur - .6) { ctx.font = `700 ${Math.round(6 * U)}px Silkscreen, monospace`; ctx.textBaseline = 'middle'; ctx.textAlign = 'left'; ctx.fillStyle = '#F5C842'; ctx.fillText(C.id === 'ko' ? 'ULTRA FINAL' : 'SUPER', 6 * U, lb * U / 2); ctx.textAlign = 'right'; ctx.fillStyle = '#A39B90'; ctx.fillText(this.isMobV() ? 'TOQUE PARA PULAR' : 'ESPAÇO PARA PULAR', cw - 6 * U, ch - lb * U / 2); }
+    }
+    const f0 = 1 - sg(0, .2); if (f0 > 0) { ctx.fillStyle = `rgba(255,255,255,${(f0 * .9).toFixed(3)})`; ctx.fillRect(0, 0, cw, ch); }
+  }
+
+  // ---------- previsão (porte do painel do repositório, sobre os dados da simulação) ----------
+  rng(seed) {
+    let s = seed >>> 0, sp = null;
+    const u = () => { s = (s + 0x6D2B79F5) >>> 0; let t = Math.imul(s ^ (s >>> 15), 1 | s); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+    return () => { if (sp !== null) { const z = sp; sp = null; return z; } const r = Math.sqrt(-2 * Math.log(u() || 1e-12)), a = 2 * Math.PI * u(); sp = r * Math.sin(a); return r * Math.cos(a); };
+  }
+  pv(sc, n, t) {
+    const key = sc + '|' + this.turno + '|' + Math.round(t * 400) + '|' + n;
+    const cache = this._pvc || (this._pvc = new Map()); if (cache.has(key)) return cache.get(key); if (cache.size > 80) cache.clear();
+    const S = this.sample(t), S0 = this.sample(Math.max(0, t - .05)), T2 = this.turno === 2;
+    const ids = sc === 'BR' ? this.UF.map(u => u.id) : this.ALL[sc].tipo === 'reg' ? this.REG.find(g => g.id === sc).ufs : [sc];
+    const us = ids.map(id => {
+      const a = S.e[id], b = S0.e[id], u = this.UF.find(x => x.id === id), O = Math.max(0, a.cnt - a.L - a.F), dV = a.cnt - b.cnt; let p;
+      if (dV > a.tot * .01) { const dL = a.L - b.L, dF = a.F - b.F; p = [dL / dV, dF / dV, Math.max(0, dV - dL - dF) / dV]; }
+      else { const src = a.cnt > 0 ? a : S.e[u.reg].cnt > 0 ? S.e[u.reg] : S.e.BR.cnt > 0 ? S.e.BR : null; p = src ? [src.lp / 100, src.fp / 100, src.op / 100] : [.45, .45, .1]; }
+      if (T2) { const s2 = p[0] + p[1] || 1; p = [p[0] / s2, p[1] / s2, 0]; }
+      return { v: [a.L, a.F, O], V: a.cnt, R: Math.max(0, a.tot - a.cnt), p };
+    });
+    let out = null;
+    if (us.some(x => x.V > 0)) {
+      let T = 0, R = 0; const M = [0, 0, 0];
+      us.forEach(x => { for (let g = 0; g < 3; g++) M[g] += x.v[g] + x.R * x.p[g]; T += x.V + x.R; R += x.R; });
+      const z = this.rng(0x5eed1), am = [new Float64Array(n), new Float64Array(n)], br1 = sc === 'BR' && !T2, q = [0, 0, 0], fs = [0, 0, 0], eta = [0, 0, 0];
+      let koL = 0, koF = 0, r2 = 0, wL = 0;
+      for (let s = 0; s < n; s++) {
+        for (let g = 0; g < 3; g++) { eta[g] = z() * .045; fs[g] = 0; }
+        let tot = 0;
+        for (const x of us) {
+          const r = x.R > 0 ? Math.max(0, x.R * (1 + z() * .05)) : 0; let sq = 0;
+          if (r > 0) for (let g = 0; g < 3; g++) { q[g] = x.p[g] * Math.exp(eta[g] + z() * .08); sq += q[g]; }
+          for (let g = 0; g < 3; g++) fs[g] += x.v[g] + (r > 0 && sq > 0 ? r * q[g] / sq : 0);
+          tot += x.V + r;
+        }
+        const l = tot ? fs[0] / tot * 100 : 0, f = tot ? fs[1] / tot * 100 : 0; am[0][s] = l; am[1][s] = f;
+        if (l >= f) wL++;
+        if (br1) { if (l > 50) koL++; else if (f > 50) koF++; else r2++; }
+      }
+      const qt = (arr, qq) => { const c = Float64Array.from(arr).sort(); return c[Math.min(c.length - 1, Math.floor(qq * c.length))]; };
+      out = { R, T, media: M.map(x => T ? x / T * 100 : 0), faixa: [0, 1].map(g => [qt(am[g], .05), qt(am[g], .95)]), wL: wL / n, koL: koL / n, koF: koF / n, r2: r2 / n };
+    }
+    cache.set(key, out);
+    return out;
+  }
+  pvVals(S) {
+    const sc = this.scope, A = this.ALL[sc], T2 = this.turno === 2, br1 = sc === 'BR' && !T2, C = this.COR, nm = k => this.NOME[k], p1 = v => this.pc1(v), cur = v => this.mvS(v), now = S.t, cl = (x, a, b) => Math.max(a, Math.min(b, x));
+    const fp = (p, ex) => ex ? Math.round(p * 100) + '%' : p >= .995 ? '>99%' : p <= .005 ? '<1%' : Math.round(p * 100) + '%';
+    const r = this.pv(sc, 800, now), md = this.mdT != null && now >= this.mdT, end = now >= 1, ex = !!r && (r.R < 1 || md);
+    let lines = [];
+    if (r) {
+      if (br1) lines = [['Lula vence no 1º turno', r.koL, C.L, 'L'], ['Flávio vence no 1º turno', r.koF, C.F, 'F'], ['2º turno', r.r2, '#F5C842', '']];
+      else { const lb = k => sc === 'BR' ? `${nm(k)} eleito presidente` : `${nm(k)} vence ${A.em}`; lines = [[lb('L'), r.wL, C.L, 'L'], [lb('F'), 1 - r.wL, C.F, 'F']]; }
+      if (md) lines.forEach(x => { x[1] = x[3] === this.mdK ? 1 : 0; });
+      lines.sort((a, b) => b[1] - a[1]);
+    }
+    const o = { h: 'PREVISÃO · ' + A.nome.toUpperCase(), key: !r ? 'PREVISÃO' : end ? 'RESULTADO DA SIMULAÇÃO' : md ? 'MATEMATICAMENTE DEFINIDO' : 'MAIS PROVÁVEL',
+      tit: lines.length ? lines[0][0] : 'Aguardando os primeiros números', pct: !lines.length ? '' : end ? 'apuração encerrada' : md ? 'o que falta apurar não muda mais o resultado' : 'chance de ' + fp(lines[0][1], ex),
+      lines: lines.map(x => ({ lbl: x[0], w: (x[1] * 100).toFixed(1) + '%', c: x[2], p: fp(x[1], ex) })), hasProj: !!r, hasR2: false,
+      nota: 'Projeção matemática feita com os números da simulação: não é pesquisa nem resultado oficial. Em cada estado, os votos que faltam se dividem como os das últimas urnas apuradas nele. As chances vêm de 800 simulações com variação nacional e por estado. Quando a vantagem já é maior que o que falta, o resultado está matematicamente definido.' };
+    if (r) {
+      const a = r.media[0] >= r.media[1] ? 0 : 1, b = 1 - a, K = ['L', 'F'], fx = g2 => r.R < 1 ? '' : ` (${p1(r.faixa[g2][0])} a ${p1(r.faixa[g2][1])})`, O = Math.max(0, 100 - r.media[0] - r.media[1]);
+      Object.assign(o, { pLead: r.R < 1 ? 'Apuração encerrada nesta área: ' : `Fim da apuração (projeção, faltam ~${cur(r.R)} de votos): `, pA: `${nm(K[a])} ${p1(r.media[a])}`, fA: fx(a), pB: `${nm(K[b])} ${p1(r.media[b])}`, fB: fx(b), pO: O > .05 ? ` · outros candidatos ${p1(O)}` : '' });
+      if (br1 && O > 0 && r.r2 > .01) {
+        const need = (r.media[a] - r.media[b] + O) / (2 * O), t = (k2, x) => x > 1 ? `${nm(k2)} não alcança só com esses votos` : `${nm(k2)} precisa de ${Math.max(0, Math.round(x * 100))}% deles`, cA = cl(need, 0, 1);
+        Object.assign(o, { hasR2: true, r2O: p1(O), r2V: cur(O / 100 * r.T), r2B: t(K[b], need), r2A: t(K[a], 1 - need), r2C: `${nm(K[a])} ${fp(cA)} · ${nm(K[b])} ${fp(1 - cA)}` });
+      }
+    }
+    const ser = (this.ser || []).filter(p => p.c > 0 && p.t <= now + 1e-9);
+    o.hasCh = ser.length > 0; o.noCh = !o.hasCh;
+    if (o.hasCh) {
+      const last = ser[ser.length - 1], fim = r ? [r.media[0], r.media[1]] : [last.l, last.f], fx2 = r ? r.faixa : [[last.l, last.l], [last.f, last.f]];
+      const vals = ser.reduce((acc, p) => (acc.push(p.l, p.f), acc), []).concat(fx2[0], fx2[1]);
+      let lo = Math.floor(Math.min(...vals) - 1), hi = Math.ceil(Math.max(...vals) + 1);
+      if (hi < 50 && 50 - hi <= 5) hi = 51; if (lo > 50 && lo - 50 <= 5) lo = 49;
+      if (hi - lo < 6) { const m = (hi + lo) / 2; lo = Math.floor(m - 3); hi = Math.ceil(m + 3); }
+      lo = Math.max(0, lo); hi = Math.min(100, hi);
+      const Y = v => (hi - v) / (hi - lo), st = hi - lo <= 12 ? 2 : hi - lo <= 30 ? 5 : 10, yt = [];
+      for (let v = Math.ceil(lo / st) * st; v <= hi; v += st) yt.push({ top: (Y(v) * 100).toFixed(2) + '%', lbl: v + '%' });
+      const path = kk => ser.map((p, i) => (i ? 'L' : 'M') + (p.u * 10).toFixed(1) + ' ' + (Y(p[kk]) * 300).toFixed(1)).join(' '), open = last.u < 99.95 && !!r;
+      const pj = (v0, v1) => open ? `M${(last.u * 10).toFixed(1)} ${(Y(v0) * 300).toFixed(1)} L1000 ${(Y(v1) * 300).toFixed(1)}` : 'M0 0';
+      const dots = [], bands = [];
+      [['l', 0, C.L], ['f', 1, C.F]].forEach(([kk, gi, c]) => {
+        if (open) { bands.push({ top: (Y(fx2[gi][1]) * 100).toFixed(2) + '%', h: Math.max(.8, (Y(fx2[gi][0]) - Y(fx2[gi][1])) * 100).toFixed(2) + '%', c }); dots.push({ left: '100%', top: (Y(fim[gi]) * 100).toFixed(2) + '%', bg: '#161412', bd: `1.6px solid ${c}` }); }
+        dots.push({ left: last.u.toFixed(2) + '%', top: (Y(last[kk]) * 100).toFixed(2) + '%', bg: c, bd: '0' });
+      });
+      Object.assign(o, { yt, lp: path('l'), fp: path('f'), pjL: pj(last.l, fim[0]), pjF: pj(last.f, fim[1]), dots, bands, has50: lo < 50 && hi > 50, y50: (Y(50) * 100).toFixed(2) + '%' });
+    }
+    o.rows = this.REG.map(g2 => {
+      const a = S.e[g2.id], on = () => this.setScope(sc === g2.id ? 'BR' : g2.id), bg = sc === g2.id ? '#221E1B' : 'transparent';
+      if (!a.cnt) return { nome: g2.nome, on, bg, c: '—', cb: '#3A342E', p: '—', m: '', s: 'apuração não começou', f: '', w: '0%', bc: '#2A2622' };
+      const l = a.L >= a.F ? 'L' : 'F', pl = l === 'L' ? a.lp : a.fp, ps = l === 'L' ? a.fp : a.lp, rr = this.pv(g2.id, 300, now);
+      let fim = pl, ft = '', bc = C[l];
+      if (rr) { const n1 = rr.media[0] >= rr.media[1] ? 'L' : 'F', ch1 = n1 === 'L' ? rr.wL : 1 - rr.wL; fim = rr.media[n1 === 'L' ? 0 : 1]; bc = C[n1]; ft = rr.R < 1 ? 'final' : n1 === l ? `fim ≈ ${p1(fim)} · ${fp(ch1)}` : `fim: ${nm(n1)} ${p1(fim)} (virada) · ${fp(ch1)}`; }
+      return { nome: g2.nome, on, bg, c: l === 'L' ? '13' : '22', cb: C[l], p: p1(pl), m: '+' + (pl - ps).toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }), s: p1(a.urnas) + (rr && rr.R >= 1 ? ` · faltam ~${cur(rr.R)}` : ' apurado'), f: ft, w: Math.min(100, fim).toFixed(1) + '%', bc };
+    });
+    return o;
+  }
+  resumoV(S) {
+    this.initDados();
+    const sc = this.scope, A = this.ALL[sc], e = S.e, s = e[sc], T2 = this.turno === 2, tn = T2 ? 2 : 1, nm = k => this.NOME[k], p1 = v => this.pc1(v), mv = v => this.mvS(v), C = this.COR, f1 = v => v.toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+    const o = { h: 'ENTENDA A APURAÇÃO · ' + A.nome.toUpperCase(), cards: [], waf: [], wleg: [], hasRest: false, rest: [], restTxt: '', hasTop: false, top: [], wsub: '' };
+    if (!s.cnt) { o.head = `A apuração ainda não começou ${A.em}.`; o.sub = 'Os primeiros números saem logo depois que as urnas fecham, às 17h. Aperte reproduzir ou arraste a linha do tempo.'; return o; }
+    const ld = s.L >= s.F ? 'L' : 'F', tr = this.oth(ld), lead = Math.abs(s.L - s.F), R = Math.max(0, s.tot - s.cnt), end = S.t >= 1, md = this.mdT != null && S.t >= this.mdT, wp = ld === 'L' ? s.lp : s.fp, br1 = sc === 'BR' && !T2;
+    o.head = end ? `${nm(ld)} terminou ${mv(lead)} votos à frente ${A.em}.` : `${nm(ld)} está ${mv(lead)} votos à frente ${A.em}, com ${p1(s.urnas)} das urnas apuradas.`;
+    const S0 = this.sample(Math.max(0, S.t - .04)).e[sc], dL = s.L - S0.L, dF = s.F - S0.F, dV = s.cnt - S0.cnt;
+    if (end) o.sub = br1 ? (wp > 50 ? `Com ${p1(wp)} dos votos válidos, venceu no 1º turno.` : `Ninguém passou de 50% dos votos válidos. ${nm(ld)} e ${nm(tr)} disputam o 2º turno em 25 de outubro.`) : sc === 'BR' ? `Com ${p1(wp)} dos votos válidos, ${nm(ld)} foi eleito presidente.` : `${nm(ld)} teve ${p1(wp)} dos votos válidos.`;
+    else if (md) { const m2 = (this.ev || []).find(x => x.md); o.sub = m2 ? m2.txt : ''; }
+    else if (R >= 1) {
+      const g = (s[ld] - s[tr]) / R * 100; let t = `Faltam cerca de ${mv(R)} de votos. `;
+      if (T2) { t += `Para virar, ${nm(tr)} precisa de ${p1(50 + g / 2)} deles.`; if (dV > s.tot * .002 && dL + dF > 0) t += ` Nas últimas urnas apuradas, fez ${p1((tr === 'L' ? dL : dF) / (dL + dF) * 100)}.`; }
+      else {
+        t += `Para virar, ${nm(tr)} precisaria de ${Math.max(1, Math.ceil(g))} votos a mais que ${nm(ld)} a cada 100 que faltam.`;
+        if (dV > s.tot * .002) { const r = (dL - dF) / dV * 100; t += ` Nas últimas urnas, ${nm(r >= 0 ? 'L' : 'F')} fez ${Math.max(1, Math.round(Math.abs(r)))} a mais a cada 100.`; }
+        if (sc === 'BR' && (.5 * s.tot - s[ld]) / R > 1) t += ' Ninguém consegue mais passar de 50%: vai haver 2º turno.';
+      }
+      o.sub = t;
+    }
+    const m = Math.abs(s.lp - s.fp), N = Math.max(2, Math.round(100 / Math.max(m, .01)));
+    o.cards.push(m < 5 ? { big: `1 a cada ${N.toLocaleString('pt-BR')}`, txt: `votos válidos separa ${nm(ld)} de ${nm(tr)} até agora.`, c: '#F2EDE4' } : { big: `${Math.round(m)} a cada 100`, txt: `votos válidos é a vantagem de ${nm(ld)} sobre ${nm(tr)} até agora.`, c: '#F2EDE4' });
+    const mc = lead / 78838;
+    o.cards.push(mc >= 1 ? { big: `${mc >= 10 ? Math.round(mc).toLocaleString('pt-BR') : f1(mc)} Maracanãs`, txt: `lotados (78.838 lugares cada) cabem na vantagem de ${this.num(lead)} votos.`, c: C[ld] } : { big: `${Math.max(1, Math.round(mc * 100))}% do Maracanã`, txt: `lotado: é o tamanho da vantagem, ${this.num(lead)} votos.`, c: C[ld] });
+    let eta = null;
+    if (end || s.urnas >= 99.99) { const p = (this.ser || []).find(q => q.u >= 99.99); eta = { big: this.hora(p ? p.t : 1), txt: 'foi a hora em que a apuração chegou a 100% das urnas.' }; }
+    else { const rate = (s.urnas - S0.urnas) / Math.max(.001, S.t - Math.max(0, S.t - .04)); eta = rate > .5 ? { big: '~' + this.hora(Math.min(1, S.t + (100 - s.urnas) / rate)), txt: 'é a hora prevista para chegar a 100% das urnas, no ritmo de agora.' } : { big: '—', txt: 'ainda não dá para prever quando a apuração termina.' }; }
+    o.cards.push(Object.assign(eta, { c: '#F2EDE4' }));
+    const us = this.UF.filter(u => sc === 'BR' || u.reg === sc || u.id === sc);
+    if (A.tipo !== 'uf') {
+      const ok = us.filter(u => e[u.id].cnt > 0), nL = ok.filter(u => e[u.id].L >= e[u.id].F), nF = ok.length - nL.length, eT = ok.reduce((a, u) => a + u.ele, 0), bk = nL.length >= nF ? 'L' : 'F', eB = (bk === 'L' ? nL : ok.filter(u => e[u.id].L < e[u.id].F)).reduce((a, u) => a + u.ele, 0);
+      o.cards.push({ big: `${nL.length} × ${nF}`, txt: `estados com ${nm('L')} e com ${nm('F')} na frente. Os de ${nm(bk)} reúnem ${p1(eT ? eB / eT * 100 : 0)} dos eleitores.`, c: '#F2EDE4' });
+    } else o.cards.push({ big: p1(this.R22[sc]), txt: `foi o resultado de Lula ${A.em} no 2º turno de 2022. Agora ele tem ${p1(s.lp)}.`, c: C.L });
+    let cp = 0, ab = 0, bn = 0; us.forEach(u => { const r = e[u.id].r, [c, b, n] = u.k[tn]; cp += u.ele * c * r; ab += u.ele * (1 - c) * r; bn += u.ele * c * (b + n) * r; });
+    const apt = cp + ab, val = cp - bn;
+    if (apt > 0) {
+      const fl = [['L', val * s.lp / 100], ['F', val * s.fp / 100], ['O', val * s.op / 100], ['BN', bn], ['AB', ab]].map(([k, v]) => { const x = v / apt * 100; return [k, Math.floor(x), x - Math.floor(x)]; });
+      let rem = 100 - fl.reduce((a, x) => a + x[1], 0); fl.slice().sort((a, b) => b[2] - a[2]).forEach(x => { if (rem > 0) { x[1]++; rem--; } });
+      const ST = { L: [C.L, 'none', `votaram em ${nm('L')}`], F: [C.F, 'none', `votaram em ${nm('F')}`], O: ['#8A8178', 'none', 'votaram em outros candidatos'], BN: ['#D9D2C5', 'none', 'votaram em branco ou anularam'], AB: ['transparent', 'inset 0 0 0 1px #6A625A', 'não foram votar'] };
+      fl.forEach(([k, n]) => { for (let i = 0; i < n; i++) o.waf.push({ bg: ST[k][0], bd: ST[k][1] }); if (n > 0) o.wleg.push({ n: String(n), t: ST[k][2], bg: ST[k][0], bd: ST[k][1] }); });
+      o.wsub = `Nas urnas já apuradas ${A.em}, de cada 100 eleitores:`;
+    }
+    const subs = sc === 'BR' ? this.REG.map(g2 => ({ nome: g2.nome, em: g2.em, a: e[g2.id] })) : A.tipo === 'reg' ? us.map(u => ({ nome: u.nome, em: u.em, a: e[u.id] })) : [];
+    if (R >= 1 && subs.length) {
+      const rs = subs.map(x => Object.assign({ r: Math.max(0, x.a.tot - x.a.cnt) }, x)).filter(x => x.r >= 1).sort((a, b) => b.r - a.r).slice(0, 6), t0 = rs[0];
+      if (t0) {
+        const lk = t0.a.L >= t0.a.F ? 'L' : 'F';
+        o.restTxt = `${Math.round(t0.r / R * 100)}% dos votos que faltam estão ${t0.em}` + (t0.a.cnt ? `, onde ${nm(lk)} tem ${p1(lk === 'L' ? t0.a.lp : t0.a.fp)} dos votos válidos.` : ', onde a apuração ainda não começou.');
+        o.rest = rs.map(x => { const k2 = x.a.L >= x.a.F ? 'L' : 'F', ok = x.a.cnt > 0; return { nome: x.nome, f: String(Math.max(1, Math.round(x.r / R * 1000))), bg: ok ? C[k2] : '#5A534B', v: `${mv(x.r)} · ${ok ? `${nm(k2)} +${f1(Math.abs(x.a.lp - x.a.fp))} pts` : 'não começou'}` }; });
+        o.hasRest = true;
+      }
+    }
+    if (A.tipo !== 'uf') {
+      const sd = us.filter(u => e[u.id].cnt > 0).map(u => ({ nome: u.nome, d: e[u.id].L - e[u.id].F })), mx = Math.max(1, ...sd.map(x => Math.abs(x.d)));
+      const mk = k => ({ t: `Para ${nm(k)}`, c: C[k], rows: sd.filter(x => k === 'L' ? x.d > 0 : x.d < 0).sort((a, b) => Math.abs(b.d) - Math.abs(a.d)).slice(0, 3).map(x => ({ nome: x.nome, v: '+' + mv(Math.abs(x.d)), w: (Math.abs(x.d) / mx * 100).toFixed(1) + '%' })) });
+      o.top = [mk('L'), mk('F')]; o.hasTop = sd.length > 1;
+    }
+    return o;
+  }
+  extrasV(S) {
+    this.initDados();
+    const sc = this.scope, tn = this.turno === 2 ? 2 : 1, us = this.UF.filter(u => sc === 'BR' || u.reg === sc || u.id === sc);
+    let cp = 0, ab = 0, bb = 0, nu = 0;
+    us.forEach(u => { const r = S.e[u.id].r, [c, b, n] = u.k[tn]; cp += u.ele * c * r; ab += u.ele * (1 - c) * r; bb += u.ele * c * b * r; nu += u.ele * c * n * r; });
+    if (cp <= 0) return [];
+    const p = v => this.pc(v);
+    return [['Comparecimento', p(cp / (cp + ab) * 100)], ['Abstenção', p(ab / (cp + ab) * 100)], ['Brancos', p(bb / cp * 100)], ['Nulos', p(nu / cp * 100)]].map(([k, v]) => ({ k, v }));
+  }
+  // easter eggs no fundo do ringue: estrela cadente, ET de Varginha (1996), placas da torcida, vira-lata caramelo e capivara
+  drawEggsBack(b) {
+    const T = this.E.T, R = (x, y, w, h, c) => { b.fillStyle = c; b.fillRect(Math.round(x), Math.round(y), w, h); };
+    const s1 = (T % 17) / 17; if (s1 < .06) { const q = s1 / .06, x = 30 + q * 120, y = 8 + q * 22; R(x, y, 2, 1, '#FFFFFF'); for (let i = 1; i < 6; i++) { b.globalAlpha = (1 - i / 6) * .7; R(x - i * 3, y - i * 1.1, 2, 1, '#FFFFFF'); } b.globalAlpha = 1; }
+    const u = (T + 9) % 41;
+    if (u < 7) {
+      const x = -20 + u / 7 * 360, y = 14 + Math.sin(T * 3) * 2;
+      if (Math.abs(x - 160) < 24) { b.fillStyle = 'rgba(140,255,170,.2)'; b.beginPath(); b.moveTo(x - 3, y + 2); b.lineTo(x + 3, y + 2); b.lineTo(x + 14, 84); b.lineTo(x - 14, 84); b.fill(); }
+      R(x - 3, y - 3, 6, 2, '#9BE7B0'); R(x - 2, y - 4, 4, 1, '#CFF5D9'); R(x - 1, y - 3, 1, 1, '#1A1714'); R(x + 1, y - 3, 1, 1, '#1A1714');
+      R(x - 8, y - 1, 16, 2, '#9AA0AA'); R(x - 6, y + 1, 12, 1, '#5A5F68');
+      for (let i = 0; i < 4; i++) R(x - 6 + i * 4, y, 1, 1, Math.floor(T * 8 + i) % 2 ? '#F5C842' : '#E5383B');
+    }
+  }
+  drawEggsFront(b) {
+    const T = this.E.T, R = (x, y, w, h, c) => { b.fillStyle = c; b.fillRect(Math.round(x), Math.round(y), w, h); };
+    [[38, 0], [252, 1]].forEach(([x, i]) => { const y = 82 + Math.round(Math.abs(Math.sin(T * 4 + i * 2)) * 1.5); R(x + 14, y + 9, 1, 6, '#6A5A44'); R(x, y, 30, 9, '#F2EDE4'); R(x, y + 8, 30, 1, '#BDB6AA'); });
+    const P = (x, y, dr) => (dx, dy, w, h, c) => R(dr > 0 ? x + dx : x - dx - w + 1, y + dy, w, h, c);
+    const d = (T + 3) % 29;
+    if (d < 8) {
+      const dr = Math.floor((T + 3) / 29) % 2 ? -1 : 1, x = dr > 0 ? -14 + d / 8 * 348 : 334 - d / 8 * 348, st = Math.floor(T * 10) % 2, p = P(x, 148, dr), c = '#C98A3E', lc = '#E0B070';
+      p(1, -2, 1, 2, c); p(3 + st, -2, 1, 2, c); p(7, -2, 1, 2, c); p(9 - st, -2, 1, 2, c);
+      p(0, -6, 10, 4, c); p(1, -3, 8, 1, lc); p(9, -9, 4, 4, c); p(12, -7, 2, 2, lc); p(13, -7, 1, 1, '#1A1714'); p(9, -10, 1, 2, '#8A5A28'); p(11, -8, 1, 1, '#1A1714'); p(-1, -8 - st, 1, 3, c); if (st) p(12, -5, 1, 1, '#E5585B');
+    }
+    const cp = (T + 30) % 53;
+    if (cp < 16) {
+      const x = 334 - cp / 16 * 352, st = Math.floor(T * 4) % 2, p = P(x, 148, -1), c = '#7A5A3C', dc = '#5E4430';
+      p(1, -2, 2, 2, dc); p(4 + st, -2, 2, 2, dc); p(10, -2, 2, 2, dc); p(13 - st, -2, 2, 2, dc);
+      p(0, -8, 15, 6, c); p(1, -3, 13, 1, dc); p(13, -10, 6, 6, c); p(17, -8, 2, 3, dc); p(15, -9, 1, 1, '#1A1714'); p(14, -11, 1, 1, dc);
+      p(6, -10, 3, 2, '#F2EDE4'); p(9, -10, 1, 1, '#F5C842'); p(6, -11, 1, 1, '#F2EDE4');
+    }
+  }
+  eggTxt(ctx, sc) {
+    const T = this.E.T, PR = [['BISCOITO', 'BOLACHA'], ['CADÊ O PIX?', 'JÁ CAIU'], ['1 x 7', 'NUNCA MAIS'], ['É PENTA!', '2002'], ['O ET', 'DE VARGINHA']], pr = PR[Math.floor(T / 9) % PR.length];
+    [[38, 0], [252, 1]].forEach(([x, i]) => {
+      const y = 82 + Math.round(Math.abs(Math.sin(T * 4 + i * 2)) * 1.5), t = pr[i];
+      ctx.font = `700 ${Math.max(1, Math.round(4.2 * sc))}px Silkscreen, monospace`; const w = ctx.measureText(t).width; if (w > 27 * sc) ctx.font = `700 ${Math.max(1, Math.round(4.2 * sc * 27 * sc / w))}px Silkscreen, monospace`;
+      ctx.textAlign = 'center'; ctx.fillStyle = '#0F0E0D'; ctx.fillText(t, (x + 15) * sc, (y + 4.4) * sc);
+    });
   }
 
   initDados() {
@@ -2372,10 +3177,12 @@ class Component extends DCLogic {
     const fC = this.ctrl ? F(this.ctrl) : null, ready = !!(fC && fC.sup >= 100);
     const mk = mv => { const sp = mv === 'special' || mv === 'ultra', lb = this.GL[mv]; return { label: sp && ready ? lb + ' PRONTO' : lb, key: this.KEYF[mv], on: () => this.pmove(mv), bg: sp ? (ready ? '#F5C842' : '#1E1B18') : '#26211D', fg: sp ? (ready ? '#0F0E0D' : '#A39B90') : '#F2EDE4' }; };
     const MAIN = ['punch', 'hook', 'upper', 'low', 'high', 'duck', 'special'], ALLM = [].concat(...this.GOLPES.map(g => g[1].map(x => x[0])));
-    const round = end ? (wp > 50 ? 'K.O.' : (sc === 'BR' && !T2 ? 'FIM DO ROUND 1' : 'SEM NOCAUTE')) : (T2 ? 'ROUND 2' : 'ROUND 1');
+    const round = end ? (wp > 50 ? 'K.O.' : (sc === 'BR' && !T2 ? 'FIM DO ROUND 1' : 'SEM NOCAUTE')) : this.mdT != null && S.t >= this.mdT ? (sc === 'BR' ? 'ELEITO' : 'GARANTIDO') : (T2 ? 'ROUND 2' : 'ROUND 1');
     const speed = E ? E.speed : 1, playing = E ? E.playing : false;
     const vw = typeof window !== 'undefined' ? window.innerWidth : 1200, vh = typeof window !== 'undefined' ? window.innerHeight : 800, mob = vw < 720 || vh < 500;
     const cd = this.cd(), dd = this.DAYS[this.day], today = this.todayIdx(), left = 25 - dd[0], r1 = this.sample(1, 1).e.BR, treino = esp && this.view === 'treino';
+    const showPv = !esp && (mob ? this.mobTab === 'previsao' : this.deskTab !== 'dados'), pvv = showPv ? this.pvVals(S) : null;
+    const showRs = !esp && (mob ? this.mobTab === 'resumo' : this.deskTab !== 'dados'), mdOn = !esp && this.mdT != null && S.t >= this.mdT && !end, mdE = mdOn ? (this.ev || []).find(x => x.md) : null;
     return {
       isMob: mob, isDesk: !mob, mobPos: vh >= 560 && vh > vw * 1.1 ? 'sticky' : 'relative',
       isEspera: esp, isLuta: !esp,
@@ -2383,13 +3190,18 @@ class Component extends DCLogic {
       D: !esp && (mob ? this.mobTab === 'dados' : this.deskTab === 'dados') ? this.dados(S) : null,
       deskTabs: [['geral', 'VISÃO GERAL'], ['dados', 'DADOS']].map(([id, label]) => ({ label, on: () => { this.deskTab = id; this.push(true); }, bg: this.deskTab === id ? '#F2EDE4' : 'transparent', fg: this.deskTab === id ? '#0F0E0D' : '#A39B90' })),
       urnasShort: p1(s.urnas),
-      mobTabs: [['estados', 'ESTADOS'], ['lances', 'LANCES'], ['regioes', 'REGIÕES'], ['luta', 'LUTA'], ['dados', 'DADOS']].map(([id, label]) => ({ label, on: () => { this.mobTab = id; this.push(true); }, bg: this.mobTab === id ? '#F2EDE4' : 'transparent', fg: this.mobTab === id ? '#0F0E0D' : '#A39B90' })),
+      mobTabs: [['resumo', 'RESUMO'], ['previsao', 'PREVISÃO'], ['estados', 'ESTADOS'], ['lances', 'LANCES'], ['regioes', 'REGIÕES'], ['luta', 'LUTA'], ['dados', 'DADOS']].map(([id, label]) => ({ label, on: () => { this.mobTab = id; this.push(true); }, bg: this.mobTab === id ? '#F2EDE4' : 'transparent', fg: this.mobTab === id ? '#0F0E0D' : '#A39B90' })),
       tabEstados: this.mobTab === 'estados', tabLances: this.mobTab === 'lances', tabRegioes: this.mobTab === 'regioes', tabLuta: this.mobTab === 'luta',
       speedLabel: speed + '×', cycleSpeed: () => this.setSpeed({ 1: 2, 2: 4, 4: 8, 8: 1 }[speed] || 1),
       noMenu: ev => ev.preventDefault(),
       viewers: this.num(this.viewers || 8600), viewLbl: esp ? 'no treino agora' : 'assistindo agora',
       liveDot: this._dot || (this._dot = React.createElement('span', { style: { display: 'inline-block', width: 8, height: 8, borderRadius: '50%', background: '#2FA65A', animation: 'liveP 1.4s ease-in-out infinite', flex: 'none' } })),
       canvasRef: this.cv,
+      cvTap: () => { if (this.E && this.E.cut && this.E.cut.T > .5) this.endCut(); },
+      showPv, pv: pvv, tabPrev: this.mobTab === 'previsao', extras: esp ? [] : this.extrasV(S),
+      showRs, rs: showRs ? this.resumoV(S) : null, mdOn, mdTit: mdOn ? (sc === 'BR' ? `${this.NOME[this.mdK].toUpperCase()} ESTÁ MATEMATICAMENTE ELEITO` : `VITÓRIA GARANTIDA ${A.em.toUpperCase()}`) : '', mdTxt: mdE ? mdE.txt : '',
+      modoDot: playing && !esp && !end ? (this._md1 || (this._md1 = React.createElement('span', { style: { width: 7, height: 7, background: '#E5383B', animation: 'pisca 1.2s steps(2,start) infinite', flex: 'none' } }))) : (this._md0 || (this._md0 = React.createElement('span', { style: { width: 7, height: 7, background: '#5A534B', flex: 'none' } }))),
+      modoTxt: esp ? 'SIMULAÇÃO' : end ? 'SIMULAÇÃO · FIM' : playing ? 'SIMULAÇÃO · AO VIVO' : 'SIMULAÇÃO · PAUSA',
       headerSub: esp ? 'Presidente · intervalo até o 2º turno' : T2 ? 'Presidente · 2º turno' : 'Presidente · 1º turno',
       turnos: [['espera', 'INTERVALO'], [1, '1º TURNO'], [2, '2º TURNO']].filter(x => x[0] !== 'espera' || this.has2).map(([n, label]) => { const on = n === 'espera' ? esp : !esp && this.turno === n, dis = n === 2 && !this.has2; return { label, on: () => (n === 'espera' ? this.setMode('espera') : this.setTurno(n)), dis, title: dis ? 'Houve nocaute no 1º turno neste cenário' : '', bg: on ? '#F2EDE4' : 'transparent', fg: on ? '#0F0E0D' : dis ? '#5A534B' : '#A39B90', cur: dis ? 'not-allowed' : 'pointer' }; }),
       scope: sc, onScope: ev => this.setScope(ev.target.value),
