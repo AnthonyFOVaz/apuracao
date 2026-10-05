@@ -34,8 +34,9 @@ Port de `design/Apuracao Luta v3.dc.html` para HTML/JS puro, ligado a `/api/esta
 
 - **Intervalo** entre os turnos (botão INTERVALO; é onde a página abre quando o 1º turno termina sem nocaute e o 2º
   ainda não começou): resultado do 1º turno, contagem regressiva até as urnas do 2º turno fecharem (horário vindo do
-  servidor), calendário de 5 a 25/10 com um treino por dia no ringue (corner, coletiva, saco, corda, comício, corrida,
-  debate, flexões, manopla, sombra, pesagem, véspera, encarada) e montagem automática, sala de golpes (os 25 golpes,
+  servidor), o treino do dia no ringue, que segue o calendário de 5 a 25/10 e muda sozinho à meia-noite de Brasília
+  (corner, coletiva, saco, corda, comício, corrida, debate, flexões, manopla, sombra, pesagem, véspera e, no dia 25,
+  a encarada), a faixa dos dias até a luta, sala de golpes (os 25 golpes,
   um a um ou em demo), palpite para o 2º turno (salvo no aparelho; o banner do nocaute diz se acertou), torcida com
   confete e o painel de previsão do 1º turno com a conta do 2º. Quando o 2º turno começa, a página vai sozinha para ele.
 - Brasil, região, UF ou exterior (seletor, mapa de quadradinhos, regiões clicáveis, "disputa mais apertada"); 1º/2º turno.
@@ -97,6 +98,7 @@ PORT=3100 node server.js
 
 ## Histórico
 
+- 05/10/2026: o treino do intervalo segue a data (sem escolher dia nem montagem).
 - 05/10/2026: corrigido "Flávio eleito no 1º turno" depois da totalização (o TSE passou a marcar os dois do 2º turno como `e = "s"`).
 - 04/10/2026: front v3: intervalo até o 2º turno (calendário de treinos, contagem, sala de golpes, palpite, torcida),
   25 golpes, quedas e juiz no ringue.

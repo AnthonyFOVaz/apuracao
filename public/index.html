@@ -163,18 +163,16 @@ h2{margin:0;font-family:'Silkscreen',monospace;font-weight:400;font-size:13px;le
 #diaK{font-family:'Silkscreen',monospace;font-size:11px;color:var(--mut)}
 #diaT{font-weight:800;font-stretch:115%;font-size:26px;line-height:1.1}
 #diaX{font-size:14px;line-height:1.5;color:var(--mut);max-width:560px;text-wrap:pretty}
-.seta{font-family:'Silkscreen',monospace;font-size:14px;min-width:46px;min-height:46px;background:transparent;color:var(--fg);border:1px solid var(--line2);border-radius:4px;cursor:pointer;touch-action:manipulation}
-.mont{min-width:200px;font-size:13px;padding:0 16px}
 .faixa{overflow-x:auto;padding:4px 4px 6px}
 #dias{display:grid;grid-template-columns:repeat(21,minmax(42px,1fr));gap:4px;min-width:min-content}
-#dias button{min-height:58px;padding:6px 0;border:0;border-radius:3px;background:#26211D;color:var(--fg);display:grid;place-content:center;gap:4px;text-align:center;cursor:pointer;font-family:inherit;touch-action:manipulation}
+#dias>span{min-height:58px;padding:6px 0;border-radius:3px;background:#26211D;color:var(--fg);display:grid;place-content:center;gap:4px;text-align:center}
 #dias i{font-style:normal;font-family:'Silkscreen',monospace;font-size:9px;line-height:1}
 #dias b{font-weight:800;font-size:17px;line-height:1;font-variant-numeric:tabular-nums}
 #dias u{text-decoration:none;font-family:'Silkscreen',monospace;font-size:8px;line-height:1;min-height:8px}
 #dias .passou{background:#1E1B18;color:#8A8178}
 #dias .hoje{background:var(--gold);color:var(--bg)}
 #dias .luta{background:#E8833A;color:var(--bg)}
-#dias .sel{box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--fg)}
+#dias .hoje{box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--fg)}
 .dia25{justify-self:start}
 .treino{display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start}
 .treino>.painel:first-child{flex:2 1 520px;min-width:0}
@@ -333,13 +331,12 @@ footer{font-size:12px;color:var(--mut);line-height:1.6;border-top:1px solid var(
 .mob #diaK{font-size:10px}
 .mob #diaT{font-size:20px}
 .mob #diaX{font-size:13px;line-height:1.45}
-.mdia{display:flex;gap:8px}
-.mdia .seta{min-width:48px;min-height:48px}
-.mdia .mont{flex:1;min-width:0;min-height:48px;font-size:12px;padding:0 8px}
-.mdia .som{font-size:11px;min-height:48px;padding:0 8px}
+.mdia{display:flex;align-items:flex-start;gap:10px}
+.mdia>div{flex:1;min-width:0}
+.mdia .som{flex:none;font-size:11px;min-height:44px;padding:0 8px}
 .mob .faixa{margin:0 -14px;padding:4px 14px 6px}
 .mob #dias{display:flex;width:max-content}
-.mob #dias button{width:44px;min-height:56px;padding:5px 0;gap:3px}
+.mob #dias>span{width:44px;min-height:56px;padding:5px 0;gap:3px}
 .mob #dias b{font-size:16px}
 .mesp>.btn{min-height:48px;font-size:13px}
 .mob .tor{min-height:48px;font-size:12px}
@@ -540,12 +537,7 @@ html:not(.mob) .so-desk{display:inline}
     <section class="cal so-espera" aria-label="Calendário até o 2º turno">
       <div class="calh">
         <div class="calt" data-slot="dia"></div>
-        <div class="btns">
-          <button type="button" class="seta" data-dia="-1" aria-label="Dia anterior">&lt;</button>
-          <button type="button" class="seta" data-dia="1" aria-label="Próximo dia">&gt;</button>
-          <button type="button" class="btn verde mont" data-mont>PAUSAR MONTAGEM</button>
-          <button type="button" class="som" data-som>SOM OFF</button>
-        </div>
+        <button type="button" class="som" data-som>SOM OFF</button>
       </div>
       <div class="faixa" data-slot="dias"></div>
       <button type="button" class="btn ouro dia25" data-luta2 hidden>ASSISTIR A APURAÇÃO DO 2º TURNO</button>
@@ -609,13 +601,7 @@ html:not(.mob) .so-desk{display:inline}
     <div data-slot="turnos"></div>
 
     <div class="mesp so-espera">
-      <div data-slot="dia"></div>
-      <div class="mdia">
-        <button type="button" class="seta" data-dia="-1" aria-label="Dia anterior">&lt;</button>
-        <button type="button" class="btn verde mont" data-mont>PAUSAR MONTAGEM</button>
-        <button type="button" class="seta" data-dia="1" aria-label="Próximo dia">&gt;</button>
-        <button type="button" class="som" data-som>SOM OFF</button>
-      </div>
+      <div class="mdia"><div data-slot="dia"></div><button type="button" class="som" data-som>SOM OFF</button></div>
       <div class="faixa" data-slot="dias"></div>
       <button type="button" class="btn ouro" data-luta2 hidden>ASSISTIR A APURAÇÃO DO 2º TURNO</button>
       <div data-slot="torc"></div>
@@ -883,7 +869,7 @@ class Luta {
     this.cv = cv; this.W = 320; this.H = 150; this.FLOOR = 132;
     this.scope = 'br'; this.ctrl = null; this.snd = false; this.ac = null;
     // modo: 'luta' (apuração) ou 'espera' (intervalo até o 2º turno); no intervalo, vista 'cena' (treino do dia) ou 'treino' (sala de golpes)
-    this.modo = 'luta'; this.vista = 'cena'; this.dia = diaHoje(); this.montagem = true; this.demoK = 'A'; this.autoDemo = false; this.palpite = null;
+    this.modo = 'luta'; this.vista = 'cena'; this.dia = diaHoje(); this.demoK = 'A'; this.autoDemo = false; this.palpite = null;
     this.ev = null; this.cache = new Map(); this.ckey = ''; this._fx = null; this.iniciado = false; this.pendFinal = false;
     const E = this.E = { mode: 'live', tau: 0, idx: 0, playing: false, speed: 1, ended: false, center: 160, banners: [], parts: [], floats: [], flashes: [], callouts: [], proj: [], drops: [], shake: 0, slow: 0, cheer: { A: 0, B: 0 }, nextAtk: 1, T: 0, koW: null, koT: 0, refN: null };
     E.f = { A: this.mkF('A'), B: this.mkF('B') };
@@ -1258,6 +1244,7 @@ class Luta {
     E.mode = 'live'; E.playing = false; E.idx = Math.max(0, S.hist.length - 1); E.banners = [];
     this.setCtrl(null);
     this.resetPoses();
+    this.dia = diaHoje();
     this.setScene(DAYS[this.dia][2]);
     this.push(true);
   }
@@ -1272,14 +1259,13 @@ class Luta {
     const tg = e.target && e.target.tagName;
     if (tg === 'SELECT' || tg === 'TEXTAREA' || (tg === 'INPUT' && e.target.type !== 'range') || e.metaKey || e.ctrlKey || e.altKey) return;
     const k = (e.key || '').toLowerCase();
-    if (k === ' ') {
+    if (k === ' ' && this.modo === 'luta') {
       e.preventDefault();
-      if (down && !e.repeat) { if (document.activeElement && document.activeElement.blur) document.activeElement.blur(); if (this.modo === 'espera') this.toggleMontagem(); else this.toggle(); }
+      if (down && !e.repeat) { if (document.activeElement && document.activeElement.blur) document.activeElement.blur(); this.toggle(); }
       return;
     }
     if (this.modo === 'espera') {
       if (!down || e.repeat) return;
-      if (k === 'arrowleft' || k === 'arrowright') { e.preventDefault(); this.setDia(this.dia + (k === 'arrowright' ? 1 : -1)); return; }
       if (KEYS[k]) { e.preventDefault(); this.demo(this.demoK, KEYS[k]); }
       return;
     }
@@ -1370,7 +1356,7 @@ class Luta {
       if (this.modo === 'espera' && this.autoDemo) this.stepDemo(dt);
       this.update(dt);
     }
-    if (this.modo === 'espera') { const s = Math.floor(Date.now() / 1000); if (s !== this.seg) { this.seg = s; UI.contagem(); } }
+    if (this.modo === 'espera') { const s = Math.floor(Date.now() / 1000); if (s !== this.seg) { this.seg = s; UI.contagem(); this.virouDia(); } }
     this.draw(cena);
   }
 
@@ -1672,19 +1658,15 @@ class Luta {
 
   // ----- intervalo: cenas de treino, sala de golpes, torcida e palpite -----
   act(k, x, facing, pose, o) { return Object.assign({ k, x, kx: 0, facing, pose: pose || 'idle', pt: 0, flash: 0, fall: 0, phase: k === 'A' ? 0 : 1.7, ay: 0, rot: 0, hit: false, i: 0, wait: 0.4, hn: 0 }, o || {}); }
-  toggleMontagem() {
-    this.montagem = !this.montagem;
-    if (this.montagem && this.vista !== 'cena') { this.vista = 'cena'; this.autoDemo = false; this.setScene(DAYS[this.dia][2]); }
+  // o treino no ringue é o do dia (data de Brasília): ninguém escolhe, ele muda sozinho à meia-noite
+  voltarCena() { this.dia = diaHoje(); this.vista = 'cena'; this.autoDemo = false; this.setScene(DAYS[this.dia][2]); this.push(true); }
+  virouDia() {
+    const d = diaHoje();
+    if (d === this.dia) return;
+    this.dia = d;
+    if (this.vista === 'cena') this.setScene(DAYS[d][2]);
     this.push(true);
   }
-  setDia(i, manter) {
-    this.dia = Math.max(0, Math.min(DAYS.length - 1, i));
-    if (!manter) this.montagem = false;
-    this.vista = 'cena'; this.autoDemo = false;
-    this.setScene(DAYS[this.dia][2]);
-    this.push(true);
-  }
-  voltarCena() { this.vista = 'cena'; this.autoDemo = false; this.setScene(DAYS[this.dia][2]); this.push(true); }
   setScene(id) {
     const S2 = this.SC = { id, T: 0, a: {}, n: { A: 0, B: 0 }, fl: [], k: -1 }, at = S2.a, a = (k, x, f, p, o) => this.act(k, x, f, p, o), E = this.E;
     E.parts = []; E.floats = []; E.callouts = [];
@@ -1723,7 +1705,6 @@ class Luta {
     const S2 = this.SC, E = this.E, F = this.FLOOR;
     if (!S2) return;
     const at = S2.a, T = (S2.T += dt);
-    if (this.montagem && T > 9) { this.setDia((this.dia + 1) % DAYS.length, true); return; }
     for (const k in at) { const a = at[k]; a.pt += dt; a.flash = Math.max(0, a.flash - dt); a.kx *= Math.exp(-dt * 8); }
     S2.fl.forEach((f) => (f.life -= dt)); S2.fl = S2.fl.filter((f) => f.life > 0);
     const P = (x, y, col, n, sp) => { for (let i = 0; i < n; i++) E.parts.push({ x, y, vx: (Math.random() - 0.5) * sp, vy: -Math.random() * sp * 0.8, life: 0.25 + Math.random() * 0.25, col, sz: 1 }); };
@@ -1788,7 +1769,7 @@ class Luta {
   }
   enterTreino() {
     if (this.vista === 'treino') return;
-    this.vista = 'treino'; this.montagem = false;
+    this.vista = 'treino';
     const E = this.E;
     E.parts = []; E.floats = []; E.callouts = []; E.banners = []; E.proj = []; E.drops = []; E.center = 160;
     for (const x of ['A', 'B']) Object.assign(E.f[x], { pose: 'idle', pt: 0, kx: 0, ay: 0, avy: 0, avx: 0, fall: 0, rot: 0, q: null });
@@ -2150,7 +2131,6 @@ class Luta {
       case 'encarada': { const k = 1 + Math.sin(S2.T * 10) * 0.06; txt('VS', W / 2, 44, 22 * k, '#F5C842'); txt(this.nk('A').toUpperCase(), 64, 60, 10, this.cor.A); txt(this.nk('B').toUpperCase(), 256, 60, 10, this.cor.B); break; }
       case 'pesagem': txt('PESAGEM OFICIAL', W / 2, 66, 7, '#F2EDE4'); break;
     }
-    if (this.montagem) { ctx.fillStyle = '#F5C842'; ctx.fillRect(0, ctx.canvas.height - 2 * sc, ctx.canvas.width * Math.min(1, S2.T / 9), 2 * sc); }
   }
 
   draw(cena) {
@@ -2388,7 +2368,7 @@ const UI = {
     $('golpes').innerHTML = GOLPES.map(([tit, it]) => `<div class="grupo"><span>${esc(tit)}</span><div>${it.map(([mv]) => bt(mv, 'data-golpe', 1)).join('')}</div></div>`).join('');
     $('salaN').textContent = String(N_GOLPES);
     // calendário do intervalo
-    $('dias').innerHTML = DAYS.map((d, i) => `<button type="button" data-i="${i}" title="${String(d[0]).padStart(2, '0')}/10 · ${esc(d[3])}"><i>${d[1]}</i><b>${String(d[0]).padStart(2, '0')}</b><u></u></button>`).join('');
+    $('dias').innerHTML = DAYS.map((d) => `<span><i>${d[1]}</i><b>${String(d[0]).padStart(2, '0')}</b><u></u></span>`).join('');
     const salvo = ler('apuracao-luta-v2') || {};
     if (salvo.mapa === 'count') this.mapa = 'count';
     if (['previsao', 'estados', 'lances', 'regioes', 'luta'].includes(salvo.aba)) this.aba = salvo.aba;
@@ -2559,10 +2539,9 @@ const UI = {
     this.t($('diaT'), d[3]); this.t($('diaX'), d[4]);
     [...$('dias').children].forEach((b, i) => {
       const fd = i === DAYS.length - 1, td = i === hoje;
-      this.on(b, 'sel', i === L.dia && !treino); this.on(b, 'luta', fd); this.on(b, 'hoje', td && !fd); this.on(b, 'passou', i < hoje);
+      this.on(b, 'luta', fd); this.on(b, 'hoje', td); this.on(b, 'passou', i < hoje);
       this.t(b.lastChild, td ? 'HOJE' : fd ? 'LUTA' : '');
     });
-    for (const b of document.querySelectorAll('[data-mont]')) this.t(b, L.montagem ? 'PAUSAR MONTAGEM' : 'MONTAGEM DE TREINO');
     const t2 = S.turnos.find((x) => x.turno === 2), pronto = !!(t2 && t2.disponivel);
     for (const b of document.querySelectorAll('[data-luta2]')) {
       this.vis(b, L.dia === DAYS.length - 1);
@@ -2602,7 +2581,7 @@ const UI = {
     const modo = esp ? 'INTERVALO' : semDados ? (S.erro ? 'SEM CONEXÃO' : S.atual === null && S.carregou ? 'AGUARDANDO O TSE' : 'CONECTANDO')
       : live ? (S.erro ? 'RECONECTANDO' : fim ? 'TOTALIZADO' : 'AO VIVO') : 'REPLAY ' + hm(v.t);
     this.h($('modo'), (!esp && live && !semDados && !S.erro && !fim ? '<span class="dot"></span>' : '') + esc(modo));
-    this.t($('atalhos'), esp ? 'Atalhos: Espaço liga/pausa a montagem · ← → troca o dia · letras nos botões = golpes' : 'Atalhos: Espaço play/pausa · R reinicia · letras nos botões = golpes · E defesa');
+    this.t($('atalhos'), esp ? 'Atalhos: letras nos botões = golpes na sala de golpes' : 'Atalhos: Espaço play/pausa · R reinicia · letras nos botões = golpes · E defesa');
     for (const b of document.querySelectorAll('[data-som]')) { this.t(b, L.snd ? 'SOM ON' : 'SOM OFF'); this.on(b, 'on', L.snd); }
     if (S.fonte) for (const a of document.querySelectorAll('a.fonte')) if (a.getAttribute('href') !== S.fonte) a.setAttribute('href', S.fonte);
 
@@ -2864,15 +2843,12 @@ for (const id of ['bDefD', 'bDefM']) {
   def.addEventListener('contextmenu', (e) => e.preventDefault());
 }
 window.addEventListener('pointerup', solta);
-// intervalo: calendário, montagem, torcida, palpite e sala de golpes (os botões existem nos dois layouts)
+// intervalo: dia da luta, torcida, palpite e sala de golpes (os botões existem nos dois layouts)
 document.addEventListener('click', (e) => {
   const b = e.target.closest('button');
   if (!b || b.disabled) return;
   const d = b.dataset;
-  if (d.dia) luta.setDia(luta.dia + Number(d.dia));
-  else if ('mont' in d) luta.toggleMontagem();
-  else if ('luta2' in d) irPara('2');
-  else if (d.i != null && b.parentNode.id === 'dias') luta.setDia(Number(d.i));
+  if ('luta2' in d) irPara('2');
   else if (d.torce) luta.torcer(d.torce);
   else if (d.pal) luta.setPalpite(luta.num(d.pal));
   else if (d.golpe) luta.demo(luta.demoK, d.golpe);
