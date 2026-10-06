@@ -351,6 +351,7 @@ const ESTATICOS = {
   '/': ['index.html', 'text/html; charset=utf-8'],
   '/index.html': ['index.html', 'text/html; charset=utf-8'],
   '/favicon.svg': ['favicon.svg', 'image/svg+xml'],
+  '/og.png': ['og.png', 'image/png'], // prévia de quando o link é compartilhado
 };
 
 function atender(req, res) {
@@ -397,6 +398,7 @@ function atender(req, res) {
     if (err) { res.writeHead(500, cabecalhos()); return res.end(); }
     const extra = { 'Content-Type': est[1], 'Cache-Control': 'no-cache' };
     if (est[0] === 'index.html') extra['Content-Security-Policy'] = cspPagina(buf);
+    if (est[0] === 'og.png') extra['Cross-Origin-Resource-Policy'] = 'cross-origin'; // apps de mensagem e redes sociais mostram a imagem
     res.writeHead(200, cabecalhos(extra));
     res.end(req.method === 'HEAD' ? undefined : buf);
   });

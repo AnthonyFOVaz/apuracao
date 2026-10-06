@@ -100,7 +100,8 @@ Os desenhos anteriores (v1 a v4) ficam em `design/` como referência.
   só consulta o próprio servidor. As respostas da API e do favicon têm `default-src 'none'`.
 - Não pode ser aberta dentro de iframe (`frame-ancestors 'none'` e `X-Frame-Options: DENY`); `nosniff`,
   `Referrer-Policy`, `Permissions-Policy` (câmera, microfone, localização etc. desligados), COOP e CORP.
-- Só GET/HEAD; arquivos estáticos por lista fixa (sem acesso a outros arquivos); URL acima de 2 KB recusada.
+- Só GET/HEAD; arquivos estáticos por lista fixa (`index.html`, `favicon.svg` e `og.png`, a imagem de prévia dos
+  links compartilhados, que pode ser carregada por outros sites); URL acima de 2 KB recusada.
 - Limite por IP: 600 consultas/min e 120 cargas do histórico completo/min (resposta 429 com `Retry-After`; a página
   espera e tenta de novo). O histórico completo sai de um JSON já pronto, refeito só quando os dados mudam.
 - Um erro ao atender uma requisição não derruba o servidor; tempo máximo para cabeçalhos e requisição.
@@ -131,6 +132,9 @@ PORT=3100 node server.js
 
 ## Histórico
 
+- 06/10/2026: limpeza: título `h1` único, prévia completa para redes sociais (`og.png`, 1200×630, feita com a cena
+  da encarada), sem cartão dentro de cartão no Entenda, indicador de online sem piscar, textos mais diretos, sem
+  comentários que só repetiam o código.
 - 05/10/2026: replay e linha do tempo pela % de urnas apuradas; 2º turno consultado a cada 15 s a partir das 16h de 25/10.
 - 05/10/2026: front v5: Entenda a apuração, aba DADOS (gráficos, tabela e CSV), matematicamente eleito/vitória
   garantida pelo eleitorado do TSE, supercenas, easter eggs, juiz novo e treinos redesenhados; a luta termina nos

@@ -10,6 +10,14 @@
 <meta property="og:title" content="Apuração 2026 · Modo Luta">
 <meta property="og:description" content="A apuração para presidente virou luta de boxe. Dados oficiais do TSE, ao vivo, por estado.">
 <meta property="og:url" content="https://apuracaox1doscria.duckdns.org/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="Apuração 2026">
+<meta property="og:image" content="https://apuracaox1doscria.duckdns.org/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Lula e Flávio frente a frente num ringue em pixel art, com o juiz no meio">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,9 +35,9 @@ button,select{font:inherit;color:inherit}
 html.mob #desk,html:not(.mob) #mob,#pecas{display:none}
 html.espera .so-luta,html:not(.espera) .so-espera{display:none!important}
 .px{font-family:'Silkscreen',monospace}
-@keyframes liveP{0%,100%{opacity:1}50%{opacity:.25}}
 @keyframes pisca{to{visibility:hidden}}
-.vivo{display:inline-block;width:8px;height:8px;border-radius:50%;background:#2FA65A;animation:liveP 1.4s ease-in-out infinite;flex:none}
+.vivo{display:inline-block;width:8px;height:8px;border-radius:50%;background:#5A534B;flex:none}
+.vivo.on{background:#2FA65A}
 .online{display:flex;align-items:center;gap:7px}
 .online b{color:var(--fg);font-weight:600;font-variant-numeric:tabular-nums}
 
@@ -37,7 +45,8 @@ html.espera .so-luta,html:not(.espera) .so-espera{display:none!important}
 .top{max-width:1180px;margin:0 auto;padding:18px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px 16px;flex-wrap:wrap;border-bottom:1px solid var(--line)}
 .marca{display:flex;align-items:center;gap:10px}
 .marca i{width:14px;height:14px;background:var(--gold)}
-.marca b{font-weight:800;font-stretch:115%;font-size:18px;letter-spacing:-.01em}
+[data-slot="titulo"]{display:contents}
+#titulo{margin:0;font-weight:800;font-stretch:115%;font-size:18px;line-height:1.2;letter-spacing:-.01em}
 .chip{font-family:'Silkscreen',monospace;font-size:11px;color:var(--bg);background:var(--gold);padding:3px 6px}
 .topdir{display:flex;gap:10px 16px;align-items:center;flex-wrap:wrap;font-size:13px;color:var(--mut)}
 .modo{font-family:'Silkscreen',monospace;font-size:11px;color:var(--fg);border:1px solid var(--line2);padding:3px 6px;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
@@ -260,7 +269,6 @@ footer{font-size:12px;color:var(--mut);line-height:1.6;border-top:1px solid var(
 .pvc b{text-align:right;font-variant-numeric:tabular-nums;font-weight:700}
 .pv-proj,.pv-r2{font-size:13px;line-height:1.5;color:var(--mut);margin:10px 0 0;text-wrap:pretty;font-variant-numeric:tabular-nums}
 .pv-proj b,.pv-r2 b{color:var(--fg);font-weight:600}
-.pv-r2{border-left:3px solid var(--gold);padding:6px 10px;background:var(--bg)}
 .pv-h{font-family:'Silkscreen',monospace;font-size:11px;color:var(--mut);margin:16px 0 6px}
 #pvSvg{display:block;width:100%;height:auto}
 #pvSvg .ax{fill:var(--mut);font-size:9px;font-family:Archivo,system-ui,sans-serif}
@@ -298,7 +306,7 @@ footer{font-size:12px;color:var(--mut);line-height:1.6;border-top:1px solid var(
 #enHead{font-weight:800;font-stretch:110%;font-size:clamp(20px,2.6vw,28px);line-height:1.15;text-wrap:balance;max-width:900px}
 #enSub{font-size:15px;line-height:1.5;color:#C9C1B6;max-width:800px;text-wrap:pretty}
 .en-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:12px}
-.en-card{background:var(--bg);border:1px solid var(--line);padding:14px 16px;display:grid;gap:6px;align-content:start}
+.en-card{border-top:2px solid var(--line2);padding-top:12px;display:grid;gap:6px;align-content:start}
 .en-card b{font-weight:800;font-stretch:112%;font-size:28px;line-height:1;font-variant-numeric:tabular-nums}
 .en-card span{font-size:13px;line-height:1.45;color:var(--mut);text-wrap:pretty}
 .en-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:24px 32px;align-items:start}
@@ -456,7 +464,7 @@ footer{font-size:12px;color:var(--mut);line-height:1.6;border-top:1px solid var(
 .mbar{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 14px 0}
 .mmarca{display:flex;align-items:center;gap:8px}
 .mmarca i{width:10px;height:10px;background:var(--gold)}
-.mmarca b{font-weight:800;font-stretch:115%;font-size:15px}
+.mmarca #titulo{font-size:15px}
 .mbar .online{gap:6px;font-size:12px;color:var(--mut)}
 .mplacar{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:8px;align-items:end;padding:10px 14px 8px}
 .mlado{min-width:0}
@@ -577,7 +585,7 @@ html:not(.mob) .so-desk{display:inline}
 .mob #enHead{font-stretch:108%;font-size:20px;line-height:1.2}
 .mob #enSub{font-size:14px}
 .mob .en-cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-.mob .en-card{background:var(--card);padding:12px;gap:5px}
+.mob .en-card{padding-top:10px;gap:5px}
 .mob .en-card b{font-stretch:108%;font-size:20px;line-height:1.05}
 .mob .en-card span{font-size:12px;line-height:1.4}
 .mob .en-cols,.mob .en-dir{gap:16px}
@@ -600,14 +608,14 @@ html:not(.mob) .so-desk{display:inline}
 .mob #dados .sd,.mob #dados .cp{grid-template-columns:minmax(70px,104px) minmax(0,1fr) 84px}
 .mob #dados .dp{grid-template-columns:18px minmax(0,1fr) 80px 62px 50px}
 .mob #dados .cm{grid-template-columns:minmax(70px,104px) minmax(0,1fr) 50px}
-@media (prefers-reduced-motion:reduce){.fundo i,.mfundo i{transition:none}.modo .dot,.vivo{animation:none}}
+@media (prefers-reduced-motion:reduce){.fundo i,.mfundo i{transition:none}.modo .dot{animation:none}}
 </style>
 </head>
 <body>
 
 <div id="desk">
   <header class="top">
-    <div class="marca"><i></i><b>Apuração 2026</b><span class="chip">MODO LUTA</span></div>
+    <div class="marca"><i></i><span data-slot="titulo"></span><span class="chip">MODO LUTA</span></div>
     <div class="topdir">
       <span class="online" title="Pessoas no site agora"><span class="vivo"></span><b id="onD">—</b><span id="onL">assistindo agora</span></span>
       <span id="sub">Presidente · 1º turno</span>
@@ -616,7 +624,7 @@ html:not(.mob) .so-desk{display:inline}
   </header>
 
   <main>
-    <p class="lede so-luta">A apuração virou luta. Quem tem mais votos bate mais e empurra o rival para o corner. Escolha um estado no mapa para ver a luta local, ou entre no ringue e jogue com seu candidato. Os números são os oficiais do TSE e se atualizam sozinhos.</p>
+    <p class="lede so-luta">A apuração virou luta. Quem tem mais votos bate mais e empurra o rival para o corner. Escolha um estado no mapa para ver a luta local, ou entre no ringue e jogue com seu candidato.</p>
     <p class="lede so-espera" id="ledeE">O 1º turno acabou sem nocaute. Até o 2º turno, cada dia tem um treino diferente, e a sala de golpes já está aberta.</p>
 
     <section class="escopo" aria-label="O que assistir">
@@ -773,7 +781,7 @@ html:not(.mob) .so-desk{display:inline}
 <div id="mob">
   <div class="mtopo" id="mTopo">
     <div class="mbar">
-      <div class="mmarca"><i></i><b>Apuração 2026</b></div>
+      <div class="mmarca"><i></i><span data-slot="titulo"></span></div>
       <span class="online" title="Pessoas no site agora"><span class="vivo"></span><b id="onM">—</b><span>online</span></span>
     </div>
     <div class="mcd so-espera">
@@ -857,8 +865,8 @@ html:not(.mob) .so-desk{display:inline}
   </div>
 </div>
 
-<!-- peças que mudam de lugar entre o layout do computador e o do celular (e entre a luta e o intervalo) -->
 <div id="pecas">
+  <h1 id="titulo" data-peca="titulo">Apuração 2026</h1>
   <canvas id="cv" data-peca="cv" role="img" aria-label="Ringue em pixel art: os dois candidatos mais votados lutam conforme a apuração avança; no intervalo, treinam para o 2º turno"></canvas>
   <div class="seg" id="turnos" data-peca="turnos"><button type="button" data-turno="espera" hidden>INTERVALO</button><button type="button" data-turno="1" class="on">1º TURNO</button><button type="button" data-turno="2" disabled>2º TURNO</button></div>
   <select id="escolha" data-peca="escolha" aria-label="Escolher Brasil, região ou estado"></select>
@@ -1144,7 +1152,7 @@ class Luta {
     }
   }
 
-  // ----- dados por área (Brasil, região ou UF) -----
+  // dados por área (Brasil, região ou UF)
   area(i, k) {
     const ck = S.ver + '|' + this.key;
     if (ck !== this.ckey) { this.ckey = ck; this.cache.clear(); this.ev = null; this._fx = null; }
@@ -1287,7 +1295,7 @@ class Luta {
     if (r && r.tipo === 'ko') { const s = this.view(i); if (s.vv) r.pct = ((s.votos[r.n] || 0) / s.vv) * 100; }
     return r;
   }
-  // ----- vitória garantida antes do fim -----
+  // vitória garantida antes do fim
   // Eleitores que ainda faltam apurar = eleitorado total da área menos comparecimento e abstenção das seções já apuradas.
   // 2º turno: garantida quando a vantagem passa desse número. 1º turno: quando o líder já tem mais da metade de todos os
   // votos válidos possíveis (os apurados mais todos esses eleitores). No Brasil vale também o "eleito" do TSE.
@@ -1985,7 +1993,7 @@ class Luta {
     return J;
   }
 
-  // ----- intervalo: cenas de treino, sala de golpes, torcida e palpite -----
+  // intervalo: cenas de treino, sala de golpes, torcida e palpite
   act(k, x, facing, pose, o) { return Object.assign({ k, x, kx: 0, facing, pose: pose || 'idle', pt: 0, flash: 0, fall: 0, phase: k === 'A' ? 0 : 1.7, ay: 0, rot: 0, hit: false, i: 0, wait: 0.4, hn: 0 }, o || {}); }
   // o treino no ringue é o do dia (data de Brasília): ninguém escolhe, ele muda sozinho à meia-noite
   voltarCena() { this.dia = diaHoje(); this.vista = 'cena'; this.autoDemo = false; this.setScene(DAYS[this.dia][2]); this.push(true); }
@@ -2999,7 +3007,6 @@ const curto = (v) => (v >= 1e6 ? (v / 1e6).toLocaleString('pt-BR', { maximumFrac
 const L22 = { ac: [121566, 409316], al: [976831, 1664658], am: [1004991, 1966732], ap: [189918, 390465], ba: [6097815, 8454843], ce: [3807891, 5442368], df: [729295, 1770626], es: [926767, 2208912], go: [1542115, 3735156], ma: [2668425, 3751174], mg: [6190960, 12332270], ms: [599547, 1480153], mt: [652786, 1869516], pa: [2509084, 4582979], pb: [1601953, 2404455], pe: [3640933, 5439765], pi: [1551383, 2018448], pr: [2506605, 6665948], rj: [4156217, 9560111], rn: [1326785, 2038166], ro: [262904, 896140], rr: [67128, 280646], rs: [2891851, 6625036], sc: [1351918, 4399548], se: [862951, 1284037], sp: [11519882, 25736469], to: [434593, 846247], zz: [152905, 298169] };
 // 2022, Brasil: [abstenção % do eleitorado, brancos % do comparecimento, nulos % do comparecimento] (detalhe_votacao_munzona_2022_BR)
 const C22 = { 1: [20.95, 1.59, 2.82], 2: [20.58, 1.42, 3.16] };
-const L22T = Object.values(L22).reduce((t, x) => [t[0] + x[0], t[1] + x[1]], [0, 0]); // Brasil: 50,90% (60.345.999 votos)
 const l22 = (ids) => { const t = ids.reduce((a, id) => (L22[id] ? [a[0] + L22[id][0], a[1] + L22[id][1]] : a), [0, 0]); return t[1] ? (t[0] / t[1]) * 100 : null; };
 const ufsDe = (sc) => (sc === 'br' ? UF_IDS : ALL[sc].tipo === 'reg' ? ALL[sc].ufs : [sc]);
 const VOTOS = (v) => mvS(v) + (Math.abs(v) >= 1e6 ? ' de votos' : ' votos');
@@ -3009,7 +3016,7 @@ const f1 = (v) => v.toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumF
 const STATS = [['Golpes certos', 'g'], ['Defesas', 'd'], ['Esquivas', 'e'], ['Quedas aplicadas', 'q'], ['Especiais', 's'], ['Maior combo', 'c']];
 const UI = {
   mob: null, aba: 'resumo', dtab: 'geral', cmpRef: 't1', tSort: { k: 'ele', d: -1 }, enck: '', dck: '', mapa: 'lead', pvck: '', pvRows: {}, arrastando: false, tiles: {}, regs: {},
-  // só mexe no DOM quando o valor muda (cada nó guarda o último valor em _c)
+  // só mexe no DOM quando o valor muda (o último valor fica guardado no próprio nó)
   t(el, v) { if (el._t !== v) { el._t = v; el.textContent = v; } },
   h(el, v) { if (el._h !== v) { el._h = v; el.innerHTML = v; } },
   s(el, p, v) { const c = el._s || (el._s = {}); if (c[p] !== v) { c[p] = v; el.style[p] = v; } },
@@ -3017,13 +3024,11 @@ const UI = {
   vis(el, v) { if (el.hidden === !!v) el.hidden = !v; },
 
   montar() {
-    // seletor de área
     const sel = $('escolha'), og = (rot, itens) => `<optgroup label="${rot}">${itens.map(([v, t]) => `<option value="${v}">${esc(t)}</option>`).join('')}</optgroup>`;
     sel.innerHTML = '<option value="br">Brasil</option>'
       + og('Regiões', REGIOES.map((g) => [g.id, 'Região ' + g.nome]))
       + og('Estados', UFD.filter((u) => u[0] !== 'zz').slice().sort((a, b) => a[2].localeCompare(b[2], 'pt-BR')).map((u) => [u[0], `${u[2]} (${u[1]})`]))
       + og('Fora do país', [['zz', 'Exterior']]);
-    // mapa de quadradinhos
     const g = $('grade');
     for (const [id, sigla, , , col, row] of UFD) {
       const b = document.createElement('button');
@@ -3031,7 +3036,6 @@ const UI = {
       b.innerHTML = `<b>${sigla}</b><span>—</span>`;
       g.appendChild(b); this.tiles[id] = b;
     }
-    // regiões
     const r = $('regioes');
     for (const reg of REGIOES) {
       const b = document.createElement('button');
@@ -3041,9 +3045,7 @@ const UI = {
       const [ia, ib] = b.querySelectorAll('.bar i'), [la, lb] = b.querySelectorAll('.l span');
       this.regs[reg.id] = { b, ia, ib, la, lb, p: b.querySelector('.p') };
     }
-    // segmentos do especial
     for (const id of ['supA', 'supB', 'mSupA', 'mSupB']) $(id).innerHTML = '<i></i>'.repeat(10);
-    // estatísticas
     $('stats').innerHTML = '<div class="sth"><span id="stA">LULA</span><span></span><span id="stB">FLÁVIO</span></div>'
       + STATS.map(([l, k]) => `<div class="st"><b id="st${k}A">0</b><span>${l}</span><b id="st${k}B">0</b></div>`).join('');
     // botões de golpe: no computador, por grupo e com a tecla; no celular, os principais grandes e o resto numa faixa
@@ -3054,13 +3056,11 @@ const UI = {
     $('padM').innerHTML = `<div class="pmain">${MAIN.map((mv) => bt(mv, 'data-mv')).join('')}${defesa('bDefM')}</div><div class="pextra">${todos.filter((mv) => !MAIN.includes(mv)).map((mv) => bt(mv, 'data-mv')).join('')}</div>`;
     $('golpes').innerHTML = GOLPES.map(([tit, it]) => `<div class="grupo"><span>${esc(tit)}</span><div>${it.map(([mv]) => bt(mv, 'data-golpe', 1)).join('')}</div></div>`).join('');
     $('salaN').textContent = String(N_GOLPES);
-    // calendário do intervalo
     $('dias').innerHTML = DAYS.map((d) => `<span><i>${d[1]}</i><b>${String(d[0]).padStart(2, '0')}</b><u></u></span>`).join('');
     const salvo = ler('apuracao-luta-v2') || {};
     if (salvo.mapa === 'count') this.mapa = 'count';
     if (['resumo', 'previsao', 'estados', 'lances', 'regioes', 'luta', 'dados'].includes(salvo.aba)) this.aba = salvo.aba;
     if (salvo.dtab === 'dados') this.dtab = 'dados';
-    // linhas da projeção por região
     for (const id of [...REGIOES.map((g) => g.id), 'zz']) {
       const b = document.createElement('button');
       b.type = 'button'; b.className = 'pvr'; b.dataset.sc = id;
@@ -3118,7 +3118,6 @@ const UI = {
     this.h($('pvSvg'), this.grafico(L, i, r));
     this.h($('pvLeg'), `<span><i style="background:${L.cor.A}"></i>${esc(nm(L.nA))}</span><span><i style="background:${L.cor.B}"></i>${esc(nm(L.nB))}</span><span class="tr"><i></i>projeção</span>`);
 
-    // projeção por região (e exterior)
     for (const id of [...REGIOES.map((g) => g.id), 'zz']) {
       const a = L.area(i, id), x = this.pvRows[id], rr = a.has ? Prev.simular(L, i, id, PREV.simsReg) : null;
       this.on(x.b, 'sel', sc === id);
@@ -3174,7 +3173,7 @@ const UI = {
   },
   guardar() { gravar('apuracao-luta-v2', { scope: luta.scope, mapa: this.mapa, aba: this.aba, dtab: this.dtab, palpite: luta.palpite, demo: luta.demoK }); },
 
-  // computador ou celular (mesma regra do design), luta ou intervalo: as peças compartilhadas mudam de lugar
+  // computador ou celular, luta ou intervalo: as peças compartilhadas mudam de lugar
   layout(modo) {
     const vw = window.innerWidth, vh = window.innerHeight, mob = vw < 720 || vh < 500, m = modo || this.modo || 'luta';
     this.on($('mTopo'), 'fixo', vh >= 560 && vh > vw * 1.1);
@@ -3236,7 +3235,6 @@ const UI = {
       this.t(b, pronto ? 'ASSISTIR A APURAÇÃO DO 2º TURNO' : 'A APURAÇÃO COMEÇA ÀS 17H DE 25/10');
       if (b.disabled !== !pronto) b.disabled = !pronto;
     }
-    // sala de golpes
     for (const b of $('demoOpts').children) {
       const k = b.dataset.demo, sel = L.demoK === k;
       this.s(b, 'background', sel ? L.cor[k] : ''); this.s(b, 'color', sel ? '#0F0E0D' : '');
@@ -3244,7 +3242,6 @@ const UI = {
     for (const b of $('golpes').querySelectorAll('.esp')) this.t(b.firstChild, (b.dataset.golpe === 'ultra' ? L.ULT : L.ESP)[L.demoK].replace('!', ''));
     this.t($('bAuto'), L.autoDemo ? 'PARAR DEMO' : 'VER TODOS OS GOLPES');
     this.vis($('bVolta'), treino);
-    // palpite
     for (const b of $('palpite').querySelectorAll('[data-pal]')) {
       const k = b.dataset.pal, sel = L.palpite === L.num(k);
       this.s(b, 'background', sel ? L.cor[k] : ''); this.s(b, 'color', sel ? '#0F0E0D' : '');
@@ -3263,7 +3260,7 @@ const UI = {
     return S.ele[id] && br.c ? (S.ele[id] * br.vv) / (br.c + br.ab) : 0;
   },
 
-  // ----- ENTENDA A APURAÇÃO: o momento em texto, cartões, 100 eleitores e onde estão os votos que faltam -----
+  // entenda a apuração: o momento em texto, cartões, 100 eleitores e onde estão os votos que faltam
   entenda(L, i) {
     const sc = L.scope, A = ALL[sc], s = L.view(i), T2 = S.turno === 2, C = L.cor, h = S.hist, nm = (k) => esc(L.nk(k));
     const tit = 'ENTENDA A APURAÇÃO · ' + A.nome.toUpperCase();
@@ -3290,7 +3287,6 @@ const UI = {
         if (br1 && h[i].def === 'S') sub += ' O TSE já confirmou: ninguém consegue mais passar de 50%, então vai haver 2º turno.';
       }
     }
-    // cartões
     const cards = [], m = Math.abs(s.ap - s.bp), N = Math.max(2, Math.round(100 / Math.max(m, 0.01)));
     const ate = fim ? '' : ' até agora';
     cards.push(m < 5 ? [`1 a cada ${N.toLocaleString('pt-BR')}`, `votos válidos ${fim ? 'separaram' : 'separa'} ${nm(ld)} de ${nm(tr)}${ate}.`, 'var(--fg)'] : [`${Math.round(m)} a cada 100`, `votos válidos ${fim ? 'foi' : 'é'} a vantagem de ${nm(ld)} sobre ${nm(tr)}${ate}.`, 'var(--fg)']);
@@ -3352,7 +3348,7 @@ const UI = {
     return html;
   },
 
-  // ----- DADOS: gráficos e tabela da área escolhida, no momento da linha do tempo -----
+  // aba de dados: gráficos e tabela da área escolhida, no momento da linha do tempo
   // mapa de quadradinhos proporcional ao eleitorado (Norte, Centro-Oeste e Sul à esquerda; Nordeste e Sudeste à direita)
   tmLayout() {
     const ck = Object.keys(S.ele).length && UF_IDS.every((u) => u === 'zz' || S.ele[u]) ? 'ok' + S.ele.br : '';
@@ -3392,13 +3388,11 @@ const UI = {
     const linhaSel = (u) => (sel(u) ? ' sel' : '');
     let out = '';
 
-    // cabeçalho
     const [t0] = L.faixa(), live = E.mode === 'live';
     out += `<header class="dh"><div class="dht"><span class="kick">Dados da apuração · TSE</span><h2>${esc(A.nome)} · ${T2 ? '2º turno' : '1º turno'}</h2>`
       + `<p>${has ? `${pc1(s.urnas)} das urnas apuradas ${A.em}. Tudo nesta aba acompanha o local escolhido e o momento da linha do tempo.` : 'Ainda não há urnas apuradas neste momento da linha do tempo.'}</p></div>`
       + `<div class="dctl"><button type="button" class="dbtn cheio" data-dplay>${live ? 'Ver o replay' : E.playing ? 'Pausar' : 'Continuar'}</button>${live ? '' : '<button type="button" class="dbtn" data-dvivo>Ao vivo</button>'}<span class="hora">${live ? 'Ao vivo · ' : 'Replay · '}${s.t ? 'atualizado às ' + hm(s.t) : '--:--'}</span></div></header>`;
 
-    // curva da apuração (% dos válidos por % das urnas)
     const pts = [];
     for (let j = 0; j <= i; j++) { const a = L.area(j, sc); if (a.has) pts.push([a.pst, a.ap, a.bp, j]); }
     let corpo = '';
@@ -3421,7 +3415,6 @@ const UI = {
     }
     out += '<div class="dgrid">' + art('larga', 'Curva da apuração', has ? `Com ${pc1(s.urnas)} das urnas apuradas ${A.em}, ${nm(ld)} lidera por ${f1(Math.abs(m))} pts. ${(() => { const n = L.eventos().filter((e) => e.virada && e.t <= s.t).length; return n ? n + (n > 1 ? ' viradas' : ' virada') + ' até aqui.' : 'Nenhuma virada até aqui.'; })()}` : 'Ainda não há urnas apuradas neste momento da linha do tempo.', corpo);
 
-    // quanto falta
     const R = Math.max(0, s.tot - s.vv), Lv = s[ld], Tv = s[tr], notas = [];
     let need = '—', needLbl = `Para ${nm(tr)} virar`, needSub = '', needC = C[tr];
     if (!has) { needLbl = 'Para virar'; needSub = 'aguardando as primeiras urnas'; needC = 'var(--fg)'; }
@@ -3438,7 +3431,7 @@ const UI = {
       if (A.tipo === 'uf') { pa += (R * s.ap) / 100; pb += (R * s.bp) / 100; }
       else for (const u of ufsDe(sc)) { const x = RW[u], src = x.a.has ? x.a : s; pa += (x.r * src.ap) / 100; pb += (x.r * src.bp) / 100; }
       const tf = s.vv + (A.tipo === 'uf' ? R : ufsDe(sc).reduce((t, u) => t + RW[u].r, 0));
-      if (tf > 0) notas.push(`Se cada ${A.tipo === 'uf' ? 'seção que falta' : 'estado'} mantiver o resultado parcial, ${A.em} termina em ${nA} ${pc1((pa / tf) * 100)} × ${pc1((pb / tf) * 100)} ${nB}. É uma conta, não uma previsão (a previsão fica na visão geral).`);
+      if (tf > 0) notas.push(`Se cada ${A.tipo === 'uf' ? 'seção que falta' : 'estado'} mantiver o resultado parcial, ${A.em} termina em ${nA} ${pc1((pa / tf) * 100)} × ${pc1((pb / tf) * 100)} ${nB}. Conta direta, sem margem de erro; a previsão está na visão geral.`);
     }
     const subU = (SUBS[sc] || []).map((id) => ({ id, a: L.area(i, id), r: this.resto(L, i, id) })), mxR = Math.max(1, ...subU.map((x) => x.r));
     corpo = `<div class="dois"><div class="num1"><span>Faltam apurar</span><b>${has ? '~' + mvS(R) : '—'}</b><span>${has ? pc1(s.tot ? (R / s.tot) * 100 : 0) + ' dos votos válidos estimados' : ''}</span></div>`
@@ -3449,7 +3442,6 @@ const UI = {
         + '<p class="nt">Cor da barra: quem lidera nos votos já apurados de cada lugar. Onde a apuração não começou, o que falta sai do eleitorado.</p></div>' : '');
     out += art('', 'Quanto falta', `Votos válidos ainda não apurados ${A.em} e o que ${has ? 'o 2º colocado' : 'quem está atrás'} precisa deles para virar.`, corpo);
 
-    // ritmo por região (% das urnas ao longo do tempo)
     // o eixo vai das 17h até o Brasil chegar a 100% das urnas (a totalização oficial, horas depois, não muda a curva)
     const RC = ['#F2EDE4', '#A39B90', '#E8833A', '#F5C842', '#2FA65A'], h = S.hist, ta = S.inicio;
     let jb = h.length - 1; for (let j = 0; j < h.length; j++) if (L.area(j, 'br').fim) { jb = j; break; }
@@ -3464,7 +3456,7 @@ const UI = {
     else {
       const by = rg.slice().sort((a, b) => b.a.pst - a.a.pst), fa = by[0], sl = by[by.length - 1], big = rg.map((x) => ({ ...x, r: this.resto(L, i, x.g.id) })).sort((a, b) => b.r - a.r)[0], brA = L.area(i, 'br'), bl = brA.A >= brA.B ? 'A' : 'B';
       rdek = `Neste momento, o ${fa.g.nome} tem ${pc1(fa.a.pst)} das urnas apuradas; o ${sl.g.nome}, ${pc1(sl.a.pst)}.`;
-      if (big.a.has) { const bk = big.a.A >= big.a.B ? 'A' : 'B'; rdek += ` A maior parte dos votos que faltam está ${big.g.em}, onde ${nm(bk)} lidera. ${bk !== bl ? `Isso favorece ${nm(bk)}, que está atrás no país, e explica viradas no fim da contagem.` : `Isso tende a ampliar a vantagem de ${nm(bk)} no país.`}`; }
+      if (big.a.has) { const bk = big.a.A >= big.a.B ? 'A' : 'B'; rdek += ` A maior parte dos votos que faltam está ${big.g.em}, onde ${nm(bk)} lidera. ${bk !== bl ? `Isso favorece ${nm(bk)}, que está atrás no país.` : `Isso tende a ampliar a vantagem de ${nm(bk)} no país.`}`; }
     }
     corpo = `<div class="ch"><div class="ya"><span style="top:0">100%</span><span style="top:50%">50%</span><span style="top:100%">0%</span></div><div class="pl medio"><i class="gl" style="top:0"></i><i class="gl" style="top:50%"></i><i class="gl base" style="top:100%"></i>`
       + `<i class="agora" style="left:${(X(s.t || ta) / 10).toFixed(2)}%"></i><svg viewBox="0 0 1000 300" preserveAspectRatio="none" aria-hidden="true">${rp.map((d, j) => `<path d="${d}" stroke="${RC[j]}" style="opacity:${reg && REGIOES[j].id !== reg ? 0.25 : 1}"/>`).join('')}</svg></div>`
@@ -3473,14 +3465,12 @@ const UI = {
       + REGIOES.map((g, j) => { const a = L.area(i, g.id), mm = a.ap - a.bp; return `<button type="button" class="lr rt" data-sc="${g.id}" style="opacity:${reg && g.id !== reg ? 0.55 : 1}"><i class="ln" style="background:${RC[j]}"></i><span>${esc(g.nome)}</span><span class="r">${pc1(a.pst)}</span><span class="r">${mvS(this.resto(L, i, g.id))}</span><span class="r" style="color:${a.has ? mc(mm) : 'var(--mut)'}">${a.has ? mg(mm) : '—'}</span></button>`; }).join('') + '</div>';
     out += art('', 'Ritmo da apuração por região', rdek, corpo);
 
-    // saldo de votos por estado
     const sdR = lista.map((u) => RW[u]).sort((a, b) => b.sd - a.sd), mxS = Math.max(1, ...sdR.map((x) => Math.abs(x.sd))), tA = sdR[0], tB = sdR[sdR.length - 1];
     const sdek = !has ? 'Aguardando as primeiras urnas.' : `${nm(ld)} soma ${VOTOS(Math.abs(s.A - s.B))} a mais ${A.em}.` + (sdR.length > 1 && tA.sd > 0 ? ` O maior saldo de ${nA} vem ${de(ALL[tA.u].em)} (+${mvS(tA.sd)})` + (tB.sd < 0 ? `; o de ${nB}, ${de(ALL[tB.u].em)} (+${mvS(-tB.sd)}).` : '.') : '');
     corpo = nota + `<div class="lst"><div class="lh sd"><span></span><span class="lado2"><span>← mais para ${nA}</span><span>mais para ${nB} →</span></span><span class="r">diferença</span></div>`
       + sdR.map((x) => { const w = (Math.abs(x.sd) / mxS) * 50, ok = x.a.has; return `<button type="button" class="lr sd fino${linhaSel(x.u)}" data-sc="${x.u}"><span class="el">${esc(x.nome)}</span><span class="bar2"><u></u><i style="left:${(x.sd >= 0 ? 50 - w : 50).toFixed(2)}%;width:${w.toFixed(2)}%;background:${ok ? mc(x.sd) : '#5A534B'}"></i></span><span class="r" style="color:${ok ? mc(x.sd) : 'var(--mut)'}">${ok ? `${x.sd >= 0 ? nA : nB} +${mvS(x.sd)}` : '—'}</span></button>`; }).join('') + '</div>';
     out += art('', 'Saldo de votos por estado', sdek, corpo);
 
-    // estados mais disputados
     const dpR = lista.map((u) => RW[u]).filter((x) => x.a.has).sort((a, b) => Math.abs(a.m) - Math.abs(b.m)), dpN = dpR.filter((x) => Math.abs(x.m) < 5).length;
     corpo = nota + (dpR.length ? `<div class="lst"><div class="lh dp"><span></span><span>Estado</span><span class="r">Margem</span><span class="r">Votos</span><span class="r">Apurado</span></div>`
       + dpR.slice(0, sc === 'br' ? 10 : 99).map((x, j) => `<button type="button" class="lr dp${linhaSel(x.u)}" data-sc="${x.u}"><span class="mut">${j + 1}</span><span class="el">${esc(x.nome)}</span><span class="r" style="color:${mc(x.m)}">${mg(x.m)}</span><span class="r">${mvS(Math.abs(x.sd))}</span><span class="r mut">${pc1(x.a.pst)}</span></button>`).join('')
@@ -3521,7 +3511,6 @@ const UI = {
       + '<p class="nt">A barra divide o eleitorado das seções já apuradas. Brancos e nulos em % dos votos; abstenção em % do eleitorado, como o TSE divulga.</p>';
     out += art('', 'Comparecimento', okC ? `${pc1(abP)} dos eleitores das seções já apuradas ${A.em} não foram votar.` : 'Aguardando as primeiras urnas.', corpo);
 
-    // peso do eleitorado
     const tm = this.tmLayout(), escopoU = new Set(ufsDe(sc));
     if (tm) {
       const shR = (id) => ALL[id].ufs.reduce((t, u) => t + S.ele[u], 0);
@@ -3534,7 +3523,6 @@ const UI = {
       out += art('larga', 'Peso do eleitorado', `Cada retângulo é um estado, com área proporcional ao eleitorado e agrupado por região, na posição aproximada do mapa. São Paulo sozinho reúne ${pc1((S.ele.sp / tm.tot) * 100)} dos eleitores; Norte e Centro-Oeste juntos, ${pc1(((shR('r:N') + shR('r:CO')) / tm.tot) * 100)}.`, corpo);
     }
 
-    // tabela de todos os estados (e o exterior), com CSV
     const lin = (sc === 'br' ? UF_IDS : lista).map((u) => {
       const x = RW[u], a = x.a, rg2 = REGIOES.find((g) => g.ufs.includes(u)), l2 = L22[u] ? (L22[u][0] / L22[u][1]) * 100 : null, l13 = k13 === 'A' ? a.ap : a.bp;
       return { nome: x.nome, uf: ALL[u].sigla, reg: rg2 ? rg2.nome : '—', ele: S.ele[u] || null, apu: a.pst, A: a.A, B: a.B, ap: a.has ? a.ap : null, bp: a.has ? a.bp : null, op: !T2 && a.has ? Math.max(0, 100 - a.ap - a.bp) : null, mg: a.has ? x.m : null, sd: a.has ? x.sd : null, ab: a.c ? pct(a.ab, a.c + a.ab) : null, l22: tem13 ? l2 : null, d22: tem13 && T2 && a.has && l2 != null ? l13 - l2 : null, sel: sel(u) };
@@ -3575,9 +3563,9 @@ const UI = {
     const tem = L.temReplay(), fim = !!(S.atual && S.atual.finalizado), r = E.ended ? L.desfecho(E.idx) : null;
     const nA = L.nome(L.nA), nB = L.nome(L.nB);
 
-    // topo
     const on = S.online == null ? '—' : num(S.online);
     this.t($('onD'), on); this.t($('onM'), on);
+    for (const d of document.querySelectorAll('.vivo')) this.on(d, 'on', S.online != null && !S.erro);
     this.t($('onL'), esp ? 'no treino agora' : 'assistindo agora');
     this.t($('sub'), esp ? 'Presidente · intervalo até o 2º turno' : T2 ? 'Presidente · 2º turno' : 'Presidente · 1º turno');
     const semDados = !S.hist.length;
@@ -3601,7 +3589,6 @@ const UI = {
 
     if (esp) { this.espera(L); this.previsao(L, E.idx); return; }
 
-    // placar
     const pa = v.has ? pc(v.ap) : '0,00%', pb = v.has ? pc(v.bp) : '0,00%';
     this.t($('pctA'), pa); this.t($('pctB'), pb); this.t($('mPctA'), pa); this.t($('mPctB'), pb);
     this.t($('votosA'), num(v.A) + ' votos'); this.t($('votosB'), num(v.B) + ' votos');
@@ -3614,7 +3601,6 @@ const UI = {
     this.t($('escNome'), en); this.t($('mEsc'), en);
     this.t($('urnas'), pc(v.urnas)); this.t($('mUrnas'), pc1(v.urnas) + ' urnas');
     this.t($('relogio'), semDados ? modo : p.inicio ? 'URNAS FECHADAS 17:00' : v.sem ? 'SEM DADOS DESTA ÁREA' : 'ATUALIZADO ' + p.ht);
-    // especial
     for (const k of ['A', 'B']) {
       const f = E.f[k], cheio = f.sup >= 100, cor = cheio ? '#F5C842' : L.cor[k];
       for (const id of ['sup' + k, 'mSup' + k]) [...$(id).children].forEach((seg, i) => this.s(seg, 'background', f.sup >= (i + 1) * 10 ? cor : '#2A2622'));
@@ -3644,13 +3630,11 @@ const UI = {
       this.t($('mdX'), L.mdTexto(md));
     }
 
-    // escopo
     if ($('escolha').value !== L.scope) $('escolha').value = L.scope;
     const br = L.area(E.idx, 'br');
     this.vis($('brline'), L.scope !== 'br');
     this.t($('brv'), br.has ? `${nA} ${pc1(br.ap)} × ${pc1(br.bp)} ${nB} · ${pc1(br.pst)} das urnas` : 'apuração não começou');
 
-    // controles
     const playTxt = live ? 'REPLAY' : E.playing ? 'PAUSAR' : 'ASSISTIR';
     for (const id of ['bPlay', 'mPlay']) { this.t($(id), playTxt); $(id).disabled = !tem; }
     this.vis($('bReini'), !live);
@@ -3670,7 +3654,6 @@ const UI = {
     for (const b of $('vel').children) this.on(b, 'on', Number(b.dataset.v) === E.speed);
     this.t($('mVel'), E.speed + '×');
 
-    // entre no ringue
     for (const b of $('ctrlopts').children) {
       const k = b.dataset.ctrl || null, sel = L.ctrl === k;
       this.on(b, 'on', sel && !k);
@@ -3684,7 +3667,6 @@ const UI = {
       : 'Escolha um candidato para lutar com ele pelo teclado ou pelos botões, ao vivo ou no replay.');
     this.vis($('ajudaM'), !!L.ctrl);
 
-    // mapa
     const lead = this.mapa === 'lead';
     for (const b of $('modos').children) this.on(b, 'on', b.dataset.modo === this.mapa);
     this.vis($('legL'), lead); this.vis($('legC'), !lead);
@@ -3718,7 +3700,6 @@ const UI = {
     this.t($('legCx'), this.mob ? '0% → 100% apurado' : '0% → 100% das urnas apuradas');
     this.t($('legTx'), this.mob ? 'até 5 · 5 a 15 · 15+ pts' : 'vantagem: até 5 · 5 a 15 · 15+ pts');
 
-    // regiões
     for (const g of REGIOES) {
       const a = L.area(E.idx, g.id), x = this.regs[g.id], sel = L.scope === g.id;
       this.on(x.b, 'sel', sel);
@@ -3727,13 +3708,11 @@ const UI = {
       this.t(x.p, pc(a.pst));
     }
 
-    // lance a lance
     this.t($('feedT'), 'LANCE A LANCE · ' + en);
     const evs = ev.filter((e) => e.t <= v.t).reverse();
     this.h($('feed'), evs.map((e) => `<div class="ev"><div class="h">${hm(e.t)}</div><div class="c">${e.tag ? `<span class="t">${esc(e.tag)}</span>` : ''}<div class="x">${esc(e.txt)}</div></div></div>`).join('')
       || '<div class="vazio">Aguardando o primeiro boletim do TSE.</div>');
 
-    // estatísticas
     for (const [, k] of STATS) { this.t($('st' + k + 'A'), String(E.f.A.st[k])); this.t($('st' + k + 'B'), String(E.f.B.st[k])); }
 
     this.previsao(L, E.idx);
