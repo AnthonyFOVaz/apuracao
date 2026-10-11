@@ -75,8 +75,9 @@ Os desenhos anteriores (v1 a v4) ficam em `design/` como referência.
   (ponto e vírgula e vírgula decimal, abre no Excel). Os números de 2022 foram conferidos com os dados abertos do TSE
   (`votacao_partido_munzona_2022_BR` e `detalhe_votacao_munzona_2022_BR`). No replay, a aba se refaz no máximo ~3 vezes por segundo.
 - Modo jogável com 25 golpes (socos, chutes, joelhadas, aéreos, arremesso, especial e ultra, provocação, esquiva) pelo
-  teclado ou pelos botões; especial carregado pelos votos e por golpes certos. A ULTRA (tecla 1) fica liberada para
-  quem joga, sem precisar nem gastar o especial (os lutadores automáticos ainda dependem da barra). Quedas, tontura, contra-golpes e juiz
+  teclado ou pelos botões; especial carregado pelos votos e por golpes certos. O botão SUPER ULT (tecla 2), no ringue
+  e na sala de golpes, roda a supercena do "matematicamente eleito" a qualquer hora, sem nenhum texto de eleição
+  (sem "eleito", urna, barras de votos nem a aura que fica depois); com "reduzir movimento" ligado, vira a ultra comum. Quedas, tontura, contra-golpes e juiz
   que conta as quedas e, no nocaute, conta até 10 e levanta o braço do vencedor. Estatísticas, som e vibração.
 - Público online no topo. Layout de celular (largura < 720 px ou altura < 500 px): placar e ringue fixos no topo,
   golpes principais embaixo do ringue (os outros numa faixa que rola de lado) e abas Resumo / Previsão / Estados /
@@ -133,7 +134,7 @@ PORT=3100 node server.js
 
 ## Histórico
 
-- 11/10/2026: ULTRA liberada para quem joga (no celular, primeira da faixa de golpes).
+- 11/10/2026: botão SUPER ULT (a cena do "matematicamente eleito" como golpe, sem os textos de eleição).
 - 06/10/2026: limpeza: título `h1` único, prévia completa para redes sociais (`og.png`, 1200×630, feita com a cena
   da encarada), sem cartão dentro de cartão no Entenda, indicador de online sem piscar, textos mais diretos, sem
   comentários que só repetiam o código.

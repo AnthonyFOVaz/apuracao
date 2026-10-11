@@ -848,7 +848,7 @@ html:not(.mob) .so-desk{display:inline}
       <div class="mjogar">
         <span>ENTRE NO RINGUE</span>
         <div data-slot="ctrlopts"></div>
-        <p id="ajudaM" hidden>Os botões ficam embaixo do ringue; a ULTRA, liberada, é a primeira da faixa de baixo. Segure DEFESA para bloquear. Seus golpes não mudam a apuração.</p>
+        <p id="ajudaM" hidden>Os botões ficam embaixo do ringue; a SUPER ULT é a primeira da faixa de baixo. Segure DEFESA para bloquear. Seus golpes não mudam a apuração.</p>
       </div>
       <div class="seg mabas" id="abas">
         <button type="button" data-aba="resumo" class="on">RESUMO</button><button type="button" data-aba="previsao">PREVISÃO</button><button type="button" data-aba="estados">ESTADOS</button><button type="button" data-aba="lances">LANCES</button><button type="button" data-aba="regioes">REGIÕES</button><button type="button" data-aba="luta">LUTA</button><button type="button" data-aba="dados">DADOS</button>
@@ -1004,11 +1004,11 @@ const GOLPES = [
   ['SOCOS', [['punch', 'SOCO', 'A'], ['hook', 'GANCHO', 'S'], ['upper', 'UPPERCUT', 'D'], ['body', 'NO CORPO', 'Z'], ['overhand', 'OVERHAND', 'H'], ['backfist', 'GIRATÓRIO', 'J'], ['combo3', '1-2-3', 'T'], ['flurry', 'METRALHADORA', 'Y'], ['bomb', 'SOCO BOMBA', 'U']]],
   ['CHUTES, JOELHO E COTOVELO', [['low', 'CHUTE BAIXO', 'F'], ['high', 'CHUTE ALTO', 'G'], ['teep', 'CHUTE FRONTAL', 'V'], ['spin', 'CHUTE GIRATÓRIO', 'K'], ['sweep', 'RASTEIRA', 'B'], ['knee', 'JOELHADA', 'C'], ['elbow', 'COTOVELADA', 'X']]],
   ['AÉREOS E AGARRÃO', [['superman', 'SOCO VOADOR', 'L'], ['rising', 'UPPER VOADOR', 'I'], ['flyknee', 'JOELHADA VOADORA', 'O'], ['drop', 'VOADORA', 'P'], ['throw', 'ARREMESSO', 'N']]],
-  ['ESPECIAIS E ATITUDE', [['special', 'ESPECIAL', 'W'], ['ultra', 'ULTRA', '1'], ['taunt', 'PROVOCAÇÃO', 'M'], ['duck', 'ESQUIVA', 'Q']]],
+  ['ESPECIAIS E ATITUDE', [['special', 'ESPECIAL', 'W'], ['ultra', 'ULTRA', '1'], ['superult', 'SUPER ULT', '2'], ['taunt', 'PROVOCAÇÃO', 'M'], ['duck', 'ESQUIVA', 'Q']]],
 ];
 const KEYS = {}, KEYF = {}, GL = {};
 for (const [, itens] of GOLPES) for (const [mv, lb, key] of itens) { KEYS[key.toLowerCase()] = mv; KEYF[mv] = key; GL[mv] = lb; }
-const N_GOLPES = Object.keys(GL).length;
+const N_GOLPES = Object.keys(GL).length - 1; // a SUPER ULT é uma cena, não entra na conta
 const MAIN = ['punch', 'hook', 'upper', 'low', 'high', 'duck', 'special']; // botões grandes do celular; os outros vão na faixa de baixo
 // golpes que a luta automática escolhe, com o peso de cada um
 const PICK = [['jab', 15], ['cross', 12], ['hook', 9], ['body', 8], ['low', 7], ['high', 5], ['upper', 5], ['overhand', 5], ['combo3', 5], ['elbow', 4], ['knee', 4], ['teep', 4], ['backfist', 3], ['superman', 3], ['spin', 3], ['flurry', 3], ['sweep', 3], ['flyknee', 2], ['throw', 2], ['drop', 2], ['rising', 2], ['bomb', 2], ['taunt', 2]];
@@ -1606,9 +1606,10 @@ class Luta {
     if (!this.ctrl) return;
     const f = this.E.f[this.ctrl];
     if (n === 'duck') { if (f.pose === 'idle' || f.pose === 'block') { f.pose = 'duck'; f.pt = 0; } return; }
+    if (n === 'superult') return this.superUlt(this.ctrl);
     let mv = n;
     if (n === 'punch') { mv = f.alt ? 'cross' : 'jab'; f.alt ^= 1; }
-    if (mv === 'special' && f.sup < 100) { this.float(f.x, this.FLOOR - 66, 'CARREGANDO', '#A39B90'); return; }
+    if ((mv === 'special' || mv === 'ultra') && f.sup < 100) { this.float(f.x, this.FLOOR - 66, 'CARREGANDO', '#A39B90'); return; }
     if (f.pose === 'block') f.pose = 'idle';
     this.startAtk(f, mv); this.push(false);
   }
@@ -1717,9 +1718,7 @@ class Luta {
     if (!this.canAct(a)) return false;
     const E = this.E, M = MV[mv];
     if (!M) return false;
-    if (mv === 'special' || mv === 'ultra') {
-      if (!(mv === 'ultra' && a.ctrl)) { if (a.sup < 100) return false; a.sup = 0; } // a ULTRA de quem joga está liberada
-      a.st.s++; E.callouts.push({ k: a.k, txt: (mv === 'ultra' ? this.ULT : this.ESP)[a.k], age: 0 }); this.sfx('charge'); }
+    if (mv === 'special' || mv === 'ultra') { if (a.sup < 100) return false; a.sup = 0; a.st.s++; E.callouts.push({ k: a.k, txt: (mv === 'ultra' ? this.ULT : this.ESP)[a.k], age: 0 }); this.sfx('charge'); }
     else if (MVN[mv] && (this.modo === 'espera' || !BASIC[mv])) E.callouts.push({ k: a.k, txt: MVN[mv], age: 0, sz: 6 });
     if (mv === 'bomb') this.sfx('charge');
     if (mv === 'taunt') this.sfx('cheer');
@@ -2116,6 +2115,7 @@ class Luta {
   // sala de golpes: k mostra o golpe mv no ringue
   demo(k, mv, auto) {
     if (!auto) this.autoDemo = false;
+    if (mv === 'superult') return this.superUlt(k);
     this.enterTreino();
     const E = this.E, a = E.f[k], d = E.f[this.oth(k)];
     if (mv === 'duck') { if (this.canAct(a)) { a.pose = 'duck'; a.pt = 0; a.holdT = 0.45; } this.push(false); return; }
@@ -2539,18 +2539,29 @@ class Luta {
   }
   // ---------- super cenas: vitória garantida durante a apuração e nocaute com 100% das urnas ----------
   // Só com a luta na tela (aba visível, sem "reduzir movimento"); espaço, Esc, Enter ou um toque no ringue pulam.
-  cutOn() { return this.modo === 'luta' && !REDUZ && !document.hidden; }
+  cutOn(livre) { return (this.modo === 'luta' || !!livre) && !REDUZ && !document.hidden; }
+  // SUPER ULT: a cena do "matematicamente eleito" como golpe, a qualquer hora, sem nada que fale de eleição
+  superUlt(k) {
+    if (!this.cutOn(true)) {
+      if (this.modo === 'espera') this.demo(k, 'ultra'); // com "reduzir movimento", fica o golpe comum
+      else this.float(this.E.f[k].x, this.FLOOR - 66, 'MOVIMENTO REDUZIDO', '#A39B90');
+      return;
+    }
+    if (this.modo === 'espera') this.enterTreino();
+    else this.E.f[k].st.s++;
+    this.startCut('md', k, true);
+  }
   claro(k) { return CLARO[this.num(k)] || shade(this.cor[k], 0.45); }
   escuro(k) { return ESCURO[this.num(k)] || shade(this.cor[k], -0.65); }
-  startCut(id, k) {
-    if (!this.cutOn()) return;
-    const E = this.E, sc = this.scope, s = this.view(E.idx), o = this.oth(k), md = id === 'md' ? this.md() : null, certo = !!(md && md.R != null);
+  startCut(id, k, livre) {
+    if (!this.cutOn(livre)) return;
+    const E = this.E, sc = this.scope, s = this.view(E.idx), o = this.oth(k), md = id === 'md' && !livre ? this.md() : null, certo = !!(md && md.R != null);
     E.cut = { id, k, T: 0, dur: id === 'ko' ? 6.4 : 7.4, br: sc === 'br', T2: S.turno === 2, A: ALL[sc], V: s[k], O: s[o],
-      R: certo ? md.R : Math.max(0, s.tot - s.vv), tot: certo ? s.vv + md.R : s.tot, urnas: s.urnas, pct: k === 'A' ? s.ap : s.bp, parts: [], acc: 0 };
+      R: certo ? md.R : Math.max(0, s.tot - s.vv), tot: certo ? s.vv + md.R : s.tot, urnas: s.urnas, pct: k === 'A' ? s.ap : s.bp, parts: [], acc: 0, livre: !!livre };
     if (id === 'md') {
       // cada golpe da sequência mostra um estado onde o vencedor abriu vantagem, do maior saldo para o menor
       const C = E.cut, ids = sc === 'br' ? UF_IDS.filter((u) => u !== 'zz') : ALL[sc].tipo === 'reg' ? ALL[sc].ufs : [];
-      const lbl = ids.map((u) => { const a = this.area(E.idx, u); return { u, d: k === 'A' ? a.A - a.B : a.B - a.A }; })
+      const lbl = livre ? [] : ids.map((u) => { const a = this.area(E.idx, u); return { u, d: k === 'A' ? a.A - a.B : a.B - a.A }; })
         .filter((x) => x.d > 0).sort((a, b) => b.d - a.d).map((x) => `${ALL[x.u].sigla} +${mvS(x.d).toUpperCase()}`);
       C.mov = [[0.45, 'jab'], [0.6, 'cross'], [0.78, 'hook'], [0.98, 'body'], [1.15, 'upper'], [1.38, 'knee'], [1.56, 'elbow'], [1.74, 'flurry'], [2.25, 'spin'], [2.55, 'high']];
       C.hits = [];
@@ -2565,7 +2576,9 @@ class Luta {
   }
   endCut() {
     const E = this.E, C = E && E.cut; if (!C) return;
-    E.cut = null; E.aura = C.k; E.shake = C.id === 'ko' ? .4 : .25;
+    E.cut = null; E.shake = C.id === 'ko' ? .4 : .25;
+    if (C.livre) return this.push(true); // a SUPER ULT não deixa aura nem enche o especial
+    E.aura = C.k;
     if (C.id === 'md') E.f[C.k].sup = 100;
     this.push(true);
   }
@@ -2588,7 +2601,7 @@ class Luta {
       if (at(4.05)) { this.sfx('big'); C.sh = .2; }
       if (at(4.3)) { this.sfx('boom'); this.buzz(70); C.sh = .45; }
       if (at(4.55)) this.sfx('fanfare');
-      if (at(5.5)) this.sfx('urna');
+      if (at(5.5) && !C.livre) this.sfx('urna');
       if (at(6.7)) { this.sfx('glass'); this.buzz(40); for (let i = 0; i < 80; i++) { const a = R() * 6.283, v = 80 + R() * 280; C.parts.push({ x: mxm(80), y: 70, vx: Math.cos(a) * v, vy: Math.sin(a) * v, g: 140, age: 0, life: .6 + R() * .6, sz: 1.5 + R() * 2.2, c: cols[Math.floor(R() * 4)] }); } }
       if (T > 3.9 && T < 6.7) { C.acc += dt * 70; while (C.acc >= 1) { C.acc--; C.parts.push({ x: mxm(80) + (R() - .5) * 84, y: 152 + R() * 10, vx: (R() - .5) * 10, vy: -(50 + R() * 80), g: 0, age: 0, life: 1.2 + R() * 1.2, sz: 1 + R() * 2.4, c: cols[Math.floor(R() * 3)] }); } }
       C.labels = C.labels.filter(l => (l.age += dt) < .85);
@@ -2688,7 +2701,7 @@ class Luta {
         for (const l of C.labels) { const a = l.age, al = a > .55 ? Math.max(0, 1 - (a - .55) / .3) : 1, pp = a < .08 ? 1.6 - 7.5 * a : 1; g.save(); g.globalAlpha = al; g.translate(l.x * U, (l.y + camY - a * 20) * U); g.scale(pp, pp); F(g, 700, 7.5, PIX); g.textAlign = 'center'; g.lineWidth = 2.6 * U; g.strokeStyle = '#0F0E0D'; g.strokeText(l.txt, 0, 0); g.fillStyle = '#F5C842'; g.fillText(l.txt, 0, 0); g.restore(); }
         const wq = 1 - sg(3.72, 3.84); if (wq > 0 && T >= 3.72) { g.fillStyle = `rgba(255,255,255,${(wq * .85).toFixed(3)})`; g.fillRect(0, 0, cw, ch); }
         const pq = sg(3.72, 3.8);
-        if (pq > 0) { const t1 = C.T2 ? `VANTAGEM ${mvS(C.V - C.O).toUpperCase()} > FALTAM ${mvS(C.R).toUpperCase()}` : `${mvS(C.V).toUpperCase()} DE VOTOS > METADE DOS VÁLIDOS`, sc2 = 1 + .8 * (1 - ez(pq)); g.save(); g.translate(160 * U, 30 * U); g.scale(sc2, sc2); fit(g, t1, 900, 15, ARC, 'expanded', 276); g.textAlign = 'center'; g.textBaseline = 'middle'; g.lineWidth = 3.4 * U; g.strokeStyle = '#0F0E0D'; g.strokeText(t1, 0, 0); g.fillStyle = '#FFFFFF'; g.fillText(t1, 0, 0); g.restore(); }
+        if (pq > 0 && !C.livre) { const t1 = C.T2 ? `VANTAGEM ${mvS(C.V - C.O).toUpperCase()} > FALTAM ${mvS(C.R).toUpperCase()}` : `${mvS(C.V).toUpperCase()} DE VOTOS > METADE DOS VÁLIDOS`, sc2 = 1 + .8 * (1 - ez(pq)); g.save(); g.translate(160 * U, 30 * U); g.scale(sc2, sc2); fit(g, t1, 900, 15, ARC, 'expanded', 276); g.textAlign = 'center'; g.textBaseline = 'middle'; g.lineWidth = 3.4 * U; g.strokeStyle = '#0F0E0D'; g.strokeText(t1, 0, 0); g.fillStyle = '#FFFFFF'; g.fillText(t1, 0, 0); g.restore(); }
       } else {
         const tx = sd > 0 ? 150 : 12, TW = 158;
         const gr = g.createRadialGradient(fx * U, fy * U, 4 * U, fx * U, fy * U, 300 * U); gr.addColorStop(0, lt); gr.addColorStop(.2, col); gr.addColorStop(1, dk); g.fillStyle = gr; g.fillRect(0, 0, cw, ch);
@@ -2703,24 +2716,24 @@ class Luta {
         const pin = ez(sg(3.9, 4.2)), px = fx - sd * (1 - pin) * 70;
         spr(k, 'win', 0, px + 1.6, 166, 2.2, { sil: '#F5C842', glow: '#F5C842', gb: 16 }); spr(k, 'win', 0, px - 1.6, 165, 2.2, { sil: '#F5C842' }); spr(k, 'win', 0, px, 166, 2.2, {});
         const kq = ez(sg(3.95, 4.2));
-        if (kq > 0) { const kt = C.br ? `${C.T2 ? '2º TURNO' : '1º TURNO'} · ${pc1(C.urnas)} DAS URNAS` : `${C.A.nome.toUpperCase()} · ${pc1(C.urnas)} APURADO`; fit(g, kt, 700, 6.5, PIX, null, TW - 8); const kw = g.measureText(kt).width / U + 8; g.save(); g.beginPath(); g.rect(tx * U, 19 * U, kw * kq * U, 11 * U); g.clip(); R(tx, 19, kw, 11, '#0F0E0D'); g.textBaseline = 'middle'; g.fillStyle = '#F5C842'; g.fillText(kt, (tx + 4) * U, 24.8 * U); g.restore(); }
+        if (kq > 0) { const kt = C.livre ? `COMBO DE ${C.combo} GOLPES` : C.br ? `${C.T2 ? '2º TURNO' : '1º TURNO'} · ${pc1(C.urnas)} DAS URNAS` : `${C.A.nome.toUpperCase()} · ${pc1(C.urnas)} APURADO`; fit(g, kt, 700, 6.5, PIX, null, TW - 8); const kw = g.measureText(kt).width / U + 8; g.save(); g.beginPath(); g.rect(tx * U, 19 * U, kw * kq * U, 11 * U); g.clip(); R(tx, 19, kw, 11, '#0F0E0D'); g.textBaseline = 'middle'; g.fillStyle = '#F5C842'; g.fillText(kt, (tx + 4) * U, 24.8 * U); g.restore(); }
         const q1 = sg(4.05, 4.3);
-        if (q1 > 0) { const t = C.br ? 'MATEMATICAMENTE' : 'VITÓRIA', s2 = 2.6 - 1.6 * bk(q1); fit(g, t, 900, 20, ARC, 'expanded', TW); const w = g.measureText(t).width / U; g.save(); g.globalAlpha = Math.min(1, q1 * 3); g.translate((tx + w / 2) * U, 50 * U); g.transform(1, 0, -.14, 1, 0, 0); g.scale(s2, s2); g.textAlign = 'center'; g.fillStyle = dk; g.fillText(t, 2.2 * U, 2.2 * U); g.lineWidth = 3.2 * U; g.strokeStyle = '#0F0E0D'; g.strokeText(t, 0, 0); g.fillStyle = '#FFFFFF'; g.fillText(t, 0, 0); g.restore(); }
+        if (q1 > 0) { const t = C.livre ? 'SUPER' : C.br ? 'MATEMATICAMENTE' : 'VITÓRIA', s2 = 2.6 - 1.6 * bk(q1); fit(g, t, 900, 20, ARC, 'expanded', TW); const w = g.measureText(t).width / U; g.save(); g.globalAlpha = Math.min(1, q1 * 3); g.translate((tx + w / 2) * U, 50 * U); g.transform(1, 0, -.14, 1, 0, 0); g.scale(s2, s2); g.textAlign = 'center'; g.fillStyle = dk; g.fillText(t, 2.2 * U, 2.2 * U); g.lineWidth = 3.2 * U; g.strokeStyle = '#0F0E0D'; g.strokeText(t, 0, 0); g.fillStyle = '#FFFFFF'; g.fillText(t, 0, 0); g.restore(); }
         const q2 = sg(4.3, 4.55);
-        if (q2 > 0) { const t = C.br ? 'ELEITO' : 'GARANTIDA', s2 = 3 - 2 * bk(q2); fit(g, t, 900, 54, ARC, 'expanded', TW); const w = g.measureText(t).width / U, d = (8 * (1 - ez(q2)) + 1.4) * U; g.save(); g.globalAlpha = Math.min(1, q2 * 3); g.translate((tx + w / 2) * U, 94 * U); g.transform(1, 0, -.14, 1, 0, 0); g.scale(s2, s2); g.textAlign = 'center'; g.globalAlpha = .9; g.fillStyle = '#E5383B'; g.fillText(t, -d, 0); g.fillStyle = '#3B7BF0'; g.fillText(t, d, 0); g.globalAlpha = 1; g.lineWidth = 5 * U; g.strokeStyle = '#0F0E0D'; g.strokeText(t, 0, 0); const lg = g.createLinearGradient(0, -40 * U, 0, 4 * U); lg.addColorStop(0, '#FFF3B0'); lg.addColorStop(.55, '#F5C842'); lg.addColorStop(1, '#E8833A'); g.fillStyle = lg; g.fillText(t, 0, 0); g.restore(); }
+        if (q2 > 0) { const t = C.livre ? 'ULT' : C.br ? 'ELEITO' : 'GARANTIDA', s2 = 3 - 2 * bk(q2); fit(g, t, 900, 54, ARC, 'expanded', TW); const w = g.measureText(t).width / U, d = (8 * (1 - ez(q2)) + 1.4) * U; g.save(); g.globalAlpha = Math.min(1, q2 * 3); g.translate((tx + w / 2) * U, 94 * U); g.transform(1, 0, -.14, 1, 0, 0); g.scale(s2, s2); g.textAlign = 'center'; g.globalAlpha = .9; g.fillStyle = '#E5383B'; g.fillText(t, -d, 0); g.fillStyle = '#3B7BF0'; g.fillText(t, d, 0); g.globalAlpha = 1; g.lineWidth = 5 * U; g.strokeStyle = '#0F0E0D'; g.strokeText(t, 0, 0); const lg = g.createLinearGradient(0, -40 * U, 0, 4 * U); lg.addColorStop(0, '#FFF3B0'); lg.addColorStop(.55, '#F5C842'); lg.addColorStop(1, '#E8833A'); g.fillStyle = lg; g.fillText(t, 0, 0); g.restore(); }
         const q3 = ez(sg(4.55, 4.8));
-        if (q3 > 0) { const nt = `${NM} · ${C.br ? (C.T2 ? 'PRESIDENTE' : 'VENCE NO 1º TURNO') : C.A.nome.toUpperCase()}`; fit(g, nt, 700, 7.5, PIX, null, TW - 8); const nw = g.measureText(nt).width / U + 8; g.save(); g.beginPath(); g.rect(tx * U, 100 * U, nw * q3 * U, 12 * U); g.clip(); R(tx, 100, nw, 12, col); R(tx, 111, nw, 1, '#0F0E0D'); g.textBaseline = 'middle'; g.lineWidth = 2.2 * U; g.strokeStyle = '#0F0E0D'; g.strokeText(nt, (tx + 4) * U, 106.3 * U); g.fillStyle = '#FFFFFF'; g.fillText(nt, (tx + 4) * U, 106.3 * U); g.restore(); }
+        if (q3 > 0) { const nt = C.livre ? NM : `${NM} · ${C.br ? (C.T2 ? 'PRESIDENTE' : 'VENCE NO 1º TURNO') : C.A.nome.toUpperCase()}`; fit(g, nt, 700, 7.5, PIX, null, TW - 8); const nw = g.measureText(nt).width / U + 8; g.save(); g.beginPath(); g.rect(tx * U, 100 * U, nw * q3 * U, 12 * U); g.clip(); R(tx, 100, nw, 12, col); R(tx, 111, nw, 1, '#0F0E0D'); g.textBaseline = 'middle'; g.lineWidth = 2.2 * U; g.strokeStyle = '#0F0E0D'; g.strokeText(nt, (tx + 4) * U, 106.3 * U); g.fillStyle = '#FFFFFF'; g.fillText(nt, (tx + 4) * U, 106.3 * U); g.restore(); }
         const mq = sg(4.8, 5.4), me = eio(mq), bw = TW - 46;
-        if (mq > 0) {
+        if (mq > 0 && !C.livre) {
           g.save(); g.globalAlpha = Math.min(1, mq * 4);
           if (!C.T2) { const f = cl(C.V / Math.max(1, C.tot), 0, 1), fv = f * me; R(tx, 117, bw, 6, 'rgba(15,14,13,.85)'); R(tx, 117, bw * Math.min(fv, .5), 6, '#F2EDE4'); if (fv > .5) R(tx + bw * .5, 117, bw * (fv - .5), 6, '#F5C842'); R(tx + bw * .5 - .7, 114.5, 1.4, 11, '#F5C842'); }
           else { const lead = Math.max(0, C.V - C.O), mxv = Math.max(lead, C.R, 1); R(tx, 116, bw, 4, 'rgba(15,14,13,.85)'); R(tx, 116, bw * lead / mxv * me, 4, '#F2EDE4'); R(tx, 121.5, bw, 4, 'rgba(15,14,13,.85)'); R(tx, 121.5, bw * C.R / mxv * me, 4, '#8A8178'); }
           g.restore();
         }
         const dq = sg(5.1, 5.4);
-        if (dq > 0) { const t2 = C.T2 ? `vantagem de ${mvS(C.V - C.O)} > ${mvS(C.R)} que faltam` : `${mvS(C.V)} de votos: mais da metade de todos os válidos`; g.save(); g.globalAlpha = dq; fit(g, t2, 700, 7, ARC, null, bw); g.textAlign = 'left'; say(t2, tx, 134, '#FFFFFF', 2.4); g.restore(); }
+        if (dq > 0 && !C.livre) { const t2 = C.T2 ? `vantagem de ${mvS(C.V - C.O)} > ${mvS(C.R)} que faltam` : `${mvS(C.V)} de votos: mais da metade de todos os válidos`; g.save(); g.globalAlpha = dq; fit(g, t2, 700, 7, ARC, null, bw); g.textAlign = 'left'; say(t2, tx, 134, '#FFFFFF', 2.4); g.restore(); }
         const uq = ez(sg(5.45, 5.7));
-        if (uq > 0) {
+        if (uq > 0 && !C.livre) {
           const x = tx + TW - 40, y = 104 + (1 - uq) * 40; g.save(); g.globalAlpha = uq;
           R(x, y + 2, 40, 30, '#9C917A'); R(x, y, 40, 29, '#E2D8C0'); R(x, y + 27, 40, 2, '#BDB29A');
           R(x + 3, y + 3, 19, 14, '#3A342E'); R(x + 4, y + 4, 17, 12, '#F4F1E6');
@@ -2836,7 +2849,7 @@ class Luta {
     const lb = 13 * ez(sg(0, .25)) * (1 - ez(sg(C.dur - .5, C.dur)));
     if (lb > .1) {
       ctx.globalAlpha = 1; ctx.fillStyle = '#000'; ctx.fillRect(0, 0, cw, lb * U); ctx.fillRect(0, ch - lb * U, cw, lb * U);
-      if (T > .6 && T < C.dur - .6) { ctx.font = `700 ${Math.round(6 * U)}px Silkscreen, monospace`; ctx.textBaseline = 'middle'; ctx.textAlign = 'left'; ctx.fillStyle = '#F5C842'; ctx.fillText(C.id === 'ko' ? 'ULTRA FINAL' : 'SUPER', 6 * U, lb * U / 2); ctx.textAlign = 'right'; ctx.fillStyle = '#A39B90'; ctx.fillText(UI.mob ? 'TOQUE PARA PULAR' : 'ESPAÇO PARA PULAR', cw - 6 * U, ch - lb * U / 2); }
+      if (T > .6 && T < C.dur - .6) { ctx.font = `700 ${Math.round(6 * U)}px Silkscreen, monospace`; ctx.textBaseline = 'middle'; ctx.textAlign = 'left'; ctx.fillStyle = '#F5C842'; ctx.fillText(C.id === 'ko' ? 'ULTRA FINAL' : C.livre ? 'SUPER ULT' : 'SUPER', 6 * U, lb * U / 2); ctx.textAlign = 'right'; ctx.fillStyle = '#A39B90'; ctx.fillText(UI.mob ? 'TOQUE PARA PULAR' : 'ESPAÇO PARA PULAR', cw - 6 * U, ch - lb * U / 2); }
     }
     const f0 = 1 - sg(0, .2); if (f0 > 0) { ctx.fillStyle = `rgba(255,255,255,${(f0 * .9).toFixed(3)})`; ctx.fillRect(0, 0, cw, ch); }
   }
@@ -3051,11 +3064,11 @@ const UI = {
     $('stats').innerHTML = '<div class="sth"><span id="stA">LULA</span><span></span><span id="stB">FLÁVIO</span></div>'
       + STATS.map(([l, k]) => `<div class="st"><b id="st${k}A">0</b><span>${l}</span><b id="st${k}B">0</b></div>`).join('');
     // botões de golpe: no computador, por grupo e com a tecla; no celular, os principais grandes e o resto numa faixa
-    const bt = (mv, attr, tecla) => `<button type="button" class="golpe${mv === 'special' || mv === 'ultra' ? ' esp' : ''}" ${attr}="${mv}"><span>${esc(GL[mv])}</span>${tecla ? `<kbd>${KEYF[mv]}</kbd>` : ''}</button>`;
+    const bt = (mv, attr, tecla) => `<button type="button" class="golpe${mv === 'special' || mv === 'ultra' || mv === 'superult' ? ' esp' : ''}" ${attr}="${mv}"><span>${esc(GL[mv])}</span>${tecla ? `<kbd>${KEYF[mv]}</kbd>` : ''}</button>`;
     const defesa = (id) => `<button type="button" class="golpe def" id="${id}"><span>DEFESA</span><kbd>E</kbd></button>`;
     $('padD').innerHTML = `<div class="grupos">${GOLPES.map(([tit, it]) => `<div class="grupo"><span>${esc(tit)}</span><div>${it.map(([mv]) => bt(mv, 'data-mv', 1)).join('')}</div></div>`).join('')}</div><div class="defl">${defesa('bDefD')}</div>`;
     const todos = GOLPES.flatMap((x) => x[1].map((y) => y[0]));
-    $('padM').innerHTML = `<div class="pmain">${MAIN.map((mv) => bt(mv, 'data-mv')).join('')}${defesa('bDefM')}</div><div class="pextra">${['ultra', ...todos.filter((mv) => !MAIN.includes(mv) && mv !== 'ultra')].map((mv) => bt(mv, 'data-mv')).join('')}</div>`;
+    $('padM').innerHTML = `<div class="pmain">${MAIN.map((mv) => bt(mv, 'data-mv')).join('')}${defesa('bDefM')}</div><div class="pextra">${['superult', ...todos.filter((mv) => !MAIN.includes(mv) && mv !== 'superult')].map((mv) => bt(mv, 'data-mv')).join('')}</div>`;
     $('golpes').innerHTML = GOLPES.map(([tit, it]) => `<div class="grupo"><span>${esc(tit)}</span><div>${it.map(([mv]) => bt(mv, 'data-golpe', 1)).join('')}</div></div>`).join('');
     $('salaN').textContent = String(N_GOLPES);
     $('dias').innerHTML = DAYS.map((d) => `<span><i>${d[1]}</i><b>${String(d[0]).padStart(2, '0')}</b><u></u></span>`).join('');
@@ -3241,7 +3254,7 @@ const UI = {
       const k = b.dataset.demo, sel = L.demoK === k;
       this.s(b, 'background', sel ? L.cor[k] : ''); this.s(b, 'color', sel ? '#0F0E0D' : '');
     }
-    for (const b of $('golpes').querySelectorAll('.esp')) this.t(b.firstChild, (b.dataset.golpe === 'ultra' ? L.ULT : L.ESP)[L.demoK].replace('!', ''));
+    for (const b of $('golpes').querySelectorAll('[data-golpe="special"],[data-golpe="ultra"]')) this.t(b.firstChild, (b.dataset.golpe === 'ultra' ? L.ULT : L.ESP)[L.demoK].replace('!', ''));
     this.t($('bAuto'), L.autoDemo ? 'PARAR DEMO' : 'VER TODOS OS GOLPES');
     this.vis($('bVolta'), treino);
     for (const b of $('palpite').querySelectorAll('[data-pal]')) {
@@ -3664,8 +3677,8 @@ const UI = {
     }
     this.vis($('padD'), !!L.ctrl); this.vis($('padM'), !!L.ctrl);
     const fc = L.ctrl ? E.f[L.ctrl] : null, pronto = !!(fc && fc.sup >= 100);
-    if (fc) for (const b of document.querySelectorAll('#padD .esp,#padM .esp')) { const ok = pronto || b.dataset.mv === 'ultra'; this.on(b, 'pronto', ok); this.t(b.firstChild, GL[b.dataset.mv] + (ok && b.dataset.mv !== 'ultra' ? ' PRONTO' : '')); }
-    this.t($('ajudaD'), L.ctrl ? 'Segure E (ou o botão) para defender. A ULTRA (tecla 1) está liberada; o especial carrega com os votos e com golpes certos. Seus golpes não mudam a apuração: o placar continua decidindo quem vence.'
+    if (fc) for (const b of document.querySelectorAll('#padD .esp,#padM .esp')) { const su = b.dataset.mv === 'superult'; this.on(b, 'pronto', su || pronto); this.t(b.firstChild, GL[b.dataset.mv] + (pronto && !su ? ' PRONTO' : '')); }
+    this.t($('ajudaD'), L.ctrl ? 'Segure E (ou o botão) para defender. O especial e a ultra carregam com os votos e com golpes certos; a SUPER ULT (tecla 2) sai a qualquer hora. Seus golpes não mudam a apuração: o placar continua decidindo quem vence.'
       : 'Escolha um candidato para lutar com ele pelo teclado ou pelos botões, ao vivo ou no replay.');
     this.vis($('ajudaM'), !!L.ctrl);
 
