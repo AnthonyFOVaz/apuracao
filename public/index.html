@@ -848,7 +848,7 @@ html:not(.mob) .so-desk{display:inline}
       <div class="mjogar">
         <span>ENTRE NO RINGUE</span>
         <div data-slot="ctrlopts"></div>
-        <p id="ajudaM" hidden>Os botões ficam embaixo do ringue. Segure DEFESA para bloquear. Seus golpes não mudam a apuração.</p>
+        <p id="ajudaM" hidden>Os botões ficam embaixo do ringue; a ULTRA, liberada, é a primeira da faixa de baixo. Segure DEFESA para bloquear. Seus golpes não mudam a apuração.</p>
       </div>
       <div class="seg mabas" id="abas">
         <button type="button" data-aba="resumo" class="on">RESUMO</button><button type="button" data-aba="previsao">PREVISÃO</button><button type="button" data-aba="estados">ESTADOS</button><button type="button" data-aba="lances">LANCES</button><button type="button" data-aba="regioes">REGIÕES</button><button type="button" data-aba="luta">LUTA</button><button type="button" data-aba="dados">DADOS</button>
@@ -1608,7 +1608,7 @@ class Luta {
     if (n === 'duck') { if (f.pose === 'idle' || f.pose === 'block') { f.pose = 'duck'; f.pt = 0; } return; }
     let mv = n;
     if (n === 'punch') { mv = f.alt ? 'cross' : 'jab'; f.alt ^= 1; }
-    if ((mv === 'special' || mv === 'ultra') && f.sup < 100) { this.float(f.x, this.FLOOR - 66, 'CARREGANDO', '#A39B90'); return; }
+    if (mv === 'special' && f.sup < 100) { this.float(f.x, this.FLOOR - 66, 'CARREGANDO', '#A39B90'); return; }
     if (f.pose === 'block') f.pose = 'idle';
     this.startAtk(f, mv); this.push(false);
   }
@@ -1717,7 +1717,9 @@ class Luta {
     if (!this.canAct(a)) return false;
     const E = this.E, M = MV[mv];
     if (!M) return false;
-    if (mv === 'special' || mv === 'ultra') { if (a.sup < 100) return false; a.sup = 0; a.st.s++; E.callouts.push({ k: a.k, txt: (mv === 'ultra' ? this.ULT : this.ESP)[a.k], age: 0 }); this.sfx('charge'); }
+    if (mv === 'special' || mv === 'ultra') {
+      if (!(mv === 'ultra' && a.ctrl)) { if (a.sup < 100) return false; a.sup = 0; } // a ULTRA de quem joga está liberada
+      a.st.s++; E.callouts.push({ k: a.k, txt: (mv === 'ultra' ? this.ULT : this.ESP)[a.k], age: 0 }); this.sfx('charge'); }
     else if (MVN[mv] && (this.modo === 'espera' || !BASIC[mv])) E.callouts.push({ k: a.k, txt: MVN[mv], age: 0, sz: 6 });
     if (mv === 'bomb') this.sfx('charge');
     if (mv === 'taunt') this.sfx('cheer');
@@ -3053,7 +3055,7 @@ const UI = {
     const defesa = (id) => `<button type="button" class="golpe def" id="${id}"><span>DEFESA</span><kbd>E</kbd></button>`;
     $('padD').innerHTML = `<div class="grupos">${GOLPES.map(([tit, it]) => `<div class="grupo"><span>${esc(tit)}</span><div>${it.map(([mv]) => bt(mv, 'data-mv', 1)).join('')}</div></div>`).join('')}</div><div class="defl">${defesa('bDefD')}</div>`;
     const todos = GOLPES.flatMap((x) => x[1].map((y) => y[0]));
-    $('padM').innerHTML = `<div class="pmain">${MAIN.map((mv) => bt(mv, 'data-mv')).join('')}${defesa('bDefM')}</div><div class="pextra">${todos.filter((mv) => !MAIN.includes(mv)).map((mv) => bt(mv, 'data-mv')).join('')}</div>`;
+    $('padM').innerHTML = `<div class="pmain">${MAIN.map((mv) => bt(mv, 'data-mv')).join('')}${defesa('bDefM')}</div><div class="pextra">${['ultra', ...todos.filter((mv) => !MAIN.includes(mv) && mv !== 'ultra')].map((mv) => bt(mv, 'data-mv')).join('')}</div>`;
     $('golpes').innerHTML = GOLPES.map(([tit, it]) => `<div class="grupo"><span>${esc(tit)}</span><div>${it.map(([mv]) => bt(mv, 'data-golpe', 1)).join('')}</div></div>`).join('');
     $('salaN').textContent = String(N_GOLPES);
     $('dias').innerHTML = DAYS.map((d) => `<span><i>${d[1]}</i><b>${String(d[0]).padStart(2, '0')}</b><u></u></span>`).join('');
@@ -3662,8 +3664,8 @@ const UI = {
     }
     this.vis($('padD'), !!L.ctrl); this.vis($('padM'), !!L.ctrl);
     const fc = L.ctrl ? E.f[L.ctrl] : null, pronto = !!(fc && fc.sup >= 100);
-    if (fc) for (const b of document.querySelectorAll('#padD .esp,#padM .esp')) { this.on(b, 'pronto', pronto); this.t(b.firstChild, GL[b.dataset.mv] + (pronto ? ' PRONTO' : '')); }
-    this.t($('ajudaD'), L.ctrl ? 'Segure E (ou o botão) para defender. O especial carrega com os votos e com golpes certos. Seus golpes não mudam a apuração: o placar continua decidindo quem vence.'
+    if (fc) for (const b of document.querySelectorAll('#padD .esp,#padM .esp')) { const ok = pronto || b.dataset.mv === 'ultra'; this.on(b, 'pronto', ok); this.t(b.firstChild, GL[b.dataset.mv] + (ok && b.dataset.mv !== 'ultra' ? ' PRONTO' : '')); }
+    this.t($('ajudaD'), L.ctrl ? 'Segure E (ou o botão) para defender. A ULTRA (tecla 1) está liberada; o especial carrega com os votos e com golpes certos. Seus golpes não mudam a apuração: o placar continua decidindo quem vence.'
       : 'Escolha um candidato para lutar com ele pelo teclado ou pelos botões, ao vivo ou no replay.');
     this.vis($('ajudaM'), !!L.ctrl);
 
